@@ -1,0 +1,42 @@
+import * as child from "node:child_process"
+
+import basicSsl from "@vitejs/plugin-basic-ssl"
+import react from "@vitejs/plugin-react-swc"
+import { defineConfig } from "vite"
+
+import tailwindcss from "@tailwindcss/vite"
+import tsconfigPaths from "vite-tsconfig-paths"
+
+import packageConfig from "./package.json"
+
+let commitHash = "unknown"
+try {
+	commitHash = child.execSync("git rev-parse --short HEAD").toString()
+} catch (_err) {
+	// biome-ignore lint/suspicious/noConsole: its ok to use console.error here
+	console.error("Failed to get commit hash. Running in this mode will not be supported.")
+}
+
+export default defineConfig({
+	plugins: [
+		react(),
+		tailwindcss(),
+		basicSsl({
+			name: "test",
+			domains: ["*.local"],
+			certDir: "./cert",
+		}),
+
+		tsconfigPaths(),
+	],
+
+	server: {
+		host: "point.local",
+		port: 1111,
+	},
+
+	define: {
+		__APP_VERSION__: JSON.stringify(packageConfig.version),
+		__COMMIT_HASH__: JSON.stringify(commitHash),
+	},
+})

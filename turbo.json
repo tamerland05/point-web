@@ -1,0 +1,33 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"globalPassThroughEnv": ["VERCEL_URL", "NODE_ENV", "CI", "SKIP_ENV_VALIDATION", "PORT"],
+	"ui": "tui",
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"inputs": ["$TURBO_DEFAULT$", "!eslint.config.js"],
+			"outputs": ["dist/**"]
+		},
+		"typecheck": {
+			"dependsOn": ["^build"],
+			"inputs": ["$TURBO_DEFAULT$"],
+			"outputs": ["*.tsbuildinfo"]
+		},
+		"dev": {
+			"dependsOn": ["^build"],
+			"cache": false,
+			"persistent": true,
+			"inputs": ["$TURBO_DEFAULT$", "!eslint.config.js"],
+			"outputs": ["dist/**"]
+		},
+		"//#format-and-lint": {},
+		"//#format-and-lint:fix": {
+			"cache": false
+		},
+		"clean": { "cache": false }
+	},
+	"remoteCache": {
+		"enabled": true,
+		"apiUrl": "https://turbo-rc.meyson.tech"
+	}
+}

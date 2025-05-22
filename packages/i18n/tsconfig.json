@@ -1,0 +1,3 @@
+{
+	"extends": "@point/typescript-config/dom.json"
+}

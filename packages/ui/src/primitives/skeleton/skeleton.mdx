@@ -1,0 +1,38 @@
+import { Canvas, Controls, Meta, Source } from "@storybook/blocks";
+
+import * as SkeletonStories from "./skeleton.stories";
+
+<Meta of={SkeletonStories} />
+
+# Skeleton Component
+
+The `Skeleton` component is used to display a loading placeholder for content.
+
+## Props
+
+<Controls of={SkeletonStories.Default} />
+
+## Preview
+
+<Canvas of={SkeletonStories.Default} />
+
+## Usage
+
+export const importCode = `import { Skeleton } from "@point/ui/skeleton";`;
+
+export const usageCode = `<Skeleton rounded="lg" size="caption-1" className="m-0.5 ml-auto" />`;
+
+<Source code={importCode} language="ts" dark />
+<Source code={usageCode} language="tsx" dark />
+
+## Examples
+
+### LoadingListItem
+
+<Canvas of={SkeletonStories.LoadingListItem} />
+
+---
+
+### LoadingList
+
+<Canvas of={SkeletonStories.LoadingList} />

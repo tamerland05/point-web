@@ -1,0 +1,39 @@
+{
+	"name": "@point/main",
+	"version": "4.6.0",
+	"type": "module",
+	"scripts": {
+		"build": "tsc --project tsconfig.build.json && vite build",
+		"dev": "vite",
+		"typecheck": "tsc"
+	},
+	"dependencies": {
+		"@point/i18n": "workspace:*",
+		"@point/shared": "workspace:*",
+		"@point/ui": "workspace:*",
+		"@sentry/browser": "^9.21.0",
+		"@tanstack/react-query": "^5.76.1",
+		"@tanstack/react-router": "^1.120.5",
+		"@tanstack/react-router-devtools": "^1.120.6",
+		"@telegram-apps/sdk-react": "^3.2.4",
+		"@telegram-apps/telegram-ui": "^2.1.8",
+		"add": "^2.0.6",
+		"eruda": "^3.4.1",
+		"jotai": "^2.12.4",
+		"react": "19.1.0",
+		"react-dom": "19.1.0",
+		"react-hot-toast": "^2.5.2"
+	},
+	"devDependencies": {
+		"@point/tailwind-config": "workspace:*",
+		"@point/typescript-config": "workspace:*",
+		"@tailwindcss/vite": "^4.1.7",
+		"@types/react": "19.1.0",
+		"@types/react-dom": "19.1.0",
+		"@vitejs/plugin-basic-ssl": "2.0.0",
+		"@vitejs/plugin-react-swc": "3.9.0",
+		"tailwindcss": "^4.1.7",
+		"vite": "6.3.5",
+		"vite-tsconfig-paths": "5.1.4"
+	}
+}

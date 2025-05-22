@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+	color-scheme: light dark;
+	font-size: 16px;
+	@media (prefers-color-scheme: light) {
+		--color-background: #efeff4;
+		--color-background-secondary: #ffffff;
+		--color-text: #000000;
+		--color-text-secondary: #707579;
+		--color-separator: rgba(0, 0, 0, 0.15);
+		--color-icon-fill: #0a78ff;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		--color-background: #0a0a0a;
+		--color-background-secondary: #232324;
+		--color-text: #ffffff;
+		--color-text-secondary: #76787a;
+		--color-separator: rgba(255, 255, 255, 0.04);
+		--color-icon-fill: #1e6284;
+	}
+}
+
+@theme {
+	--color-accent: #007aff;
+
+	--color-text: var(--color-text);
+	--color-text-secondary: var(--color-text-secondary);
+	--color-background: var(--color-background);
+	--color-background-secondary: var(--color-background-secondary);
+	--color-separator: var(--color-separator);
+	--color-icon-fill: var(--color-icon-fill);
+
+	--text-base: 17px;
+	--text-base--line-height: 22px;
+
+	--text-header: 20px;
+	--text-header--line-height: 25px;
+
+	--text-caption-1: 15px;
+	--text-caption-1--line-height: 20px;
+
+	--text-caption-2: 13px;
+	--text-caption-2--line-height: 16px;
+
+	--text-caption-3: 12px;
+	--text-caption-3--line-height: 14px;
+
+	--text-title-1: 27px;
+	--text-title-1--line-height: 22px;
+
+	--text-title-2: 20px;
+	--text-title-2--line-height: 24px;
+}
+
+@layer base {
+	img {
+		max-width: initial;
+	}
+
+	/* For Webkit-based browsers (Chrome, Safari and Opera) */
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* For IE, Edge and Firefox */
+	.scrollbar-hide {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
+}
+
+@custom-variant hover-not-disabled {
+	&:hover:not(:disabled) {
+		@slot;
+	}
+}
+
+@custom-variant focus-not-disabled {
+	&:focus:not(:disabled) {
+		@slot;
+	}
+}
+
+@custom-variant active-not-disabled {
+	&:active:not(:disabled) {
+		@slot;
+	}
+}
+
+html,
+body,
+#root {
+	height: 100%;
+	overflow: hidden;
+}

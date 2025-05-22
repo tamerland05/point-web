@@ -1,0 +1,15 @@
+{
+	"extends": "@point/typescript-config/react.json",
+	"compilerOptions": {
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+
+		// Custom settings
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"],
+			"@point/ui/*": ["../../packages/ui/src/*"]
+		}
+	},
+
+	"include": ["src"]
+}

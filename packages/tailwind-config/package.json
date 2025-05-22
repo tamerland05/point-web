@@ -1,0 +1,14 @@
+{
+	"name": "@point/tailwind-config",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./config.css"
+	},
+	"sideEffects": ["**/*.css"],
+	"devDependencies": {
+		"@point/typescript-config": "workspace:*",
+		"tailwindcss": "4.1.7"
+	}
+}

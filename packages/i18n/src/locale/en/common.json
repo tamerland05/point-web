@@ -1,0 +1,39 @@
+{
+	"ERRORS": {
+		"OPERATION_CANCELLED": "You have successfully canceled the operation",
+		"WALLET_NOT_CONNECTED": "Please, create or connect your wallet first",
+		"CANT_FETCH": "Failed to fetch data. Please try again",
+		"COMING_SOON": "This feature is coming soon. Stay tuned for updates!",
+		"CANT_READ_CLIPBOARD": "We couldn't access the clipboard. Please try pasting manually."
+	},
+
+	"UI": {
+		"CONFIRM": "Confirm",
+		"CANCEL": "Cancel",
+		"RETRY": "Retry",
+		"CONTINUE": "Continue",
+		"BACK": "Back",
+		"NEXT": "Next",
+
+		"PASTE": "Paste",
+		"MAX": "Max",
+
+		"N/A": "N/A",
+
+		"COPY_ADDRESS": "Copy address",
+		"COPYING": "Copying...",
+		"SUCCESSFULLY_COPIED": "Successfully copied!",
+		"FAILED_TO_COPY": "Failed to copy",
+
+		"QR_FAILED": "QR code generation failed",
+
+		"BUY": "Buy",
+
+		"SEARCH": "Search"
+	},
+
+	"Selections": "Selections",
+	"Map": "Map",
+	"Earn": "Earn",
+	"Account": "Account"
+}

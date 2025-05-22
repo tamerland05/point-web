@@ -1,0 +1,62 @@
+{
+	"name": "@point/shared",
+	"type": "module",
+	"exports": {
+		"./api/*": {
+			"types": "./dist/api/*.d.ts",
+			"default": "./dist/api/*.js"
+		},
+		"./atoms/*": {
+			"types": "./dist/atoms/*.d.ts",
+			"default": "./dist/atoms/*.js"
+		},
+		"./constants/*": {
+			"types": "./dist/constants/*.d.ts",
+			"default": "./dist/constants/*.js"
+		},
+		"./constants/bank": {
+			"types": "./dist/constants/bank.d.ts",
+			"default": "./dist/constants/bank.js"
+		},
+		"./constants/tokens": {
+			"types": "./dist/constants/tokens.d.ts",
+			"default": "./dist/constants/tokens.js"
+		},
+		"./constants/ui": {
+			"types": "./dist/constants/ui.d.ts",
+			"default": "./dist/constants/ui.js"
+		},
+		"./hooks/*": {
+			"types": "./dist/hooks/*.d.ts",
+			"default": "./dist/hooks/*.js"
+		},
+		"./utils/*": {
+			"types": "./dist/utils/*.d.ts",
+			"default": "./dist/utils/*.js"
+		},
+		"./types/*": {
+			"types": "./dist/types/*.d.ts",
+			"default": "./dist/types/*.js"
+		}
+	},
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+		"dev": "tsc && (concurrently \"tsc -p tsconfig.build.json -w\" \"tsc-alias -p tsconfig.build.json -w\")"
+	},
+	"dependencies": {
+		"@point/i18n": "workspace:*",
+		"@point/ui": "workspace:*",
+		"@tanstack/react-query": "^5.76.1",
+		"@ton/core": "0.60.1",
+		"axios": "1.9.0",
+		"jotai": "^2.12.4",
+		"react": "19.1.0",
+		"react-hot-toast": "^2.5.2"
+	},
+	"devDependencies": {
+		"@point/typescript-config": "workspace:*",
+		"@types/react": "19.1.0",
+		"concurrently": "^9.1.2",
+		"tsc-alias": "^1.8.16"
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"extends": "@point/typescript-config/dom.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"],
+			"@point/*": ["packages/*"]
+		}
+	}
+}

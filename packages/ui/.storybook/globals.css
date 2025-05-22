@@ -1,0 +1,10 @@
+@import "@point/tailwind-config";
+
+@config "../tailwind.config.ts";
+
+@layer base {
+	body,
+	.docs-story {
+		font-feature-settings: "rlig" 1, "calt" 1;
+	}
+}

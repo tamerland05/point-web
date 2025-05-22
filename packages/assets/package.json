@@ -1,0 +1,9 @@
+{
+	"name": "@point/assets",
+	"version": "0.4.3",
+	"private": true,
+	"description": "Point Assets",
+	"license": "MIT",
+	"author": "Point",
+	"files": ["**/*"]
+}
