@@ -1,19 +1,56 @@
+import * as Sentry from "@sentry/browser"
+import { QueryClient, QueryClientProvider, keepPreviousData } from "@tanstack/react-query"
+import { RouterProvider, createRouter } from "@tanstack/react-router"
+import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 
-import { App } from "@/components/App"
 import { EnvUnsupported } from "@/components/EnvUnsupported"
-
-// Uncomment this import in case, you would like to develop the application even outside
-// the Telegram application, just in your browser.
+import { init } from "@/init"
 import "@/utils/mockEnv"
-
 import "@point/i18n"
+import "@/index.css"
+import { routeTree } from "@/routeTree.gen"
 
-import "./index.css"
+import "@telegram-apps/telegram-ui/dist/styles.css"
 
-import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
-import { init } from "./init"
+if (!import.meta.env.DEV && import.meta.env.VITE_GLITCHTIP_DSN) {
+	Sentry.init({
+		dsn: import.meta.env.VITE_GLITCHTIP_DSN,
+		environment: "production",
+	})
+}
+
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: 30000, // 30 sec
+			refetchOnWindowFocus: false,
+			refetchOnMount: false,
+			placeholderData: keepPreviousData,
+		},
+	},
+})
+
+// Set up a Router instance
+const router = createRouter({
+	routeTree,
+	context: {
+		queryClient,
+	},
+	defaultPreload: "intent",
+	// Since we're using React Query, we don't want loader calls to ever be stale
+	// This will ensure that the loader is always called when the route is preloaded or visited
+	defaultPreloadStaleTime: 0,
+	scrollRestoration: true,
+})
+
+// Register the router instance for type safety
+declare module "@tanstack/react-router" {
+	interface Register {
+		router: typeof router
+	}
+}
 
 const rootElement = document.getElementById("root")
 
@@ -36,7 +73,9 @@ try {
 	}).then(() => {
 		root.render(
 			<StrictMode>
-				<App />
+				<QueryClientProvider client={queryClient}>
+					<RouterProvider router={router} />
+				</QueryClientProvider>
 			</StrictMode>
 		)
 	})

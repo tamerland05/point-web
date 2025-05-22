@@ -1,7 +1,5 @@
 import { memo } from "react"
 
-import clsx from "clsx"
-
 import { cn } from "@/utils/cn"
 
 export interface MenuItem {
@@ -21,21 +19,15 @@ interface MenuProps {
 // TODO: refactor using splitAtom
 const MenuButton: React.FC<MenuItem> = memo(({ label, icon, onClick, active, disabled }) => (
 	<button
-		className="flex flex-1 flex-col items-center justify-center gap-1 p-3"
+		className={cn("flex flex-1 flex-col items-center justify-center gap-1 p-3 text-text-secondary", {
+			"text-accent": active,
+		})}
 		disabled={disabled}
 		type="button"
 		onClick={onClick}
 	>
-		<div className={cn({ "flex ": true, "text-accent": active })}>{icon}</div>
-		<div
-			className={clsx({
-				"text-nowrap font-medium text-caption-2": true,
-				"text-text-secondary": !active,
-				"text-accent": active,
-			})}
-		>
-			{label}
-		</div>
+		<div className={"flex"}>{icon}</div>
+		<div>{label}</div>
 	</button>
 ))
 

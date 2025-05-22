@@ -1,10 +1,10 @@
 import * as child from "node:child_process"
 
+import tailwindcss from "@tailwindcss/vite"
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import basicSsl from "@vitejs/plugin-basic-ssl"
 import react from "@vitejs/plugin-react-swc"
 import { defineConfig } from "vite"
-
-import tailwindcss from "@tailwindcss/vite"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 import packageConfig from "./package.json"
@@ -19,6 +19,7 @@ try {
 
 export default defineConfig({
 	plugins: [
+		TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
 		react(),
 		tailwindcss(),
 		basicSsl({
