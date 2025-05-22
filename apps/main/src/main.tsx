@@ -66,7 +66,7 @@ try {
 	const debug = (launchParams.tgWebAppStartParam || "").includes("debug") || import.meta.env.DEV
 
 	// Configure all application dependencies.
-	await init({
+	init({
 		debug,
 		eruda: debug && ["ios", "android"].includes(platform),
 		mockForMacOS: platform === "macos",
