@@ -1,6 +1,5 @@
 import { showMenuAtom } from "@/atoms/ui"
 import { useTranslation } from "@point/i18n"
-import { SCROLL_CONTAINER_ID } from "@point/shared/constants/ui"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
 import { Menu } from "@point/ui/menu"
@@ -78,7 +77,7 @@ function RouteComponent() {
 
 	return (
 		<div className="flex h-screen flex-col overflow-hidden bg-background">
-			<div className="flex-grow overflow-y-auto" id={SCROLL_CONTAINER_ID}>
+			<div className="flex-grow overflow-y-auto">
 				<div
 					className={cn({
 						"m-auto box-border flex h-full w-full flex-col p-4": true,

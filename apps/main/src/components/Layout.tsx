@@ -5,7 +5,7 @@ import { hapticFeedback } from "@telegram-apps/sdk-react"
 import { useAtomValue } from "jotai"
 
 import { useTranslation } from "@point/i18n"
-import { SCROLL_CONTAINER_ID } from "@point/shared/constants/ui"
+
 import { cn } from "@point/ui/cn"
 import { Menu } from "@point/ui/menu"
 
@@ -68,7 +68,7 @@ export const Layout: React.FC<LayoutProps> = memo(({ platform, children }) => {
 	return (
 		<div className="flex h-screen flex-col overflow-hidden bg-background">
 			<StyledToaster />
-			<div className="flex-grow overflow-y-auto" id={SCROLL_CONTAINER_ID}>
+			<div className="flex-grow overflow-y-auto">
 				<div
 					className={cn({
 						"m-auto box-border flex h-full w-full flex-col p-4": true,
