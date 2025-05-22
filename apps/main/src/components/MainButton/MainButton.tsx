@@ -6,6 +6,7 @@ import { cn } from "@point/ui/cn"
 import { Loader } from "@point/ui/loader"
 
 import { isTmaEnvironmentAtom, mainButtonAtom, secondaryButtonAtom } from "@/atoms/ui"
+import { mainButton, secondaryButton } from "@telegram-apps/sdk-react"
 
 interface ButtonProps {
 	title?: string

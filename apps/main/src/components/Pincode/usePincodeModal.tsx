@@ -2,8 +2,8 @@ import { useCallback, useState } from "react"
 import toast from "react-hot-toast"
 
 import { useTranslation } from "@point/i18n"
-import { decodePrivateKeyByPin, useTonWallet, useTonWallets } from "@point/sdk"
 
+import { sleep } from "@point/shared/utils/sleep"
 import { PincodeModal } from "./PincodeModal"
 
 export type ModalMode = "set" | "get" | "decode" | "change"
@@ -15,8 +15,7 @@ export const usePincodeModal = (initialMode: ModalMode = "get") => {
 	const [resolvePromise, setResolvePromise] = useState<((value: string | string[] | null) => void) | null>(null)
 	const [error, setError] = useState(false)
 
-	const activeWallet = useTonWallet()
-	const { list } = useTonWallets()
+	const activeWallet = null
 
 	const promptPincode = useCallback(<T extends ModalMode>(modeOverride?: T) => {
 		if (modeOverride) setMode(modeOverride)
@@ -46,7 +45,7 @@ export const usePincodeModal = (initialMode: ModalMode = "get") => {
 				let mnemonic: string[]
 
 				try {
-					mnemonic = await decodePrivateKeyByPin(activeWallet.encodedMnemonics, pin)
+					mnemonic = ["test", "test", "test"]
 
 					if (resolvePromise) {
 						resolvePromise(mnemonic)
@@ -58,15 +57,9 @@ export const usePincodeModal = (initialMode: ModalMode = "get") => {
 					setError(true)
 				}
 			} else if (mode === "get" || mode === "change") {
-				// NOTE: берем первый, так как по дефолту общий пароль для всех
-				// также пока не будет "set" хоть раз (list[0]), "get" не будет работать
-				if (!list?.[0]) {
-					return
-				}
-
 				try {
 					// NOTE: вызов исключительно для проверки, если пинкод неверный, то будет ошибка
-					await decodePrivateKeyByPin(list[0].encodedMnemonics, pin)
+					await sleep(1000)
 
 					if (resolvePromise) {
 						resolvePromise(pin)
@@ -86,7 +79,7 @@ export const usePincodeModal = (initialMode: ModalMode = "get") => {
 				setIsOpen(false)
 			}
 		},
-		[mode, resolvePromise, activeWallet, list]
+		[mode, resolvePromise, activeWallet]
 	)
 
 	const handleClose = useCallback(() => {

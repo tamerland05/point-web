@@ -22,7 +22,7 @@ function RouteComponent() {
 				</Section>
 			</List>
 
-			<Select header="Select" placeholder="I am usual input, just leave me alone">
+			<Select header="Select">
 				<option>Hello</option>
 				<option>Okay</option>
 			</Select>

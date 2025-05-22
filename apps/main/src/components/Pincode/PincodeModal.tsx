@@ -6,8 +6,6 @@ import { hapticFeedback } from "@telegram-apps/sdk-react"
 import { useTranslation } from "@point/i18n"
 import { cn } from "@point/ui/cn"
 import { Drawer } from "@point/ui/drawer"
-import { FingerScanIcon } from "@point/ui/icons/finger-scan"
-import { KeyboardDelIcon } from "@point/ui/icons/keyboard-del"
 
 interface PincodeModalProps {
 	mode: "set" | "get" | "decode" | "change"
@@ -147,10 +145,10 @@ export const PincodeModal = memo(
 						)}
 					>
 						{[0, 1, 2, 3].map((key) => (
-							<div key={key} className={cn(`p-2`)}>
+							<div key={key} className={cn("p-2")}>
 								<div
 									className={cn(
-										`h-3 w-3 rounded-full bg-separator`,
+										"h-3 w-3 rounded-full bg-separator",
 										pin.length > key && "bg-accent",
 										error && "bg-negative",
 										topLevelError && "bg-negative"
@@ -177,7 +175,7 @@ export const PincodeModal = memo(
 							type="button"
 							onClick={handleFingerprint}
 						>
-							<FingerScanIcon className="h-6 w-6 fill-none stroke-accent" />
+							x
 						</button>
 						<button
 							className="flex h-[72px] w-[72px] items-center justify-center rounded-full border border-separator font-semibold text-2xl text-[36px] text-text"
@@ -191,7 +189,7 @@ export const PincodeModal = memo(
 							type="button"
 							onClick={handleDelete}
 						>
-							<KeyboardDelIcon className="h-7 w-7 fill-accent" />
+							o
 						</button>
 					</div>
 				</div>
