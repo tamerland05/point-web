@@ -5,7 +5,7 @@ import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 
-import { EnvUnsupported } from "@/components/EnvUnsupported"
+import { EnvUnsupported } from "@/components/app-internals/EnvUnsupported"
 import { init } from "@/init"
 import "@/utils/mockEnv"
 import "@point/i18n"

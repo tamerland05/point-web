@@ -44,11 +44,11 @@ export const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
 				{(() => {
 					if (error instanceof Error) {
 						return error.message
-					} else if (typeof error === "string") {
-						return error
-					} else {
-						return JSON.stringify(error)
 					}
+					if (typeof error === "string") {
+						return error
+					}
+					return JSON.stringify(error)
 				})()}
 			</code>
 		</blockquote>

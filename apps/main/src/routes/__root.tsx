@@ -4,10 +4,10 @@ import { Link, Outlet } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 import { TonConnectUIProvider } from "@tonconnect/ui-react"
 
-import { GetLanguageData } from "@/components/App/GetLanguageData"
-import { ErrorBoundary, ErrorBoundaryError } from "@/components/ErrorBoundary"
-import { ButtonsController } from "@/components/TelegramStuff"
-import { StyledToaster } from "@/components/Toaster"
+import { ErrorBoundary, ErrorBoundaryError } from "@/components/app-internals/ErrorBoundary"
+import { GetLanguageData } from "@/components/app-internals/GetLanguageData"
+import { StyledToaster } from "@/components/app-internals/Toaster"
+import { ButtonsController } from "@/components/tg-internals"
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient
