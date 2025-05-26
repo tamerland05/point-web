@@ -71,7 +71,6 @@ export async function init(options: {
 	mountSecondaryButton.ifAvailable()
 	mountMiniAppSync.ifAvailable()
 	mountSwipeBehavior.ifAvailable()
-	mountViewport.ifAvailable()
 
 	restoreInitData()
 
