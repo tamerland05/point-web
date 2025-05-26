@@ -1,7 +1,7 @@
 import { cn } from "@point/ui/cn"
 import { Loader } from "@point/ui/loader"
-import type { ButtonProps } from "@telegram-apps/telegram-ui"
 import { memo } from "react"
+import type { ButtonProps } from "./types"
 
 /*
  * For dev purposes: testing and debugging in browser

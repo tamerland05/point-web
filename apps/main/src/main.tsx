@@ -12,8 +12,6 @@ import "@point/i18n"
 import "@/index.css"
 import { routeTree } from "@/routeTree.gen"
 
-import "@telegram-apps/telegram-ui/dist/styles.css"
-
 if (!import.meta.env.DEV && import.meta.env.VITE_GLITCHTIP_DSN) {
 	Sentry.init({
 		dsn: import.meta.env.VITE_GLITCHTIP_DSN,

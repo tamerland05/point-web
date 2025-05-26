@@ -6,6 +6,7 @@ import {
 	init as initSDK,
 	mockTelegramEnv,
 	mountBackButton,
+	mountLocationManager,
 	mountMainButton,
 	mountMiniAppSync,
 	mountSecondaryButton,
@@ -71,6 +72,7 @@ export async function init(options: {
 	mountSecondaryButton.ifAvailable()
 	mountMiniAppSync.ifAvailable()
 	mountSwipeBehavior.ifAvailable()
+	mountLocationManager.ifAvailable()
 
 	restoreInitData()
 

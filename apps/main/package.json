@@ -16,7 +16,6 @@
 		"@tanstack/react-router": "^1.120.5",
 		"@tanstack/react-router-devtools": "^1.120.6",
 		"@telegram-apps/sdk-react": "^3.2.4",
-		"@telegram-apps/telegram-ui": "^2.1.8",
 		"@tonconnect/ui-react": "^2.1.0",
 		"add": "^2.0.6",
 		"eruda": "^3.4.1",
