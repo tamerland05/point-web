@@ -1,4 +1,4 @@
-import { ShowMainButton } from "@/components/MainButton"
+import { ShowMainButton } from "@/components/TelegramStuff"
 import { createFileRoute } from "@tanstack/react-router"
 import toast from "react-hot-toast"
 

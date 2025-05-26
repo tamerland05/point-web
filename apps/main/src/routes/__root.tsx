@@ -5,10 +5,8 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 import { TonConnectUIProvider } from "@tonconnect/ui-react"
 
 import { GetLanguageData } from "@/components/App/GetLanguageData"
-import { TMALayer } from "@/components/App/TMALayer"
-import BackButton from "@/components/BackButton"
 import { ErrorBoundary, ErrorBoundaryError } from "@/components/ErrorBoundary"
-import { MainButton } from "@/components/MainButton"
+import { ButtonsController } from "@/components/TelegramStuff"
 import { StyledToaster } from "@/components/Toaster"
 
 export const Route = createRootRouteWithContext<{
@@ -29,16 +27,15 @@ function RootComponent() {
 	return (
 		<ErrorBoundary fallback={ErrorBoundaryError}>
 			<TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">
-				<TMALayer>
+				<div className="flex h-screen flex-col overflow-hidden bg-background">
 					<Outlet />
 
-					<StyledToaster />
-					<GetLanguageData />
-					<TanStackRouterDevtools />
+					<ButtonsController />
+				</div>
 
-					<MainButton />
-					<BackButton />
-				</TMALayer>
+				<GetLanguageData />
+				<StyledToaster />
+				<TanStackRouterDevtools />
 			</TonConnectUIProvider>
 		</ErrorBoundary>
 	)

@@ -76,7 +76,7 @@ function RouteComponent() {
 	]
 
 	return (
-		<div className="flex h-screen flex-col overflow-hidden bg-background">
+		<>
 			<div className="flex-grow overflow-y-auto">
 				<div
 					className={cn({
@@ -87,7 +87,8 @@ function RouteComponent() {
 					<Outlet />
 				</div>
 			</div>
+
 			{showMenu && <Menu items={items} standalone={platform === "ios"} />}
-		</div>
+		</>
 	)
 }

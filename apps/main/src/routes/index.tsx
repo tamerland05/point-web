@@ -5,11 +5,11 @@ const isVerifiedEmloyee = true // can access to employee flow
 
 export const Route = createFileRoute("/")({
 	component: Index,
-	loader: async () => {
-		if (onboardingCompleted) return redirect({ to: "/map" })
-		if (isVerifiedEmloyee) return redirect({ to: "/map" })
+	beforeLoad: async () => {
+		if (onboardingCompleted) throw redirect({ to: "/account" })
+		if (isVerifiedEmloyee) throw redirect({ to: "/account" })
 
-		return redirect({ to: "/map" })
+		throw redirect({ to: "/account" })
 	},
 })
 
