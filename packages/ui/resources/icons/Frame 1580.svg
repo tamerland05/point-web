@@ -1,5 +1,5 @@
 <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="14.6898" y="8.6083" width="18.4598" height="22.3548" rx="3.15" fill="white" stroke="currentColor" stroke-width="1.7"/>
+<rect x="14.6898" y="8.6083" width="18.4598" height="22.3548" rx="3.15" fill="transparent" stroke="currentColor" stroke-width="1.7"/>
 <path d="M18.3203 23.0662H29.5202" stroke="currentColor" stroke-linecap="round"/>
 <path d="M18.3203 27.4397H29.5202" stroke="currentColor" stroke-linecap="round"/>
 <path d="M18.3203 25.2532H29.5202" stroke="currentColor" stroke-linecap="round"/>
@@ -7,7 +7,7 @@
 <path d="M25.9993 15.5791C26.316 14.9712 26.3534 14.3176 26.1582 13.7378" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/>
 <path d="M23.7349 15.5146C24.0288 14.7227 23.8799 13.9163 23.4199 13.3049" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/>
 <path d="M21.534 15.7728C21.5194 15.1171 21.2641 14.5422 20.8516 14.1257" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/>
-<rect x="1.0163" y="0.659787" width="18.2774" height="22.8803" rx="3.15" transform="matrix(0.979756 -0.200196 0.215897 0.976416 5.87813 10.2185)" fill="white" stroke="currentColor" stroke-width="1.7"/>
+<rect x="1.0163" y="0.659787" width="18.2774" height="22.8803" rx="3.15" transform="matrix(0.979756 -0.200196 0.215897 0.976416 5.87813 10.2185)" fill="transparent" stroke="currentColor" stroke-width="1.7"/>
 <path d="M13.4951 23.8774L24.4503 21.6389" stroke="currentColor" stroke-linecap="round"/>
 <path d="M14.4268 28.0901L25.3819 25.8516" stroke="currentColor" stroke-linecap="round"/>
 <path d="M13.9688 26.0188L24.9239 23.7803" stroke="currentColor" stroke-linecap="round"/>

@@ -27,7 +27,7 @@ function RootComponent() {
 	return (
 		<ErrorBoundary fallback={ErrorBoundaryError}>
 			<TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">
-				<div className="flex h-screen flex-col overflow-hidden bg-background">
+				<div className="flex h-screen flex-col overflow-hidden bg-background pt-6">
 					<Outlet />
 
 					<ButtonsController />

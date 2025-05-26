@@ -1,20 +1,29 @@
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 
-import { useMatches } from "@tanstack/react-router"
-import { hideBackButton, showBackButton } from "@telegram-apps/sdk-react"
+import { useCanGoBack, useMatches, useRouter } from "@tanstack/react-router"
+import { backButton, hideBackButton, showBackButton } from "@telegram-apps/sdk-react"
 
-const routesWithoutBB = ["/summary"]
+const routesWithoutBB = ["/account", "/map", "/earn", "/selections", "/selections/$id"]
 
 export const BackButtonTMA = () => {
+	const router = useRouter()
+	const canGoBack = useCanGoBack()
 	const matches = useMatches()
 	const backButtonExclude = matches.some((match) => routesWithoutBB.includes(match.pathname))
 
-	useEffect(() => {
-		hideBackButton()
-	}, [])
+	const handleBackClick = useCallback(() => {
+		router.history.back()
+
+		return
+	}, [router])
 
 	useEffect(() => {
-		if (!backButtonExclude) {
+		backButton.onClick(handleBackClick)
+		hideBackButton()
+	}, [handleBackClick])
+
+	useEffect(() => {
+		if (!backButtonExclude && canGoBack) {
 			showBackButton()
 		} else {
 			hideBackButton()
@@ -23,7 +32,7 @@ export const BackButtonTMA = () => {
 		return () => {
 			hideBackButton()
 		}
-	}, [backButtonExclude])
+	}, [backButtonExclude, canGoBack])
 
 	return null
 }
