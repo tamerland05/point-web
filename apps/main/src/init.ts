@@ -84,15 +84,9 @@ export async function init(options: {
 	if (mountViewport.isAvailable()) {
 		mountViewport().then(() => {
 			bindViewportCssVars()
+			viewport.expand.ifAvailable()
+			viewport.requestFullscreen.ifAvailable()
 		})
-	}
-
-	if (viewport.expand.isAvailable()) {
-		viewport.expand()
-	}
-
-	if (viewport.requestFullscreen.isAvailable()) {
-		await viewport.requestFullscreen()
 	}
 
 	if (swipeBehavior.isVerticalEnabled()) {
