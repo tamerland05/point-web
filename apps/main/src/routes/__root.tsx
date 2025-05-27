@@ -8,6 +8,9 @@ import { ErrorBoundary, ErrorBoundaryError } from "@/components/app-internals/Er
 import { GetLanguageData } from "@/components/app-internals/GetLanguageData"
 import { StyledToaster } from "@/components/app-internals/Toaster"
 import { ButtonsController } from "@/components/tg-internals"
+import { useSignal } from "@telegram-apps/sdk-react"
+import { viewport } from "@telegram-apps/sdk-react"
+import { useMemo } from "react"
 
 export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient
@@ -24,10 +27,22 @@ export const Route = createRootRouteWithContext<{
 })
 
 function RootComponent() {
+	const inset = useSignal(viewport.safeAreaInsets)
+	const contentInset = useSignal(viewport.contentSafeAreaInsets)
+
+	const tgSpacesStyle = useMemo(
+		() => ({
+			paddingTop: inset.top + contentInset.top,
+			paddingLeft: inset.left,
+			paddingRight: inset.right,
+		}),
+		[inset, contentInset]
+	)
+
 	return (
 		<ErrorBoundary fallback={ErrorBoundaryError}>
 			<TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">
-				<div className="flex h-screen flex-col overflow-hidden bg-background pt-6">
+				<div className="flex h-screen flex-col overflow-hidden bg-background" style={tgSpacesStyle}>
 					<Outlet />
 
 					<ButtonsController />

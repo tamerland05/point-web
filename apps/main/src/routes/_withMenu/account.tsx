@@ -18,8 +18,12 @@ function RouteComponent() {
 					className="rounded-md bg-accent px-4 py-2 text-white"
 					type="button"
 					onClick={async () => {
-						const location = await requestLocation()
-						toast(location)
+						try {
+							const location = await requestLocation()
+							toast(location)
+						} catch (error) {
+							toast.error(error instanceof Error ? error.message : "Unknown error")
+						}
 					}}
 				>
 					Request Location
