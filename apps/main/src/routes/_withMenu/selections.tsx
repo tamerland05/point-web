@@ -1,9 +1,16 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from "@tanstack/react-router"
 
-export const Route = createFileRoute('/_withMenu/selections')({
-  component: RouteComponent,
+export const Route = createFileRoute("/_withMenu/selections")({
+	component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/selections"!</div>
+	return (
+		<div>
+			Hello "/selections"!
+			<Link to="/selections/$id" params={{ id: "1" }}>
+				Test
+			</Link>
+		</div>
+	)
 }

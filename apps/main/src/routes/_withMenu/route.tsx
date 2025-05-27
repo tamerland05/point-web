@@ -3,7 +3,7 @@ import { useTranslation } from "@point/i18n"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
 import { Menu } from "@point/ui/menu"
-import { Outlet, createFileRoute, useLoaderData, useLocation, useNavigate } from "@tanstack/react-router"
+import { Outlet, createFileRoute, useLoaderData, useLocation, useMatches, useNavigate } from "@tanstack/react-router"
 import { hapticFeedback, retrieveLaunchParams } from "@telegram-apps/sdk-react"
 import { useAtomValue } from "jotai"
 
@@ -29,6 +29,8 @@ function RouteComponent() {
 		select: (location) => location.pathname,
 	})
 
+	const matches = useMatches({ select: (matches) => matches.map((match) => match.fullPath) })
+
 	const { platform } = useLoaderData({ from: "/_withMenu" })
 
 	// TODO: Придумать куда это вынести
@@ -40,7 +42,7 @@ function RouteComponent() {
 				hapticFeedback.impactOccurred("medium")
 				navigate({ to: "/selections" })
 			},
-			active: pathname.startsWith("/selections"),
+			active: matches.includes("/selections"),
 			disabled: pathname === "/selections",
 		},
 		{
@@ -50,7 +52,7 @@ function RouteComponent() {
 				hapticFeedback.impactOccurred("medium")
 				navigate({ to: "/map" })
 			},
-			active: pathname.startsWith("/map"),
+			active: matches.includes("/map"),
 			disabled: pathname === "/map",
 		},
 		{
@@ -60,7 +62,7 @@ function RouteComponent() {
 				hapticFeedback.impactOccurred("medium")
 				navigate({ to: "/earn" })
 			},
-			active: pathname.startsWith("/earn"),
+			active: matches.includes("/earn"),
 			disabled: pathname === "/earn",
 		},
 		{
@@ -70,7 +72,7 @@ function RouteComponent() {
 				hapticFeedback.impactOccurred("medium")
 				navigate({ to: "/account" })
 			},
-			active: pathname.startsWith("/account"),
+			active: matches.includes("/account"),
 			disabled: pathname === "/account",
 		},
 	]
@@ -80,10 +82,10 @@ function RouteComponent() {
 			<div className="flex-grow overflow-y-auto">
 				<div
 					className={cn({
-						"m-auto box-border flex h-full w-full flex-col p-4": true,
+						"m-auto box-border flex h-full w-full flex-col": true,
+						"p-4": !matches.includes("/map"),
 					})}
 				>
-					Hello "/_withMenu"!
 					<Outlet />
 				</div>
 			</div>

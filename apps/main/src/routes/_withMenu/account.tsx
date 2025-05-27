@@ -11,7 +11,6 @@ function RouteComponent() {
 	return (
 		<div>
 			Hello "/account"!
-			<Link to="/onboarding">Onboarding</Link>
 			<TonConnectButton />
 			<div className="my-4 flex flex-col gap-2">
 				<button
@@ -48,6 +47,10 @@ function RouteComponent() {
 				>
 					Request Fullscreen
 				</button>
+
+				<Link className="mt-6 rounded-md bg-accent px-4 py-2 text-center text-white" to="/onboarding">
+					Go to Onboarding
+				</Link>
 			</div>
 			<code className="mt-auto flex flex-col items-center justify-center text-caption-1 text-text-secondary">
 				<div>Point </div>

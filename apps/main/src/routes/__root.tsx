@@ -1,5 +1,5 @@
 import type { QueryClient } from "@tanstack/react-query"
-import { createRootRouteWithContext } from "@tanstack/react-router"
+import { createRootRouteWithContext, useMatches } from "@tanstack/react-router"
 import { Link, Outlet } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 import { TonConnectUIProvider } from "@tonconnect/ui-react"
@@ -39,10 +39,15 @@ function RootComponent() {
 		[inset, contentInset]
 	)
 
+	const matches = useMatches({ select: (matches) => matches.map((match) => match.fullPath) })
+
 	return (
 		<ErrorBoundary fallback={ErrorBoundaryError}>
 			<TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">
-				<div className="flex h-screen flex-col overflow-hidden bg-background" style={tgSpacesStyle}>
+				<div
+					className="flex h-screen flex-col overflow-hidden bg-background"
+					style={!matches.includes("/map") ? tgSpacesStyle : {}}
+				>
 					<Outlet />
 
 					<ButtonsController />

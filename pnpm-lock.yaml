@@ -38,6 +38,9 @@ importers:
 
   apps/main:
     dependencies:
+      '@2gis/mapgl':
+        specifier: ^1.60.0
+        version: 1.60.0
       '@point/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
@@ -303,6 +306,10 @@ importers:
         version: 5.1.4(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.19)(jiti@2.4.2)(lightningcss@1.30.1)(tsx@4.19.4)(yaml@2.8.0))
 
 packages:
+
+  '@2gis/mapgl@1.60.0':
+    resolution: {integrity: sha512-PdM/yk0qP2ciO3nYMOPdnQedK0Yt4sfu+hgx8V81H7ro+6loP5/RdB6eYEftcp9IkeJ0WIYMR5T4NZUekNjHDQ==}
+    engines: {node: '>=16.0.0'}
 
   '@adobe/css-tools@4.4.3':
     resolution: {integrity: sha512-VQKMkwriZbaOgVCby1UDY/LDk5fIjhQicCvVPFqfe+69fWaPWydbWJ3wRt59/YzIwda1I81loas3oCoHxnqvdA==}
@@ -1512,6 +1519,9 @@ packages:
 
   '@types/fs-extra@11.0.4':
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
+
+  '@types/geojson@7946.0.16':
+    resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
 
   '@types/jsonfile@6.1.4':
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
@@ -3483,6 +3493,10 @@ packages:
 
 snapshots:
 
+  '@2gis/mapgl@1.60.0':
+    dependencies:
+      '@types/geojson': 7946.0.16
+
   '@adobe/css-tools@4.4.3': {}
 
   '@alloc/quick-lru@5.2.0': {}
@@ -4707,6 +4721,8 @@ snapshots:
     dependencies:
       '@types/jsonfile': 6.1.4
       '@types/node': 22.15.19
+
+  '@types/geojson@7946.0.16': {}
 
   '@types/jsonfile@6.1.4':
     dependencies:

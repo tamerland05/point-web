@@ -1,6 +1,5 @@
-import { ShowMainButton } from "@/components/tg-internals"
+import { MapController } from "@/components/map/controller"
 import { createFileRoute } from "@tanstack/react-router"
-import toast from "react-hot-toast"
 
 export const Route = createFileRoute("/_withMenu/map")({
 	component: RouteComponent,
@@ -8,42 +7,8 @@ export const Route = createFileRoute("/_withMenu/map")({
 
 function RouteComponent() {
 	return (
-		<ShowMainButton
-			secondary={{ title: "Open toast yee", onClick: () => toast("test secondary") }}
-			title="Open toast"
-			onClick={() => toast("test")}
-		>
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-			Hello "/map"! <br />
-		</ShowMainButton>
+		<div>
+			<MapController />
+		</div>
 	)
 }
