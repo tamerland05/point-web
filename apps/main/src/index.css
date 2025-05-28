@@ -5,3 +5,7 @@
 .leaflet-control-attribution {
 	display: none !important;
 }
+
+.mapboxgl-ctrl {
+	display: none !important;
+}

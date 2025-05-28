@@ -40,7 +40,7 @@ function RootComponent() {
 	)
 
 	const matches = useMatches({ select: (matches) => matches.map((match) => match.fullPath) })
-	const disableTgSpaces = matches.includes("/map") || matches.includes("/earn")
+	const disableTgSpaces = matches.includes("/map") || matches.includes("/earn") || matches.includes("/selections")
 
 	return (
 		<ErrorBoundary fallback={ErrorBoundaryError}>

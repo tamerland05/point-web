@@ -18,7 +18,6 @@
 		"@point/tailwind-config": "workspace:*",
 		"@point/typescript-config": "workspace:*",
 		"@biomejs/biome": "1.9.4",
-		"@dotenvx/dotenvx": "1.34.0",
 		"@types/node": "^22.5.2",
 		"knip": "^5.56.0",
 		"lefthook": "1.11.13",
