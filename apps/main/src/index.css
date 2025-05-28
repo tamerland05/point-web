@@ -1,3 +1,7 @@
 @import "@point/tailwind-config";
 
 @config "../tailwind.config.ts";
+
+.leaflet-control-attribution {
+	display: none !important;
+}

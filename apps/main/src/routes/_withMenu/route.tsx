@@ -77,13 +77,15 @@ function RouteComponent() {
 		},
 	]
 
+	const disablePadding = matches.includes("/map") || matches.includes("/earn")
+
 	return (
 		<>
 			<div className="flex-grow overflow-y-auto">
 				<div
 					className={cn({
 						"m-auto box-border flex h-full w-full flex-col": true,
-						"p-4": !matches.includes("/map"),
+						"p-4": !disablePadding,
 					})}
 				>
 					<Outlet />

@@ -12,14 +12,20 @@
 		--color-icon-fill: #0a78ff;
 	}
 
-	/* @media (prefers-color-scheme: dark) {
-		--color-background: #0a0a0a;
+	@media (prefers-color-scheme: dark) {
+		/* --color-background: #0a0a0a;
 		--color-background-secondary: #232324;
 		--color-text: #ffffff;
 		--color-text-secondary: #76787a;
 		--color-separator: rgba(255, 255, 255, 0.04);
-		--color-icon-fill: #1e6284;
-	} */
+		--color-icon-fill: #1e6284; */
+		--color-background: #efeff4;
+		--color-background-secondary: #ffffff;
+		--color-text: #000000;
+		--color-text-secondary: #707579;
+		--color-separator: rgba(0, 0, 0, 0.15);
+		--color-icon-fill: #0a78ff;
+	}
 }
 
 @theme {

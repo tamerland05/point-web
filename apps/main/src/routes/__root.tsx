@@ -40,13 +40,14 @@ function RootComponent() {
 	)
 
 	const matches = useMatches({ select: (matches) => matches.map((match) => match.fullPath) })
+	const disableTgSpaces = matches.includes("/map") || matches.includes("/earn")
 
 	return (
 		<ErrorBoundary fallback={ErrorBoundaryError}>
 			<TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">
 				<div
 					className="flex h-screen flex-col overflow-hidden bg-background"
-					style={!matches.includes("/map") ? tgSpacesStyle : {}}
+					style={disableTgSpaces ? {} : tgSpacesStyle}
 				>
 					<Outlet />
 

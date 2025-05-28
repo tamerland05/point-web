@@ -8,10 +8,10 @@
 		"typecheck": "tsc"
 	},
 	"dependencies": {
+		"@2gis/mapgl": "^1.60.0",
 		"@point/i18n": "workspace:*",
 		"@point/shared": "workspace:*",
 		"@point/ui": "workspace:*",
-		"@2gis/mapgl": "^1.60.0",
 		"@sentry/browser": "^9.21.0",
 		"@tanstack/react-query": "^5.76.1",
 		"@tanstack/react-router": "^1.120.5",
@@ -21,15 +21,18 @@
 		"add": "^2.0.6",
 		"eruda": "^3.4.1",
 		"jotai": "^2.12.4",
+		"leaflet": "^1.9.4",
 		"react": "19.1.0",
 		"react-dom": "19.1.0",
-		"react-hot-toast": "^2.5.2"
+		"react-hot-toast": "^2.5.2",
+		"react-leaflet": "^5.0.0"
 	},
 	"devDependencies": {
 		"@point/tailwind-config": "workspace:*",
 		"@point/typescript-config": "workspace:*",
 		"@tailwindcss/vite": "^4.1.7",
 		"@tanstack/router-plugin": "^1.120.5",
+		"@types/leaflet": "^1.9.18",
 		"@types/react": "19.1.0",
 		"@types/react-dom": "19.1.0",
 		"@vitejs/plugin-basic-ssl": "2.0.0",
