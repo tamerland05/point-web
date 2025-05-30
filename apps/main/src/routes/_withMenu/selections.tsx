@@ -1,5 +1,4 @@
-import { MapboxMap } from "@/components/mapbox"
-import { createFileRoute } from "@tanstack/react-router"
+import { Link, createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/_withMenu/selections")({
 	component: RouteComponent,
@@ -8,7 +7,10 @@ export const Route = createFileRoute("/_withMenu/selections")({
 function RouteComponent() {
 	return (
 		<div>
-			<MapboxMap />
+			Hello "/selections"!
+			<Link to="/selections/$id" params={{ id: "1" }}>
+				Test
+			</Link>
 		</div>
 	)
 }

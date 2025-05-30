@@ -1,4 +1,3 @@
-import { LeafletMap } from "@/components/leaflet/map"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/_withMenu/earn")({
@@ -6,9 +5,5 @@ export const Route = createFileRoute("/_withMenu/earn")({
 })
 
 function RouteComponent() {
-	return (
-		<div>
-			<LeafletMap />
-		</div>
-	)
+	return <div>Hello "/earn"!</div>
 }

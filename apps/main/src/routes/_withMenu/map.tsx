@@ -1,4 +1,4 @@
-import { MapController } from "@/components/map/controller"
+import { MapboxMap } from "@/components/mapbox"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/_withMenu/map")({
@@ -8,7 +8,7 @@ export const Route = createFileRoute("/_withMenu/map")({
 function RouteComponent() {
 	return (
 		<div>
-			<MapController />
+			<MapboxMap />
 		</div>
 	)
 }
