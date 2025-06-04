@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TestsImport } from './routes/tests'
 import { Route as OnboardingImport } from './routes/onboarding'
 import { Route as WithMenuRouteImport } from './routes/_withMenu/route'
 import { Route as IndexImport } from './routes/index'
@@ -21,6 +22,12 @@ import { Route as WithMenuAccountImport } from './routes/_withMenu/account'
 import { Route as WithMenuSelectionsIdImport } from './routes/_withMenu/selections.$id'
 
 // Create/Update Routes
+
+const TestsRoute = TestsImport.update({
+  id: '/tests',
+  path: '/tests',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const OnboardingRoute = OnboardingImport.update({
   id: '/onboarding',
@@ -92,6 +99,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingImport
+      parentRoute: typeof rootRoute
+    }
+    '/tests': {
+      id: '/tests'
+      path: '/tests'
+      fullPath: '/tests'
+      preLoaderRoute: typeof TestsImport
       parentRoute: typeof rootRoute
     }
     '/_withMenu/account': {
@@ -167,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
+  '/tests': typeof TestsRoute
   '/account': typeof WithMenuAccountRoute
   '/earn': typeof WithMenuEarnRoute
   '/map': typeof WithMenuMapRoute
@@ -178,6 +193,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
+  '/tests': typeof TestsRoute
   '/account': typeof WithMenuAccountRoute
   '/earn': typeof WithMenuEarnRoute
   '/map': typeof WithMenuMapRoute
@@ -190,6 +206,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_withMenu': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
+  '/tests': typeof TestsRoute
   '/_withMenu/account': typeof WithMenuAccountRoute
   '/_withMenu/earn': typeof WithMenuEarnRoute
   '/_withMenu/map': typeof WithMenuMapRoute
@@ -203,6 +220,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/onboarding'
+    | '/tests'
     | '/account'
     | '/earn'
     | '/map'
@@ -213,6 +231,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/onboarding'
+    | '/tests'
     | '/account'
     | '/earn'
     | '/map'
@@ -223,6 +242,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_withMenu'
     | '/onboarding'
+    | '/tests'
     | '/_withMenu/account'
     | '/_withMenu/earn'
     | '/_withMenu/map'
@@ -235,12 +255,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   WithMenuRouteRoute: typeof WithMenuRouteRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
+  TestsRoute: typeof TestsRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   WithMenuRouteRoute: WithMenuRouteRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
+  TestsRoute: TestsRoute,
 }
 
 export const routeTree = rootRoute
@@ -255,7 +277,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_withMenu",
-        "/onboarding"
+        "/onboarding",
+        "/tests"
       ]
     },
     "/": {
@@ -272,6 +295,9 @@ export const routeTree = rootRoute
     },
     "/onboarding": {
       "filePath": "onboarding.tsx"
+    },
+    "/tests": {
+      "filePath": "tests.tsx"
     },
     "/_withMenu/account": {
       "filePath": "_withMenu/account.tsx",

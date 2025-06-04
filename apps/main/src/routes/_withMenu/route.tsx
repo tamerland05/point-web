@@ -77,7 +77,7 @@ function RouteComponent() {
 		},
 	]
 
-	const disablePadding = matches.includes("/map") || matches.includes("/earn") || matches.includes("/selections")
+	const disablePadding = matches.includes("/map")
 
 	return (
 		<>
