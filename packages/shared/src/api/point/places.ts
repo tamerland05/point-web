@@ -81,10 +81,15 @@ export interface PlaceDTO {
 	}>
 }
 
-export const placeQueryOptions = (placeId: string) =>
+export const placeQueryOptions = (placeId?: string) =>
 	queryOptions({
 		queryKey: ["place", placeId],
+		enabled: !!placeId,
 		queryFn: async () => {
+			if (!placeId) {
+				return null
+			}
+
 			const response = await pointAxiosInstance.post<PlaceDTO>(`/point/map/place/${placeId}`)
 
 			return response.data

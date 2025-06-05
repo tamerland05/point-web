@@ -5,12 +5,15 @@ import { useEffect, useRef } from "react"
 interface DrawerProps {
 	children: React.ReactNode
 	height?: "full" | "xl" | "lg" | "md" | "sm"
+
+	backgroundImage?: string
+
 	isOpen: boolean
 	onClose: () => void
 	onExpand?: () => void
 }
 
-export const Drawer = ({ children, height = "md", isOpen, onClose, onExpand }: DrawerProps) => {
+export const Drawer = ({ children, height = "md", backgroundImage, isOpen, onClose, onExpand }: DrawerProps) => {
 	const drawerRef = useRef<HTMLDivElement>(null)
 	const drawerPimp = useRef<HTMLDivElement>(null)
 
@@ -81,12 +84,20 @@ export const Drawer = ({ children, height = "md", isOpen, onClose, onExpand }: D
 				role="presentation"
 			>
 				<div ref={drawerPimp} className="relative">
+					{!!backgroundImage && (
+						<div
+							style={{ backgroundImage: `url(${backgroundImage})` }}
+							className={cn("left-0 h-32 w-full rounded-t-2xl bg-black/50 bg-center bg-cover bg-no-repeat", {
+								"rounded-t-none": height === "full",
+							})}
+						/>
+					)}
+
 					<div
-						className={cn("left-0 h-32 w-full rounded-t-2xl bg-black/50", {
-							"rounded-t-none": height === "full",
+						className={cn("flex w-full justify-center rounded-t-2xl bg-background p-2", {
+							"absolute bottom-0 left-0 ": !!backgroundImage,
 						})}
-					/>
-					<div className="absolute bottom-0 left-0 flex w-full justify-center rounded-t-2xl bg-background p-2">
+					>
 						<div className="h-1 w-8 rounded-full bg-text-secondary" />
 					</div>
 				</div>

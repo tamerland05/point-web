@@ -3,38 +3,38 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import { requestLocation } from "@telegram-apps/sdk-react"
 import { getDefaultStore, useAtom, useSetAtom } from "jotai"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import { Marker, type ViewState } from "react-map-gl/mapbox"
 import { z } from "zod"
 
 import { langitudeAtom, latitudeAtom, zoomAtom } from "@/atoms/map"
 import { showMenuAtom } from "@/atoms/ui"
 import { MapboxMap } from "@/components/mapbox"
+import { PlaceModal } from "@/components/place-modal"
 import { placesQueryOptions } from "@point/shared/api/point/places"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
-import { Drawer } from "@point/ui/drawer"
 
 const defaultLongitude = 30.314997
 const defaultLatitude = 59.938784
 
-const productSearchSchema = z.object({
-	longitude: z.number().default(defaultLongitude),
-	latitude: z.number().default(defaultLatitude),
-	zoom: z.number().default(14),
+const mapSchema = z.object({
+	expanded: z.boolean().default(false),
 	selectedPlaceId: z.string().default(""),
 	sort: z.enum(["newest", "oldest", "price"]).default("newest"),
 })
 
 export const Route = createFileRoute("/_withMenu/map")({
 	component: RouteComponent,
-	validateSearch: zodValidator(productSearchSchema),
+	validateSearch: zodValidator(mapSchema),
 	loader: async ({ context }) => {
 		const { queryClient } = context
 		const store = getDefaultStore()
+
 		const upperCoordinates = {
 			longitude: store.get(langitudeAtom) + 0.001,
 			latitude: store.get(latitudeAtom) + 0.001,
 		}
+
 		const lowerCoordinates = {
 			longitude: store.get(langitudeAtom) - 0.001,
 			latitude: store.get(latitudeAtom) - 0.001,
@@ -77,7 +77,7 @@ export const Route = createFileRoute("/_withMenu/map")({
 
 function RouteComponent() {
 	const setMenuVisible = useSetAtom(showMenuAtom)
-	const { selectedPlaceId, sort } = Route.useSearch()
+	const { selectedPlaceId, sort, expanded: drawerExpanded } = Route.useSearch()
 	const { userLocation } = Route.useLoaderData()
 	const navigate = useNavigate({ from: Route.fullPath })
 
@@ -85,15 +85,21 @@ function RouteComponent() {
 	const [latitude, setLatitude] = useAtom(latitudeAtom)
 	const [zoom, setZoom] = useAtom(zoomAtom)
 
-	const upperCoordinates = {
-		longitude: longitude + 0.001,
-		latitude: latitude + 0.001,
-	}
+	const upperCoordinates = useMemo(
+		() => ({
+			longitude: longitude + 0.001,
+			latitude: latitude + 0.001,
+		}),
+		[longitude, latitude]
+	)
 
-	const lowerCoordinates = {
-		longitude: longitude - 0.001,
-		latitude: latitude - 0.001,
-	}
+	const lowerCoordinates = useMemo(
+		() => ({
+			longitude: longitude - 0.001,
+			latitude: latitude - 0.001,
+		}),
+		[longitude, latitude]
+	)
 
 	const debouncedUpperCoordinates = useDebounce(upperCoordinates, 222)
 	const debouncedLowerCoordinates = useDebounce(lowerCoordinates, 222)
@@ -101,44 +107,81 @@ function RouteComponent() {
 	const placesQuery = useQuery(placesQueryOptions(debouncedUpperCoordinates, debouncedLowerCoordinates))
 	const places = placesQuery.data
 
-	console.log(places)
-
 	// biome-ignore lint/correctness/useExhaustiveDependencies: its ok
 	useEffect(() => {
 		setLongitude(userLocation.longitude)
 		setLatitude(userLocation.latitude)
 	}, [])
 
-	const handleMoveMap = (viewState: ViewState) => {
-		setLongitude(viewState.longitude)
-		setLatitude(viewState.latitude)
-		setZoom(viewState.zoom)
-	}
+	const handleMoveMap = useCallback(
+		(viewState: ViewState) => {
+			setLongitude(viewState.longitude)
+			setLatitude(viewState.latitude)
+			setZoom(viewState.zoom)
+		},
+		[setLongitude, setLatitude, setZoom]
+	)
 
-	const handleSelectPlace = (placeId: string) => {
-		setMenuVisible(false)
-		navigate({
-			search: (prev) => ({ ...prev, selectedPlaceId: placeId }),
-		})
-	}
+	const handleSelectPlace = useCallback(
+		(placeId: string) => {
+			setMenuVisible(false)
+			navigate({
+				search: (prev) => ({ ...prev, selectedPlaceId: placeId }),
+			})
+		},
+		[navigate, setMenuVisible]
+	)
 
-	const handleCloseDrawer = () => {
+	const handleCloseDrawer = useCallback(() => {
 		navigate({
 			search: (prev) => ({ ...prev, selectedPlaceId: "" }),
 		})
-	}
+	}, [navigate])
 
-	const [drawerExpanded, setDrawerExpanded] = useState(false)
-	const handleExpandDrawer = () => {
-		setDrawerExpanded(true)
+	const handleExpandDrawer = useCallback(() => {
+		navigate({
+			search: (prev) => ({ ...prev, expanded: true }),
+		})
 		// mb just navigate with view transition
-	}
+	}, [navigate])
+
+	const handleCollapseDrawer = useCallback(() => {
+		navigate({
+			search: (prev) => ({ ...prev, expanded: false }),
+		})
+		// mb just navigate with view transition
+	}, [navigate])
+
+	useEffect(() => {}, [])
+
 	useEffect(() => {
-		if (!selectedPlaceId) {
-			setDrawerExpanded(false)
+		const placeObject = places?.find((place) => place.id === selectedPlaceId)
+		if (!selectedPlaceId || !placeObject) {
+			handleCollapseDrawer()
 			setMenuVisible(true)
 		}
-	}, [selectedPlaceId, setMenuVisible])
+	}, [selectedPlaceId, setMenuVisible, handleCollapseDrawer])
+
+	useTraceUpdate({
+		selectedPlaceId,
+		userLocation,
+		longitude,
+		latitude,
+		zoom,
+		sort,
+		places,
+		placesQuery,
+		debouncedUpperCoordinates,
+		debouncedLowerCoordinates,
+		upperCoordinates,
+		lowerCoordinates,
+		handleMoveMap,
+		handleSelectPlace,
+		handleCloseDrawer,
+		handleExpandDrawer,
+		drawerExpanded,
+		setMenuVisible,
+	})
 
 	return (
 		<div>
@@ -158,19 +201,39 @@ function RouteComponent() {
 						longitude={place.position.longitude}
 						latitude={place.position.latitude}
 						anchor="bottom"
+						onClick={() => handleSelectPlace(place.id)}
 					>
 						<img src="/Noodle.svg" alt={place.name} />
 					</Marker>
 				))}
 			</MapboxMap>
-			<Drawer
-				isOpen={!!selectedPlaceId}
-				height={drawerExpanded ? "full" : "lg"}
-				onClose={handleCloseDrawer}
-				onExpand={handleExpandDrawer}
-			>
-				<div>Hello</div>
-			</Drawer>
+
+			<PlaceModal
+				id={selectedPlaceId}
+				photo={places?.find((place) => place.id === selectedPlaceId)?.photo}
+				name={places?.find((place) => place.id === selectedPlaceId)?.name}
+				address={places?.find((place) => place.id === selectedPlaceId)?.position.address}
+				rating={places?.find((place) => place.id === selectedPlaceId)?.rating}
+				drawerExpanded={drawerExpanded}
+				handleCloseDrawer={handleCloseDrawer}
+				handleExpandDrawer={handleExpandDrawer}
+			/>
 		</div>
 	)
+}
+
+function useTraceUpdate(props) {
+	const prev = useRef(props)
+	useEffect(() => {
+		const changedProps = Object.entries(props).reduce((ps, [k, v]) => {
+			if (prev.current[k] !== v) {
+				ps[k] = [prev.current[k], v]
+			}
+			return ps
+		}, {})
+		if (Object.keys(changedProps).length > 0) {
+			console.log("Changed props:", changedProps)
+		}
+		prev.current = props
+	})
 }
