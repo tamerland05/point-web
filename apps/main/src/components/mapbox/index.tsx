@@ -15,6 +15,8 @@ interface MapboxMapProps {
 
 	onSelectPlace: (placeId: string) => void
 	onMove: (viewState: ViewState) => void
+
+	children: React.ReactNode
 }
 
 export const MapboxMap = ({
@@ -29,6 +31,7 @@ export const MapboxMap = ({
 	selectedPlaceId,
 	onSelectPlace,
 	onMove,
+	children,
 }: MapboxMapProps) => {
 	return (
 		<MapComp
@@ -54,6 +57,7 @@ export const MapboxMap = ({
 			<Marker longitude={30.302997} latitude={59.928584} anchor="bottom" onClick={() => onSelectPlace("3")}>
 				<img src="/Noodle.svg" alt="Noodle3" />
 			</Marker>
+			{children}
 		</MapComp>
 	)
 }

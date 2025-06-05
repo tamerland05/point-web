@@ -1,23 +1,28 @@
+import { Outlet, createFileRoute, useLoaderData, useLocation, useMatches, useNavigate } from "@tanstack/react-router"
+import { hapticFeedback } from "@telegram-apps/sdk-react"
+import { useAtomValue } from "jotai"
+
 import { showMenuAtom } from "@/atoms/ui"
 import { useTranslation } from "@point/i18n"
+import { authQueryOptions } from "@point/shared/api/point/auth"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
 import { Menu } from "@point/ui/menu"
-import { Outlet, createFileRoute, useLoaderData, useLocation, useMatches, useNavigate } from "@tanstack/react-router"
-import { hapticFeedback, retrieveLaunchParams } from "@telegram-apps/sdk-react"
-import { useAtomValue } from "jotai"
 
 export const Route = createFileRoute("/_withMenu")({
 	component: RouteComponent,
-	loader: async () => {
-		try {
-			const lp = retrieveLaunchParams()
+	loader: async ({ context }) => {
+		const { queryClient } = context
 
-			return { platform: lp.tgWebAppPlatform }
-		} catch {
+		if (!context.launchParams?.tgWebAppData) {
 			return { platform: "android" }
 		}
+
+		queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+
+		return { platform: context.launchParams.tgWebAppPlatform }
 	},
+
 	staleTime: Number.POSITIVE_INFINITY,
 })
 

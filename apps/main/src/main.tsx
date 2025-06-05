@@ -1,16 +1,13 @@
-import * as Sentry from "@sentry/browser"
-import { QueryClient, QueryClientProvider, keepPreviousData } from "@tanstack/react-query"
-import { RouterProvider, createRouter } from "@tanstack/react-router"
-import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
-import { Provider } from "jotai"
-import { StrictMode } from "react"
-import ReactDOM from "react-dom/client"
-
-import { store } from "@/atoms/store"
 import { EnvUnsupported } from "@/components/app-internals/EnvUnsupported"
 import { init } from "@/init"
 import { routeTree } from "@/routeTree.gen"
 import { menuItems as menuItemsRaw } from "@/routes/_withMenu/route"
+import * as Sentry from "@sentry/browser"
+import { QueryClient, QueryClientProvider, keepPreviousData } from "@tanstack/react-query"
+import { RouterProvider, createRouter } from "@tanstack/react-router"
+import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
+import { StrictMode } from "react"
+import ReactDOM from "react-dom/client"
 
 import "@/utils/mockEnv"
 import "@point/i18n"
@@ -94,6 +91,7 @@ const root = ReactDOM.createRoot(rootElement)
 
 try {
 	const launchParams = retrieveLaunchParams()
+
 	const { tgWebAppPlatform: platform } = launchParams
 	const debug = (launchParams.tgWebAppStartParam || "").includes("debug") || import.meta.env.DEV
 
@@ -105,11 +103,9 @@ try {
 	}).then(() => {
 		root.render(
 			<StrictMode>
-				<Provider store={store}>
-					<QueryClientProvider client={queryClient}>
-						<RouterProvider router={router} />
-					</QueryClientProvider>
-				</Provider>
+				<QueryClientProvider client={queryClient}>
+					<RouterProvider router={router} />
+				</QueryClientProvider>
 			</StrictMode>
 		)
 	})

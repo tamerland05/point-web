@@ -8,7 +8,7 @@ import { ErrorBoundary, ErrorBoundaryError } from "@/components/app-internals/Er
 import { GetLanguageData } from "@/components/app-internals/GetLanguageData"
 import { StyledToaster } from "@/components/app-internals/Toaster"
 import { ButtonsController } from "@/components/tg-internals"
-import { useSignal } from "@telegram-apps/sdk-react"
+import { retrieveLaunchParams, useSignal } from "@telegram-apps/sdk-react"
 import { viewport } from "@telegram-apps/sdk-react"
 import { useMemo } from "react"
 
@@ -16,6 +16,16 @@ export const Route = createRootRouteWithContext<{
 	queryClient: QueryClient
 }>()({
 	component: RootComponent,
+	beforeLoad: ({ context }) => {
+		try {
+			const launchParams = retrieveLaunchParams(true)
+
+			return { ...context, launchParams }
+		} catch {
+			return { ...context, launchParams: null }
+		}
+	},
+
 	notFoundComponent: () => {
 		return (
 			<div>

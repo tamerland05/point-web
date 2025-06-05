@@ -34,6 +34,13 @@ export default defineConfig({
 	server: {
 		host: "point.local",
 		port: 1111,
+		proxy: {
+			"/point-api": {
+				target: "http://84.201.150.47:8000/api",
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/point-api/, ""),
+			},
+		},
 	},
 
 	define: {

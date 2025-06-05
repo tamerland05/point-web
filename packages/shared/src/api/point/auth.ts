@@ -1,0 +1,64 @@
+import { queryOptions } from "@tanstack/react-query"
+
+import pointAxiosInstance from "@/api/point"
+import { accessTokenAtom } from "@/atoms/user"
+import { getDefaultStore } from "jotai"
+
+export interface AuthReq {
+	hash: string
+	referrerData?: string
+	user?: {
+		id: number
+		firstName: string
+		lastName?: string
+		username?: string
+		languageCode?: string
+		photoUrl?: string
+		isBot?: boolean
+		isPremium?: boolean
+		allowsWriteToPm?: boolean
+	}
+}
+
+export interface AuthDTO {
+	user: {
+		id: number
+		firstName: string
+		lastName: string
+		username: string
+		languageCode: string
+		photoUrl: string
+		isBot: boolean
+		isPremium: boolean
+		allowsWriteToPm: boolean
+		rank: number
+		bonusBalance: number
+		userType: "employee" | "consumer"
+		account: {
+			id: string
+			wallet: string
+			jobPlaceId: string
+			purposeId: string
+			meta: {
+				showJob: boolean
+				showPurpose: boolean
+			}
+		}
+	}
+	accessToken: string
+}
+
+export const authQueryOptions = (auth: AuthReq) =>
+	queryOptions({
+		queryKey: ["auth", { hash: auth.hash }],
+		queryFn: async () => {
+			const response = await pointAxiosInstance.post<AuthDTO>("/point/user/auth", auth)
+
+			pointAxiosInstance.defaults.headers.post.Authorization = `Bearer ${response.data.accessToken}`
+
+			const store = getDefaultStore()
+			store.set(accessTokenAtom, response.data.accessToken)
+
+			return response.data
+		},
+	})
