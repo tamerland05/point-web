@@ -37,7 +37,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 }
 
 export const ErrorBoundaryError: FC<{ error: unknown }> = ({ error }) => (
-	<div>
+	<div className="flex h-full w-full items-center justify-center">
 		<p>An unhandled error occurred:</p>
 		<blockquote>
 			<code>

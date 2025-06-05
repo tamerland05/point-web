@@ -21,6 +21,13 @@ export const Route = createFileRoute("/_withMenu")({
 	staleTime: Number.POSITIVE_INFINITY,
 })
 
+export const menuItems = [
+	{ label: "Selections", icon: "Frame 1580", path: "/selections" },
+	{ label: "Map", icon: "Globe Europe Africa Fill", path: "/map" },
+	{ label: "Earn", icon: "CoinsFill", path: "/earn" },
+	{ label: "Account", icon: "User Circle Outline", path: "/account" },
+] as const
+
 function RouteComponent() {
 	const { t } = useTranslation()
 	const showMenu = useAtomValue(showMenuAtom)
@@ -34,54 +41,22 @@ function RouteComponent() {
 	const { platform } = useLoaderData({ from: "/_withMenu" })
 
 	// TODO: Придумать куда это вынести
-	const items = [
-		{
-			label: t("Selections"),
-			icon: <Icon name="Frame 1580" className="h-10 w-10" />,
-			onClick: () => {
-				hapticFeedback.impactOccurred("medium")
-				navigate({ to: "/selections" })
-			},
-			active: matches.includes("/selections"),
-			disabled: pathname === "/selections",
+	const items = menuItems.map((item) => ({
+		label: t(item.label),
+		icon: <Icon name={item.icon} className="h-10 w-10" />,
+		onClick: () => {
+			hapticFeedback.impactOccurred("medium")
+			navigate({ to: item.path })
 		},
-		{
-			label: t("Map"),
-			icon: <Icon name="Globe Europe Africa Fill" className="h-10 w-10" />,
-			onClick: () => {
-				hapticFeedback.impactOccurred("medium")
-				navigate({ to: "/map" })
-			},
-			active: matches.includes("/map"),
-			disabled: pathname === "/map",
-		},
-		{
-			label: t("Earn"),
-			icon: <Icon name="CoinsFill" className="h-10 w-10" />,
-			onClick: () => {
-				hapticFeedback.impactOccurred("medium")
-				navigate({ to: "/earn" })
-			},
-			active: matches.includes("/earn"),
-			disabled: pathname === "/earn",
-		},
-		{
-			label: t("Account"),
-			icon: <Icon name="User Circle Outline" className="h-10 w-10" />,
-			onClick: async () => {
-				hapticFeedback.impactOccurred("medium")
-				navigate({ to: "/account" })
-			},
-			active: matches.includes("/account"),
-			disabled: pathname === "/account",
-		},
-	]
+		active: matches.includes(item.path),
+		disabled: pathname === item.path,
+	}))
 
 	const disablePadding = matches.includes("/map")
 
 	return (
 		<>
-			<div className="flex-grow overflow-y-auto">
+			<div className="flex-grow overflow-y-auto [view-transition-name:main-content]">
 				<div
 					className={cn({
 						"m-auto box-border flex h-full w-full flex-col": true,

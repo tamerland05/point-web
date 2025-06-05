@@ -19,7 +19,7 @@ function RouteComponent() {
 					onClick={async () => {
 						try {
 							const location = await requestLocation()
-							toast(location)
+							toast.success(JSON.stringify(location))
 						} catch (error) {
 							toast.error(error instanceof Error ? error.message : "Unknown error")
 						}

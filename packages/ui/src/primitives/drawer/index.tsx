@@ -1,29 +1,27 @@
+import { cn } from "@/utils/cn"
 import type React from "react"
 import { useEffect, useRef } from "react"
 
-import { Icon } from "@/primitives/icon"
-import { cn } from "@/utils/cn"
-
 interface DrawerProps {
 	children: React.ReactNode
+	height?: "full" | "xl" | "lg" | "md" | "sm"
 	isOpen: boolean
 	onClose: () => void
-	title?: string
-	height?: "full" | "xl" | "lg" | "md" | "sm"
-	isBorderHidden?: boolean
+	onExpand?: () => void
 }
 
-export const Drawer = ({ children, isOpen, onClose, title, height = "md", isBorderHidden = false }: DrawerProps) => {
+export const Drawer = ({ children, height = "md", isOpen, onClose, onExpand }: DrawerProps) => {
 	const drawerRef = useRef<HTMLDivElement>(null)
+	const drawerPimp = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
 		if (!isOpen) return
-
+		let touchableElement = drawerRef.current
 		// TODO: нужна доработка, если есть скролл у контента, то ест он выше чем высота самого drawer, то надо отключать эту логику
 		// вернее, сделать возможность ее отключить пропом либо закрывать только если scrollY === 0 (то есть только в самом верху,)
 		// чтобы пользователь мог свободно скроллить вверх-вниз, не закрывая drawer
 		if (height === "full") {
-			return
+			touchableElement = drawerPimp.current
 		}
 
 		let startY: number
@@ -38,69 +36,65 @@ export const Drawer = ({ children, isOpen, onClose, title, height = "md", isBord
 		}
 
 		const handleTouchEnd = () => {
+			console.log(currentY - startY)
+
 			if (currentY - startY > 40) {
 				onClose()
 			}
+
+			if (currentY - startY < -40) {
+				onExpand?.()
+			}
 		}
 
-		const drawerElement = drawerRef.current
-
-		if (drawerElement) {
-			drawerElement.addEventListener("touchstart", handleTouchStart)
-			drawerElement.addEventListener("touchmove", handleTouchMove)
-			drawerElement.addEventListener("touchend", handleTouchEnd)
+		if (touchableElement) {
+			touchableElement.addEventListener("touchstart", handleTouchStart)
+			touchableElement.addEventListener("touchmove", handleTouchMove)
+			touchableElement.addEventListener("touchend", handleTouchEnd)
+			// TODO: add mouse triggers
 		}
 
 		return () => {
-			if (drawerElement) {
-				drawerElement.removeEventListener("touchstart", handleTouchStart)
-				drawerElement.removeEventListener("touchmove", handleTouchMove)
-				drawerElement.removeEventListener("touchend", handleTouchEnd)
+			if (touchableElement) {
+				touchableElement.removeEventListener("touchstart", handleTouchStart)
+				touchableElement.removeEventListener("touchmove", handleTouchMove)
+				touchableElement.removeEventListener("touchend", handleTouchEnd)
 			}
 		}
-	}, [isOpen, onClose, height])
+	}, [isOpen, onClose, height, onExpand])
 
 	return (
-		<div className="z-40 flex">
-			{isOpen && (
-				<div className={cn("fixed inset-0 z-10 bg-black/35 dark:bg-white/35")} role="presentation" onClick={onClose} />
-			)}
-
+		<dialog className="z-40 flex">
 			<div
 				ref={drawerRef}
 				className={cn(
-					"fixed bottom-0 left-0 z-20 flex h-[60%] w-full translate-y-full transform flex-col bg-background shadow-lg transition-all duration-500",
+					"fixed bottom-0 left-0 flex h-[60%] w-full translate-y-full transform flex-col rounded-t-2xl bg-background shadow-lg transition-all duration-500",
 					{
 						"translate-y-0": isOpen,
-						"h-full": height === "full",
-						"h-5/6 rounded-t-2xl": height === "xl",
-						"h-4/6 rounded-t-2xl": height === "lg",
-						"h-3/6 rounded-t-2xl": height === "md",
-						"h-2/6 rounded-t-2xl": height === "sm",
+						"h-full rounded-t-none": height === "full",
+						"h-5/6": height === "xl",
+						"h-4/6": height === "lg",
+						"h-3/6": height === "md",
+						"h-2/6": height === "sm",
 					}
 				)}
-				role="dialog"
+				role="presentation"
 			>
-				<div className="-top-4 -translate-x-1/2 absolute left-1/2 p-2">
-					<div className="h-1 w-8 rounded-full bg-background" />
+				<div ref={drawerPimp} className="relative">
+					<div
+						className={cn("left-0 h-32 w-full rounded-t-2xl bg-black/50", {
+							"rounded-t-none": height === "full",
+						})}
+					/>
+					<div className="absolute bottom-0 left-0 flex w-full justify-center rounded-t-2xl bg-background p-2">
+						<div className="h-1 w-8 rounded-full bg-text-secondary" />
+					</div>
 				</div>
 
-				<div className="flex flex-grow flex-col overflow-hidden rounded-t-2xl">
-					<div
-						className={cn("flex items-center justify-between pt-2 pr-2 pb-2 pl-4", {
-							"pt-4": !!title,
-							"border-black/5 border-b dark:border-white/5": !isBorderHidden,
-						})}
-					>
-						<h2 className="font-normal text-text text-title-1">{title}</h2>
-						<button type="button" onClick={onClose}>
-							<Icon name="Globe Europe Africa Fill" className="h-10 w-10 animate-float text-text" />
-						</button>
-					</div>
-
+				<div className="flex flex-grow flex-col overflow-hidden">
 					<div className="flex-grow overflow-y-auto pb-4">{children}</div>
 				</div>
 			</div>
-		</div>
+		</dialog>
 	)
 }

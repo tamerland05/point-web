@@ -2,15 +2,19 @@ import * as Sentry from "@sentry/browser"
 import { QueryClient, QueryClientProvider, keepPreviousData } from "@tanstack/react-query"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
+import { Provider } from "jotai"
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
 
+import { store } from "@/atoms/store"
 import { EnvUnsupported } from "@/components/app-internals/EnvUnsupported"
 import { init } from "@/init"
+import { routeTree } from "@/routeTree.gen"
+import { menuItems as menuItemsRaw } from "@/routes/_withMenu/route"
+
 import "@/utils/mockEnv"
 import "@point/i18n"
 import "@/index.css"
-import { routeTree } from "@/routeTree.gen"
 
 if (!import.meta.env.DEV && import.meta.env.VITE_GLITCHTIP_DSN) {
 	Sentry.init({
@@ -30,6 +34,8 @@ const queryClient = new QueryClient({
 	},
 })
 
+const menuItems = menuItemsRaw.map((item) => item.path) as string[]
+
 // Set up a Router instance
 const router = createRouter({
 	routeTree,
@@ -41,6 +47,34 @@ const router = createRouter({
 	// This will ensure that the loader is always called when the route is preloaded or visited
 	defaultPreloadStaleTime: 0,
 	scrollRestoration: true,
+	defaultViewTransition: {
+		types: ({ fromLocation, toLocation }) => {
+			let direction = "none"
+
+			if (fromLocation) {
+				const fromIndex = fromLocation.state.__TSR_index
+				const toIndex = toLocation.state.__TSR_index
+				const isStayingOnTheSamePage = fromLocation?.pathname === toLocation?.pathname
+				const isNavigatingInMenu =
+					menuItems.includes(fromLocation?.pathname) && menuItems.includes(toLocation?.pathname)
+
+				if (isStayingOnTheSamePage) {
+					return ["none"]
+				}
+
+				if (isNavigatingInMenu) {
+					const fromMenuIndex = menuItems.indexOf(fromLocation?.pathname)
+					const toMenuIndex = menuItems.indexOf(toLocation?.pathname)
+					direction = fromMenuIndex > toMenuIndex ? "right" : "left"
+					return [`slide-${direction}`]
+				}
+
+				direction = fromIndex > toIndex ? "right" : "left"
+			}
+			console.log(direction)
+			return [`slide-${direction}`]
+		},
+	},
 })
 
 // Register the router instance for type safety
@@ -71,9 +105,11 @@ try {
 	}).then(() => {
 		root.render(
 			<StrictMode>
-				<QueryClientProvider client={queryClient}>
-					<RouterProvider router={router} />
-				</QueryClientProvider>
+				<Provider store={store}>
+					<QueryClientProvider client={queryClient}>
+						<RouterProvider router={router} />
+					</QueryClientProvider>
+				</Provider>
 			</StrictMode>
 		)
 	})
