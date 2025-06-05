@@ -30,8 +30,6 @@ export const MapboxMap = memo(
 		latitude,
 		zoom,
 
-		selectedPlaceId,
-		onSelectPlace,
 		onMove,
 
 		children,

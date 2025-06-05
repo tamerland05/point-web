@@ -3,7 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import { requestLocation } from "@telegram-apps/sdk-react"
 import { getDefaultStore, useAtom, useSetAtom } from "jotai"
-import { useCallback, useEffect, useMemo, useRef } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { Marker, type ViewState } from "react-map-gl/mapbox"
 import { z } from "zod"
 
@@ -77,7 +77,7 @@ export const Route = createFileRoute("/_withMenu/map")({
 
 function RouteComponent() {
 	const setMenuVisible = useSetAtom(showMenuAtom)
-	const { selectedPlaceId, sort, expanded: drawerExpanded } = Route.useSearch()
+	const { selectedPlaceId, expanded: drawerExpanded } = Route.useSearch()
 	const { userLocation } = Route.useLoaderData()
 	const navigate = useNavigate({ from: Route.fullPath })
 
@@ -162,27 +162,6 @@ function RouteComponent() {
 		}
 	}, [selectedPlaceId, setMenuVisible, handleCollapseDrawer])
 
-	useTraceUpdate({
-		selectedPlaceId,
-		userLocation,
-		longitude,
-		latitude,
-		zoom,
-		sort,
-		places,
-		placesQuery,
-		debouncedUpperCoordinates,
-		debouncedLowerCoordinates,
-		upperCoordinates,
-		lowerCoordinates,
-		handleMoveMap,
-		handleSelectPlace,
-		handleCloseDrawer,
-		handleExpandDrawer,
-		drawerExpanded,
-		setMenuVisible,
-	})
-
 	return (
 		<div>
 			<MapboxMap
@@ -220,20 +199,4 @@ function RouteComponent() {
 			/>
 		</div>
 	)
-}
-
-function useTraceUpdate(props) {
-	const prev = useRef(props)
-	useEffect(() => {
-		const changedProps = Object.entries(props).reduce((ps, [k, v]) => {
-			if (prev.current[k] !== v) {
-				ps[k] = [prev.current[k], v]
-			}
-			return ps
-		}, {})
-		if (Object.keys(changedProps).length > 0) {
-			console.log("Changed props:", changedProps)
-		}
-		prev.current = props
-	})
 }
