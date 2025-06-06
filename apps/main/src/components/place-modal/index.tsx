@@ -36,7 +36,11 @@ export const PlaceModal = memo(
 				onExpand={handleExpandDrawer}
 				backgroundImage={data?.photo || photo}
 			>
-				<div className="h-max overflow-y-auto px-4 pb-4">
+				<div
+					className={cn("h-max overflow-hidden px-4 pb-4", {
+						"overflow-y-auto": drawerExpanded,
+					})}
+				>
 					<div className="mb-5 flex flex-col items-center gap-1">
 						<h1 className="text-center font-semibold text-text text-title-2">{data?.name || name}</h1>
 						<h2 className="text-center text-caption-1 text-text-secondary">{data?.position.address || address}</h2>
