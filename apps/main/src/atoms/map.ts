@@ -1,10 +1,6 @@
-import { atomWithStorage, createJSONStorage } from "jotai/utils"
+import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "@/constants/map"
+import { atom } from "jotai"
 
-const storage = createJSONStorage<number>(() => sessionStorage)
-
-const defaultLongitude = 30.314997
-const defaultLatitude = 59.938784
-
-export const langitudeAtom = atomWithStorage<number>("@point/map/longitude", defaultLongitude, storage)
-export const latitudeAtom = atomWithStorage<number>("@point/map/latitude", defaultLatitude, storage)
-export const zoomAtom = atomWithStorage<number>("@point/map/zoom", 14, storage)
+export const langitudeAtom = atom<number>(DEFAULT_LONGITUDE)
+export const latitudeAtom = atom<number>(DEFAULT_LATITUDE)
+export const zoomAtom = atom<number>(14)

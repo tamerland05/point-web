@@ -1,60 +1,64 @@
-import { memo } from "react"
-import MapComp, { Marker, type ViewState } from "react-map-gl/mapbox"
+import { memo, useCallback } from "react"
+import MapComp, { Marker, type ViewStateChangeEvent } from "react-map-gl/mapbox"
 
 import "mapbox-gl/dist/mapbox-gl.css"
+import { langitudeAtom, latitudeAtom, zoomAtom } from "@/atoms/map"
+import { MAP_ID } from "@/constants/map"
+import { userLocationQueryOptions } from "@/utils/get-user-location-query"
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { useAtom } from "jotai"
 
 interface MapboxMapProps {
-	userLongitude: number
-	userLatitude: number
-	userIsDefault: boolean
+  children: React.ReactNode
+}
 
-	longitude: number
-	latitude: number
-	zoom: number
-
-	selectedPlaceId?: string
-
-	onSelectPlace: (placeId: string) => void
-	onMove: (viewState: ViewState) => void
-
-	children: React.ReactNode
+const mapStyle = {
+  width: "100%",
+  height: "100vh",
 }
 
 export const MapboxMap = memo(
-	({
-		userLongitude,
-		userLatitude,
-		userIsDefault,
+  ({ children }: MapboxMapProps) => {
+    const [longitude, setLongitude] = useAtom(langitudeAtom)
+    const [latitude, setLatitude] = useAtom(latitudeAtom)
+    const [zoom, setZoom] = useAtom(zoomAtom)
 
-		longitude,
-		latitude,
-		zoom,
+    const handleMoveMap = useCallback(
+      (evt: ViewStateChangeEvent) => {
+        console.log(evt)
+        setLongitude(evt.viewState.longitude)
+        setLatitude(evt.viewState.latitude)
+        setZoom(evt.viewState.zoom)
+      },
+      [setLongitude, setLatitude, setZoom]
+    )
 
-		onMove,
+    const userLocationQuery = useSuspenseQuery(userLocationQueryOptions)
+    const userLocation = userLocationQuery.data
 
-		children,
-	}: MapboxMapProps) => {
-		return (
-			<MapComp
-				longitude={longitude}
-				latitude={latitude}
-				zoom={zoom}
-				onMove={(evt) => onMove(evt.viewState)}
-				mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
-				mapStyle="mapbox://styles/mapbox/streets-v9"
-				style={{ width: "100%", height: "100vh" }}
-			>
-				{!userIsDefault && (
-					<Marker longitude={userLongitude} latitude={userLatitude} anchor="bottom">
-						<img src="/Pin.svg" alt="Pin" />
-					</Marker>
-				)}
+    return (
+      <MapComp
+        id={MAP_ID}
+        reuseMaps
+        onMove={handleMoveMap}
+        mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
+        mapStyle="mapbox://styles/mapbox/streets-v9"
+        style={mapStyle}
+        longitude={longitude}
+        latitude={latitude}
+        zoom={zoom}
+      >
+        {!!userLocation && (
+          <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} anchor="bottom">
+            <img src="/Pin.svg" alt="Pin" />
+          </Marker>
+        )}
 
-				{children}
-			</MapComp>
-		)
-	},
-	() => false
+        {children}
+      </MapComp>
+    )
+  },
+  () => false
 )
 
 MapboxMap.displayName = "MapboxMap"
