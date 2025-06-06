@@ -11,42 +11,42 @@ import packageConfig from "./package.json"
 
 let commitHash = "unknown"
 try {
-	commitHash = child.execSync("git rev-parse --short HEAD").toString()
+  commitHash = child.execSync("git rev-parse --short HEAD").toString()
 } catch (_err) {
-	// biome-ignore lint/suspicious/noConsole: its ok to use console.error here
-	console.error("Failed to get commit hash. Running in this mode will not be supported.")
+  // biome-ignore lint/suspicious/noConsole: its ok to use console.error here
+  console.error("Failed to get commit hash. Running in this mode will not be supported.")
 }
 
 export default defineConfig({
-	plugins: [
-		TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
-		react(),
-		tailwindcss(),
-		basicSsl({
-			name: "test",
-			domains: ["*.local"],
-			certDir: "./cert",
-		}),
+  plugins: [
+    TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
+    react(),
+    tailwindcss(),
+    basicSsl({
+      name: "test",
+      domains: ["*.local"],
+      certDir: "./cert",
+    }),
 
-		tsconfigPaths(),
-	],
+    tsconfigPaths(),
+  ],
 
-	server: {
-		host: "point.local",
-		port: 1111,
-		proxy: {
-			"/point-api": {
-				target: "http://84.201.150.47:8000/api",
-				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/point-api/, ""),
-			},
-		},
-	},
+  server: {
+    host: "point.local",
+    port: 1111,
+    proxy: {
+      "/point-api": {
+        target: "https://point-dev-back.meyson.tech/api",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/point-api/, ""),
+      },
+    },
+  },
 
-	define: {
-		__APP_VERSION__: JSON.stringify(packageConfig.version),
-		__COMMIT_HASH__: JSON.stringify(commitHash),
-	},
+  define: {
+    __APP_VERSION__: JSON.stringify(packageConfig.version),
+    __COMMIT_HASH__: JSON.stringify(commitHash),
+  },
 
-	envDir: "../../",
+  envDir: "../../",
 })
