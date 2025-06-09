@@ -17,10 +17,12 @@ export const userLocationQueryOptions = queryOptions<UserLocation>({
       return location
     } catch (_error) {
       toast.error(
-        "Телеграм не дал данные о локации пользователя, используем дефолтные координаты, либо в будущем будем на бeке вычислять по IP",
+        // "TODO: Телеграм не дал данные о локации пользователя, используем дефолтные координаты, либо в будущем будем на бeке вычислять по IP",
+        "User location",
         {
           duration: 3500,
           id: "user-location-error",
+          position: "top-left",
         }
       )
       // TODO: data from api by ip address

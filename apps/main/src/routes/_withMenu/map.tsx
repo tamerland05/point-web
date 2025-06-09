@@ -1,20 +1,19 @@
+import { movedToUserLocationAtom } from "@/atoms/map"
 import { showMenuAtom } from "@/atoms/ui"
 import { MapboxMap } from "@/components/mapbox"
 import { useMapData } from "@/components/mapbox/useMapbox"
 import { PlaceModal } from "@/components/place-modal"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
+import { establishmentsQueryOptions } from "@point/shared/api/point/establishments"
 import { placesQueryOptions } from "@point/shared/api/point/places"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
-import { useSetAtom } from "jotai"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useAtom, useSetAtom } from "jotai"
+import { useCallback, useEffect, useMemo } from "react"
 import { Marker } from "react-map-gl/mapbox"
 import { z } from "zod"
-
-// mapbox as jotai state
-// optimize markers -- maybe use geojson?
 
 const mapSchema = z.object({
   expanded: z.boolean().default(false),
@@ -25,6 +24,10 @@ const mapSchema = z.object({
 export const Route = createFileRoute("/_withMenu/map")({
   component: RouteComponent,
   validateSearch: zodValidator(mapSchema),
+
+  loader: async ({ context: { queryClient } }) => {
+    queryClient.ensureQueryData(establishmentsQueryOptions)
+  },
 })
 
 function RouteComponent() {
@@ -41,8 +44,6 @@ function RouteComponent() {
   // biome-ignore lint/correctness/useExhaustiveDependencies: we can check only lng and lat
   const diagonalCoordinates = useMemo(() => {
     const maxBounds = mapRef?.getBounds()
-
-    console.log(maxBounds)
 
     if (!maxBounds) {
       return {
@@ -90,18 +91,20 @@ function RouteComponent() {
   )
   const places = placesQuery.data
 
-  const [movedToUserLocation, setMovedToUserLocation] = useState(false)
-  // biome-ignore lint/correctness/useExhaustiveDependencies: its ok
+  const [movedToUserLocation, setMovedToUserLocation] = useAtom(movedToUserLocationAtom)
   useEffect(() => {
-    if (mapRef && userLocation && !movedToUserLocation) {
-      mapRef.flyTo({
-        center: [userLocation.longitude, userLocation.latitude],
-        zoom: 15,
-        duration: 2000,
-      })
-      setMovedToUserLocation(true)
-    }
-  }, [userLocation, movedToUserLocation])
+    if (movedToUserLocation) return
+    if (!mapRef) return
+    if (!userLocation.longitude || !userLocation.latitude) return
+
+    mapRef.flyTo({
+      center: [userLocation.longitude, userLocation.latitude],
+      zoom: 15,
+      duration: 2000,
+    })
+
+    setMovedToUserLocation(true)
+  }, [mapRef, userLocation.latitude, userLocation.longitude, movedToUserLocation, setMovedToUserLocation])
 
   const handleSelectPlace = useCallback(
     (placeId: string) => {
@@ -136,8 +139,7 @@ function RouteComponent() {
   useEffect(() => {}, [])
 
   useEffect(() => {
-    const placeObject = places?.find((place) => place.id === selectedPlaceId)
-    if (!selectedPlaceId || !placeObject) {
+    if (!selectedPlaceId) {
       handleCollapseDrawer()
       setMenuVisible(true)
     }
@@ -165,7 +167,7 @@ function RouteComponent() {
         name={places?.find((place) => place.id === selectedPlaceId)?.name}
         address={places?.find((place) => place.id === selectedPlaceId)?.position.address}
         rating={places?.find((place) => place.id === selectedPlaceId)?.rating}
-        drawerExpanded={drawerExpanded}
+        drawerExpanded={!!drawerExpanded}
         handleCloseDrawer={handleCloseDrawer}
         handleExpandDrawer={handleExpandDrawer}
       />

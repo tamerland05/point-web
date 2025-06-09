@@ -58,7 +58,7 @@ function RootComponent() {
       <TonConnectUIProvider manifestUrl="/tonconnect-manifest.json">
         <MapProvider>
           <div
-            className="flex h-screen flex-col overflow-hidden bg-background"
+            className="flex h-screen flex-col overflow-y-auto bg-background"
             style={disableTgSpaces ? {} : tgSpacesStyle}
           >
             <Outlet />

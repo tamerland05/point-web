@@ -15,6 +15,7 @@ import { Route as TestsImport } from './routes/tests'
 import { Route as OnboardingImport } from './routes/onboarding'
 import { Route as WithMenuRouteImport } from './routes/_withMenu/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as MenuIdImport } from './routes/menu.$id'
 import { Route as WithMenuSelectionsImport } from './routes/_withMenu/selections'
 import { Route as WithMenuMapImport } from './routes/_withMenu/map'
 import { Route as WithMenuEarnImport } from './routes/_withMenu/earn'
@@ -43,6 +44,12 @@ const WithMenuRouteRoute = WithMenuRouteImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MenuIdRoute = MenuIdImport.update({
+  id: '/menu/$id',
+  path: '/menu/$id',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -136,6 +143,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WithMenuSelectionsImport
       parentRoute: typeof WithMenuRouteImport
     }
+    '/menu/$id': {
+      id: '/menu/$id'
+      path: '/menu/$id'
+      fullPath: '/menu/$id'
+      preLoaderRoute: typeof MenuIdImport
+      parentRoute: typeof rootRoute
+    }
     '/_withMenu/selections/$id': {
       id: '/_withMenu/selections/$id'
       path: '/$id'
@@ -186,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/earn': typeof WithMenuEarnRoute
   '/map': typeof WithMenuMapRoute
   '/selections': typeof WithMenuSelectionsRouteWithChildren
+  '/menu/$id': typeof MenuIdRoute
   '/selections/$id': typeof WithMenuSelectionsIdRoute
 }
 
@@ -198,6 +213,7 @@ export interface FileRoutesByTo {
   '/earn': typeof WithMenuEarnRoute
   '/map': typeof WithMenuMapRoute
   '/selections': typeof WithMenuSelectionsRouteWithChildren
+  '/menu/$id': typeof MenuIdRoute
   '/selections/$id': typeof WithMenuSelectionsIdRoute
 }
 
@@ -211,6 +227,7 @@ export interface FileRoutesById {
   '/_withMenu/earn': typeof WithMenuEarnRoute
   '/_withMenu/map': typeof WithMenuMapRoute
   '/_withMenu/selections': typeof WithMenuSelectionsRouteWithChildren
+  '/menu/$id': typeof MenuIdRoute
   '/_withMenu/selections/$id': typeof WithMenuSelectionsIdRoute
 }
 
@@ -225,6 +242,7 @@ export interface FileRouteTypes {
     | '/earn'
     | '/map'
     | '/selections'
+    | '/menu/$id'
     | '/selections/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -236,6 +254,7 @@ export interface FileRouteTypes {
     | '/earn'
     | '/map'
     | '/selections'
+    | '/menu/$id'
     | '/selections/$id'
   id:
     | '__root__'
@@ -247,6 +266,7 @@ export interface FileRouteTypes {
     | '/_withMenu/earn'
     | '/_withMenu/map'
     | '/_withMenu/selections'
+    | '/menu/$id'
     | '/_withMenu/selections/$id'
   fileRoutesById: FileRoutesById
 }
@@ -256,6 +276,7 @@ export interface RootRouteChildren {
   WithMenuRouteRoute: typeof WithMenuRouteRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
   TestsRoute: typeof TestsRoute
+  MenuIdRoute: typeof MenuIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -263,6 +284,7 @@ const rootRouteChildren: RootRouteChildren = {
   WithMenuRouteRoute: WithMenuRouteRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
   TestsRoute: TestsRoute,
+  MenuIdRoute: MenuIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -278,7 +300,8 @@ export const routeTree = rootRoute
         "/",
         "/_withMenu",
         "/onboarding",
-        "/tests"
+        "/tests",
+        "/menu/$id"
       ]
     },
     "/": {
@@ -317,6 +340,9 @@ export const routeTree = rootRoute
       "children": [
         "/_withMenu/selections/$id"
       ]
+    },
+    "/menu/$id": {
+      "filePath": "menu.$id.tsx"
     },
     "/_withMenu/selections/$id": {
       "filePath": "_withMenu/selections.$id.tsx",

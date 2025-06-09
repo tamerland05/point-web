@@ -32,6 +32,8 @@ export const placesQueryOptions = (upper: Coordinates, lower: Coordinates, locat
 
       return response.data
     },
+    gcTime: Number.POSITIVE_INFINITY,
+    staleTime: Number.POSITIVE_INFINITY,
   })
 
 export interface DetailedPlaceDTO {
@@ -53,6 +55,7 @@ export interface DetailedPlaceDTO {
       currency: string
     }
   }>
+  channelLink: string | null
 }
 
 export const placeQueryOptions = (placeId?: string) =>
@@ -68,4 +71,6 @@ export const placeQueryOptions = (placeId?: string) =>
 
       return response.data
     },
+    staleTime: 10 * 1000,
+    gcTime: 10 * 1000,
   })

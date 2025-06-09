@@ -8,6 +8,7 @@ export const iconNames = [
   "Globe Europe Africa Fill",
   "Frame 1580",
   "CoinsFill",
+  "ChevronRight",
 ] as const
 
 export type IconName = (typeof iconNames)[number]
