@@ -107,7 +107,7 @@ export const PlaceModal = memo(
                 className="text-base"
                 leftIcon={<Icon name={"MenuBoard"} className="h-7 w-7 rounded-md bg-[#0A78FF] p-1 text-transparent" />}
                 leftTopText="Menu"
-                rightIcon={<Icon name={"ChevronRight"} className="h-3 w-1 text-text-secondary" />}
+                rightIcon={<Icon name={"ChevronRight"} className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
                 onClick={handleNavigateToMenu}
               />
             </List>

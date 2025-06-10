@@ -26,21 +26,24 @@ function RouteComponent() {
   const menu = placeQuery.data?.menu
 
   return (
-    <List title="menu" className="m-4">
-      {menu?.map((menuItem, idx) => (
-        <ListItem
-          // biome-ignore lint/suspicious/noArrayIndexKey: this map will never change
-          key={idx}
-          leftIcon={<img src={menuItem.photo} alt={menuItem.title} className="h-14 w-14 rounded-xl" />}
-          leftTopText={<span className="text-base text-text">{menuItem.title}</span>}
-          leftBottomText={<span className="text-caption-1 text-text-secondary">{menuItem.description}</span>}
-          rightTopText={
-            <span className="whitespace-nowrap text-text-secondary">
-              {menuItem.cost.value} {menuItem.cost.currency}
-            </span>
-          }
-        />
-      ))}
-    </List>
+    <div className="m-4">
+      <List title="menu">
+        {menu?.map((menuItem, idx) => (
+          <ListItem
+            // biome-ignore lint/suspicious/noArrayIndexKey: this map will never change
+            key={idx}
+            leftIcon={<img src={menuItem.photo} alt={menuItem.title} className="h-14 w-14 rounded-xl" />}
+            leftTopText={<span className="text-base text-text">{menuItem.title}</span>}
+            leftBottomText={<span className="text-caption-1 text-text-secondary">{menuItem.description}</span>}
+            rightTopText={
+              <span className="whitespace-nowrap text-text-secondary">
+                {menuItem.cost.value} {menuItem.cost.currency}
+              </span>
+            }
+            withSeparator
+          />
+        ))}
+      </List>
+    </div>
   )
 }
