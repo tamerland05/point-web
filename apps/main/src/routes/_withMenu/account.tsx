@@ -4,60 +4,60 @@ import { TonConnectButton } from "@tonconnect/ui-react"
 import toast from "react-hot-toast"
 
 export const Route = createFileRoute("/_withMenu/account")({
-	component: RouteComponent,
+  component: RouteComponent,
 })
 
 function RouteComponent() {
-	return (
-		<div>
-			Hello "/account"!
-			<TonConnectButton />
-			<div className="my-4 flex flex-col gap-2">
-				<button
-					className="rounded-md bg-accent px-4 py-2 text-white"
-					type="button"
-					onClick={async () => {
-						try {
-							const location = await requestLocation()
-							toast.success(JSON.stringify(location))
-						} catch (error) {
-							toast.error(error instanceof Error ? error.message : "Unknown error")
-						}
-					}}
-				>
-					Request Location
-				</button>
+  return (
+    <div className="">
+      Hello "/account"!
+      <TonConnectButton />
+      <div className="my-4 flex flex-col gap-2">
+        <button
+          className="rounded-md bg-accent px-4 py-2 text-white"
+          type="button"
+          onClick={async () => {
+            try {
+              const location = await requestLocation()
+              toast.success(JSON.stringify(location))
+            } catch (error) {
+              toast.error(error instanceof Error ? error.message : "Unknown error")
+            }
+          }}
+        >
+          Request Location
+        </button>
 
-				<button
-					className="rounded-md bg-accent px-4 py-2 text-white"
-					type="button"
-					onClick={() => {
-						expandViewport()
-					}}
-				>
-					Expand Viewport
-				</button>
+        <button
+          className="rounded-md bg-accent px-4 py-2 text-white"
+          type="button"
+          onClick={() => {
+            expandViewport()
+          }}
+        >
+          Expand Viewport
+        </button>
 
-				<button
-					className="rounded-md bg-accent px-4 py-2 text-white"
-					type="button"
-					onClick={() => {
-						requestFullscreen()
-					}}
-				>
-					Request Fullscreen
-				</button>
+        <button
+          className="rounded-md bg-accent px-4 py-2 text-white"
+          type="button"
+          onClick={() => {
+            requestFullscreen()
+          }}
+        >
+          Request Fullscreen
+        </button>
 
-				<Link className="mt-6 rounded-md bg-accent px-4 py-2 text-center text-white" to="/onboarding">
-					Go to Onboarding
-				</Link>
-			</div>
-			<code className="mt-auto flex flex-col items-center justify-center text-caption-1 text-text-secondary">
-				<div>Point </div>
-				<div>
-					v{__APP_VERSION__} at {__COMMIT_HASH__}
-				</div>
-			</code>
-		</div>
-	)
+        <Link className="mt-6 rounded-md bg-accent px-4 py-2 text-center text-white" to="/onboarding">
+          Go to Onboarding
+        </Link>
+      </div>
+      <code className="mt-auto flex flex-col items-center justify-center text-caption-1 text-text-secondary">
+        <div>Point </div>
+        <div>
+          v{__APP_VERSION__} at {__COMMIT_HASH__}
+        </div>
+      </code>
+    </div>
+  )
 }

@@ -57,15 +57,15 @@ function RouteComponent() {
     disabled: pathname === item.path,
   }))
 
-  const disablePadding = matches.includes("/map")
+  const isMapPage = matches.includes("/map")
 
   return (
     <>
-      <div className="flex-grow overflow-y-auto [view-transition-name:main-content]">
+      <div className="flex-grow overflow-y-auto">
         <div
           className={cn({
             "m-auto box-border flex h-full w-full flex-col": true,
-            "p-4": !disablePadding,
+            "p-4 [view-transition-name:main-content]": !isMapPage,
           })}
         >
           <Outlet />

@@ -28,7 +28,7 @@ function RouteComponent() {
   const menu = placeQuery.data?.menu
 
   return (
-    <div className="m-4">
+    <div className="m-4 [view-transition-name:main-content]">
       <List title="menu">
         {menu?.map((menuItem, idx) => (
           <ListItem

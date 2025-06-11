@@ -172,7 +172,7 @@ function RouteComponent() {
   }, [])
 
   return (
-    <div>
+    <>
       <MapboxMap>
         {places?.map((place) => (
           <Marker
@@ -206,6 +206,6 @@ function RouteComponent() {
           onSelectPlace={handleSelectNearbyPlace}
         />
       )}
-    </div>
+    </>
   )
 }
