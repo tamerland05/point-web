@@ -59,10 +59,6 @@ const router = createRouter({
           return ["none"]
         }
 
-        if (fromLocation?.pathname === "/map" || toLocation?.pathname === "/map") {
-          return ["none"]
-        }
-
         if (isNavigatingInMenu) {
           const fromMenuIndex = menuItems.indexOf(fromLocation?.pathname)
           const toMenuIndex = menuItems.indexOf(toLocation?.pathname)

@@ -52,8 +52,6 @@ export const Drawer = ({
     }
 
     const handleTouchEnd = () => {
-      console.log(currentY - startY)
-
       if (currentY - startY > 40) {
         onClose()
       }

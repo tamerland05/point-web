@@ -49,7 +49,7 @@ export const PlaceModal = memo(
 
     const secondaryButtonConfig = useMemo(
       () => ({
-        title: "Telegram Channel",
+        title: !drawerExpanded ? "" : "Telegram Channel",
         loading: false,
         disabled: false,
         hidden: !id || !data?.channelLink || !drawerExpanded,
@@ -60,11 +60,11 @@ export const PlaceModal = memo(
 
     const mainButtonConfig = useMemo(
       () => ({
-        title: "Send a Tip",
+        title: !drawerExpanded ? "" : "Send a Tip",
         loading: false,
         disabled: false,
         hidden: !id || !drawerExpanded,
-        onClick: () => toast("main button clicked"),
+        onClick: !drawerExpanded ? undefined : () => toast("main button clicked"),
       }),
       [id, drawerExpanded]
     )
@@ -78,7 +78,7 @@ export const PlaceModal = memo(
       <ShowMainButton secondary={secondaryButtonConfig} {...mainButtonConfig}>
         <Drawer
           isOpen={!!id}
-          height={drawerExpanded ? "full" : "lg"}
+          height={drawerExpanded ? "full" : "md"}
           onClose={handleCloseDrawer}
           onExpand={handleExpandDrawer}
           backgroundImage={data?.photo || photo}

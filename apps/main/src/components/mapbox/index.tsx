@@ -25,7 +25,6 @@ export const MapboxMap = memo(
 
     const handleMoveMap = useCallback(
       (evt: ViewStateChangeEvent) => {
-        console.log(evt)
         setLongitude(evt.viewState.longitude)
         setLatitude(evt.viewState.latitude)
         setZoom(evt.viewState.zoom)

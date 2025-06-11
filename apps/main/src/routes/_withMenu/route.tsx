@@ -51,13 +51,15 @@ function RouteComponent() {
     icon: <Icon name={item.icon} className="h-10 w-10" />,
     onClick: () => {
       hapticFeedback.impactOccurred("medium")
-      navigate({ to: item.path, viewTransition: item.path === "/map" || pathname === "/map" ? false : undefined })
+      navigate({ to: item.path })
     },
     active: matches.includes(item.path),
     disabled: pathname === item.path,
   }))
 
   const disablePadding = matches.includes("/map")
+
+  console.log({ showMenu })
 
   return (
     <>

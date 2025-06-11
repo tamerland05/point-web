@@ -1,8 +1,8 @@
-import { movedToUserLocationAtom } from "@/atoms/map"
+import { NearbyModalStates, movedToUserLocationAtom, nearbyModalStateAtom } from "@/atoms/map"
 import { showMenuAtom } from "@/atoms/ui"
 import { MapboxMap } from "@/components/mapbox"
 import { useMapData } from "@/components/mapbox/useMapbox"
-import { NearbyModal, type NearbyModalState, NearbyModalStates } from "@/components/nearby-modal"
+import { NearbyModal } from "@/components/nearby-modal"
 import { PlaceModal } from "@/components/place-modal"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 import { establishmentsQueryOptions } from "@point/shared/api/point/establishments"
@@ -13,7 +13,7 @@ import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import { useAtom, useSetAtom } from "jotai"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { Marker } from "react-map-gl/mapbox"
 import { z } from "zod"
 
@@ -37,6 +37,7 @@ function RouteComponent() {
   const { selectedPlaceId, expanded: drawerExpanded } = Route.useSearch()
 
   const setMenuVisible = useSetAtom(showMenuAtom)
+  const setNearbyModalState = useSetAtom(nearbyModalStateAtom)
 
   const userLocationQuery = useSuspenseQuery(userLocationQueryOptions)
   const userLocation = userLocationQuery.data
@@ -118,52 +119,36 @@ function RouteComponent() {
     [navigate, setMenuVisible]
   )
 
-  const handleCloseDrawer = useCallback(() => {
-    navigate({
-      search: (prev) => ({ ...prev, selectedPlaceId: "" }),
-    })
-  }, [navigate])
-
   const handleExpandDrawer = useCallback(() => {
     navigate({
       search: (prev) => ({ ...prev, expanded: true }),
     })
-    // mb just navigate with view transition
-  }, [navigate])
+    setMenuVisible(false)
+    setNearbyModalState(NearbyModalStates.PIMP_ONLY)
+  }, [navigate, setMenuVisible, setNearbyModalState])
 
-  const handleCollapseDrawer = useCallback(() => {
+  const handleCloseDrawer = useCallback(() => {
     navigate({
-      search: (prev) => ({ ...prev, expanded: false }),
+      search: (prev) => ({ ...prev, expanded: false, selectedPlaceId: "" }),
     })
-    // mb just navigate with view transition
-  }, [navigate])
-
-  const [nearbyModalState, setNearbyModalState] = useState<NearbyModalState>(NearbyModalStates.DEFAULT)
-
-  useEffect(() => {
-    if (!selectedPlaceId && nearbyModalState) {
-      handleCollapseDrawer()
-      setMenuVisible(true)
-    } else {
-      handleHideNearbyModal()
-      setMenuVisible(false)
-    }
-  }, [selectedPlaceId, setMenuVisible, handleCollapseDrawer])
+    setMenuVisible(true)
+    setNearbyModalState(NearbyModalStates.PIMP_ONLY)
+  }, [navigate, setMenuVisible, setNearbyModalState])
 
   const handleExpandNearbyModal = useCallback(() => {
     setNearbyModalState(NearbyModalStates.EXPANDED)
     setMenuVisible(false)
-  }, [setMenuVisible])
+  }, [setMenuVisible, setNearbyModalState])
 
   const handleShowNearbyModal = useCallback(() => {
     setNearbyModalState(NearbyModalStates.DEFAULT)
     setMenuVisible(true)
-  }, [setMenuVisible])
+  }, [setMenuVisible, setNearbyModalState])
 
   const handleHideNearbyModal = useCallback(() => {
     setNearbyModalState(NearbyModalStates.PIMP_ONLY)
     setMenuVisible(true)
-  }, [setMenuVisible])
+  }, [setMenuVisible, setNearbyModalState])
 
   const handleSelectNearbyPlace = useCallback(
     async (placeId: string, longitude: number, latitude: number) => {
@@ -178,6 +163,13 @@ function RouteComponent() {
     },
     [handleSelectPlace, handleHideNearbyModal, mapRef]
   )
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: only on init component for detecting correct menu state
+  useEffect(() => {
+    if (selectedPlaceId) {
+      setMenuVisible(false)
+    }
+  }, [])
 
   return (
     <div>
@@ -208,7 +200,6 @@ function RouteComponent() {
 
       {!selectedPlaceId && (
         <NearbyModal
-          state={nearbyModalState}
           onExpand={handleExpandNearbyModal}
           onShow={handleShowNearbyModal}
           onHide={handleHideNearbyModal}
