@@ -1,5 +1,4 @@
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
-import { useNavigate } from "@tanstack/react-router"
 import { memo, useMemo, useState } from "react"
 
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
@@ -33,8 +32,6 @@ interface NearbyModalProps {
 
 export const NearbyModal = memo(
   ({ state = NearbyModalStates.DEFAULT, onExpand, onShow, onHide, onSelectPlace }: NearbyModalProps) => {
-    const navigate = useNavigate({ from: "/map" })
-
     const userLocationQuery = useSuspenseQuery(userLocationQueryOptions)
     const userLocation = userLocationQuery.data
 
@@ -43,6 +40,7 @@ export const NearbyModal = memo(
 
     const establishmentsQuery = useQuery(establishmentsQueryOptions)
     const establishments = establishmentsQuery.data
+    console.log(establishments)
 
     const placesQuery = useQuery(placesNearQueryOptions(debouncedSearch, userLocation))
     const places = placesQuery.data
