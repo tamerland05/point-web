@@ -1,9 +1,11 @@
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+import Image from "react-cool-img"
+
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { placeQueryOptions } from "@point/shared/api/point/places"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
-import { useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/menu/$id")({
   component: RouteComponent,
@@ -32,7 +34,11 @@ function RouteComponent() {
           <ListItem
             // biome-ignore lint/suspicious/noArrayIndexKey: this map will never change
             key={idx}
-            leftIcon={<img src={menuItem.photo} alt={menuItem.title} className="h-14 w-14 rounded-xl" />}
+            leftIcon={
+              menuItem.photo && (
+                <Image src={menuItem.photo} alt={menuItem.title} className="h-14 w-14 rounded-xl object-cover" />
+              )
+            }
             leftTopText={<span className="text-base text-text">{menuItem.title}</span>}
             leftBottomText={<span className="text-caption-1 text-text-secondary">{menuItem.description}</span>}
             rightTopText={

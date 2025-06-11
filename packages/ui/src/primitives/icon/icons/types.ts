@@ -5,6 +5,7 @@ export const iconNames = [
   "Vector",
   "User Circle Outline",
   "Shape",
+  "Group 3",
   "Globe Europe Africa Fill",
   "Frame 1580",
   "CoinsFill",

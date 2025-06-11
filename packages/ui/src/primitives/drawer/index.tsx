@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 
 interface DrawerProps {
   children: React.ReactNode
-  height?: "full" | "xl" | "lg" | "md" | "sm"
+  height?: "full" | "xl" | "lg" | "md" | "sm" | "pimp-only"
 
   backgroundImage?: string
   disableScroll?: boolean
@@ -76,7 +76,7 @@ export const Drawer = ({
   }, [isOpen, onClose, height, onExpand])
 
   return (
-    <dialog className="z-40 flex">
+    <dialog className={cn("z-40 flex", { "z-20": height === "pimp-only" })}>
       <div
         ref={drawerRef}
         className={cn(
@@ -88,6 +88,7 @@ export const Drawer = ({
             "h-4/6": height === "lg",
             "h-3/6": height === "md",
             "h-2/6": height === "sm",
+            "h-28": height === "pimp-only",
           }
         )}
         role="presentation"
@@ -96,7 +97,7 @@ export const Drawer = ({
           {!!backgroundImage && (
             <div
               style={{ backgroundImage: `url(${backgroundImage})` }}
-              className={cn("left-0 h-32 w-full rounded-t-2xl bg-black/50 bg-center bg-cover bg-no-repeat", {
+              className={cn("left-0 h-32 w-full rounded-t-2xl bg-black/10 bg-center bg-cover bg-no-repeat", {
                 "rounded-t-none": height === "full",
               })}
             />
@@ -107,7 +108,7 @@ export const Drawer = ({
               "absolute bottom-0 left-0 ": !!backgroundImage,
             })}
           >
-            <div className="h-1 w-8 rounded-full bg-text-secondary" />
+            <div className="h-1 w-8 rounded-full bg-[#CBCBCB]" />
           </div>
         </div>
 

@@ -83,9 +83,9 @@ export const ListItem: React.FC<ListItemProps> = ({
           "": withSeparator,
         })}
       >
-        {!!leftTopText && <span className="text-headline text-text">{leftTopText}</span>}
+        {!!leftTopText && <span className="text-base text-text">{leftTopText}</span>}
 
-        {!!leftBottomText && <span className="text-subhead text-text-secondary">{leftBottomText}</span>}
+        {!!leftBottomText && <span className="text-caption-1 text-text-secondary">{leftBottomText}</span>}
       </div>
     </div>
     <div
@@ -95,9 +95,9 @@ export const ListItem: React.FC<ListItemProps> = ({
     >
       {(!!rightTopText || !!rightBottomText) && (
         <div className="flex flex-col text-right">
-          {!!rightTopText && <span className="text-headline text-text">{rightTopText}</span>}
+          {!!rightTopText && <span className="text-base text-text">{rightTopText}</span>}
 
-          {!!rightBottomText && <span className="text-subhead text-text-secondary">{rightBottomText}</span>}
+          {!!rightBottomText && <span className="text-caption-1 text-text-secondary">{rightBottomText}</span>}
         </div>
       )}
 

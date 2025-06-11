@@ -74,3 +74,23 @@ export const placeQueryOptions = (placeId?: string) =>
     staleTime: 10 * 1000,
     gcTime: 10 * 1000,
   })
+
+interface PlacesNearReq {
+  name: string
+  location: Coordinates
+}
+
+export const placesNearQueryOptions = (name: string, location: Coordinates) =>
+  queryOptions({
+    queryKey: ["places", name, location],
+    queryFn: async () => {
+      const response = await pointAxiosInstance.post<PlaceDTO[], AxiosResponse<PlaceDTO[]>, PlacesNearReq>(
+        "/point/map/places/near",
+        { name, location }
+      )
+
+      return response.data
+    },
+    gcTime: Number.POSITIVE_INFINITY,
+    staleTime: Number.POSITIVE_INFINITY,
+  })

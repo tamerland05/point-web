@@ -1,5 +1,8 @@
 import { useQuery } from "@tanstack/react-query"
+import { useNavigate } from "@tanstack/react-router"
 import { memo, useCallback, useMemo } from "react"
+import Image from "react-cool-img"
+import toast from "react-hot-toast"
 
 import { establishmentsQueryOptions } from "@point/shared/api/point/establishments"
 import { placeQueryOptions } from "@point/shared/api/point/places"
@@ -9,8 +12,7 @@ import { HorizontalScroller } from "@point/ui/horizontal-scroller"
 import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
-import { useNavigate } from "@tanstack/react-router"
-import toast from "react-hot-toast"
+
 import { ShowMainButton } from "../tg-internals"
 
 interface PlaceModalProps {
@@ -126,7 +128,7 @@ export const PlaceModal = memo(
                         isSnapPoint && "snap-start"
                       )}
                     >
-                      <img alt={data?.name} className="h-full w-full rounded-2xl object-cover" src={item} />
+                      <Image alt={data?.name} className="h-full w-full rounded-2xl object-cover" src={item} />
                     </li>
                   )}
                   showDots={false}
@@ -152,7 +154,7 @@ export const PlaceModal = memo(
                   <ListItem
                     // biome-ignore lint/suspicious/noArrayIndexKey: this map will never change
                     key={idx}
-                    leftIcon={<img src={menuItem.photo} alt={menuItem.title} className="h-14 w-14 rounded-xl" />}
+                    leftIcon={<Image src={menuItem.photo} alt={menuItem.title} className="h-14 w-14 rounded-xl" />}
                     leftTopText={<span className="text-base text-text">{menuItem.title}</span>}
                     leftBottomText={<span className="text-caption-1 text-text-secondary">{menuItem.description}</span>}
                     rightTopText={

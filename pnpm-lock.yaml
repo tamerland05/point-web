@@ -77,6 +77,9 @@ importers:
       react:
         specifier: 19.1.0
         version: 19.1.0
+      react-cool-img:
+        specifier: ^1.2.12
+        version: 1.2.12(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-dom:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
@@ -252,6 +255,9 @@ importers:
       react:
         specifier: ^19.1.0
         version: 19.1.0
+      react-cool-img:
+        specifier: ^1.2.12
+        version: 1.2.12(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-dom:
         specifier: ^19.1.0
         version: 19.1.0(react@19.1.0)
@@ -2945,6 +2951,12 @@ packages:
 
   quickselect@3.0.0:
     resolution: {integrity: sha512-XdjUArbK4Bm5fLLvlm5KpTFOiOThgfWWI4axAZDWg4E/0mKdZyI9tNEfds27qCi1ze/vwTR16kvmmGhRra3c2g==}
+
+  react-cool-img@1.2.12:
+    resolution: {integrity: sha512-HambbjVszVVCNAEps+wReo9znzhgpq/72DCRvz4ahKkubEUV/ij0WH3RCQ37rcAPezhchpH75VutDE/ENgWegA==}
+    peerDependencies:
+      react: '>= 16.8.0'
+      react-dom: '>= 16.8.0'
 
   react-docgen-typescript@2.2.2:
     resolution: {integrity: sha512-tvg2ZtOpOi6QDwsb3GZhOjDkkX0h8Z2gipvTg6OVMUyoYoURhEiRNePT8NZItTVCDh39JJHnLdfCOkzoLbFnTg==}
@@ -6233,6 +6245,11 @@ snapshots:
   queue-microtask@1.2.3: {}
 
   quickselect@3.0.0: {}
+
+  react-cool-img@1.2.12(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   react-docgen-typescript@2.2.2(typescript@5.8.3):
     dependencies:

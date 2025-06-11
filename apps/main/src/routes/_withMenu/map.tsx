@@ -2,16 +2,18 @@ import { movedToUserLocationAtom } from "@/atoms/map"
 import { showMenuAtom } from "@/atoms/ui"
 import { MapboxMap } from "@/components/mapbox"
 import { useMapData } from "@/components/mapbox/useMapbox"
+import { NearbyModal, type NearbyModalState, NearbyModalStates } from "@/components/nearby-modal"
 import { PlaceModal } from "@/components/place-modal"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 import { establishmentsQueryOptions } from "@point/shared/api/point/establishments"
 import { placesQueryOptions } from "@point/shared/api/point/places"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
+import { sleep } from "@point/shared/utils/sleep"
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import { useAtom, useSetAtom } from "jotai"
-import { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { Marker } from "react-map-gl/mapbox"
 import { z } from "zod"
 
@@ -136,14 +138,46 @@ function RouteComponent() {
     // mb just navigate with view transition
   }, [navigate])
 
-  useEffect(() => {}, [])
+  const [nearbyModalState, setNearbyModalState] = useState<NearbyModalState>(NearbyModalStates.DEFAULT)
 
   useEffect(() => {
-    if (!selectedPlaceId) {
+    if (!selectedPlaceId && nearbyModalState) {
       handleCollapseDrawer()
       setMenuVisible(true)
+    } else {
+      handleHideNearbyModal()
+      setMenuVisible(false)
     }
   }, [selectedPlaceId, setMenuVisible, handleCollapseDrawer])
+
+  const handleExpandNearbyModal = useCallback(() => {
+    setNearbyModalState(NearbyModalStates.EXPANDED)
+    setMenuVisible(false)
+  }, [setMenuVisible])
+
+  const handleShowNearbyModal = useCallback(() => {
+    setNearbyModalState(NearbyModalStates.DEFAULT)
+    setMenuVisible(true)
+  }, [setMenuVisible])
+
+  const handleHideNearbyModal = useCallback(() => {
+    setNearbyModalState(NearbyModalStates.PIMP_ONLY)
+    setMenuVisible(true)
+  }, [setMenuVisible])
+
+  const handleSelectNearbyPlace = useCallback(
+    async (placeId: string, longitude: number, latitude: number) => {
+      handleHideNearbyModal()
+      mapRef?.flyTo({
+        center: [longitude, latitude],
+        zoom: 15,
+        duration: 1000,
+      })
+      await sleep(1000)
+      handleSelectPlace(placeId)
+    },
+    [handleSelectPlace, handleHideNearbyModal, mapRef]
+  )
 
   return (
     <div>
@@ -171,6 +205,16 @@ function RouteComponent() {
         handleCloseDrawer={handleCloseDrawer}
         handleExpandDrawer={handleExpandDrawer}
       />
+
+      {!selectedPlaceId && (
+        <NearbyModal
+          state={nearbyModalState}
+          onExpand={handleExpandNearbyModal}
+          onShow={handleShowNearbyModal}
+          onHide={handleHideNearbyModal}
+          onSelectPlace={handleSelectNearbyPlace}
+        />
+      )}
     </div>
   )
 }

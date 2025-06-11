@@ -6,33 +6,33 @@ import { backButton, hideBackButton, showBackButton } from "@telegram-apps/sdk-r
 const routesWithoutBB = ["/account", "/map", "/earn", "/selections", "/selections/$id"]
 
 export const BackButtonTMA = () => {
-	const router = useRouter()
-	const canGoBack = useCanGoBack()
-	const matches = useMatches()
-	const backButtonExclude = matches.some((match) => routesWithoutBB.includes(match.pathname))
+  const router = useRouter()
+  const canGoBack = useCanGoBack()
+  const matches = useMatches()
+  const backButtonExclude = matches.some((match) => routesWithoutBB.includes(match.pathname))
 
-	const handleBackClick = useCallback(() => {
-		router.history.back()
+  const handleBackClick = useCallback(() => {
+    router.history.back()
 
-		return
-	}, [router])
+    return
+  }, [router])
 
-	useEffect(() => {
-		backButton.onClick(handleBackClick)
-		hideBackButton()
-	}, [handleBackClick])
+  useEffect(() => {
+    backButton.onClick(handleBackClick)
+    hideBackButton()
+  }, [handleBackClick])
 
-	useEffect(() => {
-		if (!backButtonExclude && canGoBack) {
-			showBackButton()
-		} else {
-			hideBackButton()
-		}
+  useEffect(() => {
+    if (!backButtonExclude && canGoBack) {
+      showBackButton()
+    } else {
+      hideBackButton()
+    }
 
-		return () => {
-			hideBackButton()
-		}
-	}, [backButtonExclude, canGoBack])
+    return () => {
+      hideBackButton()
+    }
+  }, [backButtonExclude, canGoBack])
 
-	return null
+  return null
 }
