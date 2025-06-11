@@ -12,15 +12,23 @@ RUN npm install -g pnpm@10.2.0
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY .npmrc ./
 
-# Copy all package.json files to install dependencies
-COPY apps/main/package.json ./apps/main/
-COPY packages/*/package.json ./packages/*/
+# Create directory structure and copy package.json files for dependency installation
+RUN mkdir -p apps/main packages/ui packages/shared packages/typescript-config packages/i18n packages/tailwind-config packages/assets
 
-# Install dependencies
+COPY apps/main/package.json ./apps/main/
+COPY packages/ui/package.json ./packages/ui/
+COPY packages/shared/package.json ./packages/shared/
+COPY packages/typescript-config/package.json ./packages/typescript-config/
+COPY packages/i18n/package.json ./packages/i18n/
+COPY packages/tailwind-config/package.json ./packages/tailwind-config/
+COPY packages/assets/package.json ./packages/assets/
+
+# Install dependencies (this layer will be cached if package.json files don't change)
 RUN pnpm install --frozen-lockfile
 
-# Copy source code
-COPY . .
+# Copy source code (this will invalidate cache only when source changes)
+COPY apps/ ./apps/
+COPY packages/ ./packages/
 
 # Build the main application
 RUN pnpm run build --filter=@point/main
