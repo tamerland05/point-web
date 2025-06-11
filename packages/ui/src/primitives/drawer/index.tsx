@@ -5,6 +5,8 @@ import { useEffect, useRef } from "react"
 interface DrawerProps {
   children: React.ReactNode
   height?: "full" | "xl" | "lg" | "md" | "sm" | "pimp-only"
+  standalone?: boolean
+  additionalTopSpace?: number
 
   backgroundImage?: string
   disableScroll?: boolean
@@ -17,6 +19,8 @@ interface DrawerProps {
 export const Drawer = ({
   children,
   height = "md",
+  standalone = false,
+  additionalTopSpace,
   backgroundImage,
   isOpen,
   onClose,
@@ -83,12 +87,16 @@ export const Drawer = ({
           "fixed bottom-0 left-0 flex h-[60%] w-full translate-y-full transform flex-col rounded-t-2xl bg-background shadow-lg transition-all duration-500",
           {
             "translate-y-0": isOpen,
-            "h-full rounded-t-none": height === "full",
+            // TODO: remove this hack, need to find a better way to handle this
+            "h-full rounded-t-none": height === "full" && !additionalTopSpace,
+            "h-[calc(100%-100px)] rounded-t-none": height === "full" && additionalTopSpace,
             "h-5/6": height === "xl",
             "h-4/6": height === "lg",
             "h-3/6": height === "md",
             "h-2/6": height === "sm",
-            "h-28": height === "pimp-only",
+            // TODO: remove this hack, need to find a better way to handle this
+            "h-30": height === "pimp-only" && standalone,
+            "h-28": height === "pimp-only" && !standalone,
           }
         )}
         role="presentation"

@@ -52,10 +52,10 @@ export const PlaceModal = memo(
         title: "Telegram Channel",
         loading: false,
         disabled: false,
-        hidden: !data?.channelLink || !drawerExpanded,
+        hidden: !id || !data?.channelLink || !drawerExpanded,
         onClick: () => toast("secondary button clicked"),
       }),
-      [data?.channelLink, drawerExpanded]
+      [id, data?.channelLink, drawerExpanded]
     )
 
     const mainButtonConfig = useMemo(
@@ -63,10 +63,10 @@ export const PlaceModal = memo(
         title: "Send a Tip",
         loading: false,
         disabled: false,
-        hidden: !drawerExpanded,
+        hidden: !id || !drawerExpanded,
         onClick: () => toast("main button clicked"),
       }),
-      [drawerExpanded]
+      [id, drawerExpanded]
     )
 
     const slicedMenu = useMemo(() => {

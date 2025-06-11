@@ -10,6 +10,7 @@ import { Drawer } from "@point/ui/drawer"
 import { Input } from "@point/ui/input"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
+import { useLaunchParams, useSignal, viewport } from "@telegram-apps/sdk-react"
 import Img from "react-cool-img"
 
 export const NearbyModalStates = {
@@ -34,6 +35,11 @@ export const NearbyModal = memo(
   ({ state = NearbyModalStates.DEFAULT, onExpand, onShow, onHide, onSelectPlace }: NearbyModalProps) => {
     const userLocationQuery = useSuspenseQuery(userLocationQueryOptions)
     const userLocation = userLocationQuery.data
+    const lp = useLaunchParams()
+
+    const inset = useSignal(viewport.safeAreaInsets)
+    const contentInset = useSignal(viewport.contentSafeAreaInsets)
+    const additionalTopSpace = useMemo(() => inset.top + contentInset.top, [inset, contentInset])
 
     const [search, setSearch] = useState("")
     const debouncedSearch = useDebounce(search, 500)
@@ -57,6 +63,8 @@ export const NearbyModal = memo(
       <Drawer
         isOpen={state !== NearbyModalStates.HIDDEN}
         height={height}
+        standalone={lp.tgWebAppPlatform === "ios"}
+        additionalTopSpace={additionalTopSpace}
         backgroundImage={undefined}
         disableScroll
         onExpand={state === NearbyModalStates.PIMP_ONLY ? onShow : onExpand}
