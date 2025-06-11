@@ -60,7 +60,7 @@ const router = createRouter({
         }
 
         if (fromLocation?.pathname === "/map" || toLocation?.pathname === "/map") {
-          return ["none"]
+          return false
         }
 
         if (isNavigatingInMenu) {
