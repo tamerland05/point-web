@@ -59,8 +59,6 @@ function RouteComponent() {
 
   const disablePadding = matches.includes("/map")
 
-  console.log({ showMenu })
-
   return (
     <>
       <div className="flex-grow overflow-y-auto [view-transition-name:main-content]">

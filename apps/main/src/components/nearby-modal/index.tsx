@@ -37,6 +37,7 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
 
   const establishmentsQuery = useQuery(establishmentsQueryOptions)
   const _establishments = establishmentsQuery.data
+  console.log(_establishments)
 
   const placesQuery = useQuery(placesNearQueryOptions(debouncedSearch, userLocation))
   const places = placesQuery.data
