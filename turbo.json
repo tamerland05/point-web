@@ -5,8 +5,8 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", "!eslint.config.js"],
-      "outputs": ["dist/**"],
+      "inputs": ["$TURBO_DEFAULT$", "!eslint.config.js", ".env*"],
+      "outputs": ["**/dist/**"],
       "env": ["VITE_MAPBOX_TOKEN", "VITE_POINT_API_FQDN", "VITE_GLITCHTIP_DSN"]
     },
     "typecheck": {
