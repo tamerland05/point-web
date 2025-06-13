@@ -23,7 +23,8 @@
         { "src": "pnpm-workspace.yaml", "dest": "pnpm-workspace.yaml" },
         { "src": "tsconfig.json", "dest": "tsconfig.json" },
         { "src": "package.json", "dest": "package.json" },
-        { "src": "turbo.json", "dest": "turbo.json" }
+        { "src": "turbo.json", "dest": "turbo.json" },
+        { "src": ".env", "dest": ".env" }
       ]
     },
     "install": {
