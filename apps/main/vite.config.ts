@@ -36,7 +36,7 @@ export default defineConfig({
     port: 1111,
     proxy: {
       "/point-api": {
-        target: "https://point-dev-back.meyson.tech/api",
+        target: "https://api.point.yachts/api",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/point-api/, ""),
       },
@@ -50,5 +50,3 @@ export default defineConfig({
 
   envDir: "../../",
 })
-
-console.log("process.env", process.env)
