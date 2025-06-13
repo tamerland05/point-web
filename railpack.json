@@ -1,5 +1,7 @@
 {
   "$schema": "https://schema.railpack.com",
+  "buildAptPackages": ["build-essential python3"],
+  "provider": "node",
   "caches": {
     "node-modules": {
       "directory": "/app/node_modules/.cache",
@@ -11,5 +13,53 @@
     }
   },
 
-  "env": ["VITE_MAPBOX_TOKEN", "VITE_POINT_API_FQDN", "VITE_GLITCHTIP_DSN"]
+  "steps": {
+    "copy": {
+      "inputs": [{ "step": "packages:mise" }],
+      "commands": [
+        { "src": "apps/main", "dest": "apps/main" },
+        { "src": "packages", "dest": "packages" },
+        { "src": "pnpm-lock.yaml", "dest": "pnpm-lock.yaml" },
+        { "src": "pnpm-workspace.yaml", "dest": "pnpm-workspace.yaml" },
+        { "src": "tsconfig.json", "dest": "tsconfig.json" },
+        { "src": "package.json", "dest": "package.json" },
+        { "src": "turbo.json", "dest": "turbo.json" }
+      ]
+    },
+    "install": {
+      "inputs": [{ "step": "copy" }],
+      "commands": [{ "cmd": "pnpm install" }],
+      "variables": {
+        "CI": "true",
+        "NODE_ENV": "production"
+      }
+    },
+    "build": {
+      "caches": ["node-modules", "turbo-repo"],
+      "inputs": [{ "step": "install" }],
+      "commands": [{ "cmd": "pnpm run build" }],
+      "secrets": ["*"]
+    }
+  },
+  "deploy": {
+    "inputs": [
+      {
+        "step": "packages:mise",
+        "include": [
+          "/mise/shims",
+          "/mise/installs",
+          "/usr/local/bin/mise",
+          "/etc/mise/config.toml",
+          "/root/.local/state/mise"
+        ]
+      },
+      {
+        "step": "build",
+        "include": ["."]
+      }
+    ]
+  },
+
+  "env": ["VITE_MAPBOX_TOKEN", "VITE_POINT_API_FQDN", "VITE_GLITCHTIP_DSN"],
+  "secrets": ["VITE_MAPBOX_TOKEN", "VITE_POINT_API_FQDN", "VITE_GLITCHTIP_DSN"]
 }
