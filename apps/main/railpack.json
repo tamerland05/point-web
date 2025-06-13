@@ -1,9 +1,0 @@
-{
-  "$schema": "https://railway.com/docs/deploy/variables/schema",
-  "build": {
-    "variables": ["*"]
-  },
-  "deploy": {
-    "variables": ["*"]
-  }
-}

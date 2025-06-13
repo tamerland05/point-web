@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "install": {
+    "variables": ["VITE_POINT_API_FQDN", "VITE_MAPBOX_TOKEN", "VITE_GLITCHTIP_DSN"]
+  },
+  "build": {
+    "variables": ["VITE_POINT_API_FQDN", "VITE_MAPBOX_TOKEN", "VITE_GLITCHTIP_DSN"]
+  },
+  "deploy": {
+    "variables": ["VITE_POINT_API_FQDN", "VITE_MAPBOX_TOKEN", "VITE_GLITCHTIP_DSN"]
+  },
+  "secrets": ["VITE_POINT_API_FQDN", "VITE_MAPBOX_TOKEN", "VITE_GLITCHTIP_DSN"]
+}
