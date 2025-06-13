@@ -1,5 +1,7 @@
 import axios from "axios"
 
+console.log("process.env in shared", process.env)
+
 export const POINT_API_FQDN = "https://point-dev-back.meyson.tech/api"
 // export const POINT_API_FQDN = "/point-api"
 
