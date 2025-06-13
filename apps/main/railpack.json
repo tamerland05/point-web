@@ -1,9 +1,9 @@
 {
   "$schema": "https://railway.com/docs/deploy/variables/schema",
   "build": {
-    "secrets": ["*"]
+    "variables": ["*"]
   },
   "deploy": {
-    "secrets": ["*"]
+    "variables": ["*"]
   }
 }
