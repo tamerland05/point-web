@@ -1,0 +1,23 @@
+:8000 {
+	# Указываем корневую папку для статики
+	root * /usr/share/caddy
+
+	# Включаем сжатие
+	encode zstd gzip
+
+	# Добавляем заголовки безопасности
+	header {
+		X-Content-Type-Options "nosniff"
+		-Server
+	}
+
+	# Эндпоинт для проверки состояния
+	respond /health 200
+
+	# Обработка роутинга для SPA
+	# Если файл по запрошенному пути не найден, отдаем index.html
+	try_files {path} /index.html
+
+	# Раздаем статические файлы
+	file_server
+}

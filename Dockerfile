@@ -22,8 +22,12 @@ FROM caddy:2-alpine
 # Set the port to 8000
 EXPOSE 8000
 
+# Copy Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
+
 # Copy the built static files from the builder stage
 COPY --from=builder /app/apps/main/dist /usr/share/caddy
 
-# Command to run Caddy and serve files
-CMD ["caddy", "file-server", "--listen", ":8000", "--root", "/usr/share/caddy"]
+# Command to run Caddy with the Caddyfile
+# Caddy will automatically find and use /etc/caddy/Caddyfile
+CMD ["caddy", "run"]
