@@ -44,7 +44,6 @@ export default defineConfig({
   },
 
   define: {
-    "process.env": "process.env",
     __APP_VERSION__: JSON.stringify(packageConfig.version),
     __COMMIT_HASH__: JSON.stringify(commitHash),
   },
@@ -53,4 +52,3 @@ export default defineConfig({
 })
 
 console.log("process.env", process.env)
-console.log("import.meta.env", import.meta.env)
