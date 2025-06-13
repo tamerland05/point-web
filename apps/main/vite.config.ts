@@ -1,6 +1,4 @@
 import * as child from "node:child_process"
-import { existsSync, readFileSync } from "node:fs"
-import { resolve } from "node:path"
 
 import tailwindcss from "@tailwindcss/vite"
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
@@ -52,16 +50,3 @@ export default defineConfig({
 
   envDir: "../../",
 })
-
-console.log("process.env", process.env)
-
-const rootEnvPath = resolve(__dirname, "../../.env")
-const localEnvPath = resolve(__dirname, "./.env")
-
-if (existsSync(rootEnvPath)) {
-  console.log("Root .env contents:", readFileSync(rootEnvPath, "utf-8"))
-}
-
-if (existsSync(localEnvPath)) {
-  console.log("Local .env contents:", readFileSync(localEnvPath, "utf-8"))
-}

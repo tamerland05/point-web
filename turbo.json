@@ -1,13 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalPassThroughEnv": ["VERCEL_URL", "NODE_ENV", "CI", "SKIP_ENV_VALIDATION", "PORT"],
   "ui": "tui",
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", "!eslint.config.js", ".env*"],
-      "outputs": ["**/dist/**"],
-      "env": ["VITE_MAPBOX_TOKEN", "VITE_POINT_API_FQDN", "VITE_GLITCHTIP_DSN"]
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["**/dist/**"]
     },
     "typecheck": {
       "dependsOn": ["^build"],
@@ -18,7 +16,7 @@
       "dependsOn": ["^build"],
       "cache": false,
       "persistent": true,
-      "inputs": ["$TURBO_DEFAULT$", "!eslint.config.js"],
+      "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["dist/**"]
     },
     "//#format-and-lint": {},

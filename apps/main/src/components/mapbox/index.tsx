@@ -3,12 +3,12 @@ import MapComp, { Marker, type ViewStateChangeEvent } from "react-map-gl/mapbox"
 
 import "mapbox-gl/dist/mapbox-gl.css"
 import { langitudeAtom, latitudeAtom, zoomAtom } from "@/atoms/map"
+import { VITE_MAPBOX_TOKEN_DEV, VITE_MAPBOX_TOKEN_PROD } from "@/constants/environments"
 import { MAP_ID } from "@/constants/map"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { useAtom } from "jotai"
-console.log("import.meta.env in mapbox file", import.meta.env)
-console.log("process.env in mapbox file", process.env)
+
 interface MapboxMapProps {
   children: React.ReactNode
 }
@@ -33,9 +33,6 @@ export const MapboxMap = memo(
       [setLongitude, setLatitude, setZoom]
     )
 
-    console.log("import.meta.env in mapbox component", import.meta.env)
-    console.log("process.env in mapbox component", process.env)
-
     const userLocationQuery = useSuspenseQuery(userLocationQueryOptions)
     const userLocation = userLocationQuery.data
 
@@ -44,7 +41,7 @@ export const MapboxMap = memo(
         id={MAP_ID}
         reuseMaps
         onMove={handleMoveMap}
-        mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
+        mapboxAccessToken={import.meta.env.DEV ? VITE_MAPBOX_TOKEN_DEV : VITE_MAPBOX_TOKEN_PROD}
         mapStyle="mapbox://styles/mapbox/streets-v9"
         style={mapStyle}
         longitude={longitude}
