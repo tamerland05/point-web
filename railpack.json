@@ -1,13 +1,24 @@
 {
   "$schema": "https://schema.railpack.com",
+  "caches": {
+    "node-modules": {
+      "directory": "/app/node_modules/.cache",
+      "type": "shared"
+    },
+    "turbo-repo": {
+      "directory": "/app/.turbo/cache",
+      "type": "shared"
+    }
+  },
   "install": {
-    "variables": ["VITE_POINT_API_FQDN", "VITE_MAPBOX_TOKEN", "VITE_GLITCHTIP_DSN"]
+    "secrets": ["*"]
   },
   "build": {
-    "variables": ["VITE_POINT_API_FQDN", "VITE_MAPBOX_TOKEN", "VITE_GLITCHTIP_DSN"]
+    "caches": ["node-modules", "turbo-repo"],
+    "secrets": ["*"]
   },
   "deploy": {
-    "variables": ["VITE_POINT_API_FQDN", "VITE_MAPBOX_TOKEN", "VITE_GLITCHTIP_DSN"]
+    "secrets": ["*"]
   },
-  "secrets": ["VITE_POINT_API_FQDN", "VITE_MAPBOX_TOKEN", "VITE_GLITCHTIP_DSN"]
+  "secrets": ["*"]
 }
