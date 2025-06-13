@@ -29,5 +29,4 @@ COPY Caddyfile /etc/caddy/Caddyfile
 COPY --from=builder /app/apps/main/dist /usr/share/caddy
 
 # Command to run Caddy with the Caddyfile
-# Caddy will automatically find and use /etc/caddy/Caddyfile
-CMD ["caddy", "run"]
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]

@@ -1,23 +1,45 @@
+# global options
+{
+	admin off
+	persist_config off
+	auto_https off
+
+	log {
+		format json
+	}
+}
+
+# site block, listens on port 8000
 :8000 {
-	# Указываем корневую папку для статики
-	root * /usr/share/caddy
+	log {
+		format json
+	}
 
-	# Включаем сжатие
-	encode zstd gzip
+	respond /health 200
 
-	# Добавляем заголовки безопасности
+	# Security headers
 	header {
+		# Prevent some browsers from MIME-sniffing a response away from the declared Content-Type
 		X-Content-Type-Options "nosniff"
+		# Remove Server header
 		-Server
 	}
 
-	# Эндпоинт для проверки состояния
-	respond /health 200
+	# serve from the '/usr/share/caddy' folder (copied in Dockerfile)
+	root * /usr/share/caddy
 
-	# Обработка роутинга для SPA
-	# Если файл по запрошенному пути не найден, отдаем index.html
-	try_files {path} /index.html
+	# Handle static files
+	file_server {
+		hide .git
+		hide .env*
+	}
 
-	# Раздаем статические файлы
-	file_server
+	# Compression with more formats
+	encode {
+		gzip
+		zstd
+	}
+
+	# Try files with HTML extension and handle SPA routing
+	try_files {path} {path}.html {path}/index.html /index.html
 }
