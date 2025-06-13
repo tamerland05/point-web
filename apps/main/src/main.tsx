@@ -14,6 +14,9 @@ import "@point/i18n"
 import "@/index.css"
 import { VITE_GLITCHTIP_DSN } from "./constants/environments"
 
+console.log("process.env in rt", process.env)
+console.log("import.meta.env in rt", import.meta.env)
+
 if (!import.meta.env.DEV && VITE_GLITCHTIP_DSN) {
   Sentry.init({
     dsn: VITE_GLITCHTIP_DSN,
