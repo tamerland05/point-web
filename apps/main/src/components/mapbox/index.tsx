@@ -7,7 +7,8 @@ import { MAP_ID } from "@/constants/map"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { useAtom } from "jotai"
-
+console.log("import.meta.env in mapbox file", import.meta.env)
+console.log("process.env in mapbox file", process.env)
 interface MapboxMapProps {
   children: React.ReactNode
 }
@@ -31,6 +32,9 @@ export const MapboxMap = memo(
       },
       [setLongitude, setLatitude, setZoom]
     )
+
+    console.log("import.meta.env in mapbox component", import.meta.env)
+    console.log("process.env in mapbox component", process.env)
 
     const userLocationQuery = useSuspenseQuery(userLocationQueryOptions)
     const userLocation = userLocationQuery.data
