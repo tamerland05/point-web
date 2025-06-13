@@ -13,8 +13,6 @@ import "@/utils/mockEnv"
 import "@point/i18n"
 import "@/index.css"
 
-console.log("import.meta.env", import.meta.env)
-
 if (!import.meta.env.DEV && import.meta.env.VITE_GLITCHTIP_DSN) {
   Sentry.init({
     dsn: import.meta.env.VITE_GLITCHTIP_DSN,

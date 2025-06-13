@@ -50,5 +50,3 @@ export default defineConfig({
 
   envDir: "../../",
 })
-
-console.log("process.env", process.env)
