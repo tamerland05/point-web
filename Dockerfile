@@ -1,6 +1,16 @@
 # Stage 1: Build the application
 FROM node:22-alpine AS builder
 
+# Аргументы для сборки, которые будут переданы в build-time
+ARG VITE_MAPBOX_TOKEN
+ARG VITE_GLITCHTIP_DSN
+ARG VITE_POINT_API_FQDN
+
+# Устанавливаем переменные окружения для процесса сборки
+ENV VITE_MAPBOX_TOKEN=$VITE_MAPBOX_TOKEN
+ENV VITE_GLITCHTIP_DSN=$VITE_GLITCHTIP_DSN
+ENV VITE_POINT_API_FQDN=$VITE_POINT_API_FQDN
+
 # Install pnpm from package.json
 RUN npm i -g pnpm@10.2.0
 
