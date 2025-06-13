@@ -3,7 +3,6 @@ import MapComp, { Marker, type ViewStateChangeEvent } from "react-map-gl/mapbox"
 
 import "mapbox-gl/dist/mapbox-gl.css"
 import { langitudeAtom, latitudeAtom, zoomAtom } from "@/atoms/map"
-import { VITE_MAPBOX_TOKEN_DEV, VITE_MAPBOX_TOKEN_PROD } from "@/constants/environments"
 import { MAP_ID } from "@/constants/map"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 import { useSuspenseQuery } from "@tanstack/react-query"
@@ -41,7 +40,7 @@ export const MapboxMap = memo(
         id={MAP_ID}
         reuseMaps
         onMove={handleMoveMap}
-        mapboxAccessToken={import.meta.env.DEV ? VITE_MAPBOX_TOKEN_DEV : VITE_MAPBOX_TOKEN_PROD}
+        mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
         mapStyle="mapbox://styles/mapbox/streets-v9"
         style={mapStyle}
         longitude={longitude}
