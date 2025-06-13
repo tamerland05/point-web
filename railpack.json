@@ -20,5 +20,5 @@
   "deploy": {
     "secrets": ["*"]
   },
-  "secrets": ["*"]
+  "secrets": ["VITE_MAPBOX_TOKEN", "VITE_POINT_API_FQDN", "VITE_GLITCHTIP_DSN"]
 }
