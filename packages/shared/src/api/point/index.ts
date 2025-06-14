@@ -2,10 +2,8 @@ import axios from "axios"
 
 // export const VITE_POINT_API_FQDN = "/point-api"
 
-export const VITE_POINT_API_FQDN = "https://api.point.yachts/api"
-
 const pointAxiosInstance = axios.create({
-  baseURL: `${VITE_POINT_API_FQDN}/v1`,
+  baseURL: `${import.meta.env.VITE_POINT_API_FQDN}/v1`,
   headers: {
     "Content-Type": "application/json",
   },
