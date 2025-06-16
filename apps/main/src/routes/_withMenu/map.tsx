@@ -2,7 +2,7 @@ import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import { useAtom, useSetAtom } from "jotai"
-import { useCallback, useEffect, useMemo } from "react"
+import { useCallback, useEffect } from "react"
 import { Marker } from "react-map-gl/mapbox"
 import { z } from "zod"
 
@@ -13,8 +13,8 @@ import { useMapData } from "@/components/mapbox/useMapbox"
 import { NearbyModal } from "@/components/nearby-modal"
 import { PlaceModal } from "@/components/place-modal"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
+import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
 import { establishmentsQueryOptions } from "@point/shared/api/point/establishments"
-import { placesQueryOptions } from "@point/shared/api/point/places"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
 import { sleep } from "@point/shared/utils/sleep"
 
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/_withMenu/map")({
   validateSearch: zodValidator(mapSchema),
 
   loader: async ({ context: { queryClient } }) => {
-    queryClient.ensureQueryData(establishmentsQueryOptions)
+    queryClient.ensureQueryData(establishmentTypesQueryOptions)
   },
 })
 
@@ -43,57 +43,14 @@ function RouteComponent() {
   const userLocationQuery = useSuspenseQuery(userLocationQueryOptions)
   const userLocation = userLocationQuery.data
 
-  const { longitude, latitude, mapRef } = useMapData()
+  const { longitude, latitude, zoom, mapRef } = useMapData()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: we can check only lng and lat
-  const diagonalCoordinates = useMemo(() => {
-    const maxBounds = mapRef?.getBounds()
+  const debouncedLatitude = useDebounce(latitude, 333)
+  const debouncedLongitude = useDebounce(longitude, 333)
+  const debouncedZoom = useDebounce(zoom, 333)
 
-    if (!maxBounds) {
-      return {
-        upper: {
-          longitude: longitude,
-          latitude: latitude,
-        },
-        lower: {
-          longitude: longitude,
-          latitude: latitude,
-        },
-      }
-    }
-
-    const upper = {
-      longitude: maxBounds.getNorthEast().lng,
-      latitude: maxBounds.getNorthEast().lat,
-    }
-
-    const lower = {
-      longitude: maxBounds.getSouthWest().lng,
-      latitude: maxBounds.getSouthWest().lat,
-    }
-
-    return {
-      upper,
-      lower,
-    }
-  }, [longitude, latitude])
-
-  const location = useMemo(
-    () => ({
-      longitude: longitude,
-      latitude: latitude,
-      address: "",
-    }),
-    [longitude, latitude]
-  )
-
-  const debouncedDiagonalCoordinates = useDebounce(diagonalCoordinates, 128)
-  const debouncedLocation = useDebounce(location, 128)
-
-  const placesQuery = useQuery(
-    placesQueryOptions(debouncedDiagonalCoordinates.upper, debouncedDiagonalCoordinates.lower, debouncedLocation)
-  )
-  const places = placesQuery.data
+  const establishmentsQuery = useQuery(establishmentsQueryOptions(debouncedLatitude, debouncedLongitude, debouncedZoom))
+  const establishments = establishmentsQuery.data
 
   const [movedToUserLocation, setMovedToUserLocation] = useAtom(movedToUserLocationAtom)
   useEffect(() => {
@@ -175,25 +132,25 @@ function RouteComponent() {
   return (
     <>
       <MapboxMap>
-        {places?.map((place) => (
+        {establishments?.map((establishment) => (
           <Marker
-            key={place.id}
-            longitude={place.position.longitude}
-            latitude={place.position.latitude}
+            key={establishment.id}
+            longitude={establishment.position.longitude}
+            latitude={establishment.position.latitude}
             anchor="bottom"
-            onClick={() => handleSelectPlace(place.id)}
+            onClick={() => handleSelectPlace(establishment.id)}
           >
-            <img src="/Noodle.svg" alt={place.name} />
+            <img src="/Noodle.svg" alt={establishment.name} />
           </Marker>
         ))}
       </MapboxMap>
 
       <PlaceModal
         id={selectedPlaceId}
-        photo={places?.find((place) => place.id === selectedPlaceId)?.photo}
-        name={places?.find((place) => place.id === selectedPlaceId)?.name}
-        address={places?.find((place) => place.id === selectedPlaceId)?.position.address}
-        rating={places?.find((place) => place.id === selectedPlaceId)?.rating}
+        photo={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.photo}
+        name={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.name}
+        address={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.position.address}
+        rating={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.rating}
         drawerExpanded={!!drawerExpanded}
         handleCloseDrawer={handleCloseDrawer}
         handleExpandDrawer={handleExpandDrawer}

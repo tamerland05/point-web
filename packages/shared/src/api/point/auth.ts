@@ -54,8 +54,6 @@ export const authQueryOptions = (auth: AuthReq) =>
     queryFn: async () => {
       const response = await pointAxiosInstance.post<AuthDTO>("/point/user/auth", auth)
 
-      pointAxiosInstance.defaults.headers.post.Authorization = `Bearer ${response.data.accessToken}`
-
       const store = getDefaultStore()
       store.set(accessTokenAtom, response.data.accessToken)
 

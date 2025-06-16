@@ -5,8 +5,8 @@ import Img from "react-cool-img"
 
 import { NearbyModalStates, nearbyModalStateAtom } from "@/atoms/map"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
-import { establishmentsQueryOptions } from "@point/shared/api/point/establishments"
-import { placesNearQueryOptions } from "@point/shared/api/point/places"
+import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
+import { placesNearQueryOptions } from "@point/shared/api/point/establishments"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
 import { cn } from "@point/ui/cn"
 import { Drawer } from "@point/ui/drawer"
@@ -35,9 +35,9 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
   const [search, setSearch] = useState("")
   const debouncedSearch = useDebounce(search, 500)
 
-  const establishmentsQuery = useQuery(establishmentsQueryOptions)
-  const _establishments = establishmentsQuery.data
-  console.log(_establishments)
+  const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
+  const _establishmentTypes = establishmentTypesQuery.data
+  console.log(_establishmentTypes)
 
   const placesQuery = useQuery(placesNearQueryOptions(debouncedSearch, userLocation))
   const places = placesQuery.data

@@ -18,7 +18,7 @@ export const Route = createFileRoute("/_withMenu")({
       return { platform: "android" }
     }
 
-    await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+    queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
 
     return { platform: context.launchParams.tgWebAppPlatform }
   },

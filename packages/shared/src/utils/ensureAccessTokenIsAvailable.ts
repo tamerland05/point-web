@@ -1,0 +1,20 @@
+import { accessTokenAtom } from "@/atoms/user"
+import { getDefaultStore } from "jotai"
+
+export const ensureAccessTokenIsAvailable = (): Promise<void> => {
+  const store = getDefaultStore()
+  const token = store.get(accessTokenAtom)
+
+  if (token) {
+    return Promise.resolve()
+  }
+
+  return new Promise((resolve) => {
+    const unsubscribe = store.sub(accessTokenAtom, () => {
+      if (store.get(accessTokenAtom)) {
+        unsubscribe()
+        resolve()
+      }
+    })
+  })
+}

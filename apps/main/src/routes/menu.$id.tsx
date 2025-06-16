@@ -2,8 +2,9 @@ import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import Image from "react-cool-img"
 
+import { ErrorPage } from "@/components/app-internals/ErrorPage"
 import { authQueryOptions } from "@point/shared/api/point/auth"
-import { placeQueryOptions } from "@point/shared/api/point/places"
+import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 
@@ -16,16 +17,17 @@ export const Route = createFileRoute("/menu/$id")({
       await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
     }
 
-    await queryClient.ensureQueryData(placeQueryOptions(params.id))
+    await queryClient.ensureQueryData(establishmentQueryOptions(params.id))
   },
   pendingComponent: () => <div>Loading...</div>,
+  errorComponent: ErrorPage,
 })
 
 function RouteComponent() {
   const { id } = Route.useParams()
 
-  const placeQuery = useSuspenseQuery(placeQueryOptions(id))
-  const menu = placeQuery.data?.menu
+  const establishmentQuery = useSuspenseQuery(establishmentQueryOptions(id))
+  const menu = establishmentQuery.data?.menu
 
   return (
     <div className="m-4 [view-transition-name:main-content]">

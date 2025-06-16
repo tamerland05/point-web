@@ -4,8 +4,8 @@ import { memo, useCallback, useMemo } from "react"
 import Image from "react-cool-img"
 import toast from "react-hot-toast"
 
-import { establishmentsQueryOptions } from "@point/shared/api/point/establishments"
-import { placeQueryOptions } from "@point/shared/api/point/places"
+import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
+import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
 import { cn } from "@point/ui/cn"
 import { Drawer } from "@point/ui/drawer"
 import { HorizontalScroller } from "@point/ui/horizontal-scroller"
@@ -31,16 +31,19 @@ export const PlaceModal = memo(
   ({ id, photo, name, address, rating, drawerExpanded, handleCloseDrawer, handleExpandDrawer }: PlaceModalProps) => {
     const navigate = useNavigate({ from: "/map" })
 
-    const placeQuery = useQuery(placeQueryOptions(id))
-    const data = placeQuery.data
+    const establishmentQuery = useQuery(establishmentQueryOptions(id))
+    const data = establishmentQuery.data
 
-    const establishmentsQuery = useQuery(establishmentsQueryOptions)
-    const establishments = establishmentsQuery.data
+    const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
+    const establishmentTypes = establishmentTypesQuery.data
 
     const establishment = useMemo(() => {
-      if (!establishments?.length) return "N/A"
-      return establishments.find((establishment) => establishment.id === data?.establishmentId)?.name || "N/A"
-    }, [establishments, data?.establishmentId])
+      if (!establishmentTypes?.length) return "N/A"
+      return (
+        establishmentTypes.find((establishmentType) => establishmentType.id === data?.establishmentTypeId)?.name ||
+        "N/A"
+      )
+    }, [establishmentTypes, data?.establishmentTypeId])
 
     const handleNavigateToMenu = useCallback(() => {
       if (!id) return
@@ -114,9 +117,9 @@ export const PlaceModal = memo(
               />
             </List>
 
-            <div className="mb-8">
-              <div className="mx-4 mb-1 text-caption-3 text-text-secondary uppercase">Photos</div>
-              {(data?.gallery || []).length > 0 && (
+            {(data?.gallery || []).length > 0 && (
+              <div className="mb-8">
+                <div className="mx-4 mb-1 text-caption-3 text-text-secondary uppercase">Photos</div>
                 <HorizontalScroller<string>
                   className="gap-4"
                   items={data?.gallery || []}
@@ -133,8 +136,8 @@ export const PlaceModal = memo(
                   )}
                   showDots={false}
                 />
-              )}
-            </div>
+              </div>
+            )}
 
             <List className="mb-8" title="establishment info">
               <ListItem
@@ -144,11 +147,11 @@ export const PlaceModal = memo(
               />
               <ListItem
                 leftTopText={<span className="text-caption-1 text-text-secondary">Description</span>}
-                leftBottomText={<span className="text-base text-text">{data?.description}</span>}
+                leftBottomText={<span className="text-base text-text">{data?.description || "N/A"}</span>}
               />
             </List>
 
-            {slicedMenu.length && (
+            {!!slicedMenu.length && (
               <List title="menu" onExpand={handleNavigateToMenu}>
                 {slicedMenu.map((menuItem, idx) => (
                   <ListItem
