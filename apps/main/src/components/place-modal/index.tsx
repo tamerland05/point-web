@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { memo, useCallback, useMemo } from "react"
 import Image from "react-cool-img"
-import toast from "react-hot-toast"
 
 import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
 import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
@@ -13,6 +12,7 @@ import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 
+import { openTelegramLink } from "@telegram-apps/sdk-react"
 import { ShowMainButton } from "../tg-internals"
 
 interface PlaceModalProps {
@@ -50,15 +50,20 @@ export const PlaceModal = memo(
       navigate({ to: "/menu/$id", params: { id } })
     }, [id, navigate])
 
+    const handleOpenTelegramChannel = useCallback(() => {
+      if (!data?.channelLink) return
+      openTelegramLink(data.channelLink)
+    }, [data?.channelLink])
+
     const secondaryButtonConfig = useMemo(
       () => ({
         title: !drawerExpanded ? "" : "Telegram Channel",
         loading: false,
         disabled: false,
         hidden: !id || !data?.channelLink || !drawerExpanded,
-        onClick: () => toast("secondary button clicked"),
+        onClick: handleOpenTelegramChannel,
       }),
-      [id, data?.channelLink, drawerExpanded]
+      [id, data?.channelLink, drawerExpanded, handleOpenTelegramChannel]
     )
 
     const mainButtonConfig = useMemo(
@@ -67,9 +72,9 @@ export const PlaceModal = memo(
         loading: false,
         disabled: false,
         hidden: !id || !drawerExpanded,
-        onClick: !drawerExpanded ? undefined : () => toast("main button clicked"),
+        onClick: !id || !drawerExpanded ? undefined : () => navigate({ to: "/tips/$placeId", params: { placeId: id } }),
       }),
-      [id, drawerExpanded]
+      [id, drawerExpanded, navigate]
     )
 
     const slicedMenu = useMemo(() => {

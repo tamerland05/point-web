@@ -72,7 +72,7 @@ export const establishmentQueryOptions = (establishmentId?: string) =>
       }
 
       const response = await pointAxiosInstance.post<DetailedEstbalishmentDTO>(
-        `/point/map/establishmen/${establishmentId}`
+        `/point/map/establishment/${establishmentId}`
       )
 
       return response.data

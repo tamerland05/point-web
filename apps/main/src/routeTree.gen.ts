@@ -20,7 +20,17 @@ import { Route as WithMenuSelectionsImport } from './routes/_withMenu/selections
 import { Route as WithMenuMapImport } from './routes/_withMenu/map'
 import { Route as WithMenuEarnImport } from './routes/_withMenu/earn'
 import { Route as WithMenuAccountImport } from './routes/_withMenu/account'
+import { Route as TipsPlaceIdRouteImport } from './routes/tips.$placeId/route'
+import { Route as TipsPlaceIdIndexImport } from './routes/tips.$placeId/index'
+import { Route as TipsPlaceIdSuccessImport } from './routes/tips.$placeId/success'
+import { Route as TipsPlaceIdProfileImport } from './routes/tips.$placeId/profile'
+import { Route as TipsPlaceIdInfoImport } from './routes/tips.$placeId/info'
+import { Route as TipsPlaceIdErrorImport } from './routes/tips.$placeId/error'
+import { Route as TipsPlaceIdAssetsImport } from './routes/tips.$placeId/assets'
 import { Route as WithMenuSelectionsIdImport } from './routes/_withMenu/selections.$id'
+import { Route as TipsPlaceIdInputRouteImport } from './routes/tips.$placeId/input/route'
+import { Route as TipsPlaceIdInputConfirmImport } from './routes/tips.$placeId/input/confirm'
+import { Route as TipsPlaceIdInputAmountImport } from './routes/tips.$placeId/input/amount'
 
 // Create/Update Routes
 
@@ -77,10 +87,70 @@ const WithMenuAccountRoute = WithMenuAccountImport.update({
   getParentRoute: () => WithMenuRouteRoute,
 } as any)
 
+const TipsPlaceIdRouteRoute = TipsPlaceIdRouteImport.update({
+  id: '/tips/$placeId',
+  path: '/tips/$placeId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TipsPlaceIdIndexRoute = TipsPlaceIdIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TipsPlaceIdRouteRoute,
+} as any)
+
+const TipsPlaceIdSuccessRoute = TipsPlaceIdSuccessImport.update({
+  id: '/success',
+  path: '/success',
+  getParentRoute: () => TipsPlaceIdRouteRoute,
+} as any)
+
+const TipsPlaceIdProfileRoute = TipsPlaceIdProfileImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => TipsPlaceIdRouteRoute,
+} as any)
+
+const TipsPlaceIdInfoRoute = TipsPlaceIdInfoImport.update({
+  id: '/info',
+  path: '/info',
+  getParentRoute: () => TipsPlaceIdRouteRoute,
+} as any)
+
+const TipsPlaceIdErrorRoute = TipsPlaceIdErrorImport.update({
+  id: '/error',
+  path: '/error',
+  getParentRoute: () => TipsPlaceIdRouteRoute,
+} as any)
+
+const TipsPlaceIdAssetsRoute = TipsPlaceIdAssetsImport.update({
+  id: '/assets',
+  path: '/assets',
+  getParentRoute: () => TipsPlaceIdRouteRoute,
+} as any)
+
 const WithMenuSelectionsIdRoute = WithMenuSelectionsIdImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => WithMenuSelectionsRoute,
+} as any)
+
+const TipsPlaceIdInputRouteRoute = TipsPlaceIdInputRouteImport.update({
+  id: '/input',
+  path: '/input',
+  getParentRoute: () => TipsPlaceIdRouteRoute,
+} as any)
+
+const TipsPlaceIdInputConfirmRoute = TipsPlaceIdInputConfirmImport.update({
+  id: '/confirm',
+  path: '/confirm',
+  getParentRoute: () => TipsPlaceIdInputRouteRoute,
+} as any)
+
+const TipsPlaceIdInputAmountRoute = TipsPlaceIdInputAmountImport.update({
+  id: '/amount',
+  path: '/amount',
+  getParentRoute: () => TipsPlaceIdInputRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -113,6 +183,13 @@ declare module '@tanstack/react-router' {
       path: '/tests'
       fullPath: '/tests'
       preLoaderRoute: typeof TestsImport
+      parentRoute: typeof rootRoute
+    }
+    '/tips/$placeId': {
+      id: '/tips/$placeId'
+      path: '/tips/$placeId'
+      fullPath: '/tips/$placeId'
+      preLoaderRoute: typeof TipsPlaceIdRouteImport
       parentRoute: typeof rootRoute
     }
     '/_withMenu/account': {
@@ -150,12 +227,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MenuIdImport
       parentRoute: typeof rootRoute
     }
+    '/tips/$placeId/input': {
+      id: '/tips/$placeId/input'
+      path: '/input'
+      fullPath: '/tips/$placeId/input'
+      preLoaderRoute: typeof TipsPlaceIdInputRouteImport
+      parentRoute: typeof TipsPlaceIdRouteImport
+    }
     '/_withMenu/selections/$id': {
       id: '/_withMenu/selections/$id'
       path: '/$id'
       fullPath: '/selections/$id'
       preLoaderRoute: typeof WithMenuSelectionsIdImport
       parentRoute: typeof WithMenuSelectionsImport
+    }
+    '/tips/$placeId/assets': {
+      id: '/tips/$placeId/assets'
+      path: '/assets'
+      fullPath: '/tips/$placeId/assets'
+      preLoaderRoute: typeof TipsPlaceIdAssetsImport
+      parentRoute: typeof TipsPlaceIdRouteImport
+    }
+    '/tips/$placeId/error': {
+      id: '/tips/$placeId/error'
+      path: '/error'
+      fullPath: '/tips/$placeId/error'
+      preLoaderRoute: typeof TipsPlaceIdErrorImport
+      parentRoute: typeof TipsPlaceIdRouteImport
+    }
+    '/tips/$placeId/info': {
+      id: '/tips/$placeId/info'
+      path: '/info'
+      fullPath: '/tips/$placeId/info'
+      preLoaderRoute: typeof TipsPlaceIdInfoImport
+      parentRoute: typeof TipsPlaceIdRouteImport
+    }
+    '/tips/$placeId/profile': {
+      id: '/tips/$placeId/profile'
+      path: '/profile'
+      fullPath: '/tips/$placeId/profile'
+      preLoaderRoute: typeof TipsPlaceIdProfileImport
+      parentRoute: typeof TipsPlaceIdRouteImport
+    }
+    '/tips/$placeId/success': {
+      id: '/tips/$placeId/success'
+      path: '/success'
+      fullPath: '/tips/$placeId/success'
+      preLoaderRoute: typeof TipsPlaceIdSuccessImport
+      parentRoute: typeof TipsPlaceIdRouteImport
+    }
+    '/tips/$placeId/': {
+      id: '/tips/$placeId/'
+      path: '/'
+      fullPath: '/tips/$placeId/'
+      preLoaderRoute: typeof TipsPlaceIdIndexImport
+      parentRoute: typeof TipsPlaceIdRouteImport
+    }
+    '/tips/$placeId/input/amount': {
+      id: '/tips/$placeId/input/amount'
+      path: '/amount'
+      fullPath: '/tips/$placeId/input/amount'
+      preLoaderRoute: typeof TipsPlaceIdInputAmountImport
+      parentRoute: typeof TipsPlaceIdInputRouteImport
+    }
+    '/tips/$placeId/input/confirm': {
+      id: '/tips/$placeId/input/confirm'
+      path: '/confirm'
+      fullPath: '/tips/$placeId/input/confirm'
+      preLoaderRoute: typeof TipsPlaceIdInputConfirmImport
+      parentRoute: typeof TipsPlaceIdInputRouteImport
     }
   }
 }
@@ -191,17 +331,65 @@ const WithMenuRouteRouteWithChildren = WithMenuRouteRoute._addFileChildren(
   WithMenuRouteRouteChildren,
 )
 
+interface TipsPlaceIdInputRouteRouteChildren {
+  TipsPlaceIdInputAmountRoute: typeof TipsPlaceIdInputAmountRoute
+  TipsPlaceIdInputConfirmRoute: typeof TipsPlaceIdInputConfirmRoute
+}
+
+const TipsPlaceIdInputRouteRouteChildren: TipsPlaceIdInputRouteRouteChildren = {
+  TipsPlaceIdInputAmountRoute: TipsPlaceIdInputAmountRoute,
+  TipsPlaceIdInputConfirmRoute: TipsPlaceIdInputConfirmRoute,
+}
+
+const TipsPlaceIdInputRouteRouteWithChildren =
+  TipsPlaceIdInputRouteRoute._addFileChildren(
+    TipsPlaceIdInputRouteRouteChildren,
+  )
+
+interface TipsPlaceIdRouteRouteChildren {
+  TipsPlaceIdInputRouteRoute: typeof TipsPlaceIdInputRouteRouteWithChildren
+  TipsPlaceIdAssetsRoute: typeof TipsPlaceIdAssetsRoute
+  TipsPlaceIdErrorRoute: typeof TipsPlaceIdErrorRoute
+  TipsPlaceIdInfoRoute: typeof TipsPlaceIdInfoRoute
+  TipsPlaceIdProfileRoute: typeof TipsPlaceIdProfileRoute
+  TipsPlaceIdSuccessRoute: typeof TipsPlaceIdSuccessRoute
+  TipsPlaceIdIndexRoute: typeof TipsPlaceIdIndexRoute
+}
+
+const TipsPlaceIdRouteRouteChildren: TipsPlaceIdRouteRouteChildren = {
+  TipsPlaceIdInputRouteRoute: TipsPlaceIdInputRouteRouteWithChildren,
+  TipsPlaceIdAssetsRoute: TipsPlaceIdAssetsRoute,
+  TipsPlaceIdErrorRoute: TipsPlaceIdErrorRoute,
+  TipsPlaceIdInfoRoute: TipsPlaceIdInfoRoute,
+  TipsPlaceIdProfileRoute: TipsPlaceIdProfileRoute,
+  TipsPlaceIdSuccessRoute: TipsPlaceIdSuccessRoute,
+  TipsPlaceIdIndexRoute: TipsPlaceIdIndexRoute,
+}
+
+const TipsPlaceIdRouteRouteWithChildren =
+  TipsPlaceIdRouteRoute._addFileChildren(TipsPlaceIdRouteRouteChildren)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/tests': typeof TestsRoute
+  '/tips/$placeId': typeof TipsPlaceIdRouteRouteWithChildren
   '/account': typeof WithMenuAccountRoute
   '/earn': typeof WithMenuEarnRoute
   '/map': typeof WithMenuMapRoute
   '/selections': typeof WithMenuSelectionsRouteWithChildren
   '/menu/$id': typeof MenuIdRoute
+  '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/selections/$id': typeof WithMenuSelectionsIdRoute
+  '/tips/$placeId/assets': typeof TipsPlaceIdAssetsRoute
+  '/tips/$placeId/error': typeof TipsPlaceIdErrorRoute
+  '/tips/$placeId/info': typeof TipsPlaceIdInfoRoute
+  '/tips/$placeId/profile': typeof TipsPlaceIdProfileRoute
+  '/tips/$placeId/success': typeof TipsPlaceIdSuccessRoute
+  '/tips/$placeId/': typeof TipsPlaceIdIndexRoute
+  '/tips/$placeId/input/amount': typeof TipsPlaceIdInputAmountRoute
+  '/tips/$placeId/input/confirm': typeof TipsPlaceIdInputConfirmRoute
 }
 
 export interface FileRoutesByTo {
@@ -214,7 +402,16 @@ export interface FileRoutesByTo {
   '/map': typeof WithMenuMapRoute
   '/selections': typeof WithMenuSelectionsRouteWithChildren
   '/menu/$id': typeof MenuIdRoute
+  '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/selections/$id': typeof WithMenuSelectionsIdRoute
+  '/tips/$placeId/assets': typeof TipsPlaceIdAssetsRoute
+  '/tips/$placeId/error': typeof TipsPlaceIdErrorRoute
+  '/tips/$placeId/info': typeof TipsPlaceIdInfoRoute
+  '/tips/$placeId/profile': typeof TipsPlaceIdProfileRoute
+  '/tips/$placeId/success': typeof TipsPlaceIdSuccessRoute
+  '/tips/$placeId': typeof TipsPlaceIdIndexRoute
+  '/tips/$placeId/input/amount': typeof TipsPlaceIdInputAmountRoute
+  '/tips/$placeId/input/confirm': typeof TipsPlaceIdInputConfirmRoute
 }
 
 export interface FileRoutesById {
@@ -223,12 +420,22 @@ export interface FileRoutesById {
   '/_withMenu': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/tests': typeof TestsRoute
+  '/tips/$placeId': typeof TipsPlaceIdRouteRouteWithChildren
   '/_withMenu/account': typeof WithMenuAccountRoute
   '/_withMenu/earn': typeof WithMenuEarnRoute
   '/_withMenu/map': typeof WithMenuMapRoute
   '/_withMenu/selections': typeof WithMenuSelectionsRouteWithChildren
   '/menu/$id': typeof MenuIdRoute
+  '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/_withMenu/selections/$id': typeof WithMenuSelectionsIdRoute
+  '/tips/$placeId/assets': typeof TipsPlaceIdAssetsRoute
+  '/tips/$placeId/error': typeof TipsPlaceIdErrorRoute
+  '/tips/$placeId/info': typeof TipsPlaceIdInfoRoute
+  '/tips/$placeId/profile': typeof TipsPlaceIdProfileRoute
+  '/tips/$placeId/success': typeof TipsPlaceIdSuccessRoute
+  '/tips/$placeId/': typeof TipsPlaceIdIndexRoute
+  '/tips/$placeId/input/amount': typeof TipsPlaceIdInputAmountRoute
+  '/tips/$placeId/input/confirm': typeof TipsPlaceIdInputConfirmRoute
 }
 
 export interface FileRouteTypes {
@@ -238,12 +445,22 @@ export interface FileRouteTypes {
     | ''
     | '/onboarding'
     | '/tests'
+    | '/tips/$placeId'
     | '/account'
     | '/earn'
     | '/map'
     | '/selections'
     | '/menu/$id'
+    | '/tips/$placeId/input'
     | '/selections/$id'
+    | '/tips/$placeId/assets'
+    | '/tips/$placeId/error'
+    | '/tips/$placeId/info'
+    | '/tips/$placeId/profile'
+    | '/tips/$placeId/success'
+    | '/tips/$placeId/'
+    | '/tips/$placeId/input/amount'
+    | '/tips/$placeId/input/confirm'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -255,19 +472,38 @@ export interface FileRouteTypes {
     | '/map'
     | '/selections'
     | '/menu/$id'
+    | '/tips/$placeId/input'
     | '/selections/$id'
+    | '/tips/$placeId/assets'
+    | '/tips/$placeId/error'
+    | '/tips/$placeId/info'
+    | '/tips/$placeId/profile'
+    | '/tips/$placeId/success'
+    | '/tips/$placeId'
+    | '/tips/$placeId/input/amount'
+    | '/tips/$placeId/input/confirm'
   id:
     | '__root__'
     | '/'
     | '/_withMenu'
     | '/onboarding'
     | '/tests'
+    | '/tips/$placeId'
     | '/_withMenu/account'
     | '/_withMenu/earn'
     | '/_withMenu/map'
     | '/_withMenu/selections'
     | '/menu/$id'
+    | '/tips/$placeId/input'
     | '/_withMenu/selections/$id'
+    | '/tips/$placeId/assets'
+    | '/tips/$placeId/error'
+    | '/tips/$placeId/info'
+    | '/tips/$placeId/profile'
+    | '/tips/$placeId/success'
+    | '/tips/$placeId/'
+    | '/tips/$placeId/input/amount'
+    | '/tips/$placeId/input/confirm'
   fileRoutesById: FileRoutesById
 }
 
@@ -276,6 +512,7 @@ export interface RootRouteChildren {
   WithMenuRouteRoute: typeof WithMenuRouteRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
   TestsRoute: typeof TestsRoute
+  TipsPlaceIdRouteRoute: typeof TipsPlaceIdRouteRouteWithChildren
   MenuIdRoute: typeof MenuIdRoute
 }
 
@@ -284,6 +521,7 @@ const rootRouteChildren: RootRouteChildren = {
   WithMenuRouteRoute: WithMenuRouteRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
   TestsRoute: TestsRoute,
+  TipsPlaceIdRouteRoute: TipsPlaceIdRouteRouteWithChildren,
   MenuIdRoute: MenuIdRoute,
 }
 
@@ -301,6 +539,7 @@ export const routeTree = rootRoute
         "/_withMenu",
         "/onboarding",
         "/tests",
+        "/tips/$placeId",
         "/menu/$id"
       ]
     },
@@ -321,6 +560,18 @@ export const routeTree = rootRoute
     },
     "/tests": {
       "filePath": "tests.tsx"
+    },
+    "/tips/$placeId": {
+      "filePath": "tips.$placeId/route.tsx",
+      "children": [
+        "/tips/$placeId/input",
+        "/tips/$placeId/assets",
+        "/tips/$placeId/error",
+        "/tips/$placeId/info",
+        "/tips/$placeId/profile",
+        "/tips/$placeId/success",
+        "/tips/$placeId/"
+      ]
     },
     "/_withMenu/account": {
       "filePath": "_withMenu/account.tsx",
@@ -344,9 +595,49 @@ export const routeTree = rootRoute
     "/menu/$id": {
       "filePath": "menu.$id.tsx"
     },
+    "/tips/$placeId/input": {
+      "filePath": "tips.$placeId/input/route.tsx",
+      "parent": "/tips/$placeId",
+      "children": [
+        "/tips/$placeId/input/amount",
+        "/tips/$placeId/input/confirm"
+      ]
+    },
     "/_withMenu/selections/$id": {
       "filePath": "_withMenu/selections.$id.tsx",
       "parent": "/_withMenu/selections"
+    },
+    "/tips/$placeId/assets": {
+      "filePath": "tips.$placeId/assets.tsx",
+      "parent": "/tips/$placeId"
+    },
+    "/tips/$placeId/error": {
+      "filePath": "tips.$placeId/error.tsx",
+      "parent": "/tips/$placeId"
+    },
+    "/tips/$placeId/info": {
+      "filePath": "tips.$placeId/info.tsx",
+      "parent": "/tips/$placeId"
+    },
+    "/tips/$placeId/profile": {
+      "filePath": "tips.$placeId/profile.tsx",
+      "parent": "/tips/$placeId"
+    },
+    "/tips/$placeId/success": {
+      "filePath": "tips.$placeId/success.tsx",
+      "parent": "/tips/$placeId"
+    },
+    "/tips/$placeId/": {
+      "filePath": "tips.$placeId/index.tsx",
+      "parent": "/tips/$placeId"
+    },
+    "/tips/$placeId/input/amount": {
+      "filePath": "tips.$placeId/input/amount.tsx",
+      "parent": "/tips/$placeId/input"
+    },
+    "/tips/$placeId/input/confirm": {
+      "filePath": "tips.$placeId/input/confirm.tsx",
+      "parent": "/tips/$placeId/input"
     }
   }
 }

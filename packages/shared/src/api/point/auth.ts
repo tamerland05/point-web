@@ -2,6 +2,7 @@ import { queryOptions } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
 import { accessTokenAtom } from "@/atoms/user"
+import type { AxiosResponse } from "axios"
 import { getDefaultStore } from "jotai"
 
 export interface AuthReq {
@@ -52,7 +53,7 @@ export const authQueryOptions = (auth: AuthReq) =>
   queryOptions({
     queryKey: ["auth", { hash: auth.hash }],
     queryFn: async () => {
-      const response = await pointAxiosInstance.post<AuthDTO>("/point/user/auth", auth)
+      const response = await pointAxiosInstance.post<AuthDTO, AxiosResponse<AuthDTO>, AuthReq>("/point/user/auth", auth)
 
       const store = getDefaultStore()
       store.set(accessTokenAtom, response.data.accessToken)

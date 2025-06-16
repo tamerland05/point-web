@@ -73,7 +73,14 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
             {places?.map((place) => (
               <ListItem
                 key={place.id}
-                leftIcon={<Img src={place.photo} alt={place.name} className="h-14 w-14 rounded-xl object-cover" />}
+                leftIcon={
+                  <Img
+                    onError={console.warn}
+                    src={place.photo}
+                    alt={place.name}
+                    className="h-14 w-14 rounded-xl object-cover"
+                  />
+                }
                 leftTopText={place.name}
                 leftBottomText={place.position.address}
                 withSeparator
