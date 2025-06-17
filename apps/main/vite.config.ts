@@ -5,6 +5,7 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import basicSsl from "@vitejs/plugin-basic-ssl"
 import react from "@vitejs/plugin-react-swc"
 import { defineConfig } from "vite"
+import { nodePolyfills } from "vite-plugin-node-polyfills"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 import packageConfig from "./package.json"
@@ -28,6 +29,7 @@ export default defineConfig({
       certDir: "./cert",
     }),
 
+    nodePolyfills(),
     tsconfigPaths(),
   ],
 

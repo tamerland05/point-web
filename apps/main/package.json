@@ -39,6 +39,7 @@
     "@vitejs/plugin-react-swc": "3.9.0",
     "tailwindcss": "^4.1.7",
     "vite": "6.3.5",
+    "vite-plugin-node-polyfills": "^0.23.0",
     "vite-tsconfig-paths": "5.1.4"
   }
 }
