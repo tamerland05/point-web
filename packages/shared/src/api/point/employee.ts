@@ -15,12 +15,12 @@ interface EmployeeDTO {
       id: string
       name: string
       address: string
-    }
+    } | null
     purpose: {
       icon: string
       title: string
       description: string
-    }
+    } | null
   }
 }
 

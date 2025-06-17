@@ -14,6 +14,7 @@ export const iconNames = [
   "Frame 1580",
   "CoinsFill",
   "ChevronRight",
+  "Arrowz",
 ] as const
 
 export type IconName = (typeof iconNames)[number]

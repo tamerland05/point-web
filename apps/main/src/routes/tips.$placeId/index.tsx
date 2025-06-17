@@ -8,6 +8,7 @@ import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { useCallback, useMemo, useState } from "react"
 import Img from "react-cool-img"
+import toast from "react-hot-toast"
 
 export const Route = createFileRoute("/tips/$placeId/")({
   component: RouteComponent,
@@ -31,11 +32,13 @@ function RouteComponent() {
   }, [receivers, search])
 
   const handleProjectBankClick = useCallback(() => {
+    toast("TODO: CONNECT WALLET HERE")
     navigate({ to: "/tips/$placeId/info", search: { placeWallet: placeId } })
   }, [navigate, placeId])
 
   const handleEmployeeClick = useCallback(
     (id: string) => {
+      toast("TODO: CONNECT WALLET HERE")
       navigate({ to: "/tips/$placeId/info", search: { id } })
     },
     [navigate]
@@ -54,7 +57,7 @@ function RouteComponent() {
       <List title="Staff list">
         {!search && (
           <ListItem
-            leftIcon={<Icon name="Frame 948" className="h-10 w-10" />}
+            leftIcon={<Icon name="Frame 948" className="h-10 w-10 text-transparent" />}
             leftTopText="Project Bank"
             leftBottomText="All Staff"
             withSeparator
