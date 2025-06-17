@@ -53,9 +53,9 @@ function RouteComponent() {
 
   return (
     <ShowMainButton {...mainButtonConfig}>
-      <div className="flex h-screen w-full flex-col items-center justify-center">
-        <Icon name={isPlaceWalletMode ? "Frame 951 (1)" : "Frame 951"} className="h-43 w-fit text-accent" />
-        <div className="m-8 flex flex-col text-center">
+      <div className="mt-[20vh] flex w-full flex-col items-center justify-center">
+        <Icon name={isPlaceWalletMode ? "Frame 951 (1)" : "Frame 951"} className="h-43 w-43 text-accent" />
+        <div className="m-8 flex flex-col gap-1 text-center">
           <h1 className="font-semibold text-title-2 ">{isPlaceWalletMode ? "Project Bank" : "Fair Distribution"}</h1>
           <p className="font-normal text-text-secondary">
             {isPlaceWalletMode

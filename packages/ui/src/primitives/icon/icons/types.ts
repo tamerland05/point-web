@@ -2,6 +2,7 @@
 
 export const iconNames = [
   "MenuBoard",
+  "Check",
   "Vector",
   "User Circle Outline",
   "Shape",

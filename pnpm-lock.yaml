@@ -190,6 +190,9 @@ importers:
 
   packages/tailwind-config:
     devDependencies:
+      '@point/assets':
+        specifier: workspace:*
+        version: link:../assets
       '@point/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
