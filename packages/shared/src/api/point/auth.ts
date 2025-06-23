@@ -2,6 +2,7 @@ import { queryOptions } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
 import { accessTokenAtom } from "@/atoms/user"
+import type { JobPlace, PurposeOfFunding } from "@/types"
 import type { AxiosResponse } from "axios"
 import { getDefaultStore } from "jotai"
 
@@ -35,11 +36,11 @@ export interface AuthDTO {
     rank: number
     bonusBalance: number
     userType: "employee" | "consumer"
+    typsLeft: number
     account: {
       id: string
-      wallet: string
-      jobPlaceId: string
-      purposeId: string
+      jobPlace: JobPlace | null
+      purpose: PurposeOfFunding | null
       meta: {
         showJob: boolean
         showPurpose: boolean

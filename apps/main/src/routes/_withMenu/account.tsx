@@ -1,63 +1,115 @@
-import { Link, createFileRoute } from "@tanstack/react-router"
-import { expandViewport, requestFullscreen, requestLocation } from "@telegram-apps/sdk-react"
-import { TonConnectButton } from "@tonconnect/ui-react"
-import toast from "react-hot-toast"
+import { LANGUAGES_LIST, useTranslation } from "@point/i18n"
+import { authQueryOptions } from "@point/shared/api/point/auth"
+import { Icon } from "@point/ui/icon"
+import { List } from "@point/ui/list"
+import { ListItem } from "@point/ui/list-item"
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+import Img from "react-cool-img"
 
 export const Route = createFileRoute("/_withMenu/account")({
   component: RouteComponent,
+  loader: async ({ context }) => {
+    const { queryClient } = context
+
+    if (!context.launchParams?.tgWebAppData) {
+      throw new Error("Нет данных от телеги, перезагрузите приложение")
+    }
+
+    queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+  },
 })
 
 function RouteComponent() {
+  const ctx = Route.useRouteContext()
+  const navigate = Route.useNavigate()
+
+  const { i18n } = useTranslation()
+
+  // biome-ignore lint/style/noNonNullAssertion: we have check in loader
+  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!))
+  const user = authQuery.data?.user
+
+  const profileType = !user.account.jobPlace ? "User" : "Employee"
+  const language = LANGUAGES_LIST.find((l) => l.lang === (user.languageCode || i18n.language))?.name
+
+  const handleGoToMyProfile = () => {
+    navigate({ to: "/account/my-profile" })
+  }
+
+  const handleGoToLanguage = () => {
+    navigate({ to: "/account/language" })
+  }
+
   return (
-    <div className="">
-      Hello "/account"!
-      <TonConnectButton />
-      <div className="my-4 flex flex-col gap-2">
-        <button
-          className="rounded-md bg-accent px-4 py-2 text-white"
-          type="button"
-          onClick={async () => {
-            try {
-              const location = await requestLocation()
-              toast.success(JSON.stringify(location))
-            } catch (error) {
-              toast.error(error instanceof Error ? error.message : "Unknown error")
-            }
-          }}
-        >
-          Request Location
-        </button>
+    <div className="pb-4">
+      <header className="mb-7 flex flex-col items-center gap-2">
+        {user.photoUrl && <Img src={user.photoUrl} className="mb-2 h-24 w-24 rounded-full" />}
+        <h1 className="font-medium text-title-1">
+          {user.firstName} {user.lastName}
+        </h1>
+        <p className="text-caption-1 text-text-secondary">{profileType}</p>
+      </header>
 
-        <button
-          className="rounded-md bg-accent px-4 py-2 text-white"
-          type="button"
-          onClick={() => {
-            expandViewport()
-          }}
-        >
-          Expand Viewport
-        </button>
+      <div className="flex w-full flex-col gap-7">
+        <ListItem
+          leftTopText={"My Profile"}
+          leftIcon={<Icon name="Account0" className="h-7 w-7 text-transparent" />}
+          rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+          onClick={handleGoToMyProfile}
+        />
 
-        <button
-          className="rounded-md bg-accent px-4 py-2 text-white"
-          type="button"
-          onClick={() => {
-            requestFullscreen()
-          }}
-        >
-          Request Fullscreen
-        </button>
+        <List>
+          <ListItem
+            leftTopText="Profile Type"
+            leftIcon={<Icon name="Account1" className="h-7 w-7 text-transparent" />}
+            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+            withSeparator
+            rightTopText={<div className="-mr-4 text-text-secondary">{profileType}</div>}
+          />
+          <ListItem
+            leftTopText="Language"
+            leftIcon={<Icon name="Account2" className="h-7 w-7 text-transparent" />}
+            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+            withSeparator
+            rightTopText={<div className="-mr-4 text-text-secondary">{language}</div>}
+            onClick={handleGoToLanguage}
+          />
+          <ListItem
+            leftTopText="Information"
+            leftIcon={<Icon name="Account3" className="h-7 w-7 text-transparent" />}
+            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+          />
+        </List>
 
-        <Link className="mt-6 rounded-md bg-accent px-4 py-2 text-center text-white" to="/onboarding">
-          Go to Onboarding
-        </Link>
+        <ListItem
+          leftTopText="Location"
+          leftIcon={<Icon name="Account4" className="h-7 w-7 text-transparent" />}
+          rightTopText={<div className="text-text-secondary">WIP</div>}
+        />
+
+        <List>
+          <ListItem
+            leftTopText="Wallet"
+            leftIcon={<Icon name="Account5" className="h-7 w-7 text-transparent" />}
+            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+            withSeparator
+            rightTopText={<div className="-mr-4 text-text-secondary">WIP</div>}
+          />
+          <ListItem
+            leftTopText="Default Currency"
+            leftIcon={<Icon name="Account6" className="h-7 w-7 text-transparent" />}
+            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+            withSeparator
+            rightTopText={<div className="-mr-4 text-text-secondary">WIP</div>}
+          />
+          <ListItem
+            leftTopText="Contact Support"
+            leftIcon={<Icon name="Account7" className="h-7 w-7 text-transparent" />}
+            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+          />
+        </List>
       </div>
-      <code className="mt-auto flex flex-col items-center justify-center text-caption-1 text-text-secondary">
-        <div>Point </div>
-        <div>
-          v{__APP_VERSION__} at {__COMMIT_HASH__}
-        </div>
-      </code>
     </div>
   )
 }

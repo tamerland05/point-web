@@ -15,7 +15,11 @@ import { Route as TestsImport } from './routes/tests'
 import { Route as OnboardingImport } from './routes/onboarding'
 import { Route as WithMenuRouteImport } from './routes/_withMenu/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as ProfileIdImport } from './routes/profile.$id'
 import { Route as MenuIdImport } from './routes/menu.$id'
+import { Route as AccountProfileTypeUpdatedImport } from './routes/account/profile-type-updated'
+import { Route as AccountMyProfileImport } from './routes/account/my-profile'
+import { Route as AccountLanguageImport } from './routes/account/language'
 import { Route as WithMenuSelectionsImport } from './routes/_withMenu/selections'
 import { Route as WithMenuMapImport } from './routes/_withMenu/map'
 import { Route as WithMenuEarnImport } from './routes/_withMenu/earn'
@@ -27,6 +31,8 @@ import { Route as TipsPlaceIdProfileImport } from './routes/tips.$placeId/profil
 import { Route as TipsPlaceIdInfoImport } from './routes/tips.$placeId/info'
 import { Route as TipsPlaceIdErrorImport } from './routes/tips.$placeId/error'
 import { Route as TipsPlaceIdAssetsImport } from './routes/tips.$placeId/assets'
+import { Route as ProfileIdFundraisingImport } from './routes/profile.$id.fundraising'
+import { Route as AccountMyProfileEditImport } from './routes/account/my-profile.edit'
 import { Route as WithMenuSelectionsIdImport } from './routes/_withMenu/selections.$id'
 import { Route as TipsPlaceIdInputRouteImport } from './routes/tips.$placeId/input/route'
 import { Route as TipsPlaceIdInputConfirmImport } from './routes/tips.$placeId/input/confirm'
@@ -57,9 +63,33 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ProfileIdRoute = ProfileIdImport.update({
+  id: '/profile/$id',
+  path: '/profile/$id',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const MenuIdRoute = MenuIdImport.update({
   id: '/menu/$id',
   path: '/menu/$id',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AccountProfileTypeUpdatedRoute = AccountProfileTypeUpdatedImport.update({
+  id: '/account/profile-type-updated',
+  path: '/account/profile-type-updated',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AccountMyProfileRoute = AccountMyProfileImport.update({
+  id: '/account/my-profile',
+  path: '/account/my-profile',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AccountLanguageRoute = AccountLanguageImport.update({
+  id: '/account/language',
+  path: '/account/language',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -127,6 +157,18 @@ const TipsPlaceIdAssetsRoute = TipsPlaceIdAssetsImport.update({
   id: '/assets',
   path: '/assets',
   getParentRoute: () => TipsPlaceIdRouteRoute,
+} as any)
+
+const ProfileIdFundraisingRoute = ProfileIdFundraisingImport.update({
+  id: '/fundraising',
+  path: '/fundraising',
+  getParentRoute: () => ProfileIdRoute,
+} as any)
+
+const AccountMyProfileEditRoute = AccountMyProfileEditImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => AccountMyProfileRoute,
 } as any)
 
 const WithMenuSelectionsIdRoute = WithMenuSelectionsIdImport.update({
@@ -220,11 +262,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WithMenuSelectionsImport
       parentRoute: typeof WithMenuRouteImport
     }
+    '/account/language': {
+      id: '/account/language'
+      path: '/account/language'
+      fullPath: '/account/language'
+      preLoaderRoute: typeof AccountLanguageImport
+      parentRoute: typeof rootRoute
+    }
+    '/account/my-profile': {
+      id: '/account/my-profile'
+      path: '/account/my-profile'
+      fullPath: '/account/my-profile'
+      preLoaderRoute: typeof AccountMyProfileImport
+      parentRoute: typeof rootRoute
+    }
+    '/account/profile-type-updated': {
+      id: '/account/profile-type-updated'
+      path: '/account/profile-type-updated'
+      fullPath: '/account/profile-type-updated'
+      preLoaderRoute: typeof AccountProfileTypeUpdatedImport
+      parentRoute: typeof rootRoute
+    }
     '/menu/$id': {
       id: '/menu/$id'
       path: '/menu/$id'
       fullPath: '/menu/$id'
       preLoaderRoute: typeof MenuIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/profile/$id': {
+      id: '/profile/$id'
+      path: '/profile/$id'
+      fullPath: '/profile/$id'
+      preLoaderRoute: typeof ProfileIdImport
       parentRoute: typeof rootRoute
     }
     '/tips/$placeId/input': {
@@ -240,6 +310,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/selections/$id'
       preLoaderRoute: typeof WithMenuSelectionsIdImport
       parentRoute: typeof WithMenuSelectionsImport
+    }
+    '/account/my-profile/edit': {
+      id: '/account/my-profile/edit'
+      path: '/edit'
+      fullPath: '/account/my-profile/edit'
+      preLoaderRoute: typeof AccountMyProfileEditImport
+      parentRoute: typeof AccountMyProfileImport
+    }
+    '/profile/$id/fundraising': {
+      id: '/profile/$id/fundraising'
+      path: '/fundraising'
+      fullPath: '/profile/$id/fundraising'
+      preLoaderRoute: typeof ProfileIdFundraisingImport
+      parentRoute: typeof ProfileIdImport
     }
     '/tips/$placeId/assets': {
       id: '/tips/$placeId/assets'
@@ -369,6 +453,29 @@ const TipsPlaceIdRouteRouteChildren: TipsPlaceIdRouteRouteChildren = {
 const TipsPlaceIdRouteRouteWithChildren =
   TipsPlaceIdRouteRoute._addFileChildren(TipsPlaceIdRouteRouteChildren)
 
+interface AccountMyProfileRouteChildren {
+  AccountMyProfileEditRoute: typeof AccountMyProfileEditRoute
+}
+
+const AccountMyProfileRouteChildren: AccountMyProfileRouteChildren = {
+  AccountMyProfileEditRoute: AccountMyProfileEditRoute,
+}
+
+const AccountMyProfileRouteWithChildren =
+  AccountMyProfileRoute._addFileChildren(AccountMyProfileRouteChildren)
+
+interface ProfileIdRouteChildren {
+  ProfileIdFundraisingRoute: typeof ProfileIdFundraisingRoute
+}
+
+const ProfileIdRouteChildren: ProfileIdRouteChildren = {
+  ProfileIdFundraisingRoute: ProfileIdFundraisingRoute,
+}
+
+const ProfileIdRouteWithChildren = ProfileIdRoute._addFileChildren(
+  ProfileIdRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof WithMenuRouteRouteWithChildren
@@ -379,9 +486,15 @@ export interface FileRoutesByFullPath {
   '/earn': typeof WithMenuEarnRoute
   '/map': typeof WithMenuMapRoute
   '/selections': typeof WithMenuSelectionsRouteWithChildren
+  '/account/language': typeof AccountLanguageRoute
+  '/account/my-profile': typeof AccountMyProfileRouteWithChildren
+  '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
   '/menu/$id': typeof MenuIdRoute
+  '/profile/$id': typeof ProfileIdRouteWithChildren
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/selections/$id': typeof WithMenuSelectionsIdRoute
+  '/account/my-profile/edit': typeof AccountMyProfileEditRoute
+  '/profile/$id/fundraising': typeof ProfileIdFundraisingRoute
   '/tips/$placeId/assets': typeof TipsPlaceIdAssetsRoute
   '/tips/$placeId/error': typeof TipsPlaceIdErrorRoute
   '/tips/$placeId/info': typeof TipsPlaceIdInfoRoute
@@ -401,9 +514,15 @@ export interface FileRoutesByTo {
   '/earn': typeof WithMenuEarnRoute
   '/map': typeof WithMenuMapRoute
   '/selections': typeof WithMenuSelectionsRouteWithChildren
+  '/account/language': typeof AccountLanguageRoute
+  '/account/my-profile': typeof AccountMyProfileRouteWithChildren
+  '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
   '/menu/$id': typeof MenuIdRoute
+  '/profile/$id': typeof ProfileIdRouteWithChildren
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/selections/$id': typeof WithMenuSelectionsIdRoute
+  '/account/my-profile/edit': typeof AccountMyProfileEditRoute
+  '/profile/$id/fundraising': typeof ProfileIdFundraisingRoute
   '/tips/$placeId/assets': typeof TipsPlaceIdAssetsRoute
   '/tips/$placeId/error': typeof TipsPlaceIdErrorRoute
   '/tips/$placeId/info': typeof TipsPlaceIdInfoRoute
@@ -425,9 +544,15 @@ export interface FileRoutesById {
   '/_withMenu/earn': typeof WithMenuEarnRoute
   '/_withMenu/map': typeof WithMenuMapRoute
   '/_withMenu/selections': typeof WithMenuSelectionsRouteWithChildren
+  '/account/language': typeof AccountLanguageRoute
+  '/account/my-profile': typeof AccountMyProfileRouteWithChildren
+  '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
   '/menu/$id': typeof MenuIdRoute
+  '/profile/$id': typeof ProfileIdRouteWithChildren
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/_withMenu/selections/$id': typeof WithMenuSelectionsIdRoute
+  '/account/my-profile/edit': typeof AccountMyProfileEditRoute
+  '/profile/$id/fundraising': typeof ProfileIdFundraisingRoute
   '/tips/$placeId/assets': typeof TipsPlaceIdAssetsRoute
   '/tips/$placeId/error': typeof TipsPlaceIdErrorRoute
   '/tips/$placeId/info': typeof TipsPlaceIdInfoRoute
@@ -450,9 +575,15 @@ export interface FileRouteTypes {
     | '/earn'
     | '/map'
     | '/selections'
+    | '/account/language'
+    | '/account/my-profile'
+    | '/account/profile-type-updated'
     | '/menu/$id'
+    | '/profile/$id'
     | '/tips/$placeId/input'
     | '/selections/$id'
+    | '/account/my-profile/edit'
+    | '/profile/$id/fundraising'
     | '/tips/$placeId/assets'
     | '/tips/$placeId/error'
     | '/tips/$placeId/info'
@@ -471,9 +602,15 @@ export interface FileRouteTypes {
     | '/earn'
     | '/map'
     | '/selections'
+    | '/account/language'
+    | '/account/my-profile'
+    | '/account/profile-type-updated'
     | '/menu/$id'
+    | '/profile/$id'
     | '/tips/$placeId/input'
     | '/selections/$id'
+    | '/account/my-profile/edit'
+    | '/profile/$id/fundraising'
     | '/tips/$placeId/assets'
     | '/tips/$placeId/error'
     | '/tips/$placeId/info'
@@ -493,9 +630,15 @@ export interface FileRouteTypes {
     | '/_withMenu/earn'
     | '/_withMenu/map'
     | '/_withMenu/selections'
+    | '/account/language'
+    | '/account/my-profile'
+    | '/account/profile-type-updated'
     | '/menu/$id'
+    | '/profile/$id'
     | '/tips/$placeId/input'
     | '/_withMenu/selections/$id'
+    | '/account/my-profile/edit'
+    | '/profile/$id/fundraising'
     | '/tips/$placeId/assets'
     | '/tips/$placeId/error'
     | '/tips/$placeId/info'
@@ -513,7 +656,11 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRoute
   TestsRoute: typeof TestsRoute
   TipsPlaceIdRouteRoute: typeof TipsPlaceIdRouteRouteWithChildren
+  AccountLanguageRoute: typeof AccountLanguageRoute
+  AccountMyProfileRoute: typeof AccountMyProfileRouteWithChildren
+  AccountProfileTypeUpdatedRoute: typeof AccountProfileTypeUpdatedRoute
   MenuIdRoute: typeof MenuIdRoute
+  ProfileIdRoute: typeof ProfileIdRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -522,7 +669,11 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRoute,
   TestsRoute: TestsRoute,
   TipsPlaceIdRouteRoute: TipsPlaceIdRouteRouteWithChildren,
+  AccountLanguageRoute: AccountLanguageRoute,
+  AccountMyProfileRoute: AccountMyProfileRouteWithChildren,
+  AccountProfileTypeUpdatedRoute: AccountProfileTypeUpdatedRoute,
   MenuIdRoute: MenuIdRoute,
+  ProfileIdRoute: ProfileIdRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -540,7 +691,11 @@ export const routeTree = rootRoute
         "/onboarding",
         "/tests",
         "/tips/$placeId",
-        "/menu/$id"
+        "/account/language",
+        "/account/my-profile",
+        "/account/profile-type-updated",
+        "/menu/$id",
+        "/profile/$id"
       ]
     },
     "/": {
@@ -592,8 +747,26 @@ export const routeTree = rootRoute
         "/_withMenu/selections/$id"
       ]
     },
+    "/account/language": {
+      "filePath": "account/language.tsx"
+    },
+    "/account/my-profile": {
+      "filePath": "account/my-profile.tsx",
+      "children": [
+        "/account/my-profile/edit"
+      ]
+    },
+    "/account/profile-type-updated": {
+      "filePath": "account/profile-type-updated.tsx"
+    },
     "/menu/$id": {
       "filePath": "menu.$id.tsx"
+    },
+    "/profile/$id": {
+      "filePath": "profile.$id.tsx",
+      "children": [
+        "/profile/$id/fundraising"
+      ]
     },
     "/tips/$placeId/input": {
       "filePath": "tips.$placeId/input/route.tsx",
@@ -606,6 +779,14 @@ export const routeTree = rootRoute
     "/_withMenu/selections/$id": {
       "filePath": "_withMenu/selections.$id.tsx",
       "parent": "/_withMenu/selections"
+    },
+    "/account/my-profile/edit": {
+      "filePath": "account/my-profile.edit.tsx",
+      "parent": "/account/my-profile"
+    },
+    "/profile/$id/fundraising": {
+      "filePath": "profile.$id.fundraising.tsx",
+      "parent": "/profile/$id"
     },
     "/tips/$placeId/assets": {
       "filePath": "tips.$placeId/assets.tsx",
