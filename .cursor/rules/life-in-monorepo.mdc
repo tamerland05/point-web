@@ -1,0 +1,11 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+- You are in monorepo. ATM we have 1 app (apps/main) -- SPA telegram-mini-app, and 2 important packages - `packages/ui` and `packages/shared`
+- For routing in apps we use `@tanstack/router` library. use context7 if need to interact with routes.
+- For data fetching we use `@tanstack/query` library. In `packages/shared` we store queryOptions for reusing them in diff pages. use context7 if need to interact with queries or create new queries.
+- For CLIENT state management we use Jotai. You can acces to global jotai state with `import { getDefaultStore } from "jotai"`
+- In `packages/shared` we store global atoms, global api
+- Also we use i18n in apps and in packages/ui. i18n locales stored in `packages/i18n/locale`.

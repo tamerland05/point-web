@@ -1,0 +1,12 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+- Always use tailwind, you can get config in [config.css](mdc:packages/tailwind-config/config.css) file, its attached to all apps in /apps directory and to packages/ui
+- Обрати внимание, что мы не используем встроенные в tailwind размеры текста (2xl, xl, sm итд), у нас есть собственные, которые указаны в конфиге (text-title-1, text-caption-1, text-base и тд). То же самое с цветами текста.
+- Use our own ui components library. You can find it in "packages/ui".
+- You can create new components in our own ui components library if needed. Make them reusable and add stories with examples pls.
+- For lists use our [index.tsx](mdc:packages/ui/src/primitives/list/index.tsx) List and [index.tsx](mdc:packages/ui/src/primitives/list-item/index.tsx) ListItem components. You can find examples in [list.stories.tsx](mdc:packages/ui/src/primitives/list/list.stories.tsx)
+- Use <Img /> component from react-cool-img for images in apps/main
+- Use [index.tsx](mdc:packages/ui/src/primitives/icon/index.tsx) <Icon /> component for icons. All available icons listed in [types.ts](mdc:packages/ui/src/primitives/icon/icons/types.ts)
