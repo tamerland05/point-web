@@ -25,19 +25,21 @@ export interface AuthReq {
 export interface AuthDTO {
   user: {
     id: number
-    firstName: string
-    lastName: string
-    username: string
-    languageCode: string
-    photoUrl: string
-    isBot: boolean
-    isPremium: boolean
-    allowsWriteToPm: boolean
-    rank: number
+    tipsLeft: number
     bonusBalance: number
-    userType: "employee" | "consumer"
-    typsLeft: number
-    account: {
+
+    firstName: string | null
+    lastName: string | null
+    username: string | null
+    languageCode: string | null
+    photoUrl: string | null
+    isBot: boolean | null
+    isPremium: boolean | null
+    allowsWriteToPm: boolean | null
+    rank: number | null
+    wallet: string | null
+
+    employee: {
       id: string
       jobPlace: JobPlace | null
       purpose: PurposeOfFunding | null
@@ -45,7 +47,7 @@ export interface AuthDTO {
         showJob: boolean
         showPurpose: boolean
       }
-    }
+    } | null
   }
   accessToken: string
 }

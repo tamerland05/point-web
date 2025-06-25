@@ -30,11 +30,11 @@ function RouteComponent() {
   const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!))
   const user = authQuery.data?.user
 
-  const profileType = !user.account.jobPlace ? "User" : "Employee"
+  const profileType = !user.employee?.jobPlace ? "User" : "Employee"
   const language = LANGUAGES_LIST.find((l) => l.lang === (user.languageCode || i18n.language))?.name
 
   const handleGoToMyProfile = () => {
-    navigate({ to: "/account/my-profile" })
+    navigate({ to: "/account/my-profile/view" })
   }
 
   const handleGoToLanguage = () => {

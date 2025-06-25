@@ -40,7 +40,7 @@ function RouteComponent() {
   //       name={user.firstName}
   //       username={user.username}
   //       rank={user.rank}
-  //       tipsLeft={user.typsLeft}
+  //       tipsLeft={user.tipsLeft}
   //       onEdit={handleEdit}
   //       onShare={handleShare}
   //     />

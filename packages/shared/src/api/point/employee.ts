@@ -1,14 +1,15 @@
-import { queryOptions } from "@tanstack/react-query"
+import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query"
 import type { AxiosResponse } from "axios"
 
 import pointAxiosInstance from "@/api/point"
+import type { PurposeOfFunding } from "@/types"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
 
 interface EmployeeDTO {
   name: string
   username: string
   rank: number
-  typsLeft: number
+  tipsLeft: number
   account: {
     id: string
     jobPlace: {
@@ -37,3 +38,32 @@ export const employeeQueryOptions = (id: string) =>
       return response.data
     },
   })
+
+export interface UpdateEmployeeDTO {
+  purpose: PurposeOfFunding | null
+  meta: {
+    showJob: boolean
+    showPurpose: boolean
+  } | null
+}
+
+export const useUpdateEmployeeMutation = (authHash?: string) => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async (data: UpdateEmployeeDTO) => {
+      await ensureAccessTokenIsAvailable()
+
+      const response = await pointAxiosInstance.put<UpdateEmployeeDTO, AxiosResponse<UpdateEmployeeDTO>>(
+        "/point/user/employee",
+        data
+      )
+
+      return response.data
+    },
+    // after error or success
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["auth", { hash: authHash }] })
+    },
+  })
+}

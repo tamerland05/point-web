@@ -5,10 +5,12 @@ import { ListItem } from "@point/ui/list-item"
 import { openTelegramLink } from "@telegram-apps/sdk-react"
 import { memo } from "react"
 import Img from "react-cool-img"
+import { UserProfileHeader } from "./header"
 
 interface UserProfileProps {
-  jobPlace: JobPlace | null
-  purpose: PurposeOfFunding | null
+  jobPlace?: JobPlace | null
+  purpose?: PurposeOfFunding | null
+
   photo: string | null
   name: string | null
   username: string | null
@@ -23,14 +25,13 @@ export const UserProfile = memo(
   ({ jobPlace, purpose, photo, name, username, rank, tipsLeft, onEdit, onShare }: UserProfileProps) => {
     return (
       <div className="relative">
-        <div className="mb-4 flex flex-col items-center justify-center">
-          <Img className="mb-4 h-24 w-24 rounded-full" src={photo} alt={name || username || "User photo"} />
-
-          <div className="mb-2 text-center font-medium text-title-1">{name}</div>
-          <div className="text-center font-normal text-caption-1 text-text-secondary">
-            {jobPlace ? "Employee" : "User"}
-          </div>
-        </div>
+        <UserProfileHeader
+          photo={photo}
+          name={name}
+          username={username}
+          jobPlace={!!jobPlace}
+          isJobPlaceHidden={!jobPlace}
+        />
 
         {purpose && (
           <List className="mb-7" title="Fundraising">

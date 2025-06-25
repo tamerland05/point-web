@@ -4,7 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import toast from "react-hot-toast"
 
-export const Route = createFileRoute("/account/my-profile")({
+export const Route = createFileRoute("/account/my-profile/view")({
   component: RouteComponent,
   loader: async ({ context }) => {
     const { queryClient } = context
@@ -37,13 +37,13 @@ function RouteComponent() {
   return (
     <div className="px-4 pt-3 pb-4">
       <UserProfile
-        jobPlace={user.account.jobPlace}
-        purpose={user.account.purpose}
+        jobPlace={user?.employee?.jobPlace}
+        purpose={user?.employee?.purpose}
         photo={user.photoUrl}
         name={user.firstName}
         username={user.username}
         rank={user.rank}
-        tipsLeft={user.typsLeft}
+        tipsLeft={user.tipsLeft}
         onEdit={handleEdit}
         onShare={handleShare}
       />
