@@ -9,9 +9,6 @@ export const Route = createFileRoute("/tests")({
   component: RouteComponent,
 })
 
-// Example data for rendering list cells
-// const cellsTexts = ["Chat Settings", "Data and Storage", "Devices"]
-
 function RouteComponent() {
   const [mainButtonText, setMainButtonText] = useState("Main")
   const [secondaryButtonText, setSecondaryButtonText] = useState("Secondary")

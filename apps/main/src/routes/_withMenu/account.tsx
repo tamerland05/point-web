@@ -42,7 +42,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="pb-4">
+    <div className="flex h-full flex-col justify-between pb-4">
       <header className="mb-7 flex flex-col items-center gap-2">
         {user.photoUrl && <Img src={user.photoUrl} className="mb-2 h-24 w-24 rounded-full" />}
         <h1 className="font-medium text-title-1">
@@ -110,6 +110,13 @@ function RouteComponent() {
           />
         </List>
       </div>
+
+      {!ctx.launchParams?.tgWebAppStartParam?.startsWith("debug") && (
+        <code className="mt-auto flex flex-col items-center justify-center py-6 text-caption-3 text-text-secondary">
+          <div>Point v{__APP_VERSION__} </div>
+          <div>at {__COMMIT_HASH__}</div>
+        </code>
+      )}
     </div>
   )
 }
