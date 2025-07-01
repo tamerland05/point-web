@@ -8,6 +8,8 @@ interface DrawerProps {
   standalone?: boolean
   additionalTopSpace?: number
 
+  className?: string
+
   backgroundImage?: string
   disableScroll?: boolean
 
@@ -21,6 +23,7 @@ export const Drawer = ({
   height = "md",
   standalone = false,
   additionalTopSpace,
+  className,
   backgroundImage,
   isOpen,
   onClose,
@@ -78,7 +81,7 @@ export const Drawer = ({
   }, [isOpen, onClose, height, onExpand])
 
   return (
-    <dialog className={cn("z-40 flex", { "z-20": height === "pimp-only" })}>
+    <dialog className={cn("z-40 flex", { "z-20": height === "pimp-only" }, className)}>
       <div
         ref={drawerRef}
         className={cn(

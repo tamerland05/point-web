@@ -60,6 +60,7 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
       disableScroll
       onExpand={state === NearbyModalStates.PIMP_ONLY ? onShow : onExpand}
       onClose={state === NearbyModalStates.EXPANDED ? onShow : onHide}
+      className="z-20"
     >
       <div className={cn("px-4", {})}>
         <Input placeholder="Search" value={search} onChange={setSearch} containerClassName="mb-4" />
