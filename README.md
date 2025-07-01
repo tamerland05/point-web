@@ -8,3 +8,10 @@
 
 ## apps/main
 1. Telegram launch params доступны в Route.useRouteContext(), лучше использовать его для их получения в коде компонента
+
+
+## Для удобства нативной разработки TMA в Cursor используем DevTunnels (не обязательно)
+- По умолчанию в курсоре их нет, их надо подрезать у VSCode:
+`cp /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code-tunnel /Applications/Cursor.app/Contents/Resources/app/bin/`
+- Далее классический флоу DevTunnels (port 1111, public)
+- Создаем через BotFather мини-аппку с полученым в DevTunnels адреом
