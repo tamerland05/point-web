@@ -7,6 +7,7 @@ import { MAP_ID } from "@/constants/map"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { useAtom } from "jotai"
+import Img from "react-cool-img"
 
 interface MapboxMapProps {
   children: React.ReactNode
@@ -49,7 +50,7 @@ export const MapboxMap = memo(
       >
         {!!userLocation && (
           <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} anchor="center">
-            <img src="/Pin.svg" alt="Pin" />
+            <Img src="/Pin.svg" alt="Pin" />
           </Marker>
         )}
 
