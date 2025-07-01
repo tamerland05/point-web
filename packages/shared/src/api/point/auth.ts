@@ -27,20 +27,17 @@ export interface AuthDTO {
     id: number
     tipsLeft: number
     bonusBalance: number
-
     firstName: string | null
     lastName: string | null
     username: string | null
     languageCode: string | null
     photoUrl: string | null
-    isBot: boolean | null
-    isPremium: boolean | null
-    allowsWriteToPm: boolean | null
     rank: number | null
     wallet: string | null
 
     employee: {
       id: string
+      profession: string | null
       jobPlace: JobPlace | null
       purpose: PurposeOfFunding | null
       meta: {
@@ -56,7 +53,10 @@ export const authQueryOptions = (auth: AuthReq) =>
   queryOptions({
     queryKey: ["auth", { hash: auth.hash }],
     queryFn: async () => {
-      const response = await pointAxiosInstance.post<AuthDTO, AxiosResponse<AuthDTO>, AuthReq>("/point/user/auth", auth)
+      const response = await pointAxiosInstance.post<AuthDTO, AxiosResponse<AuthDTO>, AuthReq>(
+        "/point/account/auth",
+        auth
+      )
 
       const store = getDefaultStore()
       store.set(accessTokenAtom, response.data.accessToken)
