@@ -4,18 +4,20 @@ import type { AxiosResponse } from "axios"
 import pointAxiosInstance from "@/api/point"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
 
-interface EstablishmentTypeDTO {
+interface EstablishmentType {
   id: string
   name: string
   icon: string
 }
+
+export type EstablishmentTypesDTO = Record<string, EstablishmentType>
 
 export const establishmentTypesQueryOptions = queryOptions({
   queryKey: ["establishment-types"],
   queryFn: async () => {
     await ensureAccessTokenIsAvailable()
 
-    const response = await pointAxiosInstance.get<EstablishmentTypeDTO[], AxiosResponse<EstablishmentTypeDTO[]>>(
+    const response = await pointAxiosInstance.get<EstablishmentTypesDTO, AxiosResponse<EstablishmentTypesDTO>>(
       "/point/map/establishment-types"
     )
 

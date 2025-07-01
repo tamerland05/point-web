@@ -38,11 +38,9 @@ export const PlaceModal = memo(
     const establishmentTypes = establishmentTypesQuery.data
 
     const establishment = useMemo(() => {
-      if (!establishmentTypes?.length) return "N/A"
-      return (
-        establishmentTypes.find((establishmentType) => establishmentType.id === data?.establishmentTypeId)?.name ||
-        "N/A"
-      )
+      if (!establishmentTypes || !data?.establishmentTypeId) return "N/A"
+
+      return establishmentTypes[data.establishmentTypeId]?.name
     }, [establishmentTypes, data?.establishmentTypeId])
 
     const handleNavigateToMenu = useCallback(() => {
@@ -61,7 +59,7 @@ export const PlaceModal = memo(
         loading: false,
         disabled: false,
         hidden: !id || !data?.channelLink || !drawerExpanded,
-        onClick: handleOpenTelegramChannel,
+        onClick: !id || !data?.channelLink || !drawerExpanded ? undefined : handleOpenTelegramChannel,
       }),
       [id, data?.channelLink, drawerExpanded, handleOpenTelegramChannel]
     )

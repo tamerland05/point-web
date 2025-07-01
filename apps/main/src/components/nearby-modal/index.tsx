@@ -1,6 +1,6 @@
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { useLaunchParams, useSignal, viewport } from "@telegram-apps/sdk-react"
-import { memo, useMemo, useState } from "react"
+import { memo, useCallback, useMemo, useState } from "react"
 import Img from "react-cool-img"
 
 import { NearbyModalStates, nearbyModalStateAtom } from "@/atoms/map"
@@ -35,12 +35,28 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
   const [search, setSearch] = useState("")
   const debouncedSearch = useDebounce(search, 500)
 
-  const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
-  const _establishmentTypes = establishmentTypesQuery.data
-  console.log(_establishmentTypes)
-
   const placesQuery = useQuery(placesNearQueryOptions(debouncedSearch, userLocation))
   const places = placesQuery.data
+
+  const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
+  const establishmentTypes = establishmentTypesQuery.data
+
+  const getIconByEstablishmentType = useCallback(
+    (establishmentTypeId: string) => {
+      const establishmentType = establishmentTypes?.[establishmentTypeId]
+
+      if (!establishmentType) return null
+
+      return (
+        <Img
+          src={establishmentType.icon}
+          alt={establishmentType.name}
+          className="my-1 h-10 w-10 rounded-xl object-cover"
+        />
+      )
+    },
+    [establishmentTypes]
+  )
 
   const height = useMemo(() => {
     if (state === NearbyModalStates.EXPANDED) return "full"
@@ -74,14 +90,7 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
             {places?.map((place) => (
               <ListItem
                 key={place.id}
-                leftIcon={
-                  <Img
-                    onError={console.warn}
-                    src={place.photo}
-                    alt={place.name}
-                    className="h-14 w-14 rounded-xl object-cover"
-                  />
-                }
+                leftIcon={getIconByEstablishmentType(place.establishmentTypeId)}
                 leftTopText={place.name}
                 leftBottomText={place.position.address}
                 withSeparator

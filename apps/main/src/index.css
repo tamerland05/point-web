@@ -103,3 +103,8 @@ html:active-view-transition-type(warp) {
     transform: scale(1) rotate(0deg);
   }
 }
+
+
+.mapboxgl-marker > svg {
+	display: none;
+}

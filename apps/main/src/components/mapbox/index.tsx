@@ -48,7 +48,7 @@ export const MapboxMap = memo(
         zoom={zoom}
       >
         {!!userLocation && (
-          <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} anchor="bottom">
+          <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} anchor="center">
             <img src="/Pin.svg" alt="Pin" />
           </Marker>
         )}

@@ -16,7 +16,7 @@ import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
 import { establishmentsQueryOptions } from "@point/shared/api/point/establishments"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
-import { sleep } from "@point/shared/utils/sleep"
+import Img from "react-cool-img"
 
 const mapSchema = z.object({
   expanded: z.boolean().default(false),
@@ -52,6 +52,9 @@ function RouteComponent() {
   const establishmentsQuery = useQuery(establishmentsQueryOptions(debouncedLatitude, debouncedLongitude, debouncedZoom))
   const establishments = establishmentsQuery.data
 
+  const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
+  const establishmentTypes = establishmentTypesQuery.data
+
   const [movedToUserLocation, setMovedToUserLocation] = useAtom(movedToUserLocationAtom)
   useEffect(() => {
     if (movedToUserLocation) return
@@ -68,13 +71,22 @@ function RouteComponent() {
   }, [mapRef, userLocation.latitude, userLocation.longitude, movedToUserLocation, setMovedToUserLocation])
 
   const handleSelectPlace = useCallback(
-    (placeId: string) => {
+    async (placeId: string) => {
       setMenuVisible(false)
+      const place = establishments?.find((establishment) => establishment.id === placeId)
+      if (!place) return
+
+      mapRef?.flyTo({
+        center: [Number(place.position.longitude), Number(place.position.latitude) - 0.0001],
+        zoom: 17,
+        duration: 1000,
+      })
+
       navigate({
         search: (prev) => ({ ...prev, selectedPlaceId: placeId }),
       })
     },
-    [navigate, setMenuVisible]
+    [navigate, setMenuVisible, establishments, mapRef]
   )
 
   const handleExpandDrawer = useCallback(() => {
@@ -109,17 +121,11 @@ function RouteComponent() {
   }, [setMenuVisible, setNearbyModalState])
 
   const handleSelectNearbyPlace = useCallback(
-    async (placeId: string, longitude: number, latitude: number) => {
+    async (placeId: string) => {
       handleHideNearbyModal()
-      mapRef?.flyTo({
-        center: [longitude, latitude],
-        zoom: 15,
-        duration: 1000,
-      })
-      await sleep(1000)
       handleSelectPlace(placeId)
     },
-    [handleSelectPlace, handleHideNearbyModal, mapRef]
+    [handleSelectPlace, handleHideNearbyModal]
   )
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: only on init component for detecting correct menu state
@@ -129,6 +135,23 @@ function RouteComponent() {
     }
   }, [])
 
+  const getMarkerByEstablishmentType = useCallback(
+    (establishmentTypeId: string) => {
+      const establishmentType = establishmentTypes?.[establishmentTypeId]
+      if (!establishmentType) {
+        return null
+      }
+
+      return (
+        <div className="relative flex flex-col items-center">
+          <Img src={establishmentType.icon} alt={establishmentType.name} />
+          <div className="text-caption-3">{establishmentType.name}</div>
+        </div>
+      )
+    },
+    [establishmentTypes]
+  )
+
   return (
     <>
       <MapboxMap>
@@ -137,10 +160,10 @@ function RouteComponent() {
             key={establishment.id}
             longitude={establishment.position.longitude}
             latitude={establishment.position.latitude}
-            anchor="bottom"
+            anchor="center"
             onClick={() => handleSelectPlace(establishment.id)}
           >
-            <img src="/Noodle.svg" alt={establishment.name} />
+            {getMarkerByEstablishmentType(establishment.establishmentTypeId)}
           </Marker>
         ))}
       </MapboxMap>
