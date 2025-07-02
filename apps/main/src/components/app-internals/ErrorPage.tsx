@@ -1,9 +1,9 @@
-import { useTranslation } from "@point/i18n"
-import { useRouter } from "@tanstack/react-router"
+import { isAxiosError } from "@point/shared/utils/isAxiosError"
+import { cn } from "@point/ui/cn"
+import { ErrorComponent, useRouter } from "@tanstack/react-router"
 
 // мы не смогли найти что вы искали и кнопки обновить (попробоавать еще раз) и назад (вернуться назад)
-export const ErrorPage = () => {
-  const { t } = useTranslation()
+export const ErrorPage = ({ error }: { error?: Error }) => {
   const router = useRouter()
 
   const handleRefresh = () => {
@@ -14,16 +14,36 @@ export const ErrorPage = () => {
     router.history.back()
   }
 
+  const isAxiosErrorProvided = isAxiosError(error)
+
   return (
-    <div className="m-4 flex h-screen flex-col items-center justify-center">
-      <div className="text-title-2">{t("error.title")}</div>
-      <div className="text-caption-1">{t("error.description")}</div>
+    <div
+      className={cn(
+        "flex min-h-screen flex-col items-center justify-center bg-background p-5 text-center font-sans text-text"
+      )}
+    >
+      <div className=" -translate-x-1/2 -translate-y-1/2 justify-cente absolute top-1/2 left-1/2 flex w-full flex-col items-center">
+        <img alt="Telegram sticker" src="/not-found.webp" className="mb-5 block h-36 w-36" />
+        <h1 className="mb-2 font-semibold text-title-2">
+          {isAxiosErrorProvided ? error.status : error?.name || "Technical Problems"}
+        </h1>
+        <p className={cn("max-w-[300px] text-base text-text-secondary leading-snug")}>
+          {isAxiosErrorProvided
+            ? // @ts-expect-error it can be here
+              error.response?.data?.message ||
+              error.message ||
+              "Oops! There were technical problems. We are solving the problem."
+            : "Oops! There were technical problems. We are solving the problem."}
+        </p>
+        {error && <ErrorComponent error={error} />}
+      </div>
+
       <div className="mt-auto flex gap-2">
         <button type="button" className="rounded-xl bg-accent p-4 text-caption-1 text-white" onClick={handleRefresh}>
-          {t("error.refresh")}
+          Refresh
         </button>
         <button type="button" className="rounded-xl bg-background-secondary p-4 text-caption-1" onClick={handleBack}>
-          {t("error.back")}
+          Back
         </button>
       </div>
     </div>

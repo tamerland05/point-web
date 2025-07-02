@@ -3,6 +3,7 @@
 export const iconNames = [
   "Share",
   "MenuBoard",
+  "Logo",
   "Edit",
   "Check",
   "Vector",

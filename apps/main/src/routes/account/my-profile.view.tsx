@@ -35,7 +35,7 @@ function RouteComponent() {
   }
 
   return (
-    <div className="px-4 pt-3 pb-4">
+    <div className="p-4">
       <UserProfile
         jobPlace={user?.employee?.jobPlace}
         purpose={user?.employee?.purpose}

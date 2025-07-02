@@ -1,5 +1,5 @@
 import { ShowMainButton } from "@/components/tg-internals"
-import { employeeQueryOptions } from "@point/shared/api/point/employee"
+import { userQueryOptions } from "@point/shared/api/point/user"
 import { assetDetailsQuery } from "@point/shared/api/stonFi/asset"
 import { NATIVE_TON_ADDRESS } from "@point/shared/constants/tokens"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/tips/$placeId/input/confirm")({
   loaderDeps: ({ search }) => ({ recipient: search.recipient }),
   loader: async ({ context, deps }) => {
     const { queryClient } = context
-    await queryClient.ensureQueryData(employeeQueryOptions(deps.recipient))
+    await queryClient.ensureQueryData(userQueryOptions(deps.recipient))
   },
 })
 
@@ -23,8 +23,8 @@ function RouteComponent() {
   const { recipient, amount } = Route.useSearch()
   const { formatCurrency } = useFormatter()
 
-  const employeeQuery = useSuspenseQuery(employeeQueryOptions(recipient))
-  const employee = employeeQuery.data
+  const userQuery = useSuspenseQuery(userQueryOptions(recipient))
+  const user = userQuery.data
 
   // TODO: real asset
   const assetsQuery = useSuspenseQuery(assetDetailsQuery(NATIVE_TON_ADDRESS))
@@ -72,17 +72,17 @@ function RouteComponent() {
       <List title="payment details">
         <ListItem
           leftTopText={<span className="text-caption-1 text-text-secondary">Establishment</span>}
-          leftBottomText={<span className="text-accent text-base">{employee.account?.jobPlace?.name}</span>}
+          leftBottomText={<span className="text-accent text-base">{user.employee?.jobPlace?.name}</span>}
           withSeparator
         />
         <ListItem
           leftTopText={<span className="text-caption-1 text-text-secondary">Recipient status</span>}
-          leftBottomText={<span className="text-accent text-base">{employee.rank}</span>}
+          leftBottomText={<span className="text-accent text-base">{user.rank}</span>}
           withSeparator
         />
         <ListItem
           leftTopText={<span className="text-caption-1 text-text-secondary">Recipient Address</span>}
-          leftBottomText={<span className="text-base text-text">{employee.account?.jobPlace?.address || "N/A"}</span>}
+          leftBottomText={<span className="text-base text-text">{user.employee?.jobPlace?.address || "N/A"}</span>}
         />
       </List>
     </ShowMainButton>

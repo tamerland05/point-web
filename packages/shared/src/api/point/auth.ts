@@ -1,10 +1,10 @@
 import { queryOptions } from "@tanstack/react-query"
+import type { AxiosResponse } from "axios"
+import { getDefaultStore } from "jotai"
 
 import pointAxiosInstance from "@/api/point"
 import { accessTokenAtom } from "@/atoms/user"
 import type { JobPlace, PurposeOfFunding } from "@/types"
-import type { AxiosResponse } from "axios"
-import { getDefaultStore } from "jotai"
 
 export interface AuthReq {
   hash: string
@@ -45,9 +45,47 @@ export interface AuthDTO {
         showPurpose: boolean
       }
     } | null
+
+    meta: {
+      showTipsLeft: boolean
+    }
   }
   accessToken: string
 }
+
+// const MOCK_EMPLOYEE_DATA = {
+//   user: {
+//     id: "1",
+//     firstName: "John",
+//     lastName: "Doe",
+//     username: "john.doe",
+//     languageCode: "en",
+//     photoUrl: "https://placehold.co/150",
+//     rank: 1,
+//     wallet: "1000",
+//     employee: {
+//       id: "1",
+//       profession: "Software Engineer",
+//       jobPlace: {
+//         name: "Google",
+//         address: "123 Main St, Anytown, USA",
+//         id: "1",
+//       },
+//       purpose: {
+//         title: "LeetCode",
+//         description: "LeetCode is a platform for coding interviews.",
+//         icon: "https://placehold.co/150",
+//       },
+//       meta: {
+//         showJob: true,
+//         showPurpose: true,
+//       },
+//     },
+//     meta: {
+//       showTipsLeft: true,
+//     },
+//   },
+// }
 
 export const authQueryOptions = (auth: AuthReq) =>
   queryOptions({

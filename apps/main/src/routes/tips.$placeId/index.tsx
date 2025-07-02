@@ -68,7 +68,7 @@ function RouteComponent() {
         {filteredReceivers.map((employee) => (
           <ListItem
             key={employee.id}
-            leftIcon={<Img src={employee.icon} className="h-10 w-10 rounded-full" />}
+            leftIcon={<Img src={employee.photo} className="h-10 w-10 rounded-full" />}
             leftTopText={employee.name}
             leftBottomText={<div className="font-normal capitalize">{employee.profession}</div>}
             withSeparator

@@ -6,12 +6,15 @@ import * as Sentry from "@sentry/browser"
 import { QueryClient, QueryClientProvider, keepPreviousData } from "@tanstack/react-query"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
-import { StrictMode } from "react"
+import { StrictMode, memo } from "react"
 import ReactDOM from "react-dom/client"
 
 import "@/utils/mockEnv"
 import "@point/i18n"
 import "@/index.css"
+import { PageLoader } from "@point/ui/loader"
+import { DefaultCatchBoundary } from "./components/app-internals/ErrorBoundary"
+import { ErrorPage } from "./components/app-internals/ErrorPage"
 
 if (!import.meta.env.DEV && import.meta.env.VITE_GLITCHTIP_DSN) {
   Sentry.init({
@@ -44,6 +47,9 @@ const router = createRouter({
   // This will ensure that the loader is always called when the route is preloaded or visited
   defaultPreloadStaleTime: 0,
   scrollRestoration: true,
+  defaultErrorComponent: DefaultCatchBoundary,
+  defaultNotFoundComponent: memo(() => <ErrorPage />),
+  defaultPendingComponent: PageLoader,
   defaultViewTransition: {
     types: ({ fromLocation, toLocation }) => {
       let direction = "none"

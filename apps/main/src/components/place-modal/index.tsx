@@ -134,7 +134,13 @@ export const PlaceModal = memo(
                         isSnapPoint && "snap-start"
                       )}
                     >
-                      <Image alt={data?.name} className="h-full w-full rounded-2xl object-cover" src={item} />
+                      <Image
+                        placeholder="./img-ph.svg"
+                        error="./img-ph.svg"
+                        alt={data?.name}
+                        className="h-full w-full rounded-2xl object-cover"
+                        src={item}
+                      />
                     </li>
                   )}
                   showDots={false}

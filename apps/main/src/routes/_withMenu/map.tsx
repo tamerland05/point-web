@@ -136,7 +136,7 @@ function RouteComponent() {
   }, [])
 
   const getMarkerByEstablishmentType = useCallback(
-    (establishmentTypeId: string) => {
+    (establishmentTypeId: string, name?: string) => {
       const establishmentType = establishmentTypes?.[establishmentTypeId]
       if (!establishmentType) {
         return null
@@ -145,7 +145,7 @@ function RouteComponent() {
       return (
         <div className="relative flex flex-col items-center">
           <Img src={establishmentType.icon} alt={establishmentType.name} />
-          <div className="text-caption-3">{establishmentType.name}</div>
+          <div className="text-caption-3">{name || establishmentType.name}</div>
         </div>
       )
     },
@@ -163,7 +163,7 @@ function RouteComponent() {
             anchor="center"
             onClick={() => handleSelectPlace(establishment.id)}
           >
-            {getMarkerByEstablishmentType(establishment.establishmentTypeId)}
+            {getMarkerByEstablishmentType(establishment.establishmentTypeId, establishment.name)}
           </Marker>
         ))}
       </MapboxMap>

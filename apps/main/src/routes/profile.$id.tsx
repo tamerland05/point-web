@@ -32,7 +32,7 @@ function RouteComponent() {
   // }
 
   // return (
-  //   <div className="px-4 pt-3 pb-4">
+  //   <div className="p-4">
   //     <UserProfile
   //       jobPlace={user.account.jobPlace}
   //       purpose={user.account.purpose}

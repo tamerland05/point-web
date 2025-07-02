@@ -42,7 +42,7 @@ export const MapboxMap = memo(
         reuseMaps
         onMove={handleMoveMap}
         mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
-        mapStyle="mapbox://styles/mapbox/streets-v9"
+        mapStyle="mapbox://styles/egor-sidorov/cmb829fkw00qn01scgh2hdknh"
         style={mapStyle}
         longitude={longitude}
         latitude={latitude}

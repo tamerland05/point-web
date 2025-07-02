@@ -1,7 +1,7 @@
 import { ErrorPage } from "@/components/app-internals/ErrorPage"
 import { ShowMainButton } from "@/components/tg-internals"
 import { UserProfile } from "@/components/user-profile"
-import { employeeQueryOptions } from "@point/shared/api/point/employee"
+import { userQueryOptions } from "@point/shared/api/point/user"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/tips/$placeId/profile")({
   loader: async ({ context, deps }) => {
     const { queryClient } = context
 
-    await queryClient.ensureQueryData(employeeQueryOptions(deps.id))
+    await queryClient.ensureQueryData(userQueryOptions(deps.id))
   },
 
   pendingComponent: () => <div>Loading employee data...</div>,
@@ -30,8 +30,8 @@ function RouteComponent() {
   const { id } = Route.useSearch()
   const navigate = Route.useNavigate()
 
-  const employeeQuery = useSuspenseQuery(employeeQueryOptions(id))
-  const employee = employeeQuery.data
+  const userQuery = useSuspenseQuery(userQueryOptions(id))
+  const user = userQuery.data
 
   const mainButtonConfig = useMemo(
     () => ({
@@ -39,22 +39,24 @@ function RouteComponent() {
       loading: false,
       disabled: false,
       onClick: () => {
-        navigate({ to: "/tips/$placeId/assets", search: { recipient: employee.account.id } })
+        user.employee?.id
+          ? navigate({ to: "/tips/$placeId/assets", search: { recipient: user.employee?.id } })
+          : undefined
       },
     }),
-    [employee.account.id, navigate]
+    [user.employee?.id, navigate]
   )
 
   return (
     <ShowMainButton {...mainButtonConfig}>
       <UserProfile
-        jobPlace={employee.account.jobPlace}
-        purpose={employee.account.purpose}
+        jobPlace={user.employee?.jobPlace}
+        purpose={user.employee?.purpose}
         // TODO: забирать с предыдущего экрана (с квери предыдущего экрана если быть точнее)
         photo={""}
-        name={employee.name}
-        rank={employee.rank}
-        username={employee.username}
+        name={user.name}
+        rank={user.rank}
+        username={user.username}
       />
     </ShowMainButton>
   )

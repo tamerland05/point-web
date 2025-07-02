@@ -32,7 +32,7 @@ export const employeeQueryOptions = (id: string) =>
       await ensureAccessTokenIsAvailable()
 
       const response = await pointAxiosInstance.get<EmployeeDTO, AxiosResponse<EmployeeDTO>>(
-        `/point/user/employee/${id}`
+        `/point/account/employee/${id}`
       )
 
       return response.data
@@ -47,16 +47,23 @@ export interface UpdateEmployeeDTO {
   } | null
 }
 
+const config = {
+  headers: {
+    "content-type": "multipart/form-data",
+  },
+}
+
 export const useUpdateEmployeeMutation = (authHash?: string) => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (data: UpdateEmployeeDTO) => {
+    mutationFn: async (data: FormData) => {
       await ensureAccessTokenIsAvailable()
 
-      const response = await pointAxiosInstance.put<UpdateEmployeeDTO, AxiosResponse<UpdateEmployeeDTO>>(
-        "/point/user/employee",
-        data
+      const response = await pointAxiosInstance.put<FormData, AxiosResponse<FormData>>(
+        "/point/account/employee",
+        data,
+        config
       )
 
       return response.data

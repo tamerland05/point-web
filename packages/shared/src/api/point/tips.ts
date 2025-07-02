@@ -32,7 +32,7 @@ export interface ReceiversDTO {
     id: string
     name: string
     profession: string
-    icon: string
+    photo: string
   }[]
 }
 
