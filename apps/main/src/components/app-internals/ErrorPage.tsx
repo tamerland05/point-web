@@ -11,7 +11,7 @@ export const ErrorPage = ({ error }: { error?: Error }) => {
   }
 
   const handleBack = () => {
-    router.history.back()
+    router.navigate({ to: "/", replace: true })
   }
 
   const isAxiosErrorProvided = isAxiosError(error)
@@ -49,7 +49,7 @@ export const ErrorPage = ({ error }: { error?: Error }) => {
           Refresh
         </button>
         <button type="button" className="rounded-xl bg-background-secondary p-4 text-caption-1" onClick={handleBack}>
-          Back
+          Home
         </button>
       </div>
     </div>

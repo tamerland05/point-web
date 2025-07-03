@@ -1,4 +1,3 @@
-import { ErrorPage } from "@/components/app-internals/ErrorPage"
 import { ShowMainButton } from "@/components/tg-internals"
 import { Icon } from "@point/ui/icon"
 import { createFileRoute } from "@tanstack/react-router"
@@ -8,14 +7,12 @@ import z from "zod"
 
 const infoSchema = z.object({
   placeWallet: z.string().optional(),
-  id: z.string().optional(),
+  id: z.string().or(z.number()).optional(),
 })
 
 export const Route = createFileRoute("/tips/$placeId/info")({
   component: RouteComponent,
   validateSearch: zodValidator(infoSchema),
-
-  errorComponent: ErrorPage,
 })
 
 function RouteComponent() {

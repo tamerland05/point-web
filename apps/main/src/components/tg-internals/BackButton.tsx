@@ -3,7 +3,15 @@ import { useCallback, useEffect } from "react"
 import { useCanGoBack, useMatches, useRouter } from "@tanstack/react-router"
 import { backButton, hideBackButton, showBackButton } from "@telegram-apps/sdk-react"
 
-const routesWithoutBB = ["/account", "/map", "/earn", "/selections", "/selections/$id"]
+const routesWithoutBB = [
+  "/account",
+  "/map",
+  "/earn",
+  "/selections",
+  "/selections/$id",
+  "/tips/$placeId/success",
+  "/tips/$placeId/error",
+]
 
 export const BackButtonTMA = () => {
   const router = useRouter()

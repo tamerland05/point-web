@@ -6,15 +6,17 @@ import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
 import { useCallback, useMemo, useState } from "react"
 import Img from "react-cool-img"
-import toast from "react-hot-toast"
 
 export const Route = createFileRoute("/tips/$placeId/")({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const address = useTonAddress()
+  const [tc] = useTonConnectUI()
   const { placeId } = Route.useParams()
   const navigate = Route.useNavigate()
 
@@ -32,16 +34,24 @@ function RouteComponent() {
   }, [receivers, search])
 
   const handleProjectBankClick = useCallback(() => {
-    toast("TODO: CONNECT WALLET HERE")
+    if (!address) {
+      tc.modal.open()
+
+      return
+    }
     navigate({ to: "/tips/$placeId/info", search: { placeWallet: placeId } })
-  }, [navigate, placeId])
+  }, [navigate, placeId, address, tc.modal.open])
 
   const handleEmployeeClick = useCallback(
     (id: string) => {
-      toast("TODO: CONNECT WALLET HERE")
+      if (!address) {
+        tc.modal.open()
+
+        return
+      }
       navigate({ to: "/tips/$placeId/info", search: { id } })
     },
-    [navigate]
+    [navigate, address, tc.modal.open]
   )
 
   return (
@@ -68,7 +78,15 @@ function RouteComponent() {
         {filteredReceivers.map((employee) => (
           <ListItem
             key={employee.id}
-            leftIcon={<Img src={employee.photo} className="h-10 w-10 rounded-full" />}
+            leftIcon={
+              <Img
+                alt={employee.name}
+                placeholder="/user-ph.svg"
+                error="/user-ph.svg"
+                src={employee.photo}
+                className="h-10 w-10 rounded-full"
+              />
+            }
             leftTopText={employee.name}
             leftBottomText={<div className="font-normal capitalize">{employee.profession}</div>}
             withSeparator

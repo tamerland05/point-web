@@ -1,12 +1,10 @@
-import { useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
-import Image from "react-cool-img"
-
-import { ErrorPage } from "@/components/app-internals/ErrorPage"
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+import Image from "react-cool-img"
 
 export const Route = createFileRoute("/menu/$id")({
   component: RouteComponent,
@@ -19,8 +17,6 @@ export const Route = createFileRoute("/menu/$id")({
 
     await queryClient.ensureQueryData(establishmentQueryOptions(params.id))
   },
-  pendingComponent: () => <div>Loading...</div>,
-  errorComponent: ErrorPage,
 })
 
 function RouteComponent() {

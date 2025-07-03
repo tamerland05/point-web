@@ -1,4 +1,3 @@
-import { ErrorPage } from "@/components/app-internals/ErrorPage"
 import { ShowMainButton } from "@/components/tg-internals"
 import { UserProfile } from "@/components/user-profile"
 import { userQueryOptions } from "@point/shared/api/point/user"
@@ -12,7 +11,7 @@ export const Route = createFileRoute("/tips/$placeId/profile")({
   component: RouteComponent,
   validateSearch: zodValidator(
     z.object({
-      id: z.string(),
+      id: z.string().or(z.number()).optional(),
     })
   ),
   loaderDeps: ({ search: { id } }) => ({ id }),
@@ -21,9 +20,6 @@ export const Route = createFileRoute("/tips/$placeId/profile")({
 
     await queryClient.ensureQueryData(userQueryOptions(deps.id))
   },
-
-  pendingComponent: () => <div>Loading employee data...</div>,
-  errorComponent: ErrorPage,
 })
 
 function RouteComponent() {
@@ -40,11 +36,11 @@ function RouteComponent() {
       disabled: false,
       onClick: () => {
         user.employee?.id
-          ? navigate({ to: "/tips/$placeId/assets", search: { recipient: user.employee?.id } })
+          ? navigate({ to: "/tips/$placeId/assets", search: { id, recipient: user.employee?.id } })
           : undefined
       },
     }),
-    [user.employee?.id, navigate]
+    [user.employee?.id, navigate, id]
   )
 
   return (

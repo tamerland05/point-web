@@ -4,13 +4,13 @@ import type { AxiosResponse } from "axios"
 import pointAxiosInstance from "@/api/point"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
 
-interface AssetDTO {
-  id: string
-  name: string
-  ticker: string
-  price: string
+export interface AssetDTO {
   address: string
-  icon: string
+  id: string
+  imageUrl: string
+  name: string
+  symbol: string
+  tonPrice: string
 }
 
 export const tipAssetsQueryOptions = queryOptions({
@@ -52,6 +52,7 @@ export const tipReceiversQueryOptions = (placeId: string) =>
 
 export interface CheckoutReq {
   recipientId: string
+  recipientType: "employee" | "establishment"
   assetId: string
   amount: number
 }
@@ -68,7 +69,7 @@ export const tipCheckoutQueryOptions = (req: CheckoutReq) =>
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
 
-      const response = await pointAxiosInstance.post<CheckoutDTO, AxiosResponse<CheckoutDTO>, CheckoutReq>(
+      const response = await pointAxiosInstance.post<CheckoutDTO[], AxiosResponse<CheckoutDTO[]>, CheckoutReq>(
         "/point/tip/send/checkout",
         req
       )

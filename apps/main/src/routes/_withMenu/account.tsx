@@ -1,3 +1,4 @@
+import { trimAddress } from "@/utils/trim-address"
 import { LANGUAGES_LIST, useTranslation } from "@point/i18n"
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { Icon } from "@point/ui/icon"
@@ -5,6 +6,7 @@ import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
 import Img from "react-cool-img"
 
 export const Route = createFileRoute("/_withMenu/account")({
@@ -21,6 +23,8 @@ export const Route = createFileRoute("/_withMenu/account")({
 })
 
 function RouteComponent() {
+  const [tc] = useTonConnectUI()
+  const address = useTonAddress()
   const ctx = Route.useRouteContext()
   const navigate = Route.useNavigate()
 
@@ -39,6 +43,21 @@ function RouteComponent() {
 
   const handleGoToLanguage = () => {
     navigate({ to: "/account/language" })
+  }
+
+  const handleClickWallet = async () => {
+    if (address || user.wallet) {
+      const selected = "GO"
+
+      if (selected === "GO") {
+        if (address) await tc.disconnect()
+        tc.modal.open()
+      }
+
+      return
+    }
+
+    tc.modal.open()
   }
 
   return (
@@ -100,14 +119,19 @@ function RouteComponent() {
             leftIcon={<Icon name="Account5" className="h-7 w-7 text-transparent" />}
             rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
             withSeparator
-            rightTopText={<div className="-mr-4 text-text-secondary">WIP</div>}
+            rightTopText={
+              <div className="-mr-4 text-text-secondary">
+                {user.wallet ? trimAddress(user.wallet, 4, 5) : "Not Connected"}
+              </div>
+            }
+            onClick={handleClickWallet}
           />
           <ListItem
             leftTopText="Default Currency"
             leftIcon={<Icon name="Account6" className="h-7 w-7 text-transparent" />}
             rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
             withSeparator
-            rightTopText={<div className="-mr-4 text-text-secondary">WIP</div>}
+            rightTopText={<div className="-mr-4 text-text-secondary">USD</div>}
           />
           <ListItem
             leftTopText="Contact Support"

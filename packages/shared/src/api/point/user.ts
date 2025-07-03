@@ -23,7 +23,7 @@ interface UserDTO {
   } | null
 }
 
-export const userQueryOptions = (userId: string) =>
+export const userQueryOptions = (userId: string | number | undefined) =>
   queryOptions({
     queryKey: ["get-user", { userId }],
     queryFn: async () => {
@@ -33,6 +33,7 @@ export const userQueryOptions = (userId: string) =>
 
       return response.data
     },
+    enabled: !!userId,
   })
 
 interface UpdateUserReq {

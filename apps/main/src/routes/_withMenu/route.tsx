@@ -58,7 +58,7 @@ function RouteComponent() {
 
   const isMapPage = matches.includes("/map")
   const isEarnPage = matches.includes("/earn")
-
+  console.log({ showMenu })
   return (
     <>
       <div className="flex-grow overflow-y-auto">

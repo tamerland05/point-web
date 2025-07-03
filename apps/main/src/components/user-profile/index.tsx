@@ -2,6 +2,7 @@ import type { JobPlace, PurposeOfFunding } from "@point/shared/types"
 import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
+import { Link } from "@tanstack/react-router"
 import { openTelegramLink } from "@telegram-apps/sdk-react"
 import { memo } from "react"
 import Img from "react-cool-img"
@@ -59,16 +60,21 @@ export const UserProfile = memo(
             }
             withSeparator
           />
+
           <ListItem
             leftTopText={<span className="text-caption-1 text-text-secondary">User Rank</span>}
             leftBottomText={
               <span className="text-base text-text">
-                {/* TODO: link to rating */}
-                At this moment in time, the user is ranked #{rank} in the overall ranking
+                At this moment in time, the user is ranked{" "}
+                <Link className="text-accent" to="/earn/rating">
+                  #{rank || 0}
+                </Link>{" "}
+                in the overall ranking
               </span>
             }
             withSeparator
           />
+
           {jobPlace && (
             <ListItem
               leftTopText={<span className="text-caption-1 text-text-secondary">Place of Work</span>}
