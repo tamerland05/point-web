@@ -19,7 +19,7 @@ import { ErrorPage } from "./components/app-internals/ErrorPage"
 
 if (!import.meta.env.DEV) {
   Sentry.init({
-    dsn: "http://8fe7fe8e5d8e45989ab7259d2163f153@https://sup.meyson.tech/1",
+    dsn: "https://8fe7fe8e5d8e45989ab7259d2163f153@sup.meyson.tech/1",
     environment: "production",
   })
 }
