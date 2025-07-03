@@ -21,7 +21,6 @@ export const Route = createFileRoute("/profile/$id")({
 })
 
 function RouteComponent() {
-  const ctx = Route.useRouteContext()
   const params = Route.useParams()
 
   const userQuery = useSuspenseQuery(userQueryOptions(params.id))
