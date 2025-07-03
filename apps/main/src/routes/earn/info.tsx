@@ -7,7 +7,7 @@ export const Route = createFileRoute('/earn/info')({
 })
 
 function RouteComponent() {
-	const goToChannel = () => openTelegramLink("t.me/point")
+	const goToChannel = () => openTelegramLink("https://t.me/point")
   return <ShowMainButton title='Project Channel' onClick={goToChannel}><svg className="w-full -mt-20" width="393" height="852" viewBox="0 0 393 852" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
 	<g clip-path="url(#clip0_667_28147)">
 
