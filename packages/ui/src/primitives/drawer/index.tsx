@@ -32,6 +32,7 @@ export const Drawer = ({
 }: DrawerProps) => {
   const drawerRef = useRef<HTMLDivElement>(null)
   const drawerPimp = useRef<HTMLDivElement>(null)
+  const scrollableAreaRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!isOpen) return
@@ -80,6 +81,11 @@ export const Drawer = ({
     }
   }, [isOpen, onClose, height, onExpand])
 
+  useEffect(() => {
+    if (!isOpen && !disableScroll) return
+    scrollableAreaRef.current?.scrollTo(0, 0)
+  }, [isOpen, disableScroll])
+
   return (
     <dialog className={cn("z-40 flex", { "z-20": height === "pimp-only" }, className)}>
       <div
@@ -122,7 +128,9 @@ export const Drawer = ({
         </div>
 
         <div className="flex flex-grow flex-col overflow-hidden">
-          <div className={cn("flex-grow pb-4", { "overflow-y-auto": !disableScroll })}>{children}</div>
+          <div ref={scrollableAreaRef} className={cn("flex-grow pb-4", { "overflow-y-auto": !disableScroll })}>
+            {children}
+          </div>
         </div>
       </div>
     </dialog>

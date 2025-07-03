@@ -125,6 +125,7 @@ export const PlaceModal = memo(
                 <div className="mx-4 mb-1 text-caption-3 text-text-secondary uppercase">Photos</div>
                 <HorizontalScroller<string>
                   className="gap-4"
+                  scrollRestoration={false}
                   items={data?.gallery || []}
                   renderItem={({ item, isSnapPoint }) => (
                     <li
