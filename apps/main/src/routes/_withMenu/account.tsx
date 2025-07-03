@@ -6,6 +6,7 @@ import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import { popup } from "@telegram-apps/sdk-react"
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
 import Img from "react-cool-img"
 
@@ -47,9 +48,18 @@ function RouteComponent() {
 
   const handleClickWallet = async () => {
     if (address || user.wallet) {
-      const selected = "GO"
+      const selected = await popup.show({
+        title: "Changing Account Type",
+        message: "Are you sure you want to switch toa new account type? This actioncannot be canceled",
+        buttons: [
+          { type: "destructive", text: "GO", id: "go" },
+          { type: "cancel", id: "cancel" },
+        ],
+      })
 
-      if (selected === "GO") {
+      if (selected === "cancel") return
+
+      if (selected === "go") {
         if (address) await tc.disconnect()
         tc.modal.open()
       }
