@@ -22,13 +22,11 @@ export const Route = createFileRoute("/_withMenu")({
 
     return { platform: context.launchParams.tgWebAppPlatform }
   },
-
-  staleTime: Number.POSITIVE_INFINITY,
 })
 
 export const menuItems = [
-  { label: "Map", icon: "Globe Europe Africa Fill", path: "/map" },
   { label: "Earn", icon: "CoinsFill", path: "/earn" },
+  { label: "Map", icon: "Globe Europe Africa Fill", path: "/map" },
   { label: "Account", icon: "User Circle Outline", path: "/account" },
 ] as const
 
@@ -58,7 +56,7 @@ function RouteComponent() {
 
   const isMapPage = matches.includes("/map")
   const isEarnPage = matches.includes("/earn")
-  console.log({ showMenu })
+
   return (
     <>
       <div className="flex-grow overflow-y-auto">

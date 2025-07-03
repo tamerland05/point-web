@@ -4,6 +4,7 @@ import { useRouter } from "@tanstack/react-router"
 
 // мы не смогли найти что вы искали и кнопки обновить (попробоавать еще раз) и назад (вернуться назад)
 export const ErrorPage = ({ error }: { error?: Error }) => {
+  console.log(error)
   const router = useRouter()
 
   const handleRefresh = () => {
@@ -38,9 +39,8 @@ export const ErrorPage = ({ error }: { error?: Error }) => {
             ? // @ts-expect-error it can be here
               error.response?.data?.message ||
               JSON.stringify(error.response?.data, null, 2) ||
-              error.message ||
               "Oops! There were technical problems. We are solving the problem."
-            : "Oops! There were technical problems. We are solving the problem."}
+            : error?.message || "Oops! There were technical problems. We are solving the problem."}
         </pre>
       </div>
 

@@ -12,6 +12,7 @@ import ReactDOM from "react-dom/client"
 import "@/utils/mockEnv"
 import "@point/i18n"
 import "@/index.css"
+import { notFoundError } from "@point/shared/constants/errors"
 import { PageLoader } from "@point/ui/loader"
 import { DefaultCatchBoundary } from "./components/app-internals/ErrorBoundary"
 import { ErrorPage } from "./components/app-internals/ErrorPage"
@@ -48,7 +49,7 @@ const router = createRouter({
   defaultPreloadStaleTime: 0,
   scrollRestoration: true,
   defaultErrorComponent: DefaultCatchBoundary,
-  defaultNotFoundComponent: memo(() => <ErrorPage />),
+  defaultNotFoundComponent: memo(() => <ErrorPage error={notFoundError} />),
   defaultPendingComponent: PageLoader,
   defaultViewTransition: {
     types: ({ fromLocation, toLocation }) => {

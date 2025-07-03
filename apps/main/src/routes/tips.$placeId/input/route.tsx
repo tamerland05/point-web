@@ -4,7 +4,7 @@ import { useAssetBalance } from "@point/shared/hooks/useAssetBalance"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { Icon } from "@point/ui/icon"
 import { useSuspenseQuery } from "@tanstack/react-query"
-import { Outlet, createFileRoute } from "@tanstack/react-router"
+import { Outlet, createFileRoute, useMatches } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import { useTonAddress } from "@tonconnect/ui-react"
 import Img from "react-cool-img"
@@ -33,6 +33,7 @@ function RouteComponent() {
 
   const address = useTonAddress()
   const { asset: selectedAssetId } = Route.useSearch()
+  const match = useMatches()
 
   const assetsQuery = useSuspenseQuery(tipAssetsQueryOptions)
   const selectedAsset = assetsQuery.data.find((asset) => asset.id === selectedAssetId)
@@ -48,6 +49,8 @@ function RouteComponent() {
     walletAddress: address,
     assetAddress: selectedAsset?.address,
   })
+
+  const isConfirmRoute = match.some((match) => match.pathname.includes("/confirm"))
 
   return (
     <div className="flex h-full flex-col justify-between">
@@ -65,23 +68,25 @@ function RouteComponent() {
         <Outlet />
       </div>
 
-      <div className="mt-auto flex w-full items-center gap-4">
-        <div>
-          <Img className="h-10 w-10 rounded-full" src={asset.image_url} alt={asset.display_name} />
-        </div>
-        <div className="flex flex-col">
-          <div className="font-medium">From Balance</div>
-          <div className="font-normal text-caption-1 text-text-secondary">
-            {formatFromNano(balance, asset.decimals)} {asset.symbol}
+      {!isConfirmRoute && (
+        <div className="mt-auto flex w-full items-center gap-4">
+          <div>
+            <Img className="h-10 w-10 rounded-full" src={asset.image_url} alt={asset.display_name} />
           </div>
-        </div>
-        {/* TODO: set amount as atom */}
-        {/* <div className="ml-auto">
+          <div className="flex flex-col">
+            <div className="font-medium">From Balance</div>
+            <div className="font-normal text-caption-1 text-text-secondary">
+              {formatFromNano(balance, asset.decimals)} {asset.symbol}
+            </div>
+          </div>
+          {/* TODO: set amount as atom */}
+          {/* <div className="ml-auto">
             <button type="button" className="rounded-full bg-[#D6E7FF] px-3 py-2 text-accent text-caption-1">
               Max
             </button>
           </div> */}
-      </div>
+        </div>
+      )}
     </div>
   )
 }
