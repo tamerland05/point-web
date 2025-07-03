@@ -1,4 +1,5 @@
 import type { JobPlace } from "@point/shared/types/index"
+import { cn } from "@point/ui/cn"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 import { useForm } from "@tanstack/react-form"
@@ -83,7 +84,7 @@ export const AccountStep = ({
     const title = !isUserEmployee ? "Save" : "Continue"
     const submitFromUser = async () => {
       await form.handleSubmit()
-      navigate({ to: "/account/my-profile/view" })
+      navigate({ to: "/account/my-profile/view", replace: true })
     }
 
     const submitFromEmployee = async () => {
@@ -96,11 +97,11 @@ export const AccountStep = ({
     return {
       title,
       loading: form.state.isSubmitting,
-      disabled: !form.state.canSubmit || form.state.isSubmitting,
+      disabled: !form.state.canSubmit || form.state.isSubmitting || !form.state.isValid,
       hidden: false,
       onClick,
     }
-  }, [isUserEmployee, navigate, form.state.isSubmitting, form.state.canSubmit, form.handleSubmit])
+  }, [isUserEmployee, navigate, form.state.isSubmitting, form.state.canSubmit, form.handleSubmit, form.state.isValid])
 
   return (
     <ShowMainButton {...mainButtonConfig}>
@@ -138,42 +139,52 @@ export const AccountStep = ({
           {isUserEmployee ? (
             <form.Field
               name="firstName"
+              validators={{
+                onChange: ({ value }) => (value.length > 32 ? "First Name is too long" : undefined),
+              }}
               // biome-ignore lint/correctness/noChildrenProp: <explanation>
               children={(field) => (
-                <ListItem
-                  className="py-3"
-                  leftTopText={
-                    <input
-                      type="text"
-                      placeholder="First Name"
-                      className="placeholder:text-text-secondary"
-                      value={field.state.value}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                  }
-                  withSeparator
-                />
+                <>
+                  <ListItem
+                    className={cn("py-3")}
+                    leftIconClassName="w-full"
+                    leftIcon={
+                      <input
+                        type="text"
+                        placeholder="First Name"
+                        className="w-full placeholder:text-text-secondary"
+                        value={field.state.value}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                    }
+                    withSeparator
+                  />
+                </>
               )}
             />
           ) : (
             <ListItem
               className="py-3"
-              leftTopText={lastName || <div className="text-text-secondary">Last Name</div>}
+              leftTopText={firstName || <div className="text-text-secondary">First Name</div>}
               withSeparator
             />
           )}
           {isUserEmployee ? (
             <form.Field
               name="lastName"
+              validators={{
+                onChange: ({ value }) => (value.length > 32 ? "Last Name is too long" : undefined),
+              }}
               // biome-ignore lint/correctness/noChildrenProp: <explanation>
               children={(field) => (
                 <ListItem
                   className="py-3"
-                  leftTopText={
+                  leftIconClassName="w-full"
+                  leftIcon={
                     <input
                       type="text"
                       placeholder="First Name"
-                      className="placeholder:text-text-secondary"
+                      className="w-full placeholder:text-text-secondary"
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
                     />

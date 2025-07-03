@@ -56,7 +56,7 @@ export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: 
     const onClick = async () => {
       await form.handleSubmit()
       // TODO: jobPlace screen
-      navigate({ to: "/account/my-profile/view" })
+      navigate({ to: "/account/my-profile/view", replace: true })
     }
 
     return {
@@ -85,11 +85,12 @@ export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: 
             children={(field) => (
               <ListItem
                 className="py-3"
-                leftTopText={
+                leftIconClassName="w-full"
+                leftIcon={
                   <input
                     type="text"
                     placeholder="Title"
-                    className="placeholder:text-text-secondary"
+                    className="w-full placeholder:text-text-secondary"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                   />
@@ -153,11 +154,12 @@ export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: 
             children={(field) => (
               <ListItem
                 className="py-3"
-                leftTopText={
+                leftIconClassName="w-full"
+                leftIcon={
                   <input
                     type="text"
                     placeholder="Descripton"
-                    className="placeholder:text-text-secondary"
+                    className="w-full placeholder:text-text-secondary"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                   />
