@@ -1,51 +1,43 @@
+import { UserProfile } from "@/components/user-profile"
 import { authQueryOptions } from "@point/shared/api/point/auth"
+import { userQueryOptions } from "@point/shared/api/point/user"
+import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/profile/$id")({
   component: RouteComponent,
-  loader: async ({ context }) => {
+  loader: async ({ context, params }) => {
     const { queryClient } = context
 
     if (!context.launchParams?.tgWebAppData) {
       throw new Error("Нет данных от телеги, перезагрузите приложение")
     }
 
-    queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+    await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
 
+    queryClient.ensureQueryData(userQueryOptions(params.id))
     // TODO: ensure user profile data if id!==userId
   },
 })
 
 function RouteComponent() {
-  // const ctx = Route.useRouteContext()
+  const ctx = Route.useRouteContext()
+  const params = Route.useParams()
 
-  // // biome-ignore lint/style/noNonNullAssertion: we have check in loader
-  // const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!))
-  // const user = authQuery.data?.user
+  const userQuery = useSuspenseQuery(userQueryOptions(params.id))
+  const user = userQuery.data
 
-  // const handleEdit = () => {
-  //   toast("Edit nav")
-  // }
-
-  // const handleShare = () => {
-  //   toast("Share (Link copied?)")
-  // }
-
-  // return (
-  //   <div className="p-4">
-  //     <UserProfile
-  //       jobPlace={user.account.jobPlace}
-  //       purpose={user.account.purpose}
-  //       photo={user.photoUrl}
-  //       name={user.firstName}
-  //       username={user.username}
-  //       rank={user.rank}
-  //       tipsLeft={user.tipsLeft}
-  //       onEdit={handleEdit}
-  //       onShare={handleShare}
-  //     />
-  //   </div>
-  // )
-
-  return <div>Hello "/profile/$id"!</div>
+  return (
+    <div className="p-4">
+      <UserProfile
+        jobPlace={user.employee?.jobPlace}
+        purpose={user.employee?.purpose}
+        photo={user.photoUrl}
+        name={user.name}
+        username={user.username}
+        rank={user.rank}
+        tipsLeft={user.tipsLeft}
+      />
+    </div>
+  )
 }

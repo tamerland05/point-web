@@ -44,7 +44,13 @@ function RouteComponent() {
   return (
     <div className="flex h-full flex-col justify-between pb-4">
       <header className="mb-7 flex flex-col items-center gap-2">
-        {user.photoUrl && <Img src={user.photoUrl} className="mb-2 h-24 w-24 rounded-full" />}
+        <Img
+          placeholder="/user-ph.svg"
+          error="/user-ph.svg"
+          src={user.photoUrl}
+          className="mb-2 h-24 w-24 rounded-full"
+        />
+
         <h1 className="font-medium text-title-1">
           {user.firstName} {user.lastName}
         </h1>

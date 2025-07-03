@@ -17,15 +17,13 @@ export const UserProfileHeader = memo(
     return (
       <header className="mb-4 flex flex-col items-center justify-center">
         <Img
-          placeholder="./user-ph.svg"
-          error="./user-ph.svg"
+          placeholder="/user-ph.svg"
+          error="/user-ph.svg"
           className="mb-4 h-24 w-24 rounded-full"
           src={photo}
           alt={name || username || "User photo"}
         />
-
         <div className="mb-2 text-center font-medium text-title-1">{name}</div>
-
         {!isJobPlaceHidden && (
           <div className="text-center font-normal text-caption-1 text-text-secondary">{jobPlaceText}</div>
         )}
