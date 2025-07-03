@@ -27,7 +27,6 @@ export const Route = createFileRoute("/_withMenu")({
 })
 
 export const menuItems = [
-  { label: "Selections", icon: "Frame 1580", path: "/selections" },
   { label: "Map", icon: "Globe Europe Africa Fill", path: "/map" },
   { label: "Earn", icon: "CoinsFill", path: "/earn" },
   { label: "Account", icon: "User Circle Outline", path: "/account" },
@@ -58,6 +57,7 @@ function RouteComponent() {
   }))
 
   const isMapPage = matches.includes("/map")
+  const isEarnPage = matches.includes("/earn")
 
   return (
     <>
@@ -66,6 +66,7 @@ function RouteComponent() {
           className={cn({
             "m-auto box-border flex h-full w-full flex-col": true,
             "p-4 [view-transition-name:main-content]": !isMapPage,
+            "h-auto p-0": isEarnPage,
           })}
         >
           <Outlet />

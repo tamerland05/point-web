@@ -17,6 +17,10 @@ import { Route as WithMenuRouteImport } from './routes/_withMenu/route'
 import { Route as IndexImport } from './routes/index'
 import { Route as ProfileIdImport } from './routes/profile.$id'
 import { Route as MenuIdImport } from './routes/menu.$id'
+import { Route as EarnReferralsImport } from './routes/earn/referrals'
+import { Route as EarnRatingImport } from './routes/earn/rating'
+import { Route as EarnInfoImport } from './routes/earn/info'
+import { Route as EarnGratitudeImport } from './routes/earn/gratitude'
 import { Route as AccountProfileTypeUpdatedImport } from './routes/account/profile-type-updated'
 import { Route as AccountLanguageImport } from './routes/account/language'
 import { Route as WithMenuSelectionsImport } from './routes/_withMenu/selections'
@@ -72,6 +76,30 @@ const ProfileIdRoute = ProfileIdImport.update({
 const MenuIdRoute = MenuIdImport.update({
   id: '/menu/$id',
   path: '/menu/$id',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EarnReferralsRoute = EarnReferralsImport.update({
+  id: '/earn/referrals',
+  path: '/earn/referrals',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EarnRatingRoute = EarnRatingImport.update({
+  id: '/earn/rating',
+  path: '/earn/rating',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EarnInfoRoute = EarnInfoImport.update({
+  id: '/earn/info',
+  path: '/earn/info',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EarnGratitudeRoute = EarnGratitudeImport.update({
+  id: '/earn/gratitude',
+  path: '/earn/gratitude',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -276,6 +304,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountProfileTypeUpdatedImport
       parentRoute: typeof rootRoute
     }
+    '/earn/gratitude': {
+      id: '/earn/gratitude'
+      path: '/earn/gratitude'
+      fullPath: '/earn/gratitude'
+      preLoaderRoute: typeof EarnGratitudeImport
+      parentRoute: typeof rootRoute
+    }
+    '/earn/info': {
+      id: '/earn/info'
+      path: '/earn/info'
+      fullPath: '/earn/info'
+      preLoaderRoute: typeof EarnInfoImport
+      parentRoute: typeof rootRoute
+    }
+    '/earn/rating': {
+      id: '/earn/rating'
+      path: '/earn/rating'
+      fullPath: '/earn/rating'
+      preLoaderRoute: typeof EarnRatingImport
+      parentRoute: typeof rootRoute
+    }
+    '/earn/referrals': {
+      id: '/earn/referrals'
+      path: '/earn/referrals'
+      fullPath: '/earn/referrals'
+      preLoaderRoute: typeof EarnReferralsImport
+      parentRoute: typeof rootRoute
+    }
     '/menu/$id': {
       id: '/menu/$id'
       path: '/menu/$id'
@@ -477,6 +533,10 @@ export interface FileRoutesByFullPath {
   '/selections': typeof WithMenuSelectionsRouteWithChildren
   '/account/language': typeof AccountLanguageRoute
   '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
+  '/earn/gratitude': typeof EarnGratitudeRoute
+  '/earn/info': typeof EarnInfoRoute
+  '/earn/rating': typeof EarnRatingRoute
+  '/earn/referrals': typeof EarnReferralsRoute
   '/menu/$id': typeof MenuIdRoute
   '/profile/$id': typeof ProfileIdRouteWithChildren
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
@@ -505,6 +565,10 @@ export interface FileRoutesByTo {
   '/selections': typeof WithMenuSelectionsRouteWithChildren
   '/account/language': typeof AccountLanguageRoute
   '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
+  '/earn/gratitude': typeof EarnGratitudeRoute
+  '/earn/info': typeof EarnInfoRoute
+  '/earn/rating': typeof EarnRatingRoute
+  '/earn/referrals': typeof EarnReferralsRoute
   '/menu/$id': typeof MenuIdRoute
   '/profile/$id': typeof ProfileIdRouteWithChildren
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
@@ -535,6 +599,10 @@ export interface FileRoutesById {
   '/_withMenu/selections': typeof WithMenuSelectionsRouteWithChildren
   '/account/language': typeof AccountLanguageRoute
   '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
+  '/earn/gratitude': typeof EarnGratitudeRoute
+  '/earn/info': typeof EarnInfoRoute
+  '/earn/rating': typeof EarnRatingRoute
+  '/earn/referrals': typeof EarnReferralsRoute
   '/menu/$id': typeof MenuIdRoute
   '/profile/$id': typeof ProfileIdRouteWithChildren
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
@@ -566,6 +634,10 @@ export interface FileRouteTypes {
     | '/selections'
     | '/account/language'
     | '/account/profile-type-updated'
+    | '/earn/gratitude'
+    | '/earn/info'
+    | '/earn/rating'
+    | '/earn/referrals'
     | '/menu/$id'
     | '/profile/$id'
     | '/tips/$placeId/input'
@@ -593,6 +665,10 @@ export interface FileRouteTypes {
     | '/selections'
     | '/account/language'
     | '/account/profile-type-updated'
+    | '/earn/gratitude'
+    | '/earn/info'
+    | '/earn/rating'
+    | '/earn/referrals'
     | '/menu/$id'
     | '/profile/$id'
     | '/tips/$placeId/input'
@@ -621,6 +697,10 @@ export interface FileRouteTypes {
     | '/_withMenu/selections'
     | '/account/language'
     | '/account/profile-type-updated'
+    | '/earn/gratitude'
+    | '/earn/info'
+    | '/earn/rating'
+    | '/earn/referrals'
     | '/menu/$id'
     | '/profile/$id'
     | '/tips/$placeId/input'
@@ -647,6 +727,10 @@ export interface RootRouteChildren {
   TipsPlaceIdRouteRoute: typeof TipsPlaceIdRouteRouteWithChildren
   AccountLanguageRoute: typeof AccountLanguageRoute
   AccountProfileTypeUpdatedRoute: typeof AccountProfileTypeUpdatedRoute
+  EarnGratitudeRoute: typeof EarnGratitudeRoute
+  EarnInfoRoute: typeof EarnInfoRoute
+  EarnRatingRoute: typeof EarnRatingRoute
+  EarnReferralsRoute: typeof EarnReferralsRoute
   MenuIdRoute: typeof MenuIdRoute
   ProfileIdRoute: typeof ProfileIdRouteWithChildren
   AccountMyProfileEditRoute: typeof AccountMyProfileEditRoute
@@ -661,6 +745,10 @@ const rootRouteChildren: RootRouteChildren = {
   TipsPlaceIdRouteRoute: TipsPlaceIdRouteRouteWithChildren,
   AccountLanguageRoute: AccountLanguageRoute,
   AccountProfileTypeUpdatedRoute: AccountProfileTypeUpdatedRoute,
+  EarnGratitudeRoute: EarnGratitudeRoute,
+  EarnInfoRoute: EarnInfoRoute,
+  EarnRatingRoute: EarnRatingRoute,
+  EarnReferralsRoute: EarnReferralsRoute,
   MenuIdRoute: MenuIdRoute,
   ProfileIdRoute: ProfileIdRouteWithChildren,
   AccountMyProfileEditRoute: AccountMyProfileEditRoute,
@@ -684,6 +772,10 @@ export const routeTree = rootRoute
         "/tips/$placeId",
         "/account/language",
         "/account/profile-type-updated",
+        "/earn/gratitude",
+        "/earn/info",
+        "/earn/rating",
+        "/earn/referrals",
         "/menu/$id",
         "/profile/$id",
         "/account/my-profile/edit",
@@ -744,6 +836,18 @@ export const routeTree = rootRoute
     },
     "/account/profile-type-updated": {
       "filePath": "account/profile-type-updated.tsx"
+    },
+    "/earn/gratitude": {
+      "filePath": "earn/gratitude.tsx"
+    },
+    "/earn/info": {
+      "filePath": "earn/info.tsx"
+    },
+    "/earn/rating": {
+      "filePath": "earn/rating.tsx"
+    },
+    "/earn/referrals": {
+      "filePath": "earn/referrals.tsx"
     },
     "/menu/$id": {
       "filePath": "menu.$id.tsx"
