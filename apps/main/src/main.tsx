@@ -17,9 +17,9 @@ import { PageLoader } from "@point/ui/loader"
 import { DefaultCatchBoundary } from "./components/app-internals/ErrorBoundary"
 import { ErrorPage } from "./components/app-internals/ErrorPage"
 
-if (!import.meta.env.DEV && import.meta.env.VITE_GLITCHTIP_DSN) {
+if (!import.meta.env.DEV) {
   Sentry.init({
-    dsn: import.meta.env.VITE_GLITCHTIP_DSN,
+    dsn: "http://8fe7fe8e5d8e45989ab7259d2163f153@https://sup.meyson.tech/1",
     environment: "production",
   })
 }
