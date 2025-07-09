@@ -139,7 +139,7 @@ export const PlaceModal = memo(
                         placeholder="./img-ph.svg"
                         error="./img-ph.svg"
                         alt={data?.name}
-                        className="h-full w-full rounded-2xl object-cover"
+                        className="h-100 w-full rounded-2xl object-cover"
                         src={item}
                       />
                     </li>
