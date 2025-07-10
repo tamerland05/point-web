@@ -165,12 +165,9 @@ function RouteComponent() {
         </List>
       </div>
 
-      {!ctx.launchParams?.tgWebAppStartParam?.startsWith("debug") && (
-        <code className="mt-auto flex flex-col items-center justify-center py-6 text-caption-3 text-text-secondary">
-          <div>Point v{__APP_VERSION__} </div>
-          <div>at {__COMMIT_HASH__}</div>
-        </code>
-      )}
+      <code className="mt-auto flex flex-col items-center justify-center py-6 text-caption-3 text-text-secondary">
+        <div>Point v{__APP_VERSION__} </div>
+      </code>
     </div>
   )
 }
