@@ -27,8 +27,7 @@ export interface AuthDTO {
     id: number
     tipsLeft: number
     bonusBalance: number
-    firstName: string | null
-    lastName: string | null
+    name: string | null
     username: string | null
     languageCode: string | null
     photoUrl: string | null
@@ -37,8 +36,12 @@ export interface AuthDTO {
 
     employee: {
       id: string
-      profession: string | null
-      jobPlace: JobPlace | null
+      profession: string
+      photo: string
+      name: string
+      firstName: string
+      lastName: string
+      jobPlace: JobPlace
       purpose: PurposeOfFunding | null
       meta: {
         showJob: boolean

@@ -1,20 +1,22 @@
-import { AccountStep, FundraisingStep } from "@/components/edit-steps"
+import { AccountStep, FundraisingStep, JobPlaceStep } from "@/components/edit-steps"
+import { ConnectWalletStep } from "@/components/edit-steps/ConnectWallet"
 import { authQueryOptions } from "@point/shared/api/point/auth"
-import { useUpdateEmployeeMutation } from "@point/shared/api/point/employee"
+import { invitationQueryOptions, useUpdateEmployeeMutation } from "@point/shared/api/point/employee"
 import { purposeIconsQueryOptions } from "@point/shared/api/point/purposeIcons"
 import { useUpdateUserMutation } from "@point/shared/api/point/user"
-import { useSuspenseQuery } from "@tanstack/react-query"
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute, redirect } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import z from "zod"
 
 const editProfileSchema = z.object({
-  step: z.enum(["account", "fundraising", "jobPlace"]).catch("account"),
+  step: z.enum(["account", "fundraising", "job-place", "connect-wallet"]).catch("account"),
+  fromOnboarding: z.boolean().optional().default(false),
 })
 
 export const Route = createFileRoute("/account/my-profile/edit")({
   component: RouteComponent,
-  loaderDeps: (ctx) => [ctx.search.step],
+  loaderDeps: (ctx) => [ctx.search.step, ctx.search.fromOnboarding],
   loader: async ({ context, deps }) => {
     const { queryClient } = context
 
@@ -25,7 +27,10 @@ export const Route = createFileRoute("/account/my-profile/edit")({
     const userData = await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
     const user = userData.user
 
-    if (!user.employee?.jobPlace && deps[0] !== "account") {
+    const step = deps[0]
+    const fromOnboarding = deps[1]
+
+    if (!user.employee && step !== "account" && !fromOnboarding) {
       throw redirect({ to: "/account/my-profile/edit", search: { step: "account" }, replace: true })
     }
 
@@ -43,9 +48,16 @@ function RouteComponent() {
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
   const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!))
   const user = authQuery.data?.user
-  const isUserEmployee = !!user.employee?.jobPlace
 
-  const { mutateAsync: updateEmployee } = useUpdateEmployeeMutation(ctx.launchParams?.tgWebAppData?.hash)
+  const invitationQuery = useQuery(invitationQueryOptions)
+  const { isSuccess: hasInvitation } = invitationQuery
+
+  const isUserEmployee = !!user.employee?.jobPlace || hasInvitation
+
+  const { mutateAsync: updateEmployee } = useUpdateEmployeeMutation(
+    ctx.launchParams?.tgWebAppData?.hash,
+    !user.employee
+  )
   const handleUpdateEmployee = async (data: FormData) => {
     await updateEmployee(data)
   }
@@ -60,13 +72,14 @@ function RouteComponent() {
       {search.step === "account" && (
         <AccountStep
           isUserEmployee={isUserEmployee}
-          firstName={user.firstName}
-          lastName={user.lastName}
-          photoUrl={user.photoUrl}
-          showJob={user.employee?.meta.showJob ?? null}
-          showPurpose={user.employee?.meta.showPurpose ?? null}
+          isEmptyEmployee={!user.employee}
+          firstName={user.employee?.firstName || ""}
+          lastName={user.employee?.lastName || ""}
+          photo={user.employee?.photo || ""}
+          showJob={user.employee?.meta.showJob}
+          showPurpose={user.employee?.meta.showPurpose}
           showTipsLeft={user.meta.showTipsLeft}
-          jobPlace={user.employee?.jobPlace ?? null}
+          fromOnboarding={search.fromOnboarding}
           onUpdateEmployee={handleUpdateEmployee}
           onUpdateUser={handleUpdateUser}
         />
@@ -78,8 +91,12 @@ function RouteComponent() {
           title={user.employee?.purpose?.title}
           description={user.employee?.purpose?.description}
           onUpdateEmployee={handleUpdateEmployee}
+          fromOnboarding={search.fromOnboarding}
         />
       )}
+
+      {search.step === "job-place" && <JobPlaceStep jobPlace={user.employee?.jobPlace} />}
+      {search.step === "connect-wallet" && <ConnectWalletStep />}
     </>
   )
 }

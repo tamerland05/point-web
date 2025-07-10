@@ -1,24 +1,25 @@
-import type { JobPlace } from "@point/shared/types/index"
 import { cn } from "@point/ui/cn"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 import { useForm } from "@tanstack/react-form"
 import { useNavigate } from "@tanstack/react-router"
 import { useMemo, useRef, useState } from "react"
+import toast from "react-hot-toast"
 import { ShowMainButton } from "../tg-internals"
 import { UserProfileHeader } from "../user-profile/header"
 
 interface AccountStepProps {
   isUserEmployee: boolean
+  isEmptyEmployee: boolean
 
-  photoUrl: string | null
-  firstName: string | null
-  lastName: string | null
+  photo: string
+  firstName: string
+  lastName: string
+  showJob: boolean | undefined
+  showPurpose: boolean | undefined
   showTipsLeft: boolean
-  showJob: boolean | null
-  showPurpose: boolean | null
 
-  jobPlace: JobPlace | null
+  fromOnboarding: boolean
 
   onUpdateEmployee: (data: FormData) => Promise<void>
   onUpdateUser: ({ showTipsLeft }: { showTipsLeft: boolean }) => Promise<void>
@@ -26,15 +27,14 @@ interface AccountStepProps {
 
 export const AccountStep = ({
   isUserEmployee,
-  photoUrl,
+  isEmptyEmployee,
+  photo,
   firstName,
   lastName,
   showJob,
   showPurpose,
   showTipsLeft,
-
-  jobPlace,
-
+  fromOnboarding,
   onUpdateEmployee,
   onUpdateUser,
 }: AccountStepProps) => {
@@ -64,13 +64,21 @@ export const AccountStep = ({
         meta: { showJob: value.showJob, showPurpose: value.showPurpose },
       }
 
-      employeeFormData.append("update_in", JSON.stringify(updateObj))
+      if (isUserEmployee && !file && !photo) {
+        toast.error("Please select a photo")
+        return
+      }
+
+      const fieldName = isEmptyEmployee ? "create_in" : "update_in"
+
+      employeeFormData.append(fieldName, JSON.stringify(updateObj))
 
       if (isUserEmployee) {
         if (file) {
           employeeFormData.append("file", file)
           employeeFormData.append("type", file.type)
         }
+
         await onUpdateEmployee(employeeFormData)
       }
 
@@ -89,7 +97,7 @@ export const AccountStep = ({
 
     const submitFromEmployee = async () => {
       await form.handleSubmit()
-      navigate({ to: "/account/my-profile/edit", search: { step: "fundraising" } })
+      navigate({ to: "/account/my-profile/edit", search: { step: "fundraising", fromOnboarding } })
     }
 
     const onClick = isUserEmployee ? submitFromEmployee : submitFromUser
@@ -101,7 +109,15 @@ export const AccountStep = ({
       hidden: false,
       onClick,
     }
-  }, [isUserEmployee, navigate, form.state.isSubmitting, form.state.canSubmit, form.handleSubmit, form.state.isValid])
+  }, [
+    isUserEmployee,
+    navigate,
+    form.state.isSubmitting,
+    form.state.canSubmit,
+    form.handleSubmit,
+    form.state.isValid,
+    fromOnboarding,
+  ])
 
   return (
     <ShowMainButton {...mainButtonConfig}>
@@ -113,13 +129,7 @@ export const AccountStep = ({
         }}
         className="flex flex-col p-4"
       >
-        <UserProfileHeader
-          photo={image ?? photoUrl}
-          name={firstName}
-          username={null}
-          jobPlace={!!jobPlace}
-          isJobPlaceHidden={true}
-        />
+        <UserProfileHeader photo={image ?? photo} name={firstName} username={null} isJobPlaceHidden={true} />
 
         <input type="file" onChange={handleChange} accept="image/*" className="hidden" ref={fileInputRef} />
         {isUserEmployee && (
@@ -135,76 +145,65 @@ export const AccountStep = ({
           </button>
         )}
 
-        <List className="mt-3 mb-2">
-          {isUserEmployee ? (
-            <form.Field
-              name="firstName"
-              validators={{
-                onChange: ({ value }) => (value.length > 32 ? "First Name is too long" : undefined),
-              }}
-              // biome-ignore lint/correctness/noChildrenProp: <explanation>
-              children={(field) => (
-                <>
+        {isUserEmployee && (
+          <>
+            <List className="mt-3 mb-2">
+              <form.Field
+                name="firstName"
+                validators={{
+                  onChange: ({ value }) => (value.length > 32 ? "First Name is too long" : undefined),
+                }}
+                // biome-ignore lint/correctness/noChildrenProp: <explanation>
+                children={(field) => (
+                  <>
+                    <ListItem
+                      className={cn("py-3")}
+                      leftIconClassName="w-full"
+                      leftIcon={
+                        <input
+                          type="text"
+                          placeholder="First Name"
+                          className="mr-[50vw] w-full placeholder:text-text-secondary"
+                          value={field.state.value}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                        />
+                      }
+                      withSeparator
+                    />
+                  </>
+                )}
+              />
+
+              <form.Field
+                name="lastName"
+                validators={{
+                  onChange: ({ value }) => (value.length > 32 ? "Last Name is too long" : undefined),
+                }}
+                // biome-ignore lint/correctness/noChildrenProp: <explanation>
+                children={(field) => (
                   <ListItem
-                    className={cn("py-3")}
+                    className="py-3"
                     leftIconClassName="w-full"
                     leftIcon={
                       <input
                         type="text"
                         placeholder="First Name"
-                        className="w-full placeholder:text-text-secondary"
+                        className="mr-[50vw] w-full placeholder:text-text-secondary"
                         value={field.state.value}
                         onChange={(e) => field.handleChange(e.target.value)}
                       />
                     }
-                    withSeparator
                   />
-                </>
-              )}
-            />
-          ) : (
-            <ListItem
-              className="py-3"
-              leftTopText={firstName || <div className="text-text-secondary">First Name</div>}
-              withSeparator
-            />
-          )}
-          {isUserEmployee ? (
-            <form.Field
-              name="lastName"
-              validators={{
-                onChange: ({ value }) => (value.length > 32 ? "Last Name is too long" : undefined),
-              }}
-              // biome-ignore lint/correctness/noChildrenProp: <explanation>
-              children={(field) => (
-                <ListItem
-                  className="py-3"
-                  leftIconClassName="w-full"
-                  leftIcon={
-                    <input
-                      type="text"
-                      placeholder="First Name"
-                      className="w-full placeholder:text-text-secondary"
-                      value={field.state.value}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                  }
-                />
-              )}
-            />
-          ) : (
-            <ListItem
-              className="py-3"
-              leftTopText={lastName || <div className="text-text-secondary">Last Name</div>}
-              withSeparator
-            />
-          )}
-        </List>
-        <div className="mb-7 px-4 text-caption-2 text-text-secondary">
-          The specified data will be shown to potential customers of your establishment
-        </div>
+                )}
+              />
+            </List>
+            <div className="mb-4 px-4 text-caption-2 text-text-secondary">
+              The specified data will be shown to potential customers of your establishment
+            </div>
+          </>
+        )}
 
-        <List className="mb-2">
+        <List className="mt-3 mb-2">
           {isUserEmployee && (
             <form.Field
               name="showJob"

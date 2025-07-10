@@ -10,53 +10,54 @@ import { BackButtonTMA } from "./BackButton"
 import { WebButton } from "./WebButton"
 
 export const ButtonsController = memo(() => {
-	const isTma = useAtomValue(isTmaEnvironmentAtom)
-	const mainProps = useAtomValue(mainButtonAtom)
-	const secondaryProps = useAtomValue(secondaryButtonAtom)
+  const isTma = useAtomValue(isTmaEnvironmentAtom)
+  const mainProps = useAtomValue(mainButtonAtom)
+  const secondaryProps = useAtomValue(secondaryButtonAtom)
 
-	if (isTma && window.location.hostname !== "localhost") {
-		return (
-			<>
-				<BackButtonTMA />
+  if (isTma && window.location.hostname !== "localhost") {
+    return (
+      <>
+        <BackButtonTMA />
 
-				<MainButtonTMA
-					disabled={mainProps.disabled}
-					hidden={mainProps.hidden}
-					loading={mainProps.loading}
-					title={mainProps.title}
-					onClick={mainProps.onClick}
-				/>
+        <MainButtonTMA
+          disabled={mainProps.disabled}
+          hidden={mainProps.hidden}
+          loading={mainProps.loading}
+          title={mainProps.title}
+          onClick={mainProps.onClick}
+        />
 
-				<SecondaryButtonTMA
-					disabled={secondaryProps.disabled}
-					hidden={secondaryProps.hidden}
-					loading={secondaryProps.loading}
-					title={secondaryProps.title}
-					onClick={secondaryProps.onClick}
-				/>
-			</>
-		)
-	}
+        <SecondaryButtonTMA
+          disabled={secondaryProps.disabled}
+          hidden={secondaryProps.hidden}
+          loading={secondaryProps.loading}
+          title={secondaryProps.title}
+          onClick={secondaryProps.onClick}
+          position={secondaryProps.position}
+        />
+      </>
+    )
+  }
 
-	return (
-		<>
-			<WebButton
-				disabled={mainProps.disabled}
-				hidden={mainProps.hidden}
-				loading={mainProps.loading}
-				title={mainProps.title}
-				onClick={mainProps.onClick}
-			/>
+  return (
+    <>
+      <WebButton
+        disabled={mainProps.disabled}
+        hidden={mainProps.hidden}
+        loading={mainProps.loading}
+        title={mainProps.title}
+        onClick={mainProps.onClick}
+      />
 
-			<WebButton
-				disabled={secondaryProps.disabled}
-				hidden={secondaryProps.hidden}
-				isSecondary
-				loading={secondaryProps.loading}
-				title={secondaryProps.title}
-				onClick={secondaryProps.onClick}
-			/>
-		</>
-	)
+      <WebButton
+        disabled={secondaryProps.disabled}
+        hidden={secondaryProps.hidden}
+        isSecondary
+        loading={secondaryProps.loading}
+        title={secondaryProps.title}
+        onClick={secondaryProps.onClick}
+      />
+    </>
+  )
 })
 ButtonsController.displayName = "ButtonsController"

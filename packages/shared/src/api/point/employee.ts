@@ -4,6 +4,7 @@ import type { AxiosResponse } from "axios"
 import pointAxiosInstance from "@/api/point"
 import type { PurposeOfFunding } from "@/types"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
+import { useMemo } from "react"
 
 interface EmployeeDTO {
   name: string
@@ -47,20 +48,25 @@ export interface UpdateEmployeeDTO {
   } | null
 }
 
-const config = {
-  headers: {
-    "content-type": "multipart/form-data",
-  },
-}
-
-export const useUpdateEmployeeMutation = (authHash?: string) => {
+export const useUpdateEmployeeMutation = (authHash?: string, isCreate?: boolean) => {
   const queryClient = useQueryClient()
+
+  const config = useMemo(
+    () => ({
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    }),
+    []
+  )
 
   return useMutation({
     mutationFn: async (data: FormData) => {
       await ensureAccessTokenIsAvailable()
 
-      const response = await pointAxiosInstance.put<FormData, AxiosResponse<FormData>>(
+      const method = isCreate ? "post" : "put"
+
+      const response = await pointAxiosInstance[method]<FormData, AxiosResponse<FormData>>(
         "/point/account/employee",
         data,
         config
@@ -71,6 +77,43 @@ export const useUpdateEmployeeMutation = (authHash?: string) => {
     // after error or success
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["auth", { hash: authHash }] })
+    },
+  })
+}
+
+export interface InvitationDTO {
+  establishmentId: string
+  profession: string
+}
+
+export const invitationQueryOptions = queryOptions({
+  queryKey: ["invitation"],
+  queryFn: async () => {
+    await ensureAccessTokenIsAvailable()
+
+    const response = await pointAxiosInstance.get<InvitationDTO, AxiosResponse<InvitationDTO>>(
+      "/point/account/invitation"
+    )
+
+    return response.data
+  },
+  retry: false,
+})
+
+export const useDeleteEmployeeMutation = () => {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: async () => {
+      await ensureAccessTokenIsAvailable()
+
+      const response = await pointAxiosInstance.delete("/point/account/employee")
+
+      return response.data
+    },
+    // after error or success
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["auth"] })
     },
   })
 }

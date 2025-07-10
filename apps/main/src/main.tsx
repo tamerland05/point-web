@@ -59,10 +59,11 @@ const router = createRouter({
         const fromIndex = fromLocation.state.__TSR_index
         const toIndex = toLocation.state.__TSR_index
         const isStayingOnTheSamePage = fromLocation?.pathname === toLocation?.pathname
+        const isOnboarding = fromLocation?.pathname === "/onboarding"
         const isNavigatingInMenu =
           menuItems.includes(fromLocation?.pathname) && menuItems.includes(toLocation?.pathname)
 
-        if (isStayingOnTheSamePage) {
+        if (isStayingOnTheSamePage && !isOnboarding) {
           return ["none"]
         }
 

@@ -45,21 +45,23 @@ export const UserProfile = memo(
         )}
 
         <List>
-          <ListItem
-            leftTopText={<span className="text-caption-1 text-text-secondary">Telegram</span>}
-            leftBottomText={
-              <button
-                type="button"
-                onClick={() => {
-                  openTelegramLink(`t.me/${username}`)
-                }}
-                className="text-accent text-base"
-              >
-                @{username}
-              </button>
-            }
-            withSeparator
-          />
+          {username && (
+            <ListItem
+              leftTopText={<span className="text-caption-1 text-text-secondary">Telegram</span>}
+              leftBottomText={
+                <button
+                  type="button"
+                  onClick={() => {
+                    openTelegramLink(`https://t.me/${username}`)
+                  }}
+                  className="text-accent text-base"
+                >
+                  @{username}
+                </button>
+              }
+              withSeparator
+            />
+          )}
 
           <ListItem
             leftTopText={<span className="text-caption-1 text-text-secondary">User Rank</span>}

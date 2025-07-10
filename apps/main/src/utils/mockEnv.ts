@@ -66,11 +66,22 @@ if (import.meta.env.DEV) {
             ["auth_date", ((new Date().getTime() / 1000) | 0).toString()],
             ["hash", "some-hash"],
             ["signature", "some-signature"],
-            ["user", JSON.stringify({ id: 1, first_name: "Vladislav" })],
+            [
+              "user",
+              JSON.stringify({
+                id: 12,
+                first_name: "Egor",
+                last_name: "Development Mode",
+                is_premium: true,
+                photo_url: "https://t.me/i/userpic/320/sPjSAx1mTgV7ovmH2mi4k20-d66xye3pOei7G1DM6i4.svg",
+                language_code: "ru",
+                username: "egor_dev_mode",
+              }),
+            ],
           ]).toString(),
         ],
-        ["tgWebAppVersion", "8.4"],
-        ["tgWebAppPlatform", "tdesktop"],
+        ["tgWebAppVersion", "9.0"],
+        ["tgWebAppPlatform", "ios"], // "tdesktop"
       ]),
     })
 

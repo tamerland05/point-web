@@ -8,9 +8,11 @@ const routesWithoutBB = [
   "/map",
   "/earn",
   "/selections",
-  "/selections/$id",
+
   "/tips/$placeId/success",
   "/tips/$placeId/error",
+  "/account/profile-type-updated",
+  "/account/profile-created",
 ]
 
 export const BackButtonTMA = () => {

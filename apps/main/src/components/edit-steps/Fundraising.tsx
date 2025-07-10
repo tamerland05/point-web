@@ -15,11 +15,18 @@ interface FundraisingStepProps {
   icon?: string
   title?: string
   description?: string
+  fromOnboarding?: boolean
 
   onUpdateEmployee: (data: FormData) => Promise<void>
 }
 
-export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: FundraisingStepProps) => {
+export const FundraisingStep = ({
+  icon,
+  title,
+  description,
+  onUpdateEmployee,
+  fromOnboarding,
+}: FundraisingStepProps) => {
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -38,7 +45,7 @@ export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: 
       const employeeFormData = new FormData()
       const updateObj = {
         purpose: {
-          icon: value.icon,
+          icon: value.icon || "",
           title: value.title,
           description: value.description,
         },
@@ -55,8 +62,13 @@ export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: 
   const mainButtonConfig = useMemo(() => {
     const onClick = async () => {
       await form.handleSubmit()
-      // TODO: jobPlace screen
-      navigate({ to: "/account/my-profile/view", replace: true })
+
+      if (fromOnboarding) {
+        navigate({ to: "/account/my-profile/edit", search: { step: "connect-wallet", fromOnboarding: true } })
+        return
+      }
+
+      navigate({ to: "/account/my-profile/edit", search: { step: "job-place" } })
     }
 
     return {
@@ -66,7 +78,7 @@ export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: 
       hidden: false,
       onClick,
     }
-  }, [navigate, form.state.isSubmitting, form.state.canSubmit, form.handleSubmit])
+  }, [navigate, form.state.isSubmitting, form.state.canSubmit, form.handleSubmit, fromOnboarding])
 
   return (
     <ShowMainButton {...mainButtonConfig}>
@@ -89,8 +101,8 @@ export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: 
                 leftIcon={
                   <input
                     type="text"
-                    placeholder="Title"
-                    className="w-full placeholder:text-text-secondary"
+                    placeholder="A tour with the cat"
+                    className="mr-[50vw] w-full placeholder:text-text-secondary"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                   />
@@ -119,7 +131,12 @@ export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: 
                     isOpen && (
                       <div className="absolute top-3/4 right-0 flex w-full flex-wrap gap-5 rounded-3xl bg-background-secondary p-4 shadow-xl">
                         {purposeIcons.map((icon) => (
-                          <div key={icon.id} className="flex items-center" onClick={() => field.handleChange(icon.id)}>
+                          <button
+                            type="button"
+                            key={icon.id}
+                            className="flex items-center"
+                            onClick={() => field.handleChange(icon.id)}
+                          >
                             <Img
                               src={icon.preview}
                               className={cn("h-7 w-7", {
@@ -129,7 +146,7 @@ export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: 
                                   icon.id !== field.state.value,
                               })}
                             />
-                          </div>
+                          </button>
                         ))}
                       </div>
                     )
@@ -158,8 +175,8 @@ export const FundraisingStep = ({ icon, title, description, onUpdateEmployee }: 
                 leftIcon={
                   <input
                     type="text"
-                    placeholder="Descripton"
-                    className="w-full placeholder:text-text-secondary"
+                    placeholder="I dream of traveling around Spain with my cat."
+                    className="mr-[50vw] w-full placeholder:text-text-secondary"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                   />

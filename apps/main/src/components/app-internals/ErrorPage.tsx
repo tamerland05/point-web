@@ -2,9 +2,9 @@ import { isAxiosError } from "@point/shared/utils/isAxiosError"
 import { cn } from "@point/ui/cn"
 import { useRouter } from "@tanstack/react-router"
 
-// мы не смогли найти что вы искали и кнопки обновить (попробоавать еще раз) и назад (вернуться назад)
 export const ErrorPage = ({ error }: { error?: Error }) => {
-  console.log(error)
+  // biome-ignore lint/suspicious/noConsole: its important to log errors here
+  console.error(error)
   const router = useRouter()
 
   const handleRefresh = () => {

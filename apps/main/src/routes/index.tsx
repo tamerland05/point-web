@@ -1,18 +1,20 @@
+import { onboardingCompletedAtom } from "@/atoms/user"
 import { Outlet, createFileRoute, redirect } from "@tanstack/react-router"
-
-const onboardingCompleted = true // skip onboarding flow
-const isVerifiedEmloyee = true // can access to employee flow
+import { getDefaultStore } from "jotai"
 
 export const Route = createFileRoute("/")({
-	component: Index,
-	beforeLoad: async () => {
-		if (onboardingCompleted) throw redirect({ to: "/account" })
-		if (isVerifiedEmloyee) throw redirect({ to: "/account" })
+  component: Index,
+  beforeLoad: async () => {
+    const store = getDefaultStore()
+    const onboardingCompleted = store.get(onboardingCompletedAtom)
 
-		throw redirect({ to: "/account" })
-	},
+    if (!onboardingCompleted) throw redirect({ to: "/onboarding", replace: true })
+    // if (isVerifiedEmloyee) throw redirect({ to: "/account" })
+
+    throw redirect({ to: "/account", replace: true })
+  },
 })
 
 function Index() {
-	return <Outlet />
+  return <Outlet />
 }

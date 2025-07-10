@@ -5,14 +5,10 @@ import { atom } from "jotai/vanilla"
 export const accessTokenAtom = atom<string | null>(null)
 
 export const getAccessToken = () => {
-	const store = getDefaultStore()
-	return store.get(accessTokenAtom)
+  const store = getDefaultStore()
+  return store.get(accessTokenAtom)
 }
 
-export const onboardingCompletedAtom = atomWithStorage<boolean>("@point/shared/onboardingCompleted", false, undefined, {
-	getOnInit: true,
-})
-
 export const referrerAtom = atomWithStorage<string | null>("@point/shared/referrer", null, undefined, {
-	getOnInit: true,
+  getOnInit: true,
 })

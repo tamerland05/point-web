@@ -81,7 +81,10 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
       <div className={cn("px-4", {})}>
         <Input placeholder="Search" value={search} onChange={setSearch} containerClassName="mb-4" />
         <div
-          className={cn("h-[calc(100vh-100px)] rounded-b-xl", {
+          style={{
+            height: `calc(100vh - ${additionalTopSpace + 100}px)`,
+          }}
+          className={cn("rounded-b-xl", {
             "overflow-y-auto": state === NearbyModalStates.EXPANDED,
             "overflow-y-hidden": state !== NearbyModalStates.EXPANDED,
           })}

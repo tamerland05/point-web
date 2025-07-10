@@ -5,7 +5,7 @@ interface UserProfileHeaderProps {
   photo: string | null
   name: string | null
   username: string | null
-  jobPlace: boolean
+  jobPlace?: boolean
 
   isJobPlaceHidden?: boolean
 }

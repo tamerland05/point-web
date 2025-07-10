@@ -39,8 +39,8 @@ function RouteComponent() {
       <UserProfile
         jobPlace={user?.employee?.jobPlace}
         purpose={user?.employee?.purpose}
-        photo={user.photoUrl}
-        name={user.firstName}
+        photo={user.employee?.photo || user.photoUrl}
+        name={user.employee?.name || user.name}
         username={user.username}
         rank={user.rank}
         tipsLeft={user.tipsLeft}

@@ -1,3 +1,4 @@
+import { onboardingCompletedAtom } from "@/atoms/user"
 import { trimAddress } from "@/utils/trim-address"
 import { LANGUAGES_LIST, useTranslation } from "@point/i18n"
 import { authQueryOptions } from "@point/shared/api/point/auth"
@@ -6,8 +7,9 @@ import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import { popup } from "@telegram-apps/sdk-react"
+import { hapticFeedback, popup } from "@telegram-apps/sdk-react"
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
+import { useSetAtom } from "jotai"
 import Img from "react-cool-img"
 
 export const Route = createFileRoute("/_withMenu/account")({
@@ -31,26 +33,39 @@ function RouteComponent() {
 
   const { i18n } = useTranslation()
 
+  const setOnboardingCompleted = useSetAtom(onboardingCompletedAtom)
+
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
   const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!))
   const user = authQuery.data?.user
 
-  const profileType = !user.employee?.jobPlace ? "User" : "Employee"
+  const profileType = !user.employee ? "User" : "Employee"
   const language = LANGUAGES_LIST.find((l) => l.lang === (user.languageCode || i18n.language))?.name
 
   const handleGoToMyProfile = () => {
+    hapticFeedback.impactOccurred("light")
     navigate({ to: "/account/my-profile/view" })
   }
 
   const handleGoToLanguage = () => {
+    hapticFeedback.impactOccurred("light")
     navigate({ to: "/account/language" })
   }
 
+  const handleGoToInformation = async () => {
+    hapticFeedback.impactOccurred("light")
+
+    setOnboardingCompleted(false)
+    navigate({ to: "/onboarding", replace: true, viewTransition: { types: ["none"] } })
+  }
+
   const handleClickWallet = async () => {
+    hapticFeedback.impactOccurred("light")
+
     if (address || user.wallet) {
       const selected = await popup.show({
-        title: "Changing Account Type",
-        message: "Are you sure you want to switch toa new account type? This actioncannot be canceled",
+        title: "Connect a new wallet",
+        message: "You can link a new wallet to receive tips and drops",
         buttons: [
           { type: "destructive", text: "GO", id: "go" },
           { type: "cancel", id: "cancel" },
@@ -76,13 +91,11 @@ function RouteComponent() {
         <Img
           placeholder="/user-ph.svg"
           error="/user-ph.svg"
-          src={user.photoUrl}
+          src={user.employee?.photo || user.photoUrl}
           className="mb-2 h-24 w-24 rounded-full"
         />
 
-        <h1 className="font-medium text-title-1">
-          {user.firstName} {user.lastName}
-        </h1>
+        <h1 className="font-medium text-title-1">{user.employee?.name || user.name}</h1>
         <p className="text-caption-1 text-text-secondary">{profileType}</p>
       </header>
 
@@ -114,6 +127,7 @@ function RouteComponent() {
             leftTopText="Information"
             leftIcon={<Icon name="Account3" className="h-7 w-7 text-transparent" />}
             rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+            onClick={handleGoToInformation}
           />
         </List>
 

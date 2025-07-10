@@ -37,7 +37,7 @@ export const PlaceModal = memo(
     const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
     const establishmentTypes = establishmentTypesQuery.data
 
-    const establishment = useMemo(() => {
+    const establishmentTypeName = useMemo(() => {
       if (!establishmentTypes || !data?.establishmentTypeId) return "N/A"
 
       return establishmentTypes[data.establishmentTypeId]?.name
@@ -101,7 +101,7 @@ export const PlaceModal = memo(
                 className="text-base"
                 leftIcon={<Icon name={"Shape"} className="h-7 w-7 rounded-md bg-[#38C555] p-1 text-transparent" />}
                 leftTopText="Establishment Type"
-                rightTopText={<div className="text-text-secondary">{establishment}</div>}
+                rightTopText={<div className="text-text-secondary">{establishmentTypeName}</div>}
                 withSeparator
               />
               <ListItem
@@ -120,7 +120,7 @@ export const PlaceModal = memo(
               />
             </List>
 
-            {(data?.gallery || []).length > 0 && (
+            {(data?.gallery || []).length > 0 && id && (
               <div className="mb-8">
                 <div className="mx-4 mb-1 text-caption-3 text-text-secondary uppercase">Photos</div>
                 <HorizontalScroller<string>
@@ -152,7 +152,7 @@ export const PlaceModal = memo(
             <List className="mb-8" title="establishment info">
               <ListItem
                 leftTopText={<span className="text-caption-1 text-text-secondary">Establishment Type</span>}
-                leftBottomText={<span className="text-accent text-base">{establishment}</span>}
+                leftBottomText={<span className="text-accent text-base">{establishmentTypeName}</span>}
                 withSeparator
               />
               <ListItem
