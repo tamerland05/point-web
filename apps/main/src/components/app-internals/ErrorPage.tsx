@@ -20,7 +20,7 @@ export const ErrorPage = ({ error }: { error?: Error }) => {
   return (
     <div
       className={cn(
-        "flex min-h-screen flex-col items-center justify-center bg-background p-5 text-center font-sans text-text"
+        "flex min-h-full flex-col items-center justify-center bg-background p-5 text-center font-sans text-text"
       )}
     >
       <div className=" -translate-x-1/2 -translate-y-1/2 justify-cente absolute top-1/2 left-1/2 flex w-full flex-col items-center">
