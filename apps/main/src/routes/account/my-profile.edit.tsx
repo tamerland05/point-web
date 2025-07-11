@@ -73,9 +73,9 @@ function RouteComponent() {
         <AccountStep
           isUserEmployee={isUserEmployee}
           isEmptyEmployee={!user.employee}
-          firstName={user.employee?.firstName || ""}
+          firstName={user.employee?.firstName || user.name || ""}
           lastName={user.employee?.lastName || ""}
-          photo={user.employee?.photo || ""}
+          photo={user.employee?.photo || user.photoUrl || ""}
           showJob={user.employee?.meta.showJob}
           showPurpose={user.employee?.meta.showPurpose}
           showTipsLeft={user.meta.showTipsLeft}
@@ -95,6 +95,7 @@ function RouteComponent() {
       )}
 
       {search.step === "job-place" && <JobPlaceStep jobPlace={user.employee?.jobPlace} />}
+
       {search.step === "connect-wallet" && <ConnectWalletStep />}
     </>
   )
