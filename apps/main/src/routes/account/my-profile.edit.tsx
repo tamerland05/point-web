@@ -87,7 +87,6 @@ function RouteComponent() {
 
       {search.step === "fundraising" && (
         <FundraisingStep
-          icon={user.employee?.purpose?.icon}
           title={user.employee?.purpose?.title}
           description={user.employee?.purpose?.description}
           onUpdateEmployee={handleUpdateEmployee}

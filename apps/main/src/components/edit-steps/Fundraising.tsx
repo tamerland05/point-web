@@ -9,10 +9,10 @@ import { useQuery } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { useMemo, useState } from "react"
 import Img from "react-cool-img"
+import { toast } from "react-hot-toast"
 import { ShowMainButton } from "../tg-internals"
 
 interface FundraisingStepProps {
-  icon?: string
   title?: string
   description?: string
   fromOnboarding?: boolean
@@ -20,13 +20,7 @@ interface FundraisingStepProps {
   onUpdateEmployee: (data: FormData) => Promise<void>
 }
 
-export const FundraisingStep = ({
-  icon,
-  title,
-  description,
-  onUpdateEmployee,
-  fromOnboarding,
-}: FundraisingStepProps) => {
+export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnboarding }: FundraisingStepProps) => {
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
 
@@ -37,15 +31,25 @@ export const FundraisingStep = ({
 
   const form = useForm({
     defaultValues: {
-      icon: icon || purposeIcons[0]?.id,
+      icon: purposeIcons[0]?.id || ("" as string),
       title: title || "",
       description: description || "",
     },
     onSubmit: async ({ formApi, value }) => {
+      if (!value.title) {
+        toast.error("Please enter a title")
+        return
+      }
+
+      if (!value.description) {
+        toast.error("Please enter a description")
+        return
+      }
+
       const employeeFormData = new FormData()
       const updateObj = {
         purpose: {
-          icon: value.icon || "",
+          icon: value.icon,
           title: value.title,
           description: value.description,
         },

@@ -28,6 +28,15 @@ export const JobPlaceStep = ({ jobPlace }: { jobPlace?: JobPlace }) => {
   }, [navigate])
 
   const handleDelete = useCallback(async () => {
+    const isSupported = await popup.isSupported()
+
+    if (!isSupported) {
+      await deleteEmployeeMutation.mutateAsync()
+      navigate({ to: "/account/profile-type-updated", replace: true })
+
+      return
+    }
+
     const selected = await popup.show({
       title: "Delete place of work",
       message: "If you delete your place of work, you will be moved to a user type account",
@@ -57,8 +66,8 @@ export const JobPlaceStep = ({ jobPlace }: { jobPlace?: JobPlace }) => {
             className="py-3"
             leftTopText={establishment.name}
             leftBottomText={establishment.position.address}
-            leftIcon={<Img src={establishment?.icon} className="h-7 w-7" />}
-            rightIcon={<Icon name="Bin" className="h-7 w-7 text-accent" onClick={handleDelete} />}
+            leftIcon={<Img src={establishment?.icon} className="size-10 rounded-full" />}
+            rightIcon={<Icon name="Bin" className="size-6 text-transparent" onClick={handleDelete} />}
           />
         </List>
       </div>
