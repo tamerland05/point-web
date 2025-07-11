@@ -21,7 +21,6 @@ import Img from "react-cool-img"
 const mapSchema = z.object({
   expanded: z.boolean().default(false),
   selectedPlaceId: z.string().default(""),
-  sort: z.enum(["newest", "oldest", "price"]).default("newest"),
 })
 
 export const Route = createFileRoute("/_withMenu/map")({
