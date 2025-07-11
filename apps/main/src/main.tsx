@@ -2,7 +2,6 @@ import { EnvUnsupported } from "@/components/app-internals/EnvUnsupported"
 import { init } from "@/init"
 import { routeTree } from "@/routeTree.gen"
 import { menuItems as menuItemsRaw } from "@/routes/_withMenu/route"
-import * as Sentry from "@sentry/browser"
 import { QueryClient, QueryClientProvider, keepPreviousData } from "@tanstack/react-query"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
@@ -12,17 +11,11 @@ import ReactDOM from "react-dom/client"
 import "@/utils/mockEnv"
 import "@point/i18n"
 import "@/index.css"
+import Tracker from "@openreplay/tracker"
 import { notFoundError } from "@point/shared/constants/errors"
 import { PageLoader } from "@point/ui/loader"
 import { DefaultCatchBoundary } from "./components/app-internals/ErrorBoundary"
 import { ErrorPage } from "./components/app-internals/ErrorPage"
-
-if (!import.meta.env.DEV) {
-  Sentry.init({
-    dsn: "https://8fe7fe8e5d8e45989ab7259d2163f153@sup.meyson.tech/1",
-    environment: "production",
-  })
-}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -102,6 +95,24 @@ try {
 
   const { tgWebAppPlatform: platform } = launchParams
   const debug = (launchParams.tgWebAppStartParam || "").includes("debug") || import.meta.env.DEV
+
+  if (import.meta.env.DEV) {
+    const tracker = new Tracker({
+      projectKey: "rdipNrss0wptWVzsqm6V",
+    })
+
+    tracker.start({
+      userID: launchParams.tgWebAppData?.user?.username || String(launchParams.tgWebAppData?.user?.id) || "unknown",
+      metadata: {
+        debug: String(debug),
+        isPremium: String(launchParams.tgWebAppData?.user?.is_premium),
+        language: launchParams.tgWebAppData?.user?.language_code || "unknown",
+        platform,
+        version: launchParams.tgWebAppVersion,
+        appVersion: __APP_VERSION__,
+      },
+    })
+  }
 
   // Configure all application dependencies.
   init({

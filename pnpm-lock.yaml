@@ -35,6 +35,9 @@ importers:
 
   apps/main:
     dependencies:
+      '@openreplay/tracker':
+        specifier: ^16.4.1
+        version: 16.4.1
       '@point/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
@@ -44,9 +47,6 @@ importers:
       '@point/ui':
         specifier: workspace:*
         version: link:../../packages/ui
-      '@sentry/browser':
-        specifier: ^9.21.0
-        version: 9.21.0
       '@tanstack/react-form':
         specifier: ^1.12.3
         version: 1.12.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -739,6 +739,13 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
+  '@openreplay/network-proxy@1.1.3':
+    resolution: {integrity: sha512-0w25xSK8Cr3y9trQKCEa7PQb2cf8m0nFbkqoxAKoyYCZTdE/e0pQ1ufcJaxzW/nYn4PVMDMmPnXcMOurCNnhvg==}
+
+  '@openreplay/tracker@16.4.1':
+    resolution: {integrity: sha512-xvMKyRZV5lOPTHK8GtCP8EVzpLnyfuqBdD24PGVBj2KST/jikFhzMSDHVXv8P3gKL7SZ0w6uSGSp0q7qsRJN0A==}
+    engines: {node: '>=14.0'}
+
   '@oxc-resolver/binding-darwin-arm64@9.0.2':
     resolution: {integrity: sha512-MVyRgP2gzJJtAowjG/cHN3VQXwNLWnY+FpOEsyvDepJki1SdAX/8XDijM1yN6ESD1kr9uhBKjGelC6h3qtT+rA==}
     cpu: [arm64]
@@ -950,30 +957,6 @@ packages:
 
   '@rushstack/ts-command-line@5.0.1':
     resolution: {integrity: sha512-bsbUucn41UXrQK7wgM8CNM/jagBytEyJqXw/umtI8d68vFm1Jwxh1OtLrlW7uGZgjCWiiPH6ooUNa1aVsuVr3Q==}
-
-  '@sentry-internal/browser-utils@9.21.0':
-    resolution: {integrity: sha512-/lJ5EVUDbsVsPH/sSXwWBERVtzi4kWYeFLc+u+1zr4NrfDrGnPJ5mVS1VlHwtBmYIIWv8harLP+CReg3nDcXdw==}
-    engines: {node: '>=18'}
-
-  '@sentry-internal/feedback@9.21.0':
-    resolution: {integrity: sha512-Z234NgcWolFpmztCh+9smC6WlO8By5t4KucHNfYSQ0xQYQCxPL5iChj3JpF4dwv+qCYXhDFLQFQbK0U3Px056g==}
-    engines: {node: '>=18'}
-
-  '@sentry-internal/replay-canvas@9.21.0':
-    resolution: {integrity: sha512-4tHiNil8qXphaql2YXLGA/wlm0hxaadrh7x8/KErn1iy3vJpn7t/Kka5uug7c2UWhtveS6dgGmqjSkDxM5h9bA==}
-    engines: {node: '>=18'}
-
-  '@sentry-internal/replay@9.21.0':
-    resolution: {integrity: sha512-7mq3Bsp8EJa3YTIYgmWfNgJdvbeaAJ6VYsqi0yxR/vNGxY3qH+PLlv+ZOEXI2U0CL6vhqFPbqmxiUOCuAjnpGg==}
-    engines: {node: '>=18'}
-
-  '@sentry/browser@9.21.0':
-    resolution: {integrity: sha512-NF0G104JRP2TZ2hpMHElO4bEEUdBWknKSh2d0SRyGpJFVfOQG3oRHczXWH08A5InA/lNrS9LEdodUhiFue+F3A==}
-    engines: {node: '>=18'}
-
-  '@sentry/core@9.21.0':
-    resolution: {integrity: sha512-K0a72Evg0fzc52Oe8R8Op5TyUMzORkk4ytt3G24lSnF4hh8NPf0m6VGkEUgQRPj27g2bF6tq9fCNsJILsf1PDA==}
-    engines: {node: '>=18'}
 
   '@sindresorhus/merge-streams@2.3.0':
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
@@ -2211,6 +2194,12 @@ packages:
   error-kid@0.0.7:
     resolution: {integrity: sha512-8mFs7ZaDWlBFgjOy4lHLMCe2+KZfZXGx5GOgh2VQ/M1CCIvSWzbl2OMl+5fdZgrgoUfhTeF+NPhmqfEvUhN8yw==}
 
+  error-stack-parser-es@0.1.5:
+    resolution: {integrity: sha512-xHku1X40RO+fO8yJ8Wh2f2rZWVjqyhb1zgq1yZ8aZRQkv6OOKhKWRUaht3eSCUbAOBaKIgM+ykwFLE+QUxgGeg==}
+
+  error-stack-parser@2.1.4:
+    resolution: {integrity: sha512-Sk5V6wVazPhq5MhpO+AUxJn5x7XSXGl1R93Vn7i+zS15KDVxQijejNCrz8340/2bgLBjR9GtEG8ZVKONDjcqGQ==}
+
   eruda@3.4.1:
     resolution: {integrity: sha512-RmaO5yD97URY/9Q0lye3cmmNPoXNKreeePIw7c/zllbscR92CjGFZFuQ70+0fLIvLcKW3Xha8DS8NFhmeNbEBQ==}
 
@@ -2301,6 +2290,9 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
+
+  fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
 
   figlet@1.8.1:
     resolution: {integrity: sha512-kEC3Sme+YvA8Hkibv0NR1oClGcWia0VB2fC1SlMy027cwe795Xx40Xiv/nw/iFAwQLupymWh+uhAAErn/7hwPg==}
@@ -3476,6 +3468,9 @@ packages:
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
 
+  stackframe@1.3.4:
+    resolution: {integrity: sha512-oeVtt7eWQS+Na6F//S4kJ2K2VbRlS9D43mAlMyVpVWovy9o+jfgH8O9agzANzaiLjclA0oYzUXEM4PurhSUChw==}
+
   storybook@8.6.14:
     resolution: {integrity: sha512-sVKbCj/OTx67jhmauhxc2dcr1P+yOgz/x3h0krwjyMgdc5Oubvxyg4NYDZmzAw+ym36g/lzH8N0Ccp4dwtdfxw==}
     hasBin: true
@@ -3885,6 +3880,9 @@ packages:
 
   walk-up-path@3.0.1:
     resolution: {integrity: sha512-9YlCL/ynK3CTlrSRrDxZvUauLzAswPCrsaCgilqFevUYpeEW0/3ScEjaa3kbW/T0ghhkEr7mv+fpjqn1Y1YuTA==}
+
+  web-vitals@4.2.4:
+    resolution: {integrity: sha512-r4DIlprAGwJ7YM11VZp4R884m0Vmgr6EAKe3P+kO0PPj3Unqyvv59rczf6UiGcb9Z8QxZVcqKNwv/g0WNdWwsw==}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -4354,6 +4352,16 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
+  '@openreplay/network-proxy@1.1.3': {}
+
+  '@openreplay/tracker@16.4.1':
+    dependencies:
+      '@openreplay/network-proxy': 1.1.3
+      error-stack-parser: 2.1.4
+      error-stack-parser-es: 0.1.5
+      fflate: 0.8.2
+      web-vitals: 4.2.4
+
   '@oxc-resolver/binding-darwin-arm64@9.0.2':
     optional: true
 
@@ -4509,34 +4517,6 @@ snapshots:
       string-argv: 0.3.2
     transitivePeerDependencies:
       - '@types/node'
-
-  '@sentry-internal/browser-utils@9.21.0':
-    dependencies:
-      '@sentry/core': 9.21.0
-
-  '@sentry-internal/feedback@9.21.0':
-    dependencies:
-      '@sentry/core': 9.21.0
-
-  '@sentry-internal/replay-canvas@9.21.0':
-    dependencies:
-      '@sentry-internal/replay': 9.21.0
-      '@sentry/core': 9.21.0
-
-  '@sentry-internal/replay@9.21.0':
-    dependencies:
-      '@sentry-internal/browser-utils': 9.21.0
-      '@sentry/core': 9.21.0
-
-  '@sentry/browser@9.21.0':
-    dependencies:
-      '@sentry-internal/browser-utils': 9.21.0
-      '@sentry-internal/feedback': 9.21.0
-      '@sentry-internal/replay': 9.21.0
-      '@sentry-internal/replay-canvas': 9.21.0
-      '@sentry/core': 9.21.0
-
-  '@sentry/core@9.21.0': {}
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
@@ -5935,6 +5915,12 @@ snapshots:
 
   error-kid@0.0.7: {}
 
+  error-stack-parser-es@0.1.5: {}
+
+  error-stack-parser@2.1.4:
+    dependencies:
+      stackframe: 1.3.4
+
   eruda@3.4.1: {}
 
   es-define-property@1.0.1: {}
@@ -6040,6 +6026,8 @@ snapshots:
   fdir@6.4.4(picomatch@4.0.2):
     optionalDependencies:
       picomatch: 4.0.2
+
+  fflate@0.8.2: {}
 
   figlet@1.8.1: {}
 
@@ -7207,6 +7195,8 @@ snapshots:
 
   sprintf-js@1.0.3: {}
 
+  stackframe@1.3.4: {}
+
   storybook@8.6.14(prettier@3.5.3):
     dependencies:
       '@storybook/core': 8.6.14(prettier@3.5.3)(storybook@8.6.14(prettier@3.5.3))
@@ -7618,6 +7608,8 @@ snapshots:
       pbf: 3.3.0
 
   walk-up-path@3.0.1: {}
+
+  web-vitals@4.2.4: {}
 
   webidl-conversions@3.0.1: {}
 

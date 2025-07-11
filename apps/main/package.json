@@ -8,10 +8,10 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@openreplay/tracker": "^16.4.1",
     "@point/i18n": "workspace:*",
     "@point/shared": "workspace:*",
     "@point/ui": "workspace:*",
-    "@sentry/browser": "^9.21.0",
     "@tanstack/react-form": "^1.12.3",
     "@tanstack/react-query": "^5.76.1",
     "@tanstack/react-router": "^1.120.5",
