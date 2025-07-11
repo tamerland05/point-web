@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
-import type { Coordinates } from "@/types"
+import type { Coordinates, MenuItem } from "@/types"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
 import type { AxiosResponse } from "axios"
 
@@ -48,15 +48,7 @@ export interface DetailedEstbalishmentDTO {
   description: string
   icon: string
   gallery: string[]
-  menu: Array<{
-    title: string
-    description: string
-    photo: string
-    cost: {
-      value: number
-      currency: string
-    }
-  }>
+  menu: MenuItem[]
   channelLink: string | null
 }
 
@@ -97,6 +89,22 @@ export const placesNearQueryOptions = (name: string, location: Coordinates) =>
         AxiosResponse<EstbalishmentDTO[]>,
         EstbalishmentsNearReq
       >("/point/map/establishments/near", { name, location })
+
+      return response.data
+    },
+    gcTime: Number.POSITIVE_INFINITY,
+    staleTime: Number.POSITIVE_INFINITY,
+  })
+
+export const menuItemQueryOptions = (menuItemId: string) =>
+  queryOptions({
+    queryKey: ["menuItem", menuItemId],
+    queryFn: async () => {
+      await ensureAccessTokenIsAvailable()
+
+      const response = await pointAxiosInstance.get<MenuItem, AxiosResponse<MenuItem>, EstbalishmentsNearReq>(
+        `/point/map/menu-item/${menuItemId}`
+      )
 
       return response.data
     },

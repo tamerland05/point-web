@@ -26,6 +26,7 @@ export const iconNames = [
   "Frame 1580",
   "Fire",
   "CoinsFill",
+  "Close",
   "ChevronRight",
   "Caesar",
   "Bin",

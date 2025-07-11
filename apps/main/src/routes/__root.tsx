@@ -42,7 +42,7 @@ function RootComponent() {
   )
 
   const matches = useMatches({ select: (matches) => matches.map((match) => match.fullPath) })
-  const disableTgSpaces = matches.includes("/map")
+  const disableTgSpaces = matches.includes("/map") || matches.includes("/menu/$id/$menuItemId")
 
   return (
     <TonConnectUIProvider

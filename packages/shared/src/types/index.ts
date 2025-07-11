@@ -17,3 +17,18 @@ export interface JobPlace {
   name: string
   address: string
 }
+
+export interface MenuItem {
+  id: string
+  establishmentId: string
+
+  title: string
+  description: string
+  photo: string
+  category: string
+
+  cost: {
+    amount: number
+    currency: string
+  }
+}

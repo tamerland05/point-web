@@ -12,6 +12,7 @@ import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 
+import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { openTelegramLink } from "@telegram-apps/sdk-react"
 import { ShowMainButton } from "../tg-internals"
 
@@ -30,6 +31,7 @@ interface PlaceModalProps {
 export const PlaceModal = memo(
   ({ id, photo, name, address, rating, drawerExpanded, handleCloseDrawer, handleExpandDrawer }: PlaceModalProps) => {
     const navigate = useNavigate({ from: "/map" })
+    const { formatCurrency } = useFormatter()
 
     const establishmentQuery = useQuery(establishmentQueryOptions(id))
     const data = establishmentQuery.data
@@ -136,8 +138,8 @@ export const PlaceModal = memo(
                       )}
                     >
                       <Image
-                        placeholder="./img-ph.svg"
-                        error="./img-ph.svg"
+                        placeholder="/img-ph.svg"
+                        error="/img-ph.svg"
                         alt={data?.name}
                         className="h-100 w-full rounded-2xl object-cover"
                         src={item}
@@ -168,13 +170,23 @@ export const PlaceModal = memo(
                     // biome-ignore lint/suspicious/noArrayIndexKey: this map will never change
                     key={idx}
                     leftIcon={<Image src={menuItem.photo} alt={menuItem.title} className="h-14 w-14 rounded-xl" />}
-                    leftTopText={<span className="text-base text-text">{menuItem.title}</span>}
-                    leftBottomText={<span className="text-caption-1 text-text-secondary">{menuItem.description}</span>}
+                    leftTopText={<span className="line-clamp-1 text-base text-text">{menuItem.title}</span>}
+                    leftBottomText={
+                      <span className="line-clamp-2 text-caption-1 text-text-secondary">{menuItem.description}</span>
+                    }
                     rightTopText={
                       <span className="whitespace-nowrap text-text-secondary">
-                        {menuItem.cost.value} {menuItem.cost.currency}
+                        {formatCurrency(menuItem.cost.amount)} {menuItem.cost.currency}
                       </span>
                     }
+                    onClick={() => {
+                      if (!id) return
+                      navigate({
+                        to: "/menu/$id/$menuItemId",
+                        params: { id, menuItemId: menuItem.id },
+                      })
+                    }}
+                    withSeparator
                   />
                 ))}
               </List>
