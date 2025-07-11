@@ -49,8 +49,8 @@ function RouteComponent() {
         jobPlace={user.employee?.jobPlace}
         purpose={user.employee?.purpose}
         // TODO: забирать с предыдущего экрана (с квери предыдущего экрана если быть точнее)
-        photo={""}
-        name={user.name}
+        photo={user.employee?.photo || null}
+        name={user.employee?.name || null}
         rank={user.rank}
         username={user.username}
       />

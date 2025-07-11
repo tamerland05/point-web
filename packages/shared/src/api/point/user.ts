@@ -17,6 +17,8 @@ interface UserDTO {
 
   employee: {
     id: string
+    name: string
+    photo: string
     profession: string
     jobPlace: JobPlace | null
     purpose: PurposeOfFunding | null
