@@ -95,7 +95,8 @@ function RouteComponent() {
               leftTopText={<span className="text-caption-1 text-text-secondary">Cost</span>}
               leftBottomText={
                 <span className="text-base text-text">
-                  {formatCurrency(menuItem?.cost.amount)} {menuItem?.cost.currency}
+                  {formatCurrency(menuItem?.cost.amount)}
+                  {menuItem?.cost.currency}
                 </span>
               }
             />

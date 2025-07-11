@@ -79,7 +79,8 @@ function RouteComponent() {
               }
               rightTopText={
                 <span className="whitespace-nowrap text-text-secondary">
-                  {formatCurrency(menuItem.cost.amount)} {menuItem.cost.currency}
+                  {formatCurrency(menuItem.cost.amount)}
+                  {menuItem.cost.currency}
                 </span>
               }
               onClick={() => {
