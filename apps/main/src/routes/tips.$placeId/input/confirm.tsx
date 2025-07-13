@@ -87,7 +87,7 @@ function RouteComponent() {
 
     try {
       await tc.sendTransaction({
-        validUntil: Math.floor(Date.now() / 1000) + 5,
+        validUntil: Math.floor(Date.now() / 1000) + 300,
         messages: tipCheckoutTxs.map((tx) => ({
           address: tx.to,
           amount: tx.value.toString(),
