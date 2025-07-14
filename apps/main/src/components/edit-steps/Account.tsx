@@ -127,7 +127,7 @@ export const AccountStep = ({
           e.stopPropagation()
           form.handleSubmit()
         }}
-        className="flex flex-col p-4"
+        className="flex flex-col overflow-x-hidden p-4"
       >
         <UserProfileHeader photo={image ?? photo} name={firstName} username={null} isJobPlaceHidden={true} />
 

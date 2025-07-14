@@ -22,8 +22,10 @@ import { Route as EarnRatingImport } from './routes/earn/rating'
 import { Route as EarnInfoImport } from './routes/earn/info'
 import { Route as EarnGratitudeImport } from './routes/earn/gratitude'
 import { Route as AccountProfileTypeUpdatedImport } from './routes/account/profile-type-updated'
+import { Route as AccountProfileTypeImport } from './routes/account/profile-type'
 import { Route as AccountProfileCreatedImport } from './routes/account/profile-created'
 import { Route as AccountLanguageImport } from './routes/account/language'
+import { Route as AccountAccessRestrictedImport } from './routes/account/access-restricted'
 import { Route as WithMenuSelectionsImport } from './routes/_withMenu/selections'
 import { Route as WithMenuMapImport } from './routes/_withMenu/map'
 import { Route as WithMenuEarnImport } from './routes/_withMenu/earn'
@@ -111,6 +113,12 @@ const AccountProfileTypeUpdatedRoute = AccountProfileTypeUpdatedImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AccountProfileTypeRoute = AccountProfileTypeImport.update({
+  id: '/account/profile-type',
+  path: '/account/profile-type',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AccountProfileCreatedRoute = AccountProfileCreatedImport.update({
   id: '/account/profile-created',
   path: '/account/profile-created',
@@ -120,6 +128,12 @@ const AccountProfileCreatedRoute = AccountProfileCreatedImport.update({
 const AccountLanguageRoute = AccountLanguageImport.update({
   id: '/account/language',
   path: '/account/language',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AccountAccessRestrictedRoute = AccountAccessRestrictedImport.update({
+  id: '/account/access-restricted',
+  path: '/account/access-restricted',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -304,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WithMenuSelectionsImport
       parentRoute: typeof WithMenuRouteImport
     }
+    '/account/access-restricted': {
+      id: '/account/access-restricted'
+      path: '/account/access-restricted'
+      fullPath: '/account/access-restricted'
+      preLoaderRoute: typeof AccountAccessRestrictedImport
+      parentRoute: typeof rootRoute
+    }
     '/account/language': {
       id: '/account/language'
       path: '/account/language'
@@ -316,6 +337,13 @@ declare module '@tanstack/react-router' {
       path: '/account/profile-created'
       fullPath: '/account/profile-created'
       preLoaderRoute: typeof AccountProfileCreatedImport
+      parentRoute: typeof rootRoute
+    }
+    '/account/profile-type': {
+      id: '/account/profile-type'
+      path: '/account/profile-type'
+      fullPath: '/account/profile-type'
+      preLoaderRoute: typeof AccountProfileTypeImport
       parentRoute: typeof rootRoute
     }
     '/account/profile-type-updated': {
@@ -559,8 +587,10 @@ export interface FileRoutesByFullPath {
   '/earn': typeof WithMenuEarnRoute
   '/map': typeof WithMenuMapRoute
   '/selections': typeof WithMenuSelectionsRouteWithChildren
+  '/account/access-restricted': typeof AccountAccessRestrictedRoute
   '/account/language': typeof AccountLanguageRoute
   '/account/profile-created': typeof AccountProfileCreatedRoute
+  '/account/profile-type': typeof AccountProfileTypeRoute
   '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
   '/earn/gratitude': typeof EarnGratitudeRoute
   '/earn/info': typeof EarnInfoRoute
@@ -593,8 +623,10 @@ export interface FileRoutesByTo {
   '/earn': typeof WithMenuEarnRoute
   '/map': typeof WithMenuMapRoute
   '/selections': typeof WithMenuSelectionsRouteWithChildren
+  '/account/access-restricted': typeof AccountAccessRestrictedRoute
   '/account/language': typeof AccountLanguageRoute
   '/account/profile-created': typeof AccountProfileCreatedRoute
+  '/account/profile-type': typeof AccountProfileTypeRoute
   '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
   '/earn/gratitude': typeof EarnGratitudeRoute
   '/earn/info': typeof EarnInfoRoute
@@ -629,8 +661,10 @@ export interface FileRoutesById {
   '/_withMenu/earn': typeof WithMenuEarnRoute
   '/_withMenu/map': typeof WithMenuMapRoute
   '/_withMenu/selections': typeof WithMenuSelectionsRouteWithChildren
+  '/account/access-restricted': typeof AccountAccessRestrictedRoute
   '/account/language': typeof AccountLanguageRoute
   '/account/profile-created': typeof AccountProfileCreatedRoute
+  '/account/profile-type': typeof AccountProfileTypeRoute
   '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
   '/earn/gratitude': typeof EarnGratitudeRoute
   '/earn/info': typeof EarnInfoRoute
@@ -666,8 +700,10 @@ export interface FileRouteTypes {
     | '/earn'
     | '/map'
     | '/selections'
+    | '/account/access-restricted'
     | '/account/language'
     | '/account/profile-created'
+    | '/account/profile-type'
     | '/account/profile-type-updated'
     | '/earn/gratitude'
     | '/earn/info'
@@ -699,8 +735,10 @@ export interface FileRouteTypes {
     | '/earn'
     | '/map'
     | '/selections'
+    | '/account/access-restricted'
     | '/account/language'
     | '/account/profile-created'
+    | '/account/profile-type'
     | '/account/profile-type-updated'
     | '/earn/gratitude'
     | '/earn/info'
@@ -733,8 +771,10 @@ export interface FileRouteTypes {
     | '/_withMenu/earn'
     | '/_withMenu/map'
     | '/_withMenu/selections'
+    | '/account/access-restricted'
     | '/account/language'
     | '/account/profile-created'
+    | '/account/profile-type'
     | '/account/profile-type-updated'
     | '/earn/gratitude'
     | '/earn/info'
@@ -765,8 +805,10 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRoute
   TestsRoute: typeof TestsRoute
   TipsPlaceIdRouteRoute: typeof TipsPlaceIdRouteRouteWithChildren
+  AccountAccessRestrictedRoute: typeof AccountAccessRestrictedRoute
   AccountLanguageRoute: typeof AccountLanguageRoute
   AccountProfileCreatedRoute: typeof AccountProfileCreatedRoute
+  AccountProfileTypeRoute: typeof AccountProfileTypeRoute
   AccountProfileTypeUpdatedRoute: typeof AccountProfileTypeUpdatedRoute
   EarnGratitudeRoute: typeof EarnGratitudeRoute
   EarnInfoRoute: typeof EarnInfoRoute
@@ -785,8 +827,10 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRoute,
   TestsRoute: TestsRoute,
   TipsPlaceIdRouteRoute: TipsPlaceIdRouteRouteWithChildren,
+  AccountAccessRestrictedRoute: AccountAccessRestrictedRoute,
   AccountLanguageRoute: AccountLanguageRoute,
   AccountProfileCreatedRoute: AccountProfileCreatedRoute,
+  AccountProfileTypeRoute: AccountProfileTypeRoute,
   AccountProfileTypeUpdatedRoute: AccountProfileTypeUpdatedRoute,
   EarnGratitudeRoute: EarnGratitudeRoute,
   EarnInfoRoute: EarnInfoRoute,
@@ -814,8 +858,10 @@ export const routeTree = rootRoute
         "/onboarding",
         "/tests",
         "/tips/$placeId",
+        "/account/access-restricted",
         "/account/language",
         "/account/profile-created",
+        "/account/profile-type",
         "/account/profile-type-updated",
         "/earn/gratitude",
         "/earn/info",
@@ -877,11 +923,17 @@ export const routeTree = rootRoute
         "/_withMenu/selections/$id"
       ]
     },
+    "/account/access-restricted": {
+      "filePath": "account/access-restricted.tsx"
+    },
     "/account/language": {
       "filePath": "account/language.tsx"
     },
     "/account/profile-created": {
       "filePath": "account/profile-created.tsx"
+    },
+    "/account/profile-type": {
+      "filePath": "account/profile-type.tsx"
     },
     "/account/profile-type-updated": {
       "filePath": "account/profile-type-updated.tsx"

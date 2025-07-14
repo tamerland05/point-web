@@ -39,7 +39,7 @@ export const UserProfile = memo(
             <ListItem
               leftIcon={<Img className="h-12 w-12 rounded-full" src={purpose?.icon} alt={purpose?.title} />}
               leftTopText={<span className="font-medium">{purpose?.title}</span>}
-              leftBottomText={<span className="">{purpose?.description}</span>}
+              leftBottomText={<span className="line-clamp-1">{purpose?.description}</span>}
             />
           </List>
         )}

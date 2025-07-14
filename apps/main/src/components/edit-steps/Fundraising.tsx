@@ -92,7 +92,7 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
           e.stopPropagation()
           form.handleSubmit()
         }}
-        className="flex flex-col p-4"
+        className="flex flex-col overflow-x-hidden p-4"
       >
         <List title="Collection Purpose" className="mb-8">
           <form.Field
@@ -177,10 +177,9 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
                 className="py-3"
                 leftIconClassName="w-full"
                 leftIcon={
-                  <input
-                    type="text"
+                  <textarea
                     placeholder="I dream of traveling around Spain with my cat."
-                    className="mr-[50vw] w-full placeholder:text-text-secondary"
+                    className="mr-[50vw] h-fit w-full resize-none placeholder:text-text-secondary"
                     value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
                   />

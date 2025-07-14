@@ -23,7 +23,7 @@ export const JobPlaceStep = ({ jobPlace }: { jobPlace?: JobPlace }) => {
     return {
       title: "Save",
       hidden: false,
-      onClick: () => navigate({ to: "/account/my-profile/view", replace: true }),
+      onClick: () => navigate({ to: "/account", replace: true }),
     }
   }, [navigate])
 

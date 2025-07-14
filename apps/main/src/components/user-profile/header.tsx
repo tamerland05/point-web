@@ -19,7 +19,7 @@ export const UserProfileHeader = memo(
         <Img
           placeholder="/user-ph.svg"
           error="/user-ph.svg"
-          className="mb-4 h-24 w-24 rounded-full"
+          className="mb-4 size-24 rounded-full object-cover"
           src={photo}
           alt={name || username || "User photo"}
         />

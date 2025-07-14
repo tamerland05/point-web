@@ -1,25 +1,28 @@
 import { useCallback, useEffect } from "react"
 
-import { useCanGoBack, useMatches, useRouter } from "@tanstack/react-router"
+import { useCanGoBack, useMatchRoute, useRouter } from "@tanstack/react-router"
 import { backButton, hideBackButton, showBackButton } from "@telegram-apps/sdk-react"
 
 const routesWithoutBB = [
-  "/account",
-  "/map",
-  "/earn",
-  "/selections",
+  { to: "/account" },
+  { to: "/map", search: { expanded: false } },
+  { to: "/earn" },
+  { to: "/selections" },
 
-  "/tips/$placeId/success",
-  "/tips/$placeId/error",
-  "/account/profile-type-updated",
-  "/account/profile-created",
+  { to: "/tips/$placeId/success" },
+  { to: "/tips/$placeId/error" },
+  { to: "/account/profile-type-updated" },
+  { to: "/account/profile-created" },
+  { to: "/account/access-restricted" },
+  { to: "/onboarding", search: { step: "1" } },
 ]
 
 export const BackButtonTMA = () => {
   const router = useRouter()
   const canGoBack = useCanGoBack()
-  const matches = useMatches()
-  const backButtonExclude = matches.some((match) => routesWithoutBB.includes(match.pathname))
+  const matchFn = useMatchRoute()
+
+  const backButtonExclude = routesWithoutBB.some((route) => !!matchFn(route))
 
   const handleBackClick = useCallback(() => {
     router.history.back()

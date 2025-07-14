@@ -47,6 +47,11 @@ function RouteComponent() {
     navigate({ to: "/account/my-profile/view" })
   }
 
+  const handleGoToProfileType = () => {
+    hapticFeedback.impactOccurred("light")
+    navigate({ to: "/account/profile-type" })
+  }
+
   const handleGoToLanguage = () => {
     hapticFeedback.impactOccurred("light")
     navigate({ to: "/account/language" })
@@ -92,7 +97,7 @@ function RouteComponent() {
           placeholder="/user-ph.svg"
           error="/user-ph.svg"
           src={user.employee?.photo || user.photoUrl}
-          className="mb-2 h-24 w-24 rounded-full"
+          className="mb-2 size-24 rounded-full object-cover"
         />
 
         <h1 className="font-medium text-title-1">{user.employee?.name || user.name}</h1>
@@ -114,6 +119,7 @@ function RouteComponent() {
             rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
             withSeparator
             rightTopText={<div className="-mr-4 text-text-secondary">{profileType}</div>}
+            onClick={handleGoToProfileType}
           />
           <ListItem
             leftTopText="Language"
