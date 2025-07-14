@@ -75,7 +75,7 @@ function RouteComponent() {
           isEmptyEmployee={!user.employee}
           firstName={user.employee?.firstName || user.name || ""}
           lastName={user.employee?.lastName || ""}
-          photo={user.employee?.photo || user.photoUrl || ""}
+          photo={user.employee ? user.employee.photo || "" : user.photoUrl || ""}
           showJob={user.employee?.meta.showJob}
           showPurpose={user.employee?.meta.showPurpose}
           showTipsLeft={user.meta.showTipsLeft}
