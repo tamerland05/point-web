@@ -1,18 +1,26 @@
+import { showMenuAtom } from "@/atoms/ui"
 import { isAxiosError } from "@point/shared/utils/isAxiosError"
 import { cn } from "@point/ui/cn"
 import { useRouter } from "@tanstack/react-router"
+import { hapticFeedback } from "@telegram-apps/sdk-react"
+import { useSetAtom } from "jotai"
 
 export const ErrorPage = ({ error }: { error?: Error }) => {
+  const setMenuVisible = useSetAtom(showMenuAtom)
+
   // biome-ignore lint/suspicious/noConsole: its important to log errors here
   console.error(error)
   const router = useRouter()
 
   const handleRefresh = () => {
+    hapticFeedback.impactOccurred("light")
     router.invalidate()
   }
 
   const handleBack = () => {
+    hapticFeedback.impactOccurred("light")
     router.navigate({ to: "/", replace: true })
+    setMenuVisible(true)
   }
 
   const isAxiosErrorProvided = isAxiosError(error)
