@@ -17,7 +17,7 @@ export const Route = createFileRoute("/menu_/$id/$menuItemId")({
     const { queryClient } = context
 
     if (context?.launchParams?.tgWebAppData) {
-      await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+      await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData, context.initDataRaw))
     }
 
     await queryClient.ensureQueryData(establishmentQueryOptions(params.id))

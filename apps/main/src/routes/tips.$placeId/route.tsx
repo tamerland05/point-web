@@ -8,8 +8,12 @@ export const Route = createFileRoute("/tips/$placeId")({
   loader: async ({ params, context }) => {
     const { queryClient } = context
 
+    if (!context.launchParams?.tgWebAppData || !context.initDataRaw) {
+      throw new Error("Нет данных от Telegram, перезагрузите приложение")
+    }
+
     if (context?.launchParams?.tgWebAppData) {
-      await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+      await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData, context.initDataRaw))
     }
 
     await queryClient.ensureQueryData(tipReceiversQueryOptions(params.placeId))

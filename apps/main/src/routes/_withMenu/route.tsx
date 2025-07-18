@@ -14,11 +14,11 @@ export const Route = createFileRoute("/_withMenu")({
   loader: async ({ context }) => {
     const { queryClient } = context
 
-    if (!context.launchParams?.tgWebAppData) {
+    if (!context.launchParams?.tgWebAppData || !context.initDataRaw) {
       return { platform: "android" }
     }
 
-    queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+    queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData, context.initDataRaw))
 
     return { platform: context.launchParams.tgWebAppPlatform }
   },

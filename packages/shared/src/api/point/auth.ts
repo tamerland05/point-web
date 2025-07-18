@@ -20,6 +20,7 @@ export interface AuthReq {
     isPremium?: boolean
     allowsWriteToPm?: boolean
   }
+  initDataRaw?: string
 }
 
 export interface AuthDTO {
@@ -90,16 +91,17 @@ export interface AuthDTO {
 //   },
 // }
 
-export const authQueryOptions = (auth: AuthReq) =>
+export const authQueryOptions = (auth: AuthReq, initDataRaw: string | undefined) =>
   queryOptions({
     queryKey: ["auth", { hash: auth.hash }],
     queryFn: async () => {
-      const response = await pointAxiosInstance.post<AuthDTO, AxiosResponse<AuthDTO>, AuthReq>(
-        "/point/account/auth",
-        auth
-      )
+      const response = await pointAxiosInstance.post<AuthDTO, AxiosResponse<AuthDTO>, AuthReq>("/point/account/auth", {
+        ...auth,
+        initDataRaw,
+      })
 
       const store = getDefaultStore()
+
       store.set(accessTokenAtom, response.data.accessToken)
 
       return response.data

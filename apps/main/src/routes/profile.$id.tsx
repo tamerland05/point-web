@@ -13,7 +13,7 @@ export const Route = createFileRoute("/profile/$id")({
       throw new Error("Нет данных от телеги, перезагрузите приложение")
     }
 
-    await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+    await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData, context.initDataRaw))
 
     queryClient.ensureQueryData(userQueryOptions(params.id))
     // TODO: ensure user profile data if id!==userId

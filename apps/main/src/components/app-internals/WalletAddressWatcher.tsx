@@ -4,10 +4,10 @@ import { useSuspenseQuery } from "@tanstack/react-query"
 import { useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
 
-export const WalletAddressWatcher = ({ auth }: { auth: AuthReq }) => {
+export const WalletAddressWatcher = ({ auth, initDataRaw }: { auth: AuthReq; initDataRaw: string | undefined }) => {
   const address = useTonAddress()
 
-  const authQuery = useSuspenseQuery(authQueryOptions(auth))
+  const authQuery = useSuspenseQuery(authQueryOptions(auth, initDataRaw))
   const data = authQuery.data
 
   const { mutateAsync } = useUpdateUserMutation(auth.hash)

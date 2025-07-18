@@ -20,11 +20,13 @@ export const Route = createFileRoute("/account/my-profile/edit")({
   loader: async ({ context, deps }) => {
     const { queryClient } = context
 
-    if (!context.launchParams?.tgWebAppData) {
+    if (!context.launchParams?.tgWebAppData || !context.initDataRaw) {
       throw new Error("Нет данных от телеги, перезагрузите приложение")
     }
 
-    const userData = await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+    const userData = await queryClient.ensureQueryData(
+      authQueryOptions(context.launchParams.tgWebAppData, context.initDataRaw)
+    )
     const user = userData.user
 
     const step = deps[0]
@@ -46,7 +48,7 @@ function RouteComponent() {
   const search = Route.useSearch()
 
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
-  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!))
+  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!, ctx.initDataRaw!))
   const user = authQuery.data?.user
 
   const invitationQuery = useQuery(invitationQueryOptions)

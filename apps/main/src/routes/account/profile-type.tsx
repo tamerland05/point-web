@@ -12,11 +12,11 @@ export const Route = createFileRoute("/account/profile-type")({
   loader: async ({ context }) => {
     const { queryClient } = context
 
-    if (!context.launchParams?.tgWebAppData) {
+    if (!context.launchParams?.tgWebAppData || !context.initDataRaw) {
       throw new Error("Нет данных от Telegram, перезагрузите приложение")
     }
 
-    await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+    await queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData, context.initDataRaw))
   },
 })
 
@@ -28,7 +28,7 @@ function RouteComponent() {
   const deleteEmployeeMutation = useDeleteEmployeeMutation()
 
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
-  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!))
+  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!, ctx.initDataRaw!))
   const user = authQuery.data?.user
 
   const invitationQuery = useQuery(invitationQueryOptions)

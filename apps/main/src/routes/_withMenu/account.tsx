@@ -17,11 +17,11 @@ export const Route = createFileRoute("/_withMenu/account")({
   loader: async ({ context }) => {
     const { queryClient } = context
 
-    if (!context.launchParams?.tgWebAppData) {
+    if (!context.launchParams?.tgWebAppData || !context.initDataRaw) {
       throw new Error("Нет данных от телеги, перезагрузите приложение")
     }
 
-    queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData))
+    queryClient.ensureQueryData(authQueryOptions(context.launchParams.tgWebAppData, context.initDataRaw))
   },
 })
 
@@ -36,7 +36,7 @@ function RouteComponent() {
   const setOnboardingCompleted = useSetAtom(onboardingCompletedAtom)
 
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
-  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!))
+  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!, ctx.initDataRaw!))
   const user = authQuery.data?.user
 
   const profileType = !user.employee ? "User" : "Employee"

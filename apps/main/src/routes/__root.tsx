@@ -6,10 +6,11 @@ import type { QueryClient } from "@tanstack/react-query"
 import { createRootRouteWithContext, useMatches } from "@tanstack/react-router"
 import { Outlet } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
-import { retrieveLaunchParams, useSignal } from "@telegram-apps/sdk-react"
+import { retrieveLaunchParams, retrieveRawInitData, useSignal } from "@telegram-apps/sdk-react"
 import { viewport } from "@telegram-apps/sdk-react"
 import { THEME, TonConnectUIProvider } from "@tonconnect/ui-react"
 import { useMemo } from "react"
+import toast from "react-hot-toast"
 import { MapProvider } from "react-map-gl/mapbox"
 
 export const Route = createRootRouteWithContext<{
@@ -19,10 +20,12 @@ export const Route = createRootRouteWithContext<{
   beforeLoad: ({ context }) => {
     try {
       const launchParams = retrieveLaunchParams(true)
+      const initDataRaw = retrieveRawInitData()
 
-      return { ...context, launchParams }
+      return { ...context, launchParams, initDataRaw }
     } catch {
-      return { ...context, launchParams: null }
+      toast.error("Не удалось получить telegram launch params, перезагрузите приложение")
+      return { ...context, launchParams: null, initDataRaw: null }
     }
   },
 })
@@ -30,7 +33,7 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
   const inset = useSignal(viewport.safeAreaInsets)
   const contentInset = useSignal(viewport.contentSafeAreaInsets)
-  const { launchParams } = Route.useRouteContext()
+  const { launchParams, initDataRaw } = Route.useRouteContext()
 
   const tgSpacesStyle = useMemo(
     () => ({
@@ -63,7 +66,9 @@ function RootComponent() {
         </div>
 
         <GetLanguageData />
-        {launchParams?.tgWebAppData && <WalletAddressWatcher auth={launchParams.tgWebAppData} />}
+        {launchParams?.tgWebAppData && (
+          <WalletAddressWatcher auth={launchParams.tgWebAppData} initDataRaw={initDataRaw} />
+        )}
         <TanStackRouterDevtools />
       </MapProvider>
     </TonConnectUIProvider>
