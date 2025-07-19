@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as TestsImport } from './routes/tests'
+import { Route as RatingLeftImport } from './routes/rating-left'
 import { Route as OnboardingImport } from './routes/onboarding'
 import { Route as WithMenuRouteImport } from './routes/_withMenu/route'
 import { Route as IndexImport } from './routes/index'
@@ -51,6 +52,12 @@ import { Route as TipsPlaceIdInputAmountImport } from './routes/tips.$placeId/in
 const TestsRoute = TestsImport.update({
   id: '/tests',
   path: '/tests',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const RatingLeftRoute = RatingLeftImport.update({
+  id: '/rating-left',
+  path: '/rating-left',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -274,6 +281,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingImport
+      parentRoute: typeof rootRoute
+    }
+    '/rating-left': {
+      id: '/rating-left'
+      path: '/rating-left'
+      fullPath: '/rating-left'
+      preLoaderRoute: typeof RatingLeftImport
       parentRoute: typeof rootRoute
     }
     '/tests': {
@@ -581,6 +595,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
+  '/rating-left': typeof RatingLeftRoute
   '/tests': typeof TestsRoute
   '/tips/$placeId': typeof TipsPlaceIdRouteRouteWithChildren
   '/account': typeof WithMenuAccountRoute
@@ -618,6 +633,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
+  '/rating-left': typeof RatingLeftRoute
   '/tests': typeof TestsRoute
   '/account': typeof WithMenuAccountRoute
   '/earn': typeof WithMenuEarnRoute
@@ -655,6 +671,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_withMenu': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
+  '/rating-left': typeof RatingLeftRoute
   '/tests': typeof TestsRoute
   '/tips/$placeId': typeof TipsPlaceIdRouteRouteWithChildren
   '/_withMenu/account': typeof WithMenuAccountRoute
@@ -694,6 +711,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/onboarding'
+    | '/rating-left'
     | '/tests'
     | '/tips/$placeId'
     | '/account'
@@ -730,6 +748,7 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/onboarding'
+    | '/rating-left'
     | '/tests'
     | '/account'
     | '/earn'
@@ -765,6 +784,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_withMenu'
     | '/onboarding'
+    | '/rating-left'
     | '/tests'
     | '/tips/$placeId'
     | '/_withMenu/account'
@@ -803,6 +823,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   WithMenuRouteRoute: typeof WithMenuRouteRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
+  RatingLeftRoute: typeof RatingLeftRoute
   TestsRoute: typeof TestsRoute
   TipsPlaceIdRouteRoute: typeof TipsPlaceIdRouteRouteWithChildren
   AccountAccessRestrictedRoute: typeof AccountAccessRestrictedRoute
@@ -825,6 +846,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   WithMenuRouteRoute: WithMenuRouteRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
+  RatingLeftRoute: RatingLeftRoute,
   TestsRoute: TestsRoute,
   TipsPlaceIdRouteRoute: TipsPlaceIdRouteRouteWithChildren,
   AccountAccessRestrictedRoute: AccountAccessRestrictedRoute,
@@ -856,6 +878,7 @@ export const routeTree = rootRoute
         "/",
         "/_withMenu",
         "/onboarding",
+        "/rating-left",
         "/tests",
         "/tips/$placeId",
         "/account/access-restricted",
@@ -888,6 +911,9 @@ export const routeTree = rootRoute
     },
     "/onboarding": {
       "filePath": "onboarding.tsx"
+    },
+    "/rating-left": {
+      "filePath": "rating-left.tsx"
     },
     "/tests": {
       "filePath": "tests.tsx"

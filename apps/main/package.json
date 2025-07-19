@@ -1,6 +1,6 @@
 {
   "name": "@point/main",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "type": "module",
   "scripts": {
     "build": "tsc --project tsconfig.build.json && vite build",
@@ -27,6 +27,7 @@
     "react-dom": "19.1.0",
     "react-hot-toast": "^2.5.2",
     "react-map-gl": "^8.0.4",
+    "react-simple-star-rating": "^5.1.7",
     "zod": "^3.25.51"
   },
   "devDependencies": {

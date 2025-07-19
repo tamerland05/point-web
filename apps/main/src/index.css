@@ -108,3 +108,11 @@ html:active-view-transition-type(warp) {
 .mapboxgl-marker > svg {
 	display: none;
 }
+
+.empty-icons svg {
+  display: inline-block !important;
+}
+
+.filled-icons svg {
+  display: inline-block !important;
+}

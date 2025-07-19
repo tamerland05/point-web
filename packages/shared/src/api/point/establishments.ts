@@ -1,4 +1,4 @@
-import { queryOptions } from "@tanstack/react-query"
+import { queryOptions, useMutation } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
 import type { Coordinates, MenuItem } from "@/types"
@@ -69,8 +69,6 @@ export const establishmentQueryOptions = (establishmentId?: string) =>
 
       return response.data
     },
-    staleTime: 10 * 1000,
-    gcTime: 10 * 1000,
   })
 
 interface EstbalishmentsNearReq {
@@ -111,3 +109,26 @@ export const menuItemQueryOptions = (menuItemId: string) =>
     gcTime: Number.POSITIVE_INFINITY,
     staleTime: Number.POSITIVE_INFINITY,
   })
+
+interface EstablishmentRatingInvoiceReq {
+  establishmentId: string
+  mark: number
+}
+
+export const useEstablishmentRatingMutation = (establishmentId: string) => {
+  return useMutation({
+    mutationFn: async (mark: number) => {
+      await ensureAccessTokenIsAvailable()
+
+      const response = await pointAxiosInstance.post<string, AxiosResponse<string>, EstablishmentRatingInvoiceReq>(
+        "/point/map/establishment-rating/create-invoice",
+        {
+          establishmentId,
+          mark,
+        }
+      )
+
+      return response.data
+    },
+  })
+}

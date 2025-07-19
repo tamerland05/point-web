@@ -99,7 +99,7 @@ function RouteComponent() {
       return
     }
 
-    toast.success("Transaction sent")
+    toast("Transaction sent")
     navigate({ to: "/tips/$placeId/success" })
   }, [navigate, tipCheckoutTxs, tc])
 
