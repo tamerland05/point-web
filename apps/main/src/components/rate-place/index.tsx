@@ -7,6 +7,7 @@ import Img from "react-cool-img"
 import toast from "react-hot-toast"
 import { Rating } from "react-simple-star-rating"
 
+// TODO: when back will be updated and will send user placed rating, add currentRating to the props and set stars yellow, not blue
 export const RatePlace = memo(
   ({
     id,
@@ -62,7 +63,7 @@ export const RatePlace = memo(
     }, [id])
 
     return (
-      <div className="mt-8 mb-60">
+      <div className="my-8">
         <div className="mx-4 mb-1 text-caption-3 text-text-secondary uppercase">Establishment rating</div>
         <div className="flex flex-col items-center justify-center rounded-2xl bg-background-secondary p-4">
           <Img

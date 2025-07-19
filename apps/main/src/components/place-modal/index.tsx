@@ -14,6 +14,7 @@ import { ListItem } from "@point/ui/list-item"
 
 import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { openTelegramLink } from "@telegram-apps/sdk-react"
+import { RatePlace } from "../rate-place"
 import { ShowMainButton } from "../tg-internals"
 
 interface PlaceModalProps {
@@ -191,6 +192,14 @@ export const PlaceModal = memo(
                   />
                 ))}
               </List>
+            )}
+            {id && (
+              <RatePlace
+                id={id}
+                image={data?.icon || ""}
+                title={data?.name || name || ""}
+                establishmentType={establishmentTypeName || ""}
+              />
             )}
           </div>
         </Drawer>
