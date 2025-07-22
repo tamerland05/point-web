@@ -50,6 +50,7 @@ export interface DetailedEstbalishmentDTO {
   gallery: string[]
   menu: MenuItem[]
   channelLink: string | null
+  userRating: number | null
 }
 
 export const establishmentQueryOptions = (establishmentId?: string) =>
@@ -117,6 +118,7 @@ interface EstablishmentRatingInvoiceReq {
 
 export const useEstablishmentRatingMutation = (establishmentId: string) => {
   return useMutation({
+    mutationKey: ["establishmentRating", establishmentId],
     mutationFn: async (mark: number) => {
       await ensureAccessTokenIsAvailable()
 

@@ -1,16 +1,18 @@
+import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
+import { hapticFeedback } from "@telegram-apps/sdk-react"
 import { useSetAtom } from "jotai"
+import { useEffect } from "react"
 import Img from "react-cool-img"
 import { z } from "zod"
 
 import { showMenuAtom } from "@/atoms/ui"
 import { ShowMainButton } from "@/components/tg-internals"
+import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
 import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
-import { hapticFeedback } from "@telegram-apps/sdk-react"
-import { useEffect } from "react"
 
 const onboardingSchema = z.object({
   placeId: z.string().optional(),
@@ -24,13 +26,18 @@ export const Route = createFileRoute("/rating-left")({
 function RouteComponent() {
   const router = useRouter()
   const navigate = Route.useNavigate()
+  const { placeId } = Route.useSearch()
+
+  const establishmentQuery = useQuery(establishmentQueryOptions(placeId))
 
   const showMenu = useSetAtom(showMenuAtom)
 
   const handleContinue = async () => {
-    if (router.history.canGoBack()) {
+    if (placeId) {
+      establishmentQuery.refetch()
       router.history.back()
     }
+    establishmentQuery.refetch()
     navigate({ to: "/map" })
     showMenu(true)
   }

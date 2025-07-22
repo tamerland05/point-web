@@ -111,7 +111,9 @@ export const PlaceModal = memo(
                 className="text-base"
                 leftIcon={<Icon name={"Vector"} className="h-7 w-7 rounded-md bg-[#FFCC00] p-1 text-transparent" />}
                 leftTopText="Point Rating"
-                rightTopText={<div className="text-text-secondary">{data?.rating || rating}</div>}
+                rightTopText={
+                  <div className="text-text-secondary">{Number(data?.rating || rating || 0).toFixed(2)}</div>
+                }
                 withSeparator
               />
               <ListItem
@@ -193,12 +195,14 @@ export const PlaceModal = memo(
                 ))}
               </List>
             )}
-            {id && (
+
+            {drawerExpanded && data?.userRating !== undefined && id && (
               <RatePlace
                 id={id}
                 image={data?.icon || ""}
                 title={data?.name || name || ""}
                 establishmentType={establishmentTypeName || ""}
+                userRating={data?.userRating}
               />
             )}
           </div>

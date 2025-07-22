@@ -1,4 +1,5 @@
 import { useEstablishmentRatingMutation } from "@point/shared/api/point/establishments"
+import { sleep } from "@point/shared/utils/sleep"
 import { useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { hapticFeedback, openInvoice } from "@telegram-apps/sdk-react"
@@ -14,8 +15,8 @@ export const RatePlace = memo(
     image,
     title,
     establishmentType,
-    currentRating,
-  }: { id: string; image: string; title: string; establishmentType: string; currentRating?: number }) => {
+    userRating,
+  }: { id: string; image: string; title: string; establishmentType: string; userRating: number | null }) => {
     const queryClient = useQueryClient()
 
     const navigate = useNavigate()
@@ -45,6 +46,7 @@ export const RatePlace = memo(
             throw new Error("Invoice not paid")
           }
 
+          await sleep(1500)
           queryClient.invalidateQueries({ queryKey: ["establishment", id] })
 
           navigate({ to: "/rating-left", search: { placeId: id } })
@@ -58,7 +60,7 @@ export const RatePlace = memo(
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
-      setRating(currentRating || 1)
+      setRating(userRating || 1)
       setRatingSelected(false)
     }, [id])
 
@@ -76,8 +78,8 @@ export const RatePlace = memo(
           <div className="mb-5 text-center text-caption-1 text-text-secondary">{establishmentType}</div>
 
           <Rating
-            fillColor="#007AFF"
-            emptyColor="rgba(0,122,255,0.200)"
+            fillColor={userRating ? undefined : "#007AFF"}
+            emptyColor={userRating ? undefined : "rgba(0,122,255,0.200)"}
             onClick={handleRating}
             initialValue={rating}
             readonly={isPending || ratingSelected}
