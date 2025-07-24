@@ -111,9 +111,7 @@ export const PlaceModal = memo(
                 className="text-base"
                 leftIcon={<Icon name={"Vector"} className="h-7 w-7 rounded-md bg-[#FFCC00] p-1 text-transparent" />}
                 leftTopText="Point Rating"
-                rightTopText={
-                  <div className="text-text-secondary">{Number(data?.rating || rating || 0).toFixed(2)}</div>
-                }
+                rightTopText={<div className="text-text-secondary">{data?.rating || rating || "0"}</div>}
                 withSeparator
               />
               <ListItem
