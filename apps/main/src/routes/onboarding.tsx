@@ -107,7 +107,7 @@ function RouteComponent() {
           "[view-transition-name:main-content]": step !== "4",
         })}
       >
-        <div className="justify-cente flex flex-col items-center bg-background">
+        <div className="flex flex-col items-center bg-background">
           <Icon name={steps[step].icon} className="mb-10 size-24 text-transparent" />
           <h1 className="mb-1 text-center font-semibold text-title-2">{steps[step].title}</h1>
           <p className="line-clamp-2 text-center text-base text-text-secondary">{steps[step].description}</p>

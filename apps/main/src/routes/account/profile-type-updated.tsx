@@ -43,7 +43,7 @@ function RouteComponent() {
   return (
     <ShowMainButton secondary={secondaryButtonConfig} {...mainButtonConfig}>
       <div className={"-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 w-full bg-background px-12 py-6"}>
-        <div className="justify-cente flex flex-col items-center bg-background">
+        <div className="flex flex-col items-center bg-background">
           <Icon name={to === "user" ? "User" : "Users"} className="mb-10 size-24 text-transparent" />
           <h1 className="mb-1 text-center font-semibold text-title-2">Account Type Updated</h1>
           <p className="text-center text-base text-text-secondary">

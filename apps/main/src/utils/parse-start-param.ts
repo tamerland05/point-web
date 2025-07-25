@@ -32,6 +32,7 @@ export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
     throw redirect({ to: "/menu/$id/$menuItemId", params: { id: placeId, menuItemId } })
   }
 
+  // 3. open profile
   if (lp.tgWebAppStartParam?.startsWith(StartParamsCodes.OPEN_USER_PROFILE)) {
     const split = startParamsString.split("--")
     const userId = split[1]
@@ -43,8 +44,9 @@ export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
     throw redirect({ to: "/profile/$id", params: { id: userId } })
   }
 
-  if (startParamsString.startsWith(StartParamsCodes.REFERRER_ADDRESS)) {
-    const split = startParamsString.split("--")
+  // 4. handle referrer id
+  if (startParamsString.startsWith(StartParamsCodes.REFERRER_ID)) {
+    const split = startParamsString.split("=")
     const referrerAddress = split[1]
 
     if (!referrerAddress) {

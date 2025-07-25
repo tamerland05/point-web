@@ -41,42 +41,44 @@ export interface EmployeePublicDTO {
 }
 
 export interface UserPublicDTO {
+  id: number
   photoUrl?: string | null
   name: string
   username: string
   rank: number
+  bonusBalance: number
   tipsLeft?: string | null
   employee?: EmployeePublicDTO | null
 }
 
-export const earnTopQueryOptions = () =>
-  queryOptions({
-    queryKey: ["earn", "top"],
-    queryFn: async () => {
-      await ensureAccessTokenIsAvailable()
-      const response = await pointAxiosInstance.get<UserPublicDTO[]>("/point/earn/top")
-      return response.data
-    },
-    gcTime: Number.POSITIVE_INFINITY,
-    staleTime: Number.POSITIVE_INFINITY,
-  })
+export const earnTopQueryOptions = queryOptions({
+  queryKey: ["earn", "top"],
+  queryFn: async () => {
+    await ensureAccessTokenIsAvailable()
+    const response = await pointAxiosInstance.get<UserPublicDTO[]>("/point/earn/top")
+    return response.data
+  },
+  gcTime: Number.POSITIVE_INFINITY,
+  staleTime: Number.POSITIVE_INFINITY,
+})
 
 export interface TaskDTO {
   id: string
   title: string
+  icon: string
+  link: string
   description: string
   profit: number
   done: boolean
 }
 
-export const earnTasksQueryOptions = () =>
-  queryOptions({
-    queryKey: ["earn", "tasks"],
-    queryFn: async () => {
-      await ensureAccessTokenIsAvailable()
-      const response = await pointAxiosInstance.get<TaskDTO[]>("/point/earn/tasks")
-      return response.data
-    },
-    gcTime: Number.POSITIVE_INFINITY,
-    staleTime: Number.POSITIVE_INFINITY,
-  })
+export const earnTasksQueryOptions = queryOptions({
+  queryKey: ["earn", "tasks"],
+  queryFn: async () => {
+    await ensureAccessTokenIsAvailable()
+    const response = await pointAxiosInstance.get<TaskDTO[]>("/point/earn/tasks")
+    return response.data
+  },
+  gcTime: Number.POSITIVE_INFINITY,
+  staleTime: Number.POSITIVE_INFINITY,
+})

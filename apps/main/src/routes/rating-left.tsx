@@ -48,7 +48,7 @@ function RouteComponent() {
 
   return (
     <ShowMainButton title="Continue" onClick={handleContinue}>
-      <div className="flex flex-col px-4 py-5">
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 flex w-full flex-col px-4 py-5">
         <Img src="/success.webp" className="mx-auto mt-4 mb-3 size-28" alt="Rated" />
         <div className="mb-1 text-center font-semibold text-title-2">Rating Left!</div>
         <div className="mx-10 mb-7 text-center text-text-secondary">

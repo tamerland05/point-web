@@ -24,7 +24,7 @@ export const List = forwardRef<Ref, ListProps & HTMLAttributes<HTMLDivElement>>(
     <>
       {(!!title || !!onExpand) && (
         <div className="mx-4 mb-1 flex items-center justify-between">
-          {title && <h2 className="text-caption-3 text-text-secondary uppercase ">{title}</h2>}
+          {title && <div className="text-caption-3 text-text-secondary uppercase ">{title}</div>}
           {onExpand && (
             <button type="button" onClick={onExpand} className="text-accent text-caption-3 uppercase">
               {expandText}
