@@ -9,6 +9,10 @@ interface EstbalishmentsReq {
   latitude: number
   longitude: number
   scale: number
+  viewPortSize: {
+    width: number
+    height: number
+  }
 }
 
 interface EstbalishmentDTO {
@@ -26,11 +30,16 @@ export const establishmentsQueryOptions = (latitude: number, longitude: number, 
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
 
+      const viewPortSize = {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }
+
       const response = await pointAxiosInstance.post<
         EstbalishmentDTO[],
         AxiosResponse<EstbalishmentDTO[]>,
         EstbalishmentsReq
-      >("/point/map/establishments", { latitude, longitude, scale })
+      >("/point/map/establishments", { latitude, longitude, scale, viewPortSize })
 
       return response.data
     },
