@@ -22,20 +22,26 @@ export const Route = createFileRoute("/profile/$id")({
 
 function RouteComponent() {
   const params = Route.useParams()
+  const navigate = Route.useNavigate()
 
   const userQuery = useSuspenseQuery(userQueryOptions(params.id))
   const user = userQuery.data
+
+  const handleFundraisingClick = () => {
+    navigate({ to: "/profile/$id/fundraising", params: { id: params.id } })
+  }
 
   return (
     <div className="p-4">
       <UserProfile
         jobPlace={user.employee?.jobPlace}
         purpose={user.employee?.purpose}
-        photo={user.photoUrl}
-        name={user.name}
+        photo={user.employee?.photo || user.photoUrl}
+        name={user.employee?.name || user.name}
         username={user.username}
         rank={user.rank}
         tipsLeft={user.tipsLeft}
+        onFundraisingClick={handleFundraisingClick}
       />
     </div>
   )

@@ -3,12 +3,12 @@ import type { AxiosResponse } from "axios"
 import { getDefaultStore } from "jotai"
 
 import pointAxiosInstance from "@/api/point"
-import { accessTokenAtom } from "@/atoms/user"
+import { accessTokenAtom, referrerAtom } from "@/atoms/user"
 import type { JobPlace, PurposeOfFunding } from "@/types"
 
 export interface AuthReq {
   hash: string
-  referrerData?: string
+  referrerId?: number
   user?: {
     id: number
     firstName: string
@@ -95,12 +95,14 @@ export const authQueryOptions = (auth: AuthReq, initDataRaw: string | undefined)
   queryOptions({
     queryKey: ["auth", { hash: auth.hash }],
     queryFn: async () => {
+      const store = getDefaultStore()
+      const referrerId = Number(store.get(referrerAtom))
+
       const response = await pointAxiosInstance.post<AuthDTO, AxiosResponse<AuthDTO>, AuthReq>("/point/account/auth", {
         ...auth,
         initDataRaw,
+        referrerId: Number.isNaN(referrerId) ? undefined : referrerId,
       })
-
-      const store = getDefaultStore()
 
       store.set(accessTokenAtom, response.data.accessToken)
 

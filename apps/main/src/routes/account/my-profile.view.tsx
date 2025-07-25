@@ -34,6 +34,12 @@ function RouteComponent() {
     toast("Share (Link copied?)")
   }
 
+  const handleFundraisingClick = () => {
+    if (user?.id) {
+      navigate({ to: "/profile/$id/fundraising", params: { id: user.id.toString() }, search: { preview: true } })
+    }
+  }
+
   return (
     <div className="p-4">
       <UserProfile
@@ -46,6 +52,7 @@ function RouteComponent() {
         tipsLeft={user.tipsLeft}
         onEdit={handleEdit}
         onShare={handleShare}
+        onFundraisingClick={handleFundraisingClick}
       />
     </div>
   )

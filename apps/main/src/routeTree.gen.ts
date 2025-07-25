@@ -38,7 +38,7 @@ import { Route as TipsPlaceIdProfileImport } from './routes/tips.$placeId/profil
 import { Route as TipsPlaceIdInfoImport } from './routes/tips.$placeId/info'
 import { Route as TipsPlaceIdErrorImport } from './routes/tips.$placeId/error'
 import { Route as TipsPlaceIdAssetsImport } from './routes/tips.$placeId/assets'
-import { Route as ProfileIdFundraisingImport } from './routes/profile.$id.fundraising'
+import { Route as ProfileIdFundraisingImport } from './routes/profile_.$id.fundraising'
 import { Route as MenuIdMenuItemIdImport } from './routes/menu_.$id.$menuItemId'
 import { Route as AccountMyProfileViewImport } from './routes/account/my-profile.view'
 import { Route as AccountMyProfileEditImport } from './routes/account/my-profile.edit'
@@ -211,9 +211,9 @@ const TipsPlaceIdAssetsRoute = TipsPlaceIdAssetsImport.update({
 } as any)
 
 const ProfileIdFundraisingRoute = ProfileIdFundraisingImport.update({
-  id: '/fundraising',
-  path: '/fundraising',
-  getParentRoute: () => ProfileIdRoute,
+  id: '/profile_/$id/fundraising',
+  path: '/profile/$id/fundraising',
+  getParentRoute: () => rootRoute,
 } as any)
 
 const MenuIdMenuItemIdRoute = MenuIdMenuItemIdImport.update({
@@ -444,12 +444,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MenuIdMenuItemIdImport
       parentRoute: typeof rootRoute
     }
-    '/profile/$id/fundraising': {
-      id: '/profile/$id/fundraising'
-      path: '/fundraising'
+    '/profile_/$id/fundraising': {
+      id: '/profile_/$id/fundraising'
+      path: '/profile/$id/fundraising'
       fullPath: '/profile/$id/fundraising'
       preLoaderRoute: typeof ProfileIdFundraisingImport
-      parentRoute: typeof ProfileIdImport
+      parentRoute: typeof rootRoute
     }
     '/tips/$placeId/assets': {
       id: '/tips/$placeId/assets'
@@ -579,18 +579,6 @@ const TipsPlaceIdRouteRouteChildren: TipsPlaceIdRouteRouteChildren = {
 const TipsPlaceIdRouteRouteWithChildren =
   TipsPlaceIdRouteRoute._addFileChildren(TipsPlaceIdRouteRouteChildren)
 
-interface ProfileIdRouteChildren {
-  ProfileIdFundraisingRoute: typeof ProfileIdFundraisingRoute
-}
-
-const ProfileIdRouteChildren: ProfileIdRouteChildren = {
-  ProfileIdFundraisingRoute: ProfileIdFundraisingRoute,
-}
-
-const ProfileIdRouteWithChildren = ProfileIdRoute._addFileChildren(
-  ProfileIdRouteChildren,
-)
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof WithMenuRouteRouteWithChildren
@@ -612,7 +600,7 @@ export interface FileRoutesByFullPath {
   '/earn/rating': typeof EarnRatingRoute
   '/earn/referrals': typeof EarnReferralsRoute
   '/menu/$id': typeof MenuIdRoute
-  '/profile/$id': typeof ProfileIdRouteWithChildren
+  '/profile/$id': typeof ProfileIdRoute
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/selections/$id': typeof WithMenuSelectionsIdRoute
   '/account/my-profile/edit': typeof AccountMyProfileEditRoute
@@ -649,7 +637,7 @@ export interface FileRoutesByTo {
   '/earn/rating': typeof EarnRatingRoute
   '/earn/referrals': typeof EarnReferralsRoute
   '/menu/$id': typeof MenuIdRoute
-  '/profile/$id': typeof ProfileIdRouteWithChildren
+  '/profile/$id': typeof ProfileIdRoute
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/selections/$id': typeof WithMenuSelectionsIdRoute
   '/account/my-profile/edit': typeof AccountMyProfileEditRoute
@@ -688,13 +676,13 @@ export interface FileRoutesById {
   '/earn/rating': typeof EarnRatingRoute
   '/earn/referrals': typeof EarnReferralsRoute
   '/menu/$id': typeof MenuIdRoute
-  '/profile/$id': typeof ProfileIdRouteWithChildren
+  '/profile/$id': typeof ProfileIdRoute
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/_withMenu/selections/$id': typeof WithMenuSelectionsIdRoute
   '/account/my-profile/edit': typeof AccountMyProfileEditRoute
   '/account/my-profile/view': typeof AccountMyProfileViewRoute
   '/menu_/$id/$menuItemId': typeof MenuIdMenuItemIdRoute
-  '/profile/$id/fundraising': typeof ProfileIdFundraisingRoute
+  '/profile_/$id/fundraising': typeof ProfileIdFundraisingRoute
   '/tips/$placeId/assets': typeof TipsPlaceIdAssetsRoute
   '/tips/$placeId/error': typeof TipsPlaceIdErrorRoute
   '/tips/$placeId/info': typeof TipsPlaceIdInfoRoute
@@ -807,7 +795,7 @@ export interface FileRouteTypes {
     | '/account/my-profile/edit'
     | '/account/my-profile/view'
     | '/menu_/$id/$menuItemId'
-    | '/profile/$id/fundraising'
+    | '/profile_/$id/fundraising'
     | '/tips/$placeId/assets'
     | '/tips/$placeId/error'
     | '/tips/$placeId/info'
@@ -836,10 +824,11 @@ export interface RootRouteChildren {
   EarnRatingRoute: typeof EarnRatingRoute
   EarnReferralsRoute: typeof EarnReferralsRoute
   MenuIdRoute: typeof MenuIdRoute
-  ProfileIdRoute: typeof ProfileIdRouteWithChildren
+  ProfileIdRoute: typeof ProfileIdRoute
   AccountMyProfileEditRoute: typeof AccountMyProfileEditRoute
   AccountMyProfileViewRoute: typeof AccountMyProfileViewRoute
   MenuIdMenuItemIdRoute: typeof MenuIdMenuItemIdRoute
+  ProfileIdFundraisingRoute: typeof ProfileIdFundraisingRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -859,10 +848,11 @@ const rootRouteChildren: RootRouteChildren = {
   EarnRatingRoute: EarnRatingRoute,
   EarnReferralsRoute: EarnReferralsRoute,
   MenuIdRoute: MenuIdRoute,
-  ProfileIdRoute: ProfileIdRouteWithChildren,
+  ProfileIdRoute: ProfileIdRoute,
   AccountMyProfileEditRoute: AccountMyProfileEditRoute,
   AccountMyProfileViewRoute: AccountMyProfileViewRoute,
   MenuIdMenuItemIdRoute: MenuIdMenuItemIdRoute,
+  ProfileIdFundraisingRoute: ProfileIdFundraisingRoute,
 }
 
 export const routeTree = rootRoute
@@ -894,7 +884,8 @@ export const routeTree = rootRoute
         "/profile/$id",
         "/account/my-profile/edit",
         "/account/my-profile/view",
-        "/menu_/$id/$menuItemId"
+        "/menu_/$id/$menuItemId",
+        "/profile_/$id/fundraising"
       ]
     },
     "/": {
@@ -980,10 +971,7 @@ export const routeTree = rootRoute
       "filePath": "menu.$id.tsx"
     },
     "/profile/$id": {
-      "filePath": "profile.$id.tsx",
-      "children": [
-        "/profile/$id/fundraising"
-      ]
+      "filePath": "profile.$id.tsx"
     },
     "/tips/$placeId/input": {
       "filePath": "tips.$placeId/input/route.tsx",
@@ -1006,9 +994,8 @@ export const routeTree = rootRoute
     "/menu_/$id/$menuItemId": {
       "filePath": "menu_.$id.$menuItemId.tsx"
     },
-    "/profile/$id/fundraising": {
-      "filePath": "profile.$id.fundraising.tsx",
-      "parent": "/profile/$id"
+    "/profile_/$id/fundraising": {
+      "filePath": "profile_.$id.fundraising.tsx"
     },
     "/tips/$placeId/assets": {
       "filePath": "tips.$placeId/assets.tsx",

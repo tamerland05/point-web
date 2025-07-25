@@ -43,6 +43,16 @@ function RouteComponent() {
     [user.employee?.id, navigate, id]
   )
 
+  const handleFundraisingClick = () => {
+    if (user.employee?.id) {
+      navigate({
+        to: "/profile/$id/fundraising",
+        params: { id: user.employee?.id.toString() },
+        search: { preview: true },
+      })
+    }
+  }
+
   return (
     <ShowMainButton {...mainButtonConfig}>
       <UserProfile
@@ -53,6 +63,7 @@ function RouteComponent() {
         name={user.employee?.name || null}
         rank={user.rank}
         username={user.username}
+        onFundraisingClick={handleFundraisingClick}
       />
     </ShowMainButton>
   )

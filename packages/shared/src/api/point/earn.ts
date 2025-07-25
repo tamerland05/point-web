@@ -81,4 +81,7 @@ export const earnTasksQueryOptions = queryOptions({
   },
   gcTime: Number.POSITIVE_INFINITY,
   staleTime: Number.POSITIVE_INFINITY,
+  refetchInterval: 1000 * 30,
+  refetchOnMount: true,
+  refetchOnWindowFocus: true,
 })

@@ -20,10 +20,22 @@ interface UserProfileProps {
 
   onEdit?: () => void
   onShare?: () => void
+  onFundraisingClick?: () => void
 }
 
 export const UserProfile = memo(
-  ({ jobPlace, purpose, photo, name, username, rank, tipsLeft, onEdit, onShare }: UserProfileProps) => {
+  ({
+    jobPlace,
+    purpose,
+    photo,
+    name,
+    username,
+    rank,
+    tipsLeft,
+    onEdit,
+    onShare,
+    onFundraisingClick,
+  }: UserProfileProps) => {
     return (
       <div className="relative">
         <UserProfileHeader
@@ -37,6 +49,7 @@ export const UserProfile = memo(
         {purpose && (
           <List className="mb-7" title="Fundraising">
             <ListItem
+              onClick={onFundraisingClick}
               leftIcon={<Img className="h-12 w-12 rounded-full" src={purpose?.icon} alt={purpose?.title} />}
               leftTopText={<span className="font-medium">{purpose?.title}</span>}
               leftBottomText={<span className="line-clamp-1">{purpose?.description}</span>}

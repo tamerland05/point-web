@@ -199,7 +199,7 @@ function RouteComponent() {
       </button>
 
       <List title="Top users">
-        {topUsers.slice(7).map((u) => (
+        {topUsers.slice(7).map((u, i) => (
           <ListItem
             onClick={() => handleGoToProfile(u.id)}
             key={u.username}
@@ -211,6 +211,8 @@ function RouteComponent() {
                 <div className="text-text-secondary">{formatBonusBalance(u.bonusBalance)}</div>
               </div>
             }
+            rightTopText={i + 1 + 7}
+            withSeparator
           />
         ))}
       </List>

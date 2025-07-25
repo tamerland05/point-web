@@ -10,7 +10,8 @@ export const Route = createFileRoute("/earn/info")({
 })
 
 function RouteComponent() {
-  const goToChannel = () => openTelegramLink("https://t.me/point")
+  const goToChannel = () => openTelegramLink("https://t.me/point_telegram")
+
   return (
     <ShowMainButton title="Project Channel" onClick={goToChannel}>
       <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 flex w-full flex-col p-4">
