@@ -1,9 +1,8 @@
 import type { RetrieveLPResultCamelCased } from "@telegram-apps/sdk-react"
 import { getDefaultStore } from "jotai"
 
-import { referrerAtom } from "@/atoms/user"
 import { StartParamsCodes } from "@/constants/launchParamsCodes"
-import { isValidAddress } from "@point/shared/utils/isValidAddress"
+import { referrerAtom } from "@point/shared/atoms/user"
 import { redirect } from "@tanstack/react-router"
 
 // TODO: надо скипать онбординга
@@ -46,14 +45,15 @@ export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
 
   // 4. handle referrer id
   if (startParamsString.startsWith(StartParamsCodes.REFERRER_ID)) {
+    const alreadyHasReferrer = getDefaultStore().get(referrerAtom)
+    if (alreadyHasReferrer) {
+      return
+    }
+
     const split = startParamsString.split("=")
     const referrerAddress = split[1]
 
     if (!referrerAddress) {
-      return
-    }
-
-    if (!isValidAddress(referrerAddress)) {
       return
     }
 

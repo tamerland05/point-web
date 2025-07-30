@@ -114,13 +114,17 @@ export const PlaceModal = memo(
                 rightTopText={<div className="text-text-secondary">{data?.rating || rating || "0"}</div>}
                 withSeparator
               />
-              <ListItem
-                className="text-base"
-                leftIcon={<Icon name={"MenuBoard"} className="h-7 w-7 rounded-md bg-[#0A78FF] p-1 text-transparent" />}
-                leftTopText="Menu"
-                rightIcon={<Icon name={"ChevronRight"} className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
-                onClick={handleNavigateToMenu}
-              />
+              {!!data?.menu.length && data?.menu?.length > 0 && (
+                <ListItem
+                  className="text-base"
+                  leftIcon={
+                    <Icon name={"MenuBoard"} className="h-7 w-7 rounded-md bg-[#0A78FF] p-1 text-transparent" />
+                  }
+                  leftTopText="Menu"
+                  rightIcon={<Icon name={"ChevronRight"} className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+                  onClick={handleNavigateToMenu}
+                />
+              )}
             </List>
 
             {(data?.gallery || []).length > 0 && id && (

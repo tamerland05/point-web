@@ -80,6 +80,7 @@ if (import.meta.env.DEV) {
             ],
           ]).toString(),
         ],
+        // ["tgWebAppStartParam", "ref=290002950"],
         ["tgWebAppVersion", "9.0"],
         ["tgWebAppPlatform", "ios"], // "tdesktop"
       ]),

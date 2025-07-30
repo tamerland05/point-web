@@ -61,6 +61,7 @@ function RouteComponent() {
         <List key={category} title={category} className="mb-8">
           {menyByCategory.get(category)?.map((menuItem) => (
             <ListItem
+              className="py-4"
               key={menuItem.id}
               leftIcon={
                 menuItem.photo && (

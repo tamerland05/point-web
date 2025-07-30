@@ -14,9 +14,10 @@ import { NearbyModal } from "@/components/nearby-modal"
 import { PlaceModal } from "@/components/place-modal"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
-import { establishmentsQueryOptions } from "@point/shared/api/point/establishments"
+import { establishmentsQueryOptions, placesNearQueryOptions } from "@point/shared/api/point/establishments"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
 import Img from "react-cool-img"
+import toast from "react-hot-toast"
 
 const mapSchema = z.object({
   expanded: z.boolean().default(false),
@@ -54,6 +55,9 @@ function RouteComponent() {
   const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
   const establishmentTypes = establishmentTypesQuery.data
 
+  const nearbyPlacesQuery = useQuery(placesNearQueryOptions("", userLocation))
+  const nearbyPlaces = nearbyPlacesQuery.data
+
   const [movedToUserLocation, setMovedToUserLocation] = useAtom(movedToUserLocationAtom)
   useEffect(() => {
     if (movedToUserLocation) return
@@ -72,8 +76,14 @@ function RouteComponent() {
   const handleSelectPlace = useCallback(
     async (placeId: string) => {
       setMenuVisible(false)
-      const place = establishments?.find((establishment) => establishment.id === placeId)
-      if (!place) return
+      const place =
+        establishments?.find((establishment) => establishment.id === placeId) ||
+        nearbyPlaces?.find((place) => place.id === placeId)
+
+      if (!place) {
+        toast.error("Place not found")
+        return
+      }
 
       mapRef?.flyTo({
         center: [Number(place.position.longitude), Number(place.position.latitude) - 0.0001],
@@ -85,7 +95,7 @@ function RouteComponent() {
         search: (prev) => ({ ...prev, selectedPlaceId: placeId }),
       })
     },
-    [navigate, setMenuVisible, establishments, mapRef]
+    [navigate, setMenuVisible, establishments, nearbyPlaces, mapRef]
   )
 
   const handleExpandDrawer = useCallback(() => {

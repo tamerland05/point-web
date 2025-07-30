@@ -96,7 +96,7 @@ export const authQueryOptions = (auth: AuthReq, initDataRaw: string | undefined)
     queryKey: ["auth", { hash: auth.hash }],
     queryFn: async () => {
       const store = getDefaultStore()
-      const referrerId = Number(store.get(referrerAtom))
+      const referrerId = store.get(referrerAtom) ? Number(store.get(referrerAtom)) : undefined
 
       const response = await pointAxiosInstance.post<AuthDTO, AxiosResponse<AuthDTO>, AuthReq>("/point/account/auth", {
         ...auth,
