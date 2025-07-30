@@ -203,7 +203,15 @@ function RouteComponent() {
           <ListItem
             onClick={() => handleGoToProfile(u.id)}
             key={u.username}
-            leftIcon={<Img src={u.photoUrl} alt={u.username} className="size-12 rounded-full" />}
+            leftIcon={
+              <Img
+                placeholder="/user-ph.svg"
+                error="/user-ph.svg"
+                src={u.photoUrl}
+                alt={u.username}
+                className="size-12 rounded-full"
+              />
+            }
             leftTopText={u.username || u.name}
             leftBottomText={
               <div className="flex items-center gap-1">
