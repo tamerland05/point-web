@@ -102,8 +102,8 @@ export const Drawer = ({
             "h-3/6": height === "md",
             "h-2/6": height === "sm",
             // TODO: remove this hack, need to find a better way to handle this
-            "h-30": height === "pimp-only" && standalone,
-            "h-28": height === "pimp-only" && !standalone,
+            "h-44": height === "pimp-only" && standalone,
+            "h-42": height === "pimp-only" && !standalone,
           }
         )}
         role="presentation"
