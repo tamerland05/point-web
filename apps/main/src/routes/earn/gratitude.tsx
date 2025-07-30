@@ -56,7 +56,7 @@ function RouteComponent() {
                 <React.Fragment key={tier.range}>
                   <div className={cn("px-4 py-2.5", idx === BONUS_TIERS.length - 1 && "border-b-0")}>{tier.range}</div>
                   <div className="flex items-center gap-2 border-r-0 bg-background-secondary px-4 py-2.5">
-                    +{tier.bonus} <Icon name="BonusMoney" className="size-5" />
+                    +{tier.bonus} <Icon name="BonusMoney" className="size-5 text-transparent" />
                   </div>
                 </React.Fragment>
               ))}
@@ -67,7 +67,7 @@ function RouteComponent() {
             <div className="grid grid-cols-2 divide-x divide-[#CBCBD0]">
               <div className=" px-4 py-2.5 ">Earned</div>
               <div className="flex items-center gap-2 bg-background-secondary px-4 py-2.5 ">
-                {formatTokenValue(bonusBalance)} <Icon name="BonusMoney" className="size-5" />
+                {formatTokenValue(bonusBalance)} <Icon name="BonusMoney" className="size-5 text-transparent" />
               </div>
             </div>
           </div>
