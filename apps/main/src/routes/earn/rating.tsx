@@ -83,7 +83,7 @@ function RouteComponent() {
   )
 
   return (
-    <div className="flex w-full flex-col overflow-hidden p-4">
+    <div className="flex w-full flex-col p-4">
       {/* Топ-3 */}
       <div className="mb-7 flex w-full items-end justify-between gap-6">
         {topUsers.slice(0, 3).map((u, i) => (
