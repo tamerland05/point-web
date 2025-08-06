@@ -2,7 +2,6 @@ import { UserProfile } from "@/components/user-profile"
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import toast from "react-hot-toast"
 
 export const Route = createFileRoute("/account/my-profile/view")({
   component: RouteComponent,
@@ -29,10 +28,10 @@ function RouteComponent() {
     navigate({ to: "/account/my-profile/edit" })
   }
 
-  const handleShare = () => {
-    // TODO: share && start param to profile
-    toast("Share (Link copied?)")
-  }
+  // const handleShare = () => {
+  //   // TODO: share && start param to profile
+  //   toast("Share (Link copied?)")
+  // }
 
   const handleFundraisingClick = () => {
     if (user?.id) {
@@ -51,7 +50,7 @@ function RouteComponent() {
         rank={user.rank}
         tipsLeft={user.tipsLeft}
         onEdit={handleEdit}
-        onShare={handleShare}
+        // onShare={handleShare}
         onFundraisingClick={handleFundraisingClick}
       />
     </div>

@@ -259,7 +259,7 @@ const useMarkerCollisionDetection = (
       }
     })
 
-    const sortedEstablishments = [...establishments].sort((a, b) => (b.rating || 0) - (a.rating || 0))
+    const sortedEstablishments = [...establishments].sort((a, b) => (+b.rating || 0) - (+a.rating || 0))
 
     sortedEstablishments.forEach((establishment) => {
       const currentRect = rects.get(establishment.id)

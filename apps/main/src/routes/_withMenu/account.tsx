@@ -121,14 +121,14 @@ function RouteComponent() {
             rightTopText={<div className="-mr-4 text-text-secondary">{profileType}</div>}
             onClick={handleGoToProfileType}
           />
-          <ListItem
+          {/* <ListItem
             leftTopText="Language"
             leftIcon={<Icon name="Account2" className="h-7 w-7 text-transparent" />}
             rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
             withSeparator
             rightTopText={<div className="-mr-4 text-text-secondary">{language}</div>}
             onClick={handleGoToLanguage}
-          />
+          /> */}
           <ListItem
             leftTopText="Information"
             leftIcon={<Icon name="Account3" className="h-7 w-7 text-transparent" />}
@@ -137,11 +137,11 @@ function RouteComponent() {
           />
         </List>
 
-        <ListItem
+        {/* <ListItem
           leftTopText="Location"
           leftIcon={<Icon name="Account4" className="h-7 w-7 text-transparent" />}
           rightTopText={<div className="text-text-secondary">WIP</div>}
-        />
+        /> */}
 
         <List>
           <ListItem
