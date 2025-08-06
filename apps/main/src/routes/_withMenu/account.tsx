@@ -1,6 +1,5 @@
 import { onboardingCompletedAtom } from "@/atoms/user"
 import { trimAddress } from "@/utils/trim-address"
-import { LANGUAGES_LIST, useTranslation } from "@point/i18n"
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
@@ -31,7 +30,7 @@ function RouteComponent() {
   const ctx = Route.useRouteContext()
   const navigate = Route.useNavigate()
 
-  const { i18n } = useTranslation()
+  // const { i18n } = useTranslation()
 
   const setOnboardingCompleted = useSetAtom(onboardingCompletedAtom)
 
@@ -40,7 +39,7 @@ function RouteComponent() {
   const user = authQuery.data?.user
 
   const profileType = !user.employee ? "User" : "Employee"
-  const language = LANGUAGES_LIST.find((l) => l.lang === (user.languageCode || i18n.language))?.name
+  // const language = LANGUAGES_LIST.find((l) => l.lang === (user.languageCode || i18n.language))?.name
 
   const handleGoToMyProfile = () => {
     hapticFeedback.impactOccurred("light")
@@ -52,10 +51,10 @@ function RouteComponent() {
     navigate({ to: "/account/profile-type" })
   }
 
-  const handleGoToLanguage = () => {
-    hapticFeedback.impactOccurred("light")
-    navigate({ to: "/account/language" })
-  }
+  // const handleGoToLanguage = () => {
+  //   hapticFeedback.impactOccurred("light")
+  //   navigate({ to: "/account/language" })
+  // }
 
   const handleGoToInformation = async () => {
     hapticFeedback.impactOccurred("light")
