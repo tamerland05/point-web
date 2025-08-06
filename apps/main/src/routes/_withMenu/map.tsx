@@ -2,7 +2,7 @@ import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import { useAtom, useSetAtom } from "jotai"
-import { useCallback, useEffect } from "react"
+import { type RefObject, useCallback, useEffect, useRef, useState } from "react"
 import { Marker } from "react-map-gl/mapbox"
 import { z } from "zod"
 
@@ -14,7 +14,11 @@ import { NearbyModal } from "@/components/nearby-modal"
 import { PlaceModal } from "@/components/place-modal"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
-import { establishmentsQueryOptions, placesNearQueryOptions } from "@point/shared/api/point/establishments"
+import {
+  type EstablishmentDTO,
+  establishmentsQueryOptions,
+  placesNearQueryOptions,
+} from "@point/shared/api/point/establishments"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
 import Img from "react-cool-img"
 import toast from "react-hot-toast"
@@ -50,7 +54,7 @@ function RouteComponent() {
   const debouncedZoom = useDebounce(zoom, 333)
 
   const establishmentsQuery = useQuery(establishmentsQueryOptions(debouncedLatitude, debouncedLongitude, debouncedZoom))
-  const establishments = establishmentsQuery.data
+  const establishments = establishmentsQuery.data || []
 
   const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
   const establishmentTypes = establishmentTypesQuery.data
@@ -161,21 +165,51 @@ function RouteComponent() {
     [establishmentTypes]
   )
 
+  // TODO: refactor, prettyfy
+
+  const mapContainerRef = useRef<HTMLDivElement>(null)
+
+  const visibleMarkerIds = useMarkerCollisionDetection(establishments, zoom, mapContainerRef)
+
+  const getMarkerScale = useCallback(() => {
+    if (zoom >= 13) return 1.0
+    if (zoom >= 10) return 0.9
+    return 0.8
+  }, [zoom])
+
   return (
     <>
-      <MapboxMap>
-        {establishments?.map((establishment) => (
-          <Marker
-            key={establishment.id}
-            longitude={establishment.position.longitude}
-            latitude={establishment.position.latitude}
-            anchor="center"
-            onClick={() => handleSelectPlace(establishment.id)}
-          >
-            {getMarkerByEstablishmentType(establishment.establishmentTypeId, establishment.name)}
-          </Marker>
-        ))}
-      </MapboxMap>
+      <div ref={mapContainerRef}>
+        <MapboxMap>
+          {establishments.map((establishment) => {
+            const isVisible = visibleMarkerIds.has(establishment.id)
+
+            return (
+              <Marker
+                key={establishment.id}
+                longitude={establishment.position.longitude}
+                latitude={establishment.position.latitude}
+                anchor="center"
+                onClick={() => handleSelectPlace(establishment.id)}
+              >
+                <div
+                  data-marker-id={establishment.id}
+                  className="marker-container"
+                  // TODO: refactor, prettyfy
+                  style={{
+                    transform: `scale(${getMarkerScale()})`,
+                    opacity: isVisible ? 1 : 0,
+                    transition: "opacity 0.2s ease, scale 0.2s ease",
+                    pointerEvents: isVisible ? "auto" : "none",
+                  }}
+                >
+                  {getMarkerByEstablishmentType(establishment.establishmentTypeId, establishment.name)}
+                </div>
+              </Marker>
+            )
+          })}
+        </MapboxMap>
+      </div>
 
       <PlaceModal
         id={selectedPlaceId}
@@ -199,3 +233,67 @@ function RouteComponent() {
     </>
   )
 }
+
+// TODO: refactor, prettyfy
+
+const useMarkerCollisionDetection = (
+  establishments: EstablishmentDTO[],
+  zoom: number,
+  containerRef: RefObject<HTMLDivElement | null>
+) => {
+  const [visibleMarkers, setVisibleMarkers] = useState<Set<string>>(new Set())
+
+  const checkCollisions = useCallback(() => {
+    if (!containerRef.current || zoom >= ALL_MARKERS_ZOOM_LEVEL) {
+      setVisibleMarkers(new Set(establishments.map((e) => e.id)))
+      return
+    }
+
+    const markerElements = containerRef.current.querySelectorAll("[data-marker-id]")
+    const rects = new Map<string, DOMRect>()
+    const visible = new Set<string>()
+
+    markerElements.forEach((element) => {
+      const markerId = element.getAttribute("data-marker-id")
+      if (markerId) {
+        rects.set(markerId, element.getBoundingClientRect())
+      }
+    })
+
+    const sortedEstablishments = [...establishments].sort((a, b) => (b.rating || 0) - (a.rating || 0))
+
+    sortedEstablishments.forEach((establishment) => {
+      const currentRect = rects.get(establishment.id)
+      if (!currentRect) return
+
+      let hasCollision = false
+
+      for (const visibleId of visible) {
+        const visibleRect = rects.get(visibleId)
+        if (visibleRect && rectsOverlap(currentRect, visibleRect)) {
+          hasCollision = true
+          break
+        }
+      }
+
+      if (!hasCollision) {
+        visible.add(establishment.id)
+      }
+    })
+
+    setVisibleMarkers(visible)
+  }, [establishments, zoom, containerRef])
+
+  useEffect(() => {
+    const timeoutId = setTimeout(checkCollisions, 100)
+    return () => clearTimeout(timeoutId)
+  }, [checkCollisions])
+
+  return visibleMarkers
+}
+
+const rectsOverlap = (rect1: DOMRect, rect2: DOMRect): boolean => {
+  return !(rect1.right < rect2.left || rect1.left > rect2.right || rect1.bottom < rect2.top || rect1.top > rect2.bottom)
+}
+
+const ALL_MARKERS_ZOOM_LEVEL = 12

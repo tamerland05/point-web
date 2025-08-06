@@ -1,11 +1,11 @@
-import { queryOptions, useMutation } from "@tanstack/react-query"
+import { keepPreviousData, queryOptions, useMutation } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
 import type { Coordinates, MenuItem } from "@/types"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
 import type { AxiosResponse } from "axios"
 
-interface EstbalishmentsReq {
+interface EstablishmentsReq {
   latitude: number
   longitude: number
   scale: number
@@ -15,7 +15,7 @@ interface EstbalishmentsReq {
   }
 }
 
-interface EstbalishmentDTO {
+export interface EstablishmentDTO {
   id: string
   name: string
   photo: string
@@ -36,18 +36,19 @@ export const establishmentsQueryOptions = (latitude: number, longitude: number, 
       }
 
       const response = await pointAxiosInstance.post<
-        EstbalishmentDTO[],
-        AxiosResponse<EstbalishmentDTO[]>,
-        EstbalishmentsReq
+        EstablishmentDTO[],
+        AxiosResponse<EstablishmentDTO[]>,
+        EstablishmentsReq
       >("/point/map/establishments", { latitude, longitude, scale, viewPortSize })
 
       return response.data
     },
     gcTime: Number.POSITIVE_INFINITY,
     staleTime: Number.POSITIVE_INFINITY,
+    placeholderData: keepPreviousData,
   })
 
-export interface DetailedEstbalishmentDTO {
+interface DetailedEstablishmentDTO {
   id: string
   name: string
   photo: string
@@ -73,15 +74,16 @@ export const establishmentQueryOptions = (establishmentId?: string) =>
         return null
       }
 
-      const response = await pointAxiosInstance.get<DetailedEstbalishmentDTO>(
+      const response = await pointAxiosInstance.get<DetailedEstablishmentDTO>(
         `/point/map/establishment/${establishmentId}`
       )
 
       return response.data
     },
+    staleTime: 5,
   })
 
-interface EstbalishmentsNearReq {
+interface EstablishmentsNearReq {
   name: string
   location: Coordinates
 }
@@ -93,9 +95,9 @@ export const placesNearQueryOptions = (name: string, location: Coordinates) =>
       await ensureAccessTokenIsAvailable()
 
       const response = await pointAxiosInstance.post<
-        EstbalishmentDTO[],
-        AxiosResponse<EstbalishmentDTO[]>,
-        EstbalishmentsNearReq
+        EstablishmentDTO[],
+        AxiosResponse<EstablishmentDTO[]>,
+        EstablishmentsNearReq
       >("/point/map/establishments/near", { name, location })
 
       return response.data
@@ -110,7 +112,7 @@ export const menuItemQueryOptions = (menuItemId: string) =>
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
 
-      const response = await pointAxiosInstance.get<MenuItem, AxiosResponse<MenuItem>, EstbalishmentsNearReq>(
+      const response = await pointAxiosInstance.get<MenuItem, AxiosResponse<MenuItem>, EstablishmentsNearReq>(
         `/point/map/menu-item/${menuItemId}`
       )
 

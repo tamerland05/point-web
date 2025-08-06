@@ -2,7 +2,7 @@ import { EnvUnsupported } from "@/components/app-internals/EnvUnsupported"
 import { init } from "@/init"
 import { routeTree } from "@/routeTree.gen"
 import { menuItems as menuItemsRaw } from "@/routes/_withMenu/route"
-import { QueryClient, QueryClientProvider, keepPreviousData } from "@tanstack/react-query"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
 import { StrictMode, memo } from "react"
@@ -23,7 +23,6 @@ const queryClient = new QueryClient({
       staleTime: 30000, // 30 sec
       refetchOnWindowFocus: false,
       refetchOnMount: false,
-      placeholderData: keepPreviousData,
     },
   },
 })
