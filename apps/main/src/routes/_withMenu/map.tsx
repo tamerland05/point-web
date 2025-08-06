@@ -165,8 +165,7 @@ function RouteComponent() {
     [establishmentTypes]
   )
 
-  // TODO: refactor, prettyfy
-
+  // TODO: refactor, prettyfy ------------------------------------------------------------
   const mapContainerRef = useRef<HTMLDivElement>(null)
 
   const visibleMarkerIds = useMarkerCollisionDetection(establishments, zoom, mapContainerRef)
@@ -176,6 +175,7 @@ function RouteComponent() {
     if (zoom >= 10) return 0.9
     return 0.8
   }, [zoom])
+  // ------------------------------------------------------------
 
   return (
     <>
@@ -235,7 +235,6 @@ function RouteComponent() {
 }
 
 // TODO: refactor, prettyfy
-
 const useMarkerCollisionDetection = (
   establishments: EstablishmentDTO[],
   zoom: number,
