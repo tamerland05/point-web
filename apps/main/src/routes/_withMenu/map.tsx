@@ -171,9 +171,9 @@ function RouteComponent() {
   const visibleMarkerIds = useMarkerCollisionDetection(establishments, zoom, mapContainerRef)
 
   const getMarkerScale = useCallback(() => {
-    if (zoom >= 13) return 1.0
-    if (zoom >= 10) return 0.9
-    return 0.8
+    if (zoom >= 13) return 0.8
+    if (zoom >= 10) return 0.8
+    return 0.7
   }, [zoom])
   // ------------------------------------------------------------
 
