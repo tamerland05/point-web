@@ -156,9 +156,9 @@ function RouteComponent() {
       }
 
       return (
-        <div className="relative flex flex-col items-center">
+        <div className="relative flex flex-col items-center gap-0.5">
           <Img src={establishmentType.icon} alt={establishmentType.name} />
-          <div className="text-caption-3">{name || establishmentType.name}</div>
+          <div className="font-medium font-sf-pro-text text-caption-3">{name || establishmentType.name}</div>
         </div>
       )
     },
