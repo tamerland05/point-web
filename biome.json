@@ -1,70 +1,104 @@
 {
-	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-	"files": {
-		"ignore": [".turbo", "node_modules", "dist", "cert"]
-	},
-	"vcs": {
-		"enabled": true,
-		"clientKind": "git",
-		"defaultBranch": "main",
-		"useIgnoreFile": true
-	},
-	"formatter": {
-		"enabled": true,
-		"lineWidth": 120,
-		"indentStyle": "space",
-		"indentWidth": 2
-	},
-	"organizeImports": {
-		"enabled": true
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"recommended": true,
-			"suspicious": {
-				"recommended": true,
-				"noConsole": "error"
-			},
-			"style": {
-				"recommended": true
-			},
-			"complexity": {
-				"recommended": true
-			},
-			"security": {
-				"recommended": true
-			},
-			"performance": {
-				"recommended": true
-			},
-			"correctness": {
-				"recommended": true,
-				"noUnusedImports": "error",
-				"noUnusedVariables": "error",
-				"noUnusedLabels": "error",
-				"noUnusedFunctionParameters": "error"
-			},
-			"a11y": {
-				"recommended": true
-			},
-			"nursery": {
-				"recommended": true,
-				"noProcessEnv": "error",
-				"useSortedClasses": {
-					"level": "error",
-					"fix": "safe",
-					"options": {
-						"functions": ["cn", "cva", "tw", "clsx", "twMerge"]
-					}
-				}
-			}
-		}
-	},
-	"javascript": {
-		"formatter": {
-			"semicolons": "asNeeded",
-			"trailingCommas": "es5"
-		}
-	}
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              { "type": true },
+              ":BLANK_LINE:",
+              [":PACKAGE_WITH_PROTOCOL:", "!@point/**"],
+              [":PACKAGE:", "!@point/**"],
+              ":BLANK_LINE:",
+              ["@point/**"],
+              ":BLANK_LINE:",
+              ":ALIAS:",
+              ":BLANK_LINE:"
+            ],
+            "identifierOrder": "natural"
+          }
+        },
+        "useSortedAttributes": "on",
+        "useSortedKeys": "on"
+      }
+    }
+  },
+  "files": {
+    "includes": ["**", "!./packages/ui/resources/**/*", "!package.json"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded",
+      "trailingCommas": "es5"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "a11y": {
+        "recommended": true
+      },
+      "complexity": {
+        "recommended": true
+      },
+      "correctness": {
+        "noUnusedFunctionParameters": "error",
+        "noUnusedImports": "error",
+        "noUnusedLabels": "error",
+        "noUnusedVariables": "error",
+        "recommended": true
+      },
+      "nursery": {
+        "noFloatingPromises": "error",
+        "noNonNullAssertedOptionalChain": "info",
+        "recommended": true,
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "error",
+          "options": {
+            "functions": ["cn", "cva", "tw", "clsx", "twMerge"]
+          }
+        }
+      },
+      "performance": {
+        "recommended": true
+      },
+      "recommended": true,
+      "security": {
+        "recommended": true
+      },
+      "style": {
+        "noInferrableTypes": "error",
+        "noParameterAssign": "error",
+        "noProcessEnv": "error",
+        "noUnusedTemplateLiteral": "error",
+        "noUselessElse": "error",
+        "recommended": true,
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useNumberNamespace": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error"
+      },
+      "suspicious": {
+        "noConsole": "error",
+        "recommended": true
+      }
+    }
+  },
+  "vcs": {
+    "clientKind": "git",
+    "defaultBranch": "main",
+    "enabled": true,
+    "useIgnoreFile": true
+  }
 }
