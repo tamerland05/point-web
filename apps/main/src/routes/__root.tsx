@@ -1,33 +1,33 @@
-import { GetLanguageData } from "@/components/app-internals/GetLanguageData"
-import { StyledToaster } from "@/components/app-internals/Toaster"
-import { WalletAddressWatcher } from "@/components/app-internals/WalletAddressWatcher"
-import { ButtonsController } from "@/components/tg-internals"
 import type { QueryClient } from "@tanstack/react-query"
-import { createRootRouteWithContext, useMatches } from "@tanstack/react-router"
-import { Outlet } from "@tanstack/react-router"
+
+import { createRootRouteWithContext, Outlet, useMatches } from "@tanstack/react-router"
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
-import { retrieveLaunchParams, retrieveRawInitData, useSignal } from "@telegram-apps/sdk-react"
-import { viewport } from "@telegram-apps/sdk-react"
+import { retrieveLaunchParams, retrieveRawInitData, useSignal, viewport } from "@telegram-apps/sdk-react"
 import { THEME, TonConnectUIProvider } from "@tonconnect/ui-react"
 import { useMemo } from "react"
 import toast from "react-hot-toast"
 import { MapProvider } from "react-map-gl/mapbox"
 
+import { GetLanguageData } from "@/components/app-internals/GetLanguageData"
+import { StyledToaster } from "@/components/app-internals/Toaster"
+import { WalletAddressWatcher } from "@/components/app-internals/WalletAddressWatcher"
+import { ButtonsController } from "@/components/tg-internals"
+
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
-  component: RootComponent,
   beforeLoad: ({ context }) => {
     try {
       const launchParams = retrieveLaunchParams(true)
       const initDataRaw = retrieveRawInitData()
 
-      return { ...context, launchParams, initDataRaw }
+      return { ...context, initDataRaw, launchParams }
     } catch {
       toast.error("Не удалось получить telegram launch params, перезагрузите приложение")
-      return { ...context, launchParams: null, initDataRaw: null }
+      return { ...context, initDataRaw: null, launchParams: null }
     }
   },
+  component: RootComponent,
 })
 
 function RootComponent() {
@@ -37,9 +37,9 @@ function RootComponent() {
 
   const tgSpacesStyle = useMemo(
     () => ({
-      paddingTop: inset.top + contentInset.top,
       paddingLeft: inset.left,
       paddingRight: inset.right,
+      paddingTop: inset.top + contentInset.top,
     }),
     [inset, contentInset]
   )
@@ -49,10 +49,10 @@ function RootComponent() {
 
   return (
     <TonConnectUIProvider
+      manifestUrl="https://point-dev.meyson.tech/tonconnect-manifest.json"
       uiPreferences={{
         theme: THEME.LIGHT,
       }}
-      manifestUrl="https://point-dev.meyson.tech/tonconnect-manifest.json"
     >
       <MapProvider>
         <div

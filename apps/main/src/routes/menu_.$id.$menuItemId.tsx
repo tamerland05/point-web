@@ -1,15 +1,17 @@
-import { ShowMainButton } from "@/components/tg-internals"
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute, useRouter } from "@tanstack/react-router"
+import { shareURL } from "@telegram-apps/sdk-react"
+import { useMemo } from "react"
+import Img from "react-cool-img"
+
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { establishmentQueryOptions, menuItemQueryOptions } from "@point/shared/api/point/establishments"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
-import { useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute, useRouter } from "@tanstack/react-router"
-import { shareURL } from "@telegram-apps/sdk-react"
-import { useMemo } from "react"
-import Img from "react-cool-img"
+
+import { ShowMainButton } from "@/components/tg-internals"
 
 export const Route = createFileRoute("/menu_/$id/$menuItemId")({
   component: RouteComponent,
@@ -41,13 +43,13 @@ function RouteComponent() {
 
   const mainButtonConfig = useMemo(() => {
     return {
-      title: "Share",
       hidden: false,
       onClick: () =>
         shareURL(
           `${import.meta.env.VITE_TMA_URL}?startapp=menu--${id}--${menuItemId}`,
           `Hey! Check ${menuItem?.title} from ${establishment?.name} 😋`
         ),
+      title: "Share",
     }
   }, [id, menuItemId, menuItem?.title, establishment?.name])
 
@@ -55,50 +57,50 @@ function RouteComponent() {
     <ShowMainButton withDelay {...mainButtonConfig}>
       <div>
         <Img
-          placeholder="/img-ph.svg"
-          error="/img-ph.svg"
-          src={menuItemQuery.data?.photo}
           alt={menuItemQuery.data?.title}
           className="h-3/5 w-full object-cover"
+          error="/img-ph.svg"
+          placeholder="/img-ph.svg"
+          src={menuItemQuery.data?.photo}
         />
 
         <div className="-mt-3 relative rounded-t-xl bg-background px-4 py-5">
           <div className="mb-8 flex items-center justify-between">
             <div className="size-6 shrink-0" />
             <div className="flex grow flex-col gap-1">
-              <div className=" text-center font-semibold text-title-2">{menuItem?.title}</div>
-              <div className=" text-center text-caption-1 text-text-secondary">{menuItem?.category}</div>
+              <div className="text-center font-semibold text-title-2">{menuItem?.title}</div>
+              <div className="text-center text-caption-1 text-text-secondary">{menuItem?.category}</div>
             </div>
             <Icon
-              name="Close"
               className="size-6 shrink-0 text-transparent"
+              name="Close"
               onClick={() =>
-                router.history.canGoBack() ? router.history.back() : navigate({ to: "/menu/$id", replace: true })
+                router.history.canGoBack() ? router.history.back() : navigate({ replace: true, to: "/menu/$id" })
               }
             />
           </div>
           <List title="Dish Information">
             <ListItem
-              leftTopText={<span className="text-caption-1 text-text-secondary">Description</span>}
               leftBottomText={<span className="text-base text-text">{menuItem?.description}</span>}
+              leftTopText={<span className="text-caption-1 text-text-secondary">Description</span>}
               withSeparator
             />
             <ListItem
+              leftBottomText={<span className="text-accent text-base">{establishment?.name || "N/A"}</span>}
               leftTopText={<span className="text-caption-1 text-text-secondary">Establishment</span>}
-              leftBottomText={<span className="text-accent text-base ">{establishment?.name || "N/A"}</span>}
               onClick={() => {
-                navigate({ to: "/map", search: { selectedPlaceId: id, expanded: true } })
+                navigate({ search: { expanded: true, selectedPlaceId: id }, to: "/map" })
               }}
               withSeparator
             />
             <ListItem
-              leftTopText={<span className="text-caption-1 text-text-secondary">Cost</span>}
               leftBottomText={
                 <span className="text-base text-text">
                   {formatCurrency(menuItem?.cost.amount)}
                   {menuItem?.cost.currency}
                 </span>
               }
+              leftTopText={<span className="text-caption-1 text-text-secondary">Cost</span>}
             />
           </List>
         </div>

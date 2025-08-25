@@ -1,15 +1,16 @@
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute, Link } from "@tanstack/react-router"
+import { openTelegramLink } from "@telegram-apps/sdk-react"
+import { isTelegramUrl } from "@tonconnect/ui-react"
+import { useMemo } from "react"
+import Img from "react-cool-img"
+
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { earnTasksQueryOptions } from "@point/shared/api/point/earn"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
-import { useSuspenseQuery } from "@tanstack/react-query"
-import { Link, createFileRoute } from "@tanstack/react-router"
-import { openTelegramLink } from "@telegram-apps/sdk-react"
-import { isTelegramUrl } from "@tonconnect/ui-react"
-import { useMemo } from "react"
-import Img from "react-cool-img"
 
 export const Route = createFileRoute("/_withMenu/earn")({
   component: RouteComponent,
@@ -54,7 +55,7 @@ function RouteComponent() {
     }
 
     const [value, fraction] = bb.toFixed(2).split(".")
-    return { value, fraction, suffix, full: `${value}.${fraction}${suffix}` }
+    return { fraction, full: `${value}.${fraction}${suffix}`, suffix, value }
   }, [bonusBalance])
 
   const handleTaskClick = (link: string) => {
@@ -69,17 +70,17 @@ function RouteComponent() {
     <div className="">
       <div className="flex items-center justify-between gap-2">
         <Link className="flex items-center justify-center rounded-full bg-[#E1E0E6] p-1.5" to="/earn/info">
-          <Icon name="Info" className="size-5 rounded-full border border-text p-0.5" />
+          <Icon className="size-5 rounded-full border border-text p-0.5" name="Info" />
         </Link>
         <Link className="flex items-center justify-center rounded-full bg-[#E1E0E6] p-1.5" to="/earn/rating">
-          <Icon name="Cup" className="size-5" />
+          <Icon className="size-5" name="Cup" />
         </Link>
       </div>
 
       <div className="mb-10">
         <div className="mb-1 text-center font-semibold text-base">Bonus balance</div>
         <div className="flex items-baseline justify-center font-sf-pro-rounded">
-          <Icon name="BonusMoney" className="mr-1.5 size-10 translate-y-0.5 text-transparent" />
+          <Icon className="mr-1.5 size-10 translate-y-0.5 text-transparent" name="BonusMoney" />
           {/* TODO: fn for tranform number to k/m/b or just number */}
           <div className="font-bold text-[46px] leading-0">{bonusValue.value}.</div>
           <div className="font-bold text-[30px] leading-0">
@@ -89,23 +90,23 @@ function RouteComponent() {
         </div>
       </div>
 
-      <List title="Eternal tasks" className="mb-8">
+      <List className="mb-8" title="Eternal tasks">
         <ListItem
           className="py-3"
-          leftIcon={<Icon name="BonusCircle" className="size-10 text-transparent" />}
-          leftTopText="Gratitude"
           leftBottomText="Leave a tip of $1 or more"
-          rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+          leftIcon={<Icon className="size-10 text-transparent" name="BonusCircle" />}
+          leftTopText="Gratitude"
           onClick={() => navigate({ to: "/earn/gratitude" })}
+          rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
           withSeparator
         />
         <ListItem
           className="py-3"
-          leftIcon={<Icon name="ReferralsCircle" className="size-10 text-transparent" />}
-          leftTopText="Referrals"
           leftBottomText="Invite friends and get bonus"
-          rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+          leftIcon={<Icon className="size-10 text-transparent" name="ReferralsCircle" />}
+          leftTopText="Referrals"
           onClick={() => navigate({ to: "/earn/referrals" })}
+          rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
         />
       </List>
 
@@ -115,14 +116,14 @@ function RouteComponent() {
             <ListItem
               className="py-3"
               key={task.id}
-              leftIcon={<Img src={task.icon} className="size-10" />}
-              onClick={() => handleTaskClick(task.link)}
-              leftTopText={task.title}
               leftBottomText={task.description}
+              leftIcon={<Img className="size-10" src={task.icon} />}
+              leftTopText={task.title}
+              onClick={() => handleTaskClick(task.link)}
+              rightIcon={task.done ? <div /> : <Icon className="size-5.5 text-transparent" name="BonusMoney" />}
               rightTopText={
                 task.done ? <div /> : <div className="-mr-3 whitespace-nowrap">+{formatTokenValue(task.profit)}</div>
               }
-              rightIcon={task.done ? <div /> : <Icon name="BonusMoney" className="size-5.5 text-transparent" />}
               withSeparator
             />
           ))}

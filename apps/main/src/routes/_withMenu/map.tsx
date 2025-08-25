@@ -3,25 +3,26 @@ import { createFileRoute } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import { useAtom, useSetAtom } from "jotai"
 import { type RefObject, useCallback, useEffect, useRef, useState } from "react"
+import Img from "react-cool-img"
+import toast from "react-hot-toast"
 import { Marker } from "react-map-gl/mapbox"
 import { z } from "zod"
 
-import { NearbyModalStates, movedToUserLocationAtom, nearbyModalStateAtom } from "@/atoms/map"
+import {
+  type EstablishmentDTO,
+  establishmentsQueryOptions,
+  placesNearQueryOptions,
+} from "@point/shared/api/point/establishments"
+import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
+import { useDebounce } from "@point/shared/hooks/useDebounce"
+
+import { movedToUserLocationAtom, NearbyModalStates, nearbyModalStateAtom } from "@/atoms/map"
 import { showMenuAtom } from "@/atoms/ui"
 import { MapboxMap } from "@/components/mapbox"
 import { useMapData } from "@/components/mapbox/useMapbox"
 import { NearbyModal } from "@/components/nearby-modal"
 import { PlaceModal } from "@/components/place-modal"
 import { userLocationQueryOptions } from "@/utils/get-user-location-query"
-import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
-import {
-  type EstablishmentDTO,
-  establishmentsQueryOptions,
-  placesNearQueryOptions,
-} from "@point/shared/api/point/establishments"
-import { useDebounce } from "@point/shared/hooks/useDebounce"
-import Img from "react-cool-img"
-import toast from "react-hot-toast"
 
 const mapSchema = z.object({
   expanded: z.boolean().default(false),
@@ -30,11 +31,11 @@ const mapSchema = z.object({
 
 export const Route = createFileRoute("/_withMenu/map")({
   component: RouteComponent,
-  validateSearch: zodValidator(mapSchema),
 
   loader: async ({ context: { queryClient } }) => {
     queryClient.ensureQueryData(establishmentTypesQueryOptions)
   },
+  validateSearch: zodValidator(mapSchema),
 })
 
 function RouteComponent() {
@@ -70,8 +71,8 @@ function RouteComponent() {
 
     mapRef.flyTo({
       center: [userLocation.longitude, userLocation.latitude],
-      zoom: 15,
       duration: 2000,
+      zoom: 15,
     })
 
     setMovedToUserLocation(true)
@@ -91,8 +92,8 @@ function RouteComponent() {
 
       mapRef?.flyTo({
         center: [Number(place.position.longitude), Number(place.position.latitude) - 0.0001],
-        zoom: 17,
         duration: 1000,
+        zoom: 17,
       })
 
       navigate({
@@ -136,7 +137,7 @@ function RouteComponent() {
   const handleSelectNearbyPlace = useCallback(
     async (placeId: string) => {
       handleHideNearbyModal()
-      handleSelectPlace(placeId)
+      void handleSelectPlace(placeId)
     },
     [handleSelectPlace, handleHideNearbyModal]
   )
@@ -157,7 +158,7 @@ function RouteComponent() {
 
       return (
         <div className="relative flex flex-col items-center gap-0.5">
-          <Img src={establishmentType.icon} alt={establishmentType.name} />
+          <Img alt={establishmentType.name} src={establishmentType.icon} />
           <div className="font-medium font-sf-pro-text text-caption-3">{name || establishmentType.name}</div>
         </div>
       )
@@ -186,21 +187,21 @@ function RouteComponent() {
 
             return (
               <Marker
-                key={establishment.id}
-                longitude={establishment.position.longitude}
-                latitude={establishment.position.latitude}
                 anchor="center"
+                key={establishment.id}
+                latitude={establishment.position.latitude}
+                longitude={establishment.position.longitude}
                 onClick={() => handleSelectPlace(establishment.id)}
               >
                 <div
-                  data-marker-id={establishment.id}
                   className="marker-container"
+                  data-marker-id={establishment.id}
                   // TODO: refactor, prettyfy
                   style={{
-                    transform: `scale(${getMarkerScale()})`,
                     opacity: isVisible ? 1 : 0,
-                    transition: "opacity 0.2s ease, scale 0.2s ease",
                     pointerEvents: isVisible ? "auto" : "none",
+                    transform: `scale(${getMarkerScale()})`,
+                    transition: "opacity 0.2s ease, scale 0.2s ease",
                   }}
                 >
                   {getMarkerByEstablishmentType(establishment.establishmentTypeId, establishment.name)}
@@ -212,22 +213,22 @@ function RouteComponent() {
       </div>
 
       <PlaceModal
-        id={selectedPlaceId}
-        photo={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.photo}
-        name={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.name}
         address={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.position.address}
-        rating={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.rating}
         drawerExpanded={!!drawerExpanded}
         handleCloseDrawer={handleCloseDrawer}
         handleExpandDrawer={handleExpandDrawer}
+        id={selectedPlaceId}
+        name={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.name}
+        photo={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.photo}
+        rating={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.rating}
       />
 
       {!selectedPlaceId && (
         <NearbyModal
           onExpand={handleExpandNearbyModal}
-          onShow={handleShowNearbyModal}
           onHide={handleHideNearbyModal}
           onSelectPlace={handleSelectNearbyPlace}
+          onShow={handleShowNearbyModal}
         />
       )}
     </>

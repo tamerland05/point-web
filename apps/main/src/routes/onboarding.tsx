@@ -1,37 +1,38 @@
+import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, redirect } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
+import { hapticFeedback } from "@telegram-apps/sdk-react"
 import { getDefaultStore, useSetAtom } from "jotai"
+import { useMemo } from "react"
 import z from "zod"
 
-import { onboardingCompletedAtom } from "@/atoms/user"
-import { ShowMainButton } from "@/components/tg-internals"
 import { invitationQueryOptions } from "@point/shared/api/point/employee"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
-import { useQuery } from "@tanstack/react-query"
-import { hapticFeedback } from "@telegram-apps/sdk-react"
-import { useMemo } from "react"
+
+import { onboardingCompletedAtom } from "@/atoms/user"
+import { ShowMainButton } from "@/components/tg-internals"
 
 const steps = {
   1: {
-    title: "Telegram Tip",
     description: "Leave and receive crypto tip using Telegram",
     icon: "TON",
+    title: "Telegram Tip",
   },
   2: {
-    title: "Food Near You",
     description: "Find the best establishments with the best staff near you",
     icon: "World",
+    title: "Food Near You",
   },
   3: {
-    title: "Star Rating",
     description: "Transparent rating of establishments for Telegram Stars",
     icon: "Stars",
+    title: "Star Rating",
   },
   4: {
-    title: "Tip Rewards",
     description: "Game mechanics and bonuses for tips left behind",
     icon: "Caesar",
+    title: "Tip Rewards",
   },
 } as const
 
@@ -40,8 +41,6 @@ const onboardingSchema = z.object({
 })
 
 export const Route = createFileRoute("/onboarding")({
-  component: RouteComponent,
-  validateSearch: zodValidator(onboardingSchema),
   beforeLoad: () => {
     const store = getDefaultStore()
     const onboardingCompleted = store.get(onboardingCompletedAtom)
@@ -50,6 +49,8 @@ export const Route = createFileRoute("/onboarding")({
       throw redirect({ to: "/" })
     }
   },
+  component: RouteComponent,
+  validateSearch: zodValidator(onboardingSchema),
 })
 
 function RouteComponent() {
@@ -71,31 +72,31 @@ function RouteComponent() {
 
       if (step === totalStepsString) {
         setOnboardingCompleted(true)
-        navigate({ to: "/", replace: true })
+        navigate({ replace: true, to: "/" })
       } else {
-        navigate({ to: "/onboarding", search: { step: nextStep } })
+        navigate({ search: { step: nextStep }, to: "/onboarding" })
       }
     }
 
     return {
-      title: "Confirm",
-      loading: false,
       disabled: false,
       hidden: false,
+      loading: false,
       onClick,
+      title: "Confirm",
     }
   }, [navigate, setOnboardingCompleted, step])
 
   const secondaryButtonConfig = useMemo(
     () => ({
-      title: "Employee Account",
-      position: "bottom" as const,
       // TODO: if user.employee -  hide
       hidden: isError || !isSuccess,
       onClick: () => {
         setOnboardingCompleted(true)
-        navigate({ to: "/account/my-profile/edit", search: { step: "account", fromOnboarding: true } })
+        navigate({ search: { fromOnboarding: true, step: "account" }, to: "/account/my-profile/edit" })
       },
+      position: "bottom" as const,
+      title: "Employee Account",
     }),
     [setOnboardingCompleted, navigate, isError, isSuccess]
   )
@@ -108,7 +109,7 @@ function RouteComponent() {
         })}
       >
         <div className="flex flex-col items-center bg-background">
-          <Icon name={steps[step].icon} className="mb-10 size-24 text-transparent" />
+          <Icon className="mb-10 size-24 text-transparent" name={steps[step].icon} />
           <h1 className="mb-1 text-center font-semibold text-title-2">{steps[step].title}</h1>
           <p className="line-clamp-2 text-center text-base text-text-secondary">{steps[step].description}</p>
         </div>
@@ -116,10 +117,10 @@ function RouteComponent() {
         <div className="mt-6 flex items-center justify-center gap-2 [view-transition-name:warp]">
           {Object.keys(steps).map((key) => (
             <div
-              key={key}
               className={cn("h-2 w-2 rounded-full bg-text-secondary", {
                 "bg-accent": key === step,
               })}
+              key={key}
             />
           ))}
         </div>

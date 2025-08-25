@@ -1,5 +1,4 @@
 import type { VariantProps } from "class-variance-authority"
-
 import type React from "react"
 
 import { cva } from "class-variance-authority"
@@ -7,19 +6,19 @@ import { cva } from "class-variance-authority"
 import { cn } from "@/utils/cn"
 
 const listItemVariants = cva("flex items-center justify-between rounded-2xl bg-background-secondary px-4 py-2", {
-  variants: {
-    fullWidth: {
-      true: "w-full",
-      false: "w-auto",
-    },
-    gap: {
-      true: "gap-4",
-      false: "gap-2",
-    },
-  },
   defaultVariants: {
     fullWidth: true,
     gap: true,
+  },
+  variants: {
+    fullWidth: {
+      false: "w-auto",
+      true: "w-full",
+    },
+    gap: {
+      false: "gap-2",
+      true: "gap-4",
+    },
   },
 })
 
@@ -60,20 +59,20 @@ export const ListItem: React.FC<ListItemProps> = ({
   onClick,
 }) => (
   <button
-    type="button"
     className={cn(
       listItemVariants({ fullWidth, gap }),
       withSeparator &&
         "rounded-b-none border-black/5 border-b last:rounded-b-2xl last:border-b-0 focus:bg-background-secondary/70 focus:outline-none",
       className
     )}
-    tabIndex={0}
     onClick={onClick}
     onKeyDown={(e) => {
       if (e.key === "Enter") {
         onClick?.()
       }
     }}
+    tabIndex={0}
+    type="button"
   >
     <div className="flex items-center gap-4">
       {!!leftIcon && <div className={cn("flex-shrink-0", leftIconClassName)}>{leftIcon}</div>}

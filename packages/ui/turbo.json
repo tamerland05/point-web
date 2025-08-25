@@ -2,15 +2,15 @@
   "$schema": "https://turbo.build/schema.json",
   "extends": ["//"],
   "tasks": {
-    "storybook": {
-      "dependsOn": ["^build"],
-      "cache": false,
-      "persistent": true
-    },
     "build-storybook": {
       "dependsOn": ["^build"],
-      "outputs": ["storybook-static/**"],
-      "inputs": ["$TURBO_DEFAULT$", "!CHANGELOG.md", "!eslint.config.js", "!tsconfig.build.json"]
+      "inputs": ["$TURBO_DEFAULT$", "!CHANGELOG.md", "!eslint.config.js", "!tsconfig.build.json"],
+      "outputs": ["storybook-static/**"]
+    },
+    "storybook": {
+      "cache": false,
+      "dependsOn": ["^build"],
+      "persistent": true
     }
   }
 }

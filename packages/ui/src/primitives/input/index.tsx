@@ -1,5 +1,7 @@
-import { cn } from "@/utils/cn"
 import { forwardRef } from "react"
+
+import { cn } from "@/utils/cn"
+
 import { Icon } from "../icon"
 
 interface InputProps {
@@ -15,16 +17,16 @@ type Ref = HTMLInputElement
 export const Input = forwardRef<Ref, InputProps>(
   ({ className, placeholder, value, onChange, containerClassName }, ref) => (
     <label className={cn("relative flex items-center gap-3 rounded-xl bg-[#E6E6E6] px-4 py-3.5", containerClassName)}>
-      <Icon name="Group 3" className="h-4 w-4 text-transparent" />
+      <Icon className="h-4 w-4 text-transparent" name="Group 3" />
       <input
-        ref={ref}
         className={cn(
           "w-full text-base text-text leading-5 placeholder:font-normal placeholder:text-[#878787] focus:outline-none",
           className
         )}
-        placeholder={placeholder}
-        value={value}
         onChange={(e) => onChange?.(e.target.value)}
+        placeholder={placeholder}
+        ref={ref}
+        value={value}
       />
     </label>
   )

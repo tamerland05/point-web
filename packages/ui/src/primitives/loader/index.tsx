@@ -3,7 +3,7 @@ import { cn } from "@/utils/cn"
 
 export const PageLoader = () => (
   <div className="flex h-full w-full items-center justify-center">
-    <Icon name="Logo" className="h-40 w-40 animate-bounce text-transparent" />
+    <Icon className="h-40 w-40 animate-bounce text-transparent" name="Logo" />
   </div>
 )
 

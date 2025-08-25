@@ -1,15 +1,17 @@
-import { purposeIconsQueryOptions } from "@point/shared/api/point/purposeIcons"
-import { cn } from "@point/ui/cn"
-import { Icon } from "@point/ui/icon"
-import { List } from "@point/ui/list"
-import { ListItem } from "@point/ui/list-item"
-import { Loader } from "@point/ui/loader"
 import { useForm } from "@tanstack/react-form"
 import { useQuery } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { useMemo, useState } from "react"
 import Img from "react-cool-img"
 import { toast } from "react-hot-toast"
+
+import { purposeIconsQueryOptions } from "@point/shared/api/point/purposeIcons"
+import { cn } from "@point/ui/cn"
+import { Icon } from "@point/ui/icon"
+import { List } from "@point/ui/list"
+import { ListItem } from "@point/ui/list-item"
+import { Loader } from "@point/ui/loader"
+
 import { ShowMainButton } from "../tg-internals"
 
 interface FundraisingStepProps {
@@ -31,9 +33,9 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
 
   const form = useForm({
     defaultValues: {
+      description: description || "",
       icon: purposeIcons[0]?.id || ("" as string),
       title: title || "",
-      description: description || "",
     },
     onSubmit: async ({ formApi, value }) => {
       if (!value.title) {
@@ -49,9 +51,9 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
       const employeeFormData = new FormData()
       const updateObj = {
         purpose: {
+          description: value.description,
           icon: value.icon,
           title: value.title,
-          description: value.description,
         },
       }
 
@@ -68,87 +70,80 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
       await form.handleSubmit()
 
       if (fromOnboarding) {
-        navigate({ to: "/account/my-profile/edit", search: { step: "connect-wallet", fromOnboarding: true } })
+        void navigate({ search: { fromOnboarding: true, step: "connect-wallet" }, to: "/account/my-profile/edit" })
         return
       }
 
-      navigate({ to: "/account/my-profile/edit", search: { step: "job-place" } })
+      void navigate({ search: { step: "job-place" }, to: "/account/my-profile/edit" })
     }
 
     return {
-      title: "Continue",
-      loading: form.state.isSubmitting,
       disabled: !form.state.canSubmit || form.state.isSubmitting,
       hidden: false,
+      loading: form.state.isSubmitting,
       onClick,
+      title: "Continue",
     }
   }, [navigate, form.state.isSubmitting, form.state.canSubmit, form.handleSubmit, fromOnboarding])
 
   return (
     <ShowMainButton {...mainButtonConfig}>
       <form
+        className="flex flex-col overflow-x-hidden p-4"
         onSubmit={(e) => {
           e.preventDefault()
           e.stopPropagation()
           form.handleSubmit()
         }}
-        className="flex flex-col overflow-x-hidden p-4"
       >
-        <List title="Collection Purpose" className="mb-8">
+        <List className="mb-8" title="Collection Purpose">
           <form.Field
-            name="title"
-            // biome-ignore lint/correctness/noChildrenProp: <explanation>
+            // biome-ignore lint/correctness/noChildrenProp: because library docs
             children={(field) => (
               <ListItem
                 className="py-3"
-                leftIconClassName="w-full"
                 leftIcon={
                   <input
-                    type="text"
-                    placeholder="A tour with the cat"
                     className="mr-[50vw] w-full placeholder:text-text-secondary"
-                    value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="A tour with the cat"
+                    type="text"
+                    value={field.state.value}
                   />
                 }
+                leftIconClassName="w-full"
                 withSeparator
               />
             )}
+            name="title"
           />
 
           {!purposeIconsIsError && (
             <form.Field
-              name="icon"
-              // biome-ignore lint/correctness/noChildrenProp: <explanation>
+              // biome-ignore lint/correctness/noChildrenProp: because library docs
               children={(field) => (
                 <ListItem
                   className="relative py-2.5"
                   leftTopText={"Add Icons"}
-                  rightTopText={
-                    <Img
-                      src={purposeIcons.find((icon) => icon.id === field.state.value)?.preview}
-                      className="-mr-4 filter-[invert(70%)_sepia(19%)_saturate(28%)_hue-rotate(318deg)_brightness(100%)_contrast(91%)] h-7 w-7 "
-                    />
-                  }
                   onClick={purposeIconsIsLoading ? undefined : () => setIsOpen(!isOpen)}
                   rightBottomText={
                     isOpen && (
                       <div className="absolute top-3/4 right-0 flex w-full flex-wrap gap-5 rounded-3xl bg-background-secondary p-4 shadow-xl">
                         {purposeIcons.map((icon) => (
                           <button
-                            type="button"
-                            key={icon.id}
                             className="flex items-center"
+                            key={icon.id}
                             onClick={() => field.handleChange(icon.id)}
+                            type="button"
                           >
                             <Img
-                              src={icon.preview}
                               className={cn("h-7 w-7", {
                                 "filter-[invert(31%)_sepia(62%)_saturate(4056%)_hue-rotate(200deg)_brightness(103%)_contrast(112%)]":
                                   icon.id === field.state.value,
                                 "filter-[invert(70%)_sepia(19%)_saturate(28%)_hue-rotate(318deg)_brightness(100%)_contrast(91%)]":
                                   icon.id !== field.state.value,
                               })}
+                              src={icon.preview}
                             />
                           </button>
                         ))}
@@ -159,34 +154,41 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
                     purposeIconsIsLoading ? (
                       <Loader />
                     ) : (
-                      <Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />
+                      <Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />
                     )
+                  }
+                  rightTopText={
+                    <Img
+                      className="-mr-4 filter-[invert(70%)_sepia(19%)_saturate(28%)_hue-rotate(318deg)_brightness(100%)_contrast(91%)] h-7 w-7"
+                      src={purposeIcons.find((icon) => icon.id === field.state.value)?.preview}
+                    />
                   }
                 />
               )}
+              name="icon"
             />
           )}
         </List>
 
-        <List title="Short description" className="mb-2">
+        <List className="mb-2" title="Short description">
           <form.Field
-            name="description"
-            // biome-ignore lint/correctness/noChildrenProp: <explanation>
+            // biome-ignore lint/correctness/noChildrenProp: because library docs
             children={(field) => (
               <ListItem
                 className="py-3"
-                leftIconClassName="w-full"
                 leftIcon={
                   <textarea
-                    placeholder="I dream of traveling around Spain with my cat."
                     className="mr-[50vw] h-fit w-full resize-none placeholder:text-text-secondary"
-                    value={field.state.value}
                     onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="I dream of traveling around Spain with my cat."
+                    value={field.state.value}
                   />
                 }
+                leftIconClassName="w-full"
                 withSeparator
               />
             )}
+            name="description"
           />
         </List>
         <div className="mb-7 px-4 text-caption-2 text-text-secondary">

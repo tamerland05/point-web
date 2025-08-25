@@ -1,10 +1,11 @@
-import { queryOptions } from "@tanstack/react-query"
 import type { AxiosResponse } from "axios"
+import type { JobPlace, PurposeOfFunding } from "@/types"
+
+import { queryOptions } from "@tanstack/react-query"
 import { getDefaultStore } from "jotai"
 
 import pointAxiosInstance from "@/api/point"
 import { accessTokenAtom, referrerAtom } from "@/atoms/user"
-import type { JobPlace, PurposeOfFunding } from "@/types"
 
 export interface AuthReq {
   hash: string
@@ -93,7 +94,6 @@ export interface AuthDTO {
 
 export const authQueryOptions = (auth: AuthReq, initDataRaw: string | undefined) =>
   queryOptions({
-    queryKey: ["auth", { hash: auth.hash }],
     queryFn: async () => {
       const store = getDefaultStore()
       const referrerId = store.get(referrerAtom) ? Number(store.get(referrerAtom)) : undefined
@@ -108,4 +108,5 @@ export const authQueryOptions = (auth: AuthReq, initDataRaw: string | undefined)
 
       return response.data
     },
+    queryKey: ["auth", { hash: auth.hash }],
   })

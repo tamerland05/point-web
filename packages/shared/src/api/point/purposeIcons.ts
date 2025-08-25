@@ -1,5 +1,6 @@
-import { queryOptions } from "@tanstack/react-query"
 import type { AxiosResponse } from "axios"
+
+import { queryOptions } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
@@ -12,7 +13,7 @@ interface PurposeIcon {
 export type PurposeIconsDTO = PurposeIcon[]
 
 export const purposeIconsQueryOptions = queryOptions({
-  queryKey: ["purpose-icons"],
+  gcTime: Number.POSITIVE_INFINITY,
   queryFn: async () => {
     await ensureAccessTokenIsAvailable()
 
@@ -22,6 +23,6 @@ export const purposeIconsQueryOptions = queryOptions({
 
     return response.data
   },
+  queryKey: ["purpose-icons"],
   staleTime: Number.POSITIVE_INFINITY,
-  gcTime: Number.POSITIVE_INFINITY,
 })

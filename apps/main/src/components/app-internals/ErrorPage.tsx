@@ -1,9 +1,11 @@
-import { showMenuAtom } from "@/atoms/ui"
-import { isAxiosError } from "@point/shared/utils/isAxiosError"
-import { cn } from "@point/ui/cn"
 import { useRouter } from "@tanstack/react-router"
 import { hapticFeedback } from "@telegram-apps/sdk-react"
 import { useSetAtom } from "jotai"
+
+import { isAxiosError } from "@point/shared/utils/isAxiosError"
+import { cn } from "@point/ui/cn"
+
+import { showMenuAtom } from "@/atoms/ui"
 
 export const ErrorPage = ({ error }: { error?: Error }) => {
   const setMenuVisible = useSetAtom(showMenuAtom)
@@ -19,7 +21,7 @@ export const ErrorPage = ({ error }: { error?: Error }) => {
 
   const handleBack = () => {
     hapticFeedback.impactOccurred("light")
-    router.navigate({ to: "/", replace: true })
+    router.navigate({ replace: true, to: "/" })
     setMenuVisible(true)
   }
 
@@ -31,8 +33,8 @@ export const ErrorPage = ({ error }: { error?: Error }) => {
         "flex min-h-full flex-col items-center justify-center bg-background p-5 text-center font-sans text-text"
       )}
     >
-      <div className=" -translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 flex w-full flex-col items-center">
-        <img alt="Telegram sticker" src="/not-found.webp" className="mb-5 block h-36 w-36" />
+      <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 flex w-full flex-col items-center">
+        <img alt="Telegram sticker" className="mb-5 block h-36 w-36" src="/not-found.webp" />
         <h1 className="mb-2 font-semibold text-title-2">
           {isAxiosErrorProvided
             ? `${error.response?.statusText} [${error.response?.status}]`
@@ -53,10 +55,10 @@ export const ErrorPage = ({ error }: { error?: Error }) => {
       </div>
 
       <div className="mt-auto flex gap-2">
-        <button type="button" className="rounded-xl bg-accent p-4 text-caption-1 text-white" onClick={handleRefresh}>
+        <button className="rounded-xl bg-accent p-4 text-caption-1 text-white" onClick={handleRefresh} type="button">
           Refresh
         </button>
-        <button type="button" className="rounded-xl bg-background-secondary p-4 text-caption-1" onClick={handleBack}>
+        <button className="rounded-xl bg-background-secondary p-4 text-caption-1" onClick={handleBack} type="button">
           Home
         </button>
       </div>

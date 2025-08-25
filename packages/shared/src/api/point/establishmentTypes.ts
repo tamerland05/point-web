@@ -1,5 +1,6 @@
-import { queryOptions } from "@tanstack/react-query"
 import type { AxiosResponse } from "axios"
+
+import { queryOptions } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
@@ -13,7 +14,7 @@ interface EstablishmentType {
 export type EstablishmentTypesDTO = Record<string, EstablishmentType>
 
 export const establishmentTypesQueryOptions = queryOptions({
-  queryKey: ["establishment-types"],
+  gcTime: Number.POSITIVE_INFINITY,
   queryFn: async () => {
     await ensureAccessTokenIsAvailable()
 
@@ -23,6 +24,6 @@ export const establishmentTypesQueryOptions = queryOptions({
 
     return response.data
   },
+  queryKey: ["establishment-types"],
   staleTime: Number.POSITIVE_INFINITY,
-  gcTime: Number.POSITIVE_INFINITY,
 })

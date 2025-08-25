@@ -1,5 +1,4 @@
 import * as child from "node:child_process"
-
 import tailwindcss from "@tailwindcss/vite"
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite"
 import basicSsl from "@vitejs/plugin-basic-ssl"
@@ -19,14 +18,20 @@ try {
 }
 
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(packageConfig.version),
+    __COMMIT_HASH__: JSON.stringify(commitHash),
+  },
+
+  envDir: "../../",
   plugins: [
-    TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
+    TanStackRouterVite({ autoCodeSplitting: true, target: "react" }),
     react(),
     tailwindcss(),
     basicSsl({
-      name: "test",
-      domains: ["*.local"],
       certDir: "./cert",
+      domains: ["*.local"],
+      name: "test",
     }),
 
     nodePolyfills(),
@@ -38,17 +43,10 @@ export default defineConfig({
     port: 1111,
     proxy: {
       "/point-api": {
-        target: "https://api.point.yachts/api",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/point-api/, ""),
+        target: "https://api.point.yachts/api",
       },
     },
   },
-
-  define: {
-    __APP_VERSION__: JSON.stringify(packageConfig.version),
-    __COMMIT_HASH__: JSON.stringify(commitHash),
-  },
-
-  envDir: "../../",
 })

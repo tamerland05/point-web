@@ -1,13 +1,26 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Strictest",
   "compilerOptions": {
-    "target": "es2022",
-    "lib": ["es2023"],
-    "strict": true,
-    "strictNullChecks": true,
-    "allowUnusedLabels": false,
+    "allowJs": true,
     "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "baseUrl": "${configDir}",
+    "checkJs": true,
+
+    "declaration": true,
+    "declarationMap": true,
+
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+
+    "isolatedModules": true,
+    "lib": ["es2023"],
+
+    "module": "esnext",
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
@@ -15,35 +28,28 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-
-    "isolatedModules": true,
-
-    "allowJs": true,
-    "checkJs": true,
-
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "moduleDetection": "force",
-    "resolveJsonModule": true,
-    "noEmit": true,
-    "incremental": true,
-
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "pretty": true,
-    "preserveWatchOutput": true,
-
-    "tsBuildInfoFile": "${configDir}/tsconfig.tsbuildinfo",
-    "baseUrl": "${configDir}",
     "paths": {
       "@/*": ["${configDir}/src/*"]
-    }
+    },
+    "preserveWatchOutput": true,
+    "pretty": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "es2022",
+
+    "tsBuildInfoFile": "${configDir}/tsconfig.tsbuildinfo"
   },
+  "display": "Strictest",
+  "exclude": [
+    "${configDir}/node_modules",
+    "${configDir}/dist",
+    "${configDir}/storybook-static",
+    "${configDir}/playwright-report",
+    "${configDir}/test-results"
+  ],
   "include": [
     "${configDir}/.commitlintrc.ts",
     "${configDir}/.storybook/**/*",
@@ -59,12 +65,5 @@
     "${configDir}/**/*.cjsx",
     "${configDir}/**/*.mjs",
     "${configDir}/**/*.mjsx"
-  ],
-  "exclude": [
-    "${configDir}/node_modules",
-    "${configDir}/dist",
-    "${configDir}/storybook-static",
-    "${configDir}/playwright-report",
-    "${configDir}/test-results"
   ]
 }

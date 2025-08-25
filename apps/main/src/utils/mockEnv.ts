@@ -20,29 +20,9 @@ if (import.meta.env.DEV) {
       subtitle_text_color: "#708499",
       text_color: "#f5f5f5",
     } as const
-    const noInsets = { left: 0, top: 0, bottom: 0, right: 0 } as const
+    const noInsets = { bottom: 0, left: 0, right: 0, top: 0 } as const
 
     mockTelegramEnv({
-      onEvent(e) {
-        // Here you can write your own handlers for all known Telegram MIni Apps methods.
-        if (e[0] === "web_app_request_theme") {
-          return emitEvent("theme_changed", { theme_params: themeParams })
-        }
-        if (e[0] === "web_app_request_viewport") {
-          return emitEvent("viewport_changed", {
-            height: window.innerHeight,
-            width: window.innerWidth,
-            is_expanded: true,
-            is_state_stable: true,
-          })
-        }
-        if (e[0] === "web_app_request_content_safe_area") {
-          return emitEvent("content_safe_area_changed", noInsets)
-        }
-        if (e[0] === "web_app_request_safe_area") {
-          return emitEvent("safe_area_changed", noInsets)
-        }
-      },
       launchParams: new URLSearchParams([
         // Discover more launch parameters:
         // https://docs.telegram-mini-apps.com/platform/launch-parameters#parameters-list
@@ -63,18 +43,18 @@ if (import.meta.env.DEV) {
         [
           "tgWebAppData",
           new URLSearchParams([
-            ["auth_date", ((new Date().getTime() / 1000) | 0).toString()],
+            ["auth_date", ((Date.now() / 1000) | 0).toString()],
             ["hash", "some-hash"],
             ["signature", "some-signature"],
             [
               "user",
               JSON.stringify({
-                id: 12,
                 first_name: "Egor",
-                last_name: "Development Mode",
+                id: 12,
                 is_premium: true,
-                photo_url: "https://t.me/i/userpic/320/sPjSAx1mTgV7ovmH2mi4k20-d66xye3pOei7G1DM6i4.svg",
                 language_code: "ru",
+                last_name: "Development Mode",
+                photo_url: "https://t.me/i/userpic/320/sPjSAx1mTgV7ovmH2mi4k20-d66xye3pOei7G1DM6i4.svg",
                 username: "egor_dev_mode",
               }),
             ],
@@ -84,6 +64,26 @@ if (import.meta.env.DEV) {
         ["tgWebAppVersion", "9.0"],
         ["tgWebAppPlatform", "ios"], // "tdesktop"
       ]),
+      onEvent(e) {
+        // Here you can write your own handlers for all known Telegram MIni Apps methods.
+        if (e[0] === "web_app_request_theme") {
+          return emitEvent("theme_changed", { theme_params: themeParams })
+        }
+        if (e[0] === "web_app_request_viewport") {
+          return emitEvent("viewport_changed", {
+            height: window.innerHeight,
+            is_expanded: true,
+            is_state_stable: true,
+            width: window.innerWidth,
+          })
+        }
+        if (e[0] === "web_app_request_content_safe_area") {
+          return emitEvent("content_safe_area_changed", noInsets)
+        }
+        if (e[0] === "web_app_request_safe_area") {
+          return emitEvent("safe_area_changed", noInsets)
+        }
+      },
     })
 
     console.info(

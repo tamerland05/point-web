@@ -6,7 +6,9 @@
   "exports": {
     ".": "./config.css"
   },
-  "sideEffects": ["**/*.css"],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "devDependencies": {
     "@point/typescript-config": "workspace:*",
     "@point/assets": "workspace:*",

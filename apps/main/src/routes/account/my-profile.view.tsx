@@ -1,7 +1,9 @@
-import { UserProfile } from "@/components/user-profile"
-import { authQueryOptions } from "@point/shared/api/point/auth"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+
+import { authQueryOptions } from "@point/shared/api/point/auth"
+
+import { UserProfile } from "@/components/user-profile"
 
 export const Route = createFileRoute("/account/my-profile/view")({
   component: RouteComponent,
@@ -35,7 +37,7 @@ function RouteComponent() {
 
   const handleFundraisingClick = () => {
     if (user?.id) {
-      navigate({ to: "/profile/$id/fundraising", params: { id: user.id.toString() }, search: { preview: true } })
+      navigate({ params: { id: user.id.toString() }, search: { preview: true }, to: "/profile/$id/fundraising" })
     }
   }
 
@@ -43,15 +45,15 @@ function RouteComponent() {
     <div className="p-4">
       <UserProfile
         jobPlace={user?.employee?.jobPlace}
-        purpose={user?.employee?.purpose}
-        photo={user.employee?.photo || user.photoUrl || ""}
         name={user.employee?.name || user.name}
-        username={user.username}
+        onEdit={handleEdit}
+        onFundraisingClick={handleFundraisingClick}
+        photo={user.employee?.photo || user.photoUrl || ""}
+        purpose={user?.employee?.purpose}
         rank={user.rank}
         tipsLeft={user.tipsLeft}
-        onEdit={handleEdit}
         // onShare={handleShare}
-        onFundraisingClick={handleFundraisingClick}
+        username={user.username}
       />
     </div>
   )

@@ -1,19 +1,20 @@
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { useLaunchParams, useSignal, viewport } from "@telegram-apps/sdk-react"
+import { useAtomValue } from "jotai"
 import { memo, useCallback, useMemo, useState } from "react"
 import Img from "react-cool-img"
 
-import { NearbyModalStates, nearbyModalStateAtom } from "@/atoms/map"
-import { userLocationQueryOptions } from "@/utils/get-user-location-query"
-import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
 import { placesNearQueryOptions } from "@point/shared/api/point/establishments"
+import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
 import { cn } from "@point/ui/cn"
 import { Drawer } from "@point/ui/drawer"
 import { Input } from "@point/ui/input"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
-import { useAtomValue } from "jotai"
+
+import { NearbyModalStates, nearbyModalStateAtom } from "@/atoms/map"
+import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 
 interface NearbyModalProps {
   onExpand: () => void
@@ -49,9 +50,9 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
 
       return (
         <Img
-          src={establishmentType.icon}
           alt={establishmentType.name}
           className="my-1 h-10 w-10 rounded-xl object-cover"
+          src={establishmentType.icon}
         />
       )
     },
@@ -68,36 +69,36 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
 
   return (
     <Drawer
-      isOpen={state !== NearbyModalStates.HIDDEN}
-      height={height}
-      standalone={lp.tgWebAppPlatform === "ios"}
       additionalTopSpace={additionalTopSpace}
       backgroundImage={undefined}
-      disableScroll
-      onExpand={state === NearbyModalStates.PIMP_ONLY ? onShow : onExpand}
-      onClose={state === NearbyModalStates.EXPANDED ? onShow : onHide}
       className="z-20"
+      disableScroll
+      height={height}
+      isOpen={state !== NearbyModalStates.HIDDEN}
+      onClose={state === NearbyModalStates.EXPANDED ? onShow : onHide}
+      onExpand={state === NearbyModalStates.PIMP_ONLY ? onShow : onExpand}
+      standalone={lp.tgWebAppPlatform === "ios"}
     >
       <div className={cn("px-4", {})}>
-        <Input placeholder="Search" value={search} onChange={setSearch} containerClassName="mb-4" />
+        <Input containerClassName="mb-4" onChange={setSearch} placeholder="Search" value={search} />
         <div
-          style={{
-            height: `calc(100vh - ${additionalTopSpace + 100}px)`,
-          }}
           className={cn("rounded-b-xl", {
             "overflow-y-auto": state === NearbyModalStates.EXPANDED,
             "overflow-y-hidden": state !== NearbyModalStates.EXPANDED,
           })}
+          style={{
+            height: `calc(100vh - ${additionalTopSpace + 100}px)`,
+          }}
         >
           <List title="Nearby establishments">
             {places?.map((place) => (
               <ListItem
                 key={place.id}
+                leftBottomText={place.position.address}
                 leftIcon={getIconByEstablishmentType(place.establishmentTypeId)}
                 leftTopText={place.name}
-                leftBottomText={place.position.address}
-                withSeparator
                 onClick={() => onSelectPlace(place.id, place.position.longitude, place.position.latitude)}
+                withSeparator
               />
             ))}
           </List>

@@ -1,11 +1,11 @@
-import { mainButtonAtom, secondaryButtonAtom } from "@/atoms/ui"
-import { isTmaEnvironmentAtom } from "@/atoms/ui"
 import { useAtomValue } from "jotai"
 import { memo } from "react"
-import { MainButtonTMA } from "./MainButton"
-import { SecondaryButtonTMA } from "./SecondaryButton"
+
+import { isTmaEnvironmentAtom, mainButtonAtom, secondaryButtonAtom } from "@/atoms/ui"
 
 import { BackButtonTMA } from "./BackButton"
+import { MainButtonTMA } from "./MainButton"
+import { SecondaryButtonTMA } from "./SecondaryButton"
 // TODO: remove from bundle if isTma
 import { WebButton } from "./WebButton"
 
@@ -23,17 +23,17 @@ export const ButtonsController = memo(() => {
           disabled={mainProps.disabled}
           hidden={mainProps.hidden}
           loading={mainProps.loading}
-          title={mainProps.title}
           onClick={mainProps.onClick}
+          title={mainProps.title}
         />
 
         <SecondaryButtonTMA
           disabled={secondaryProps.disabled}
           hidden={secondaryProps.hidden}
           loading={secondaryProps.loading}
-          title={secondaryProps.title}
           onClick={secondaryProps.onClick}
           position={secondaryProps.position}
+          title={secondaryProps.title}
         />
       </>
     )
@@ -45,8 +45,8 @@ export const ButtonsController = memo(() => {
         disabled={mainProps.disabled}
         hidden={mainProps.hidden}
         loading={mainProps.loading}
-        title={mainProps.title}
         onClick={mainProps.onClick}
+        title={mainProps.title}
       />
 
       <WebButton
@@ -54,8 +54,8 @@ export const ButtonsController = memo(() => {
         hidden={secondaryProps.hidden}
         isSecondary
         loading={secondaryProps.loading}
-        title={secondaryProps.title}
         onClick={secondaryProps.onClick}
+        title={secondaryProps.title}
       />
     </>
   )

@@ -1,6 +1,7 @@
-import { accessTokenAtom } from "@/atoms/user"
 import axios from "axios"
 import { getDefaultStore } from "jotai"
+
+import { accessTokenAtom } from "@/atoms/user"
 
 // export const VITE_POINT_API_FQDN = "/point-api"
 

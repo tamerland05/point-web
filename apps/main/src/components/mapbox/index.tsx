@@ -2,20 +2,22 @@ import { memo, useCallback } from "react"
 import MapComp, { Marker, type ViewStateChangeEvent } from "react-map-gl/mapbox"
 
 import "mapbox-gl/dist/mapbox-gl.css"
-import { langitudeAtom, latitudeAtom, zoomAtom } from "@/atoms/map"
-import { MAP_ID } from "@/constants/map"
-import { userLocationQueryOptions } from "@/utils/get-user-location-query"
+
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { useAtom } from "jotai"
 import Img from "react-cool-img"
+
+import { langitudeAtom, latitudeAtom, zoomAtom } from "@/atoms/map"
+import { MAP_ID } from "@/constants/map"
+import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 
 interface MapboxMapProps {
   children: React.ReactNode
 }
 
 const mapStyle = {
-  width: "100%",
   height: "100vh",
+  width: "100%",
 }
 
 export const MapboxMap = memo(
@@ -39,18 +41,18 @@ export const MapboxMap = memo(
     return (
       <MapComp
         id={MAP_ID}
-        reuseMaps
-        onMove={handleMoveMap}
+        latitude={latitude}
+        longitude={longitude}
         mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
         mapStyle="mapbox://styles/egor-sidorov/cmb829fkw00qn01scgh2hdknh"
+        onMove={handleMoveMap}
+        reuseMaps
         style={mapStyle}
-        longitude={longitude}
-        latitude={latitude}
         zoom={zoom}
       >
         {!!userLocation && (
-          <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} anchor="center">
-            <Img src="/Pin.svg" alt="Pin" />
+          <Marker anchor="center" latitude={userLocation.latitude} longitude={userLocation.longitude}>
+            <Img alt="Pin" src="/Pin.svg" />
           </Marker>
         )}
 

@@ -1,8 +1,9 @@
-import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query"
 import type { AxiosResponse } from "axios"
+import type { JobPlace, PurposeOfFunding } from "@/types"
+
+import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
-import type { JobPlace, PurposeOfFunding } from "@/types"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
 import { isExists } from "@/utils/isExists"
 
@@ -27,7 +28,7 @@ interface UserDTO {
 
 export const userQueryOptions = (userId: string | number | undefined) =>
   queryOptions({
-    queryKey: ["get-user", { userId }],
+    enabled: !!userId,
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
 
@@ -35,7 +36,7 @@ export const userQueryOptions = (userId: string | number | undefined) =>
 
       return response.data
     },
-    enabled: !!userId,
+    queryKey: ["get-user", { userId }],
   })
 
 interface UpdateUserReq {
@@ -53,8 +54,8 @@ export const useUpdateUserMutation = (authHash?: string) => {
       await ensureAccessTokenIsAvailable()
 
       const data: UpdateUserReq = {
-        wallet: wallet ?? undefined,
         meta: isExists(showTipsLeft) ? { showTipsLeft } : undefined,
+        wallet: wallet ?? undefined,
       }
 
       const response = await pointAxiosInstance.put<UpdateUserReq, AxiosResponse<UpdateUserReq>>(

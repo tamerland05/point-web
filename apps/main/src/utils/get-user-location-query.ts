@@ -1,7 +1,8 @@
-import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "@/constants/map"
 import { queryOptions } from "@tanstack/react-query"
 import { requestLocation } from "@telegram-apps/sdk-react"
 import toast from "react-hot-toast"
+
+import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "@/constants/map"
 
 export interface UserLocation {
   longitude: number
@@ -9,7 +10,6 @@ export interface UserLocation {
 }
 
 export const userLocationQueryOptions = queryOptions<UserLocation>({
-  queryKey: ["user-location"],
   queryFn: async () => {
     try {
       const location = await requestLocation()
@@ -27,10 +27,11 @@ export const userLocationQueryOptions = queryOptions<UserLocation>({
       )
       // TODO: data from api by ip address
       return {
-        longitude: DEFAULT_LONGITUDE,
         latitude: DEFAULT_LATITUDE,
+        longitude: DEFAULT_LONGITUDE,
       }
     }
   },
+  queryKey: ["user-location"],
   refetchInterval: 30 * 1000,
 })

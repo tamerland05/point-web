@@ -1,95 +1,91 @@
 import {
-	type ThemeParams,
-	bindThemeParamsCssVars,
-	bindViewportCssVars,
-	emitEvent,
-	init as initSDK,
-	mockTelegramEnv,
-	mountBackButton,
-	mountLocationManager,
-	mountMainButton,
-	mountMiniAppSync,
-	mountSecondaryButton,
-	mountSwipeBehavior,
-	mountViewport,
-	restoreInitData,
-	retrieveLaunchParams,
-	setDebug,
-	swipeBehavior,
-	themeParamsState,
-	viewport,
+  bindThemeParamsCssVars,
+  bindViewportCssVars,
+  emitEvent,
+  init as initSDK,
+  mockTelegramEnv,
+  mountBackButton,
+  mountLocationManager,
+  mountMainButton,
+  mountMiniAppSync,
+  mountSecondaryButton,
+  mountSwipeBehavior,
+  mountViewport,
+  restoreInitData,
+  retrieveLaunchParams,
+  setDebug,
+  swipeBehavior,
+  type ThemeParams,
+  themeParamsState,
+  viewport,
 } from "@telegram-apps/sdk-react"
 
 /**
  * Initializes the application and configures its dependencies.
  */
-export async function init(options: {
-	debug: boolean
-	eruda: boolean
-	mockForMacOS: boolean
-}): Promise<void> {
-	// Set @telegram-apps/sdk-react debug mode and initialize it.
-	setDebug(options.debug)
-	initSDK()
+export async function init(options: { debug: boolean; eruda: boolean; mockForMacOS: boolean }): Promise<void> {
+  // Set @telegram-apps/sdk-react debug mode and initialize it.
+  setDebug(options.debug)
+  initSDK()
 
-	// Add Eruda if needed.
-	options.eruda &&
-		void import("eruda").then(({ default: eruda }) => {
-			eruda.init()
-			eruda.position({ x: window.innerWidth - 50, y: 5000 })
-		})
+  // Add Eruda if needed.
+  options.eruda &&
+    void import("eruda").then(({ default: eruda }) => {
+      eruda.init()
+      eruda.position({ x: window.innerWidth - 50, y: 5000 })
+    })
 
-	// Telegram for macOS has a ton of bugs, including cases, when the client doesn't
-	// even response to the "web_app_request_theme" method. It also generates an incorrect
-	// event for the "web_app_request_safe_area" method.
-	if (options.mockForMacOS) {
-		let firstThemeSent = false
-		mockTelegramEnv({
-			onEvent(event, next) {
-				if (event[0] === "web_app_request_theme") {
-					let tp: ThemeParams = {}
-					if (firstThemeSent) {
-						tp = themeParamsState()
-					} else {
-						firstThemeSent = true
-						tp ||= retrieveLaunchParams().tgWebAppThemeParams
-					}
-					return emitEvent("theme_changed", { theme_params: tp })
-				}
+  // Telegram for macOS has a ton of bugs, including cases, when the client doesn't
+  // even response to the "web_app_request_theme" method. It also generates an incorrect
+  // event for the "web_app_request_safe_area" method.
+  if (options.mockForMacOS) {
+    let firstThemeSent = false
+    mockTelegramEnv({
+      onEvent(event, next) {
+        if (event[0] === "web_app_request_theme") {
+          let tp: ThemeParams = {}
+          if (firstThemeSent) {
+            tp = themeParamsState()
+          } else {
+            firstThemeSent = true
+            tp ||= retrieveLaunchParams().tgWebAppThemeParams
+          }
+          return emitEvent("theme_changed", { theme_params: tp })
+        }
 
-				if (event[0] === "web_app_request_safe_area") {
-					return emitEvent("safe_area_changed", { left: 0, top: 0, right: 0, bottom: 0 })
-				}
+        if (event[0] === "web_app_request_safe_area") {
+          return emitEvent("safe_area_changed", { bottom: 0, left: 0, right: 0, top: 0 })
+        }
 
-				next()
-			},
-		})
-	}
+        next()
+      },
+    })
+  }
 
-	// Mount all components used in the project.
-	mountBackButton.ifAvailable()
-	mountMainButton.ifAvailable()
-	mountSecondaryButton.ifAvailable()
-	mountMiniAppSync.ifAvailable()
-	mountSwipeBehavior.ifAvailable()
-	mountLocationManager.ifAvailable()
+  // Mount all components used in the project.
+  mountBackButton.ifAvailable()
+  mountMainButton.ifAvailable()
+  mountSecondaryButton.ifAvailable()
+  mountMiniAppSync.ifAvailable()
+  mountSwipeBehavior.ifAvailable()
+  mountLocationManager.ifAvailable()
 
-	restoreInitData()
+  restoreInitData()
 
-	if (mountMiniAppSync.isAvailable()) {
-		mountMiniAppSync()
-		bindThemeParamsCssVars()
-	}
+  if (mountMiniAppSync.isAvailable()) {
+    mountMiniAppSync()
+    bindThemeParamsCssVars()
+  }
 
-	if (mountViewport.isAvailable()) {
-		mountViewport().then(() => {
-			bindViewportCssVars()
-			viewport.expand.ifAvailable()
-			viewport.requestFullscreen.ifAvailable()
-		})
-	}
+  if (mountViewport.isAvailable()) {
+    mountViewport().then(() => {
+      bindViewportCssVars()
+      viewport.expand.ifAvailable()
+      viewport.requestFullscreen.ifAvailable()
+    })
+  }
 
-	if (swipeBehavior.isVerticalEnabled()) {
-		swipeBehavior.disableVertical()
-	}
+  if (swipeBehavior.isVerticalEnabled()) {
+    swipeBehavior.disableVertical()
+  }
 }

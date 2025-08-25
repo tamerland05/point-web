@@ -21,12 +21,26 @@
           }
         },
         "useSortedAttributes": "on",
-        "useSortedKeys": "on"
+        "useSortedKeys": {
+          "level": "on",
+
+          "options": {
+            "sortOrder": "natural"
+          }
+        }
       }
     }
   },
   "files": {
-    "includes": ["**", "!./packages/ui/resources/**/*", "!package.json"]
+    "includes": [
+      "**",
+      "!./packages/ui/resources/**/*",
+      "!package.json",
+      "!**/routeTree.gen.ts",
+      "!**/package.json",
+      "!**/tsconfig.build.json",
+      "!**/tsconfig.json"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -47,9 +61,11 @@
         "recommended": true
       },
       "complexity": {
+        "noImportantStyles": "warn",
         "recommended": true
       },
       "correctness": {
+        "noUnknownTypeSelector": "warn",
         "noUnusedFunctionParameters": "error",
         "noUnusedImports": "error",
         "noUnusedLabels": "error",
@@ -90,7 +106,13 @@
         "useSingleVarDeclarator": "error"
       },
       "suspicious": {
-        "noConsole": "error",
+        "noConsole": {
+          "level": "error",
+          "options": {
+            "allow": ["error", "debug", "info"]
+          }
+        },
+        "noUnknownAtRules": "warn",
         "recommended": true
       }
     }

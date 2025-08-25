@@ -1,7 +1,12 @@
 {
-	"name": "@point/typescript-config",
-	"version": "1.0.0",
-	"private": true,
-	"type": "module",
-	"files": ["./base.json", "./build.json", "./react.json", "./dom.json"]
+  "name": "@point/typescript-config",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "./base.json",
+    "./build.json",
+    "./react.json",
+    "./dom.json"
+  ]
 }

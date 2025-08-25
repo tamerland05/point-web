@@ -1,10 +1,10 @@
-import { onboardingCompletedAtom } from "@/atoms/user"
-import { parseStartParam } from "@/utils/parse-start-param"
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router"
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
 import { getDefaultStore } from "jotai"
 
+import { onboardingCompletedAtom } from "@/atoms/user"
+import { parseStartParam } from "@/utils/parse-start-param"
+
 export const Route = createFileRoute("/")({
-  component: Index,
   beforeLoad: async ({ context }) => {
     const { launchParams } = context
     parseStartParam(launchParams)
@@ -12,11 +12,12 @@ export const Route = createFileRoute("/")({
     const store = getDefaultStore()
     const onboardingCompleted = store.get(onboardingCompletedAtom)
 
-    if (!onboardingCompleted) throw redirect({ to: "/onboarding", replace: true })
+    if (!onboardingCompleted) throw redirect({ replace: true, to: "/onboarding" })
     // if (isVerifiedEmloyee) throw redirect({ to: "/account" })
 
-    throw redirect({ to: "/account", replace: true })
+    throw redirect({ replace: true, to: "/account" })
   },
+  component: Index,
 })
 
 function Index() {

@@ -1,7 +1,7 @@
+import { useEffect } from "react"
 import { useSnapCarousel } from "react-snap-carousel"
 
 import { cn } from "@/utils/cn"
-import { useEffect } from "react"
 
 interface HorizontalScrollerRenderItemProps<T> {
   readonly item: T
@@ -34,11 +34,11 @@ export const HorizontalScroller = <T,>({
 
   return (
     <>
-      <ul ref={scrollRef} className={cn("scrollbar-hide relative flex snap-x snap-mandatory overflow-auto", className)}>
+      <ul className={cn("scrollbar-hide relative flex snap-x snap-mandatory overflow-auto", className)} ref={scrollRef}>
         {items.map((item, i) =>
           renderItem({
-            item,
             isSnapPoint: snapPointIndexes.has(i),
+            item,
           })
         )}
       </ul>
@@ -47,14 +47,14 @@ export const HorizontalScroller = <T,>({
         <div aria-hidden className="my-1 flex flex-wrap items-center justify-center gap-y-1 px-4">
           {pages.map((_, i) => (
             <button
-              // biome-ignore lint/suspicious/noArrayIndexKey: no way to use other key
-              key={i}
               className={cn(
                 "flex h-3 w-3 items-center justify-center rounded-full p-1",
                 activePageIndex === i && "w-6"
               )}
-              type="button"
+              // biome-ignore lint/suspicious/noArrayIndexKey: no way to use other key
+              key={i}
               onClick={() => goTo(i)}
+              type="button"
             >
               <div className={cn("h-1 w-1 rounded-full bg-text-secondary", activePageIndex === i && "w-4 bg-accent")} />
             </button>

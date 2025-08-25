@@ -1,25 +1,27 @@
-import { TipAsset } from "@/components/tip-asset"
-import { tipAssetsQueryOptions } from "@point/shared/api/point/tips"
-import { List } from "@point/ui/list"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import { useCallback } from "react"
 import z from "zod"
 
+import { tipAssetsQueryOptions } from "@point/shared/api/point/tips"
+import { List } from "@point/ui/list"
+
+import { TipAsset } from "@/components/tip-asset"
+
 export const Route = createFileRoute("/tips/$placeId/assets")({
   component: RouteComponent,
-  validateSearch: zodValidator(
-    z.object({
-      recipient: z.string(),
-      id: z.string().or(z.number()).optional(),
-    })
-  ),
   loader: async ({ context }) => {
     const { queryClient } = context
 
     await queryClient.ensureQueryData(tipAssetsQueryOptions)
   },
+  validateSearch: zodValidator(
+    z.object({
+      id: z.string().or(z.number()).optional(),
+      recipient: z.string(),
+    })
+  ),
 })
 
 function RouteComponent() {
@@ -31,7 +33,7 @@ function RouteComponent() {
 
   const handleAssetClick = useCallback(
     (asset: string) => {
-      navigate({ to: "/tips/$placeId/input/amount", search: { id, recipient, asset } })
+      navigate({ search: { asset, id, recipient }, to: "/tips/$placeId/input/amount" })
     },
     [navigate, recipient, id]
   )
@@ -39,7 +41,7 @@ function RouteComponent() {
   return (
     <List className="" title="select asset">
       {assets.map((asset) => (
-        <TipAsset key={asset.id} asset={asset} onClick={() => handleAssetClick(asset.id)} />
+        <TipAsset asset={asset} key={asset.id} onClick={() => handleAssetClick(asset.id)} />
       ))}
     </List>
   )

@@ -1,11 +1,14 @@
 import type { JobPlace, PurposeOfFunding } from "@point/shared/types"
-import { Icon } from "@point/ui/icon"
-import { List } from "@point/ui/list"
-import { ListItem } from "@point/ui/list-item"
+
 import { Link } from "@tanstack/react-router"
 import { openTelegramLink } from "@telegram-apps/sdk-react"
 import { memo } from "react"
 import Img from "react-cool-img"
+
+import { Icon } from "@point/ui/icon"
+import { List } from "@point/ui/list"
+import { ListItem } from "@point/ui/list-item"
+
 import { UserProfileHeader } from "./header"
 
 interface UserProfileProps {
@@ -39,20 +42,20 @@ export const UserProfile = memo(
     return (
       <div className="relative">
         <UserProfileHeader
-          photo={photo}
-          name={name}
-          username={username}
-          jobPlace={!!jobPlace}
           isJobPlaceHidden={!jobPlace}
+          jobPlace={!!jobPlace}
+          name={name}
+          photo={photo}
+          username={username}
         />
 
         {purpose && (
           <List className="mb-7" title="Fundraising">
             <ListItem
-              onClick={onFundraisingClick}
-              leftIcon={<Img className="h-12 w-12 rounded-full" src={purpose?.icon} alt={purpose?.title} />}
-              leftTopText={<span className="font-medium">{purpose?.title}</span>}
               leftBottomText={<span className="line-clamp-1">{purpose?.description}</span>}
+              leftIcon={<Img alt={purpose?.title} className="h-12 w-12 rounded-full" src={purpose?.icon} />}
+              leftTopText={<span className="font-medium">{purpose?.title}</span>}
+              onClick={onFundraisingClick}
             />
           </List>
         )}
@@ -60,24 +63,23 @@ export const UserProfile = memo(
         <List>
           {username && (
             <ListItem
-              leftTopText={<span className="text-caption-1 text-text-secondary">Telegram</span>}
               leftBottomText={
                 <button
-                  type="button"
+                  className="text-accent text-base"
                   onClick={() => {
                     openTelegramLink(`https://t.me/${username}`)
                   }}
-                  className="text-accent text-base"
+                  type="button"
                 >
                   @{username}
                 </button>
               }
+              leftTopText={<span className="text-caption-1 text-text-secondary">Telegram</span>}
               withSeparator
             />
           )}
 
           <ListItem
-            leftTopText={<span className="text-caption-1 text-text-secondary">User Rank</span>}
             leftBottomText={
               <span className="text-base text-text">
                 At this moment in time, the user is ranked{" "}
@@ -87,47 +89,48 @@ export const UserProfile = memo(
                 in the overall ranking
               </span>
             }
+            leftTopText={<span className="text-caption-1 text-text-secondary">User Rank</span>}
             withSeparator
           />
 
           {jobPlace && (
             <ListItem
-              leftTopText={<span className="text-caption-1 text-text-secondary">Place of Work</span>}
               leftBottomText={<span className="text-base text-text">{jobPlace?.name}</span>}
+              leftTopText={<span className="text-caption-1 text-text-secondary">Place of Work</span>}
               withSeparator
             />
           )}
           {jobPlace && (
             <ListItem
-              leftTopText={<span className="text-caption-1 text-text-secondary">Address</span>}
               leftBottomText={<span className="text-base text-text">{jobPlace?.address}</span>}
+              leftTopText={<span className="text-caption-1 text-text-secondary">Address</span>}
             />
           )}
           {!jobPlace && (
             <ListItem
-              leftTopText={<span className="text-caption-1 text-text-secondary">Tips left</span>}
               leftBottomText={<span className="text-base text-text">{tipsLeft || 0} USDT</span>}
+              leftTopText={<span className="text-caption-1 text-text-secondary">Tips left</span>}
             />
           )}
         </List>
 
         {onEdit && (
           <button
+            className="absolute top-0 left-0 m-0 flex items-center justify-center rounded-full bg-[#E1E0E6] p-2"
             onClick={onEdit}
             type="button"
-            className="absolute top-0 left-0 m-0 flex items-center justify-center rounded-full bg-[#E1E0E6] p-2"
           >
-            <Icon name="Edit" className="m-0 h-5 w-5 text-transparent" />
+            <Icon className="m-0 h-5 w-5 text-transparent" name="Edit" />
           </button>
         )}
 
         {onShare && (
           <button
+            className="absolute top-0 right-0 m-0 flex items-center justify-center rounded-full bg-[#E1E0E6] p-2"
             onClick={onShare}
             type="button"
-            className="absolute top-0 right-0 m-0 flex items-center justify-center rounded-full bg-[#E1E0E6] p-2"
           >
-            <Icon name="Share" className="m-0 h-5 w-5 text-transparent" />
+            <Icon className="m-0 h-5 w-5 text-transparent" name="Share" />
           </button>
         )}
       </div>

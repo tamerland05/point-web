@@ -1,11 +1,10 @@
-import { useCallback, useEffect } from "react"
-
 import { useCanGoBack, useMatchRoute, useRouter } from "@tanstack/react-router"
 import { backButton, hideBackButton, showBackButton } from "@telegram-apps/sdk-react"
+import { useCallback, useEffect } from "react"
 
 const routesWithoutBB = [
   { to: "/account" },
-  { to: "/map", search: { expanded: false } },
+  { search: { expanded: false }, to: "/map" },
   { to: "/earn" },
   { to: "/selections" },
 
@@ -14,7 +13,7 @@ const routesWithoutBB = [
   { to: "/account/profile-type-updated" },
   { to: "/account/profile-created" },
   { to: "/account/access-restricted" },
-  { to: "/onboarding", search: { step: "1" } },
+  { search: { step: "1" }, to: "/onboarding" },
 ]
 
 export const BackButtonTMA = () => {

@@ -1,8 +1,8 @@
+import { Address } from "@ton/core"
 import { useMemo } from "react"
 
 import { useAssetsList } from "@/api/deDust/useAssetsList"
 import { NATIVE_TON_ADDRESS } from "@/constants/tokens"
-import { Address } from "@ton/core"
 
 export const useAssetBalance = ({
   walletAddress,

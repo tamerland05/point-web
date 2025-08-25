@@ -1,6 +1,8 @@
 @font-face {
   font-family: "SF Pro Rounded";
-  src: url("./SF-Pro-Rounded-Bold.ttf") format("truetype"), url("./SF-Pro-Rounded-Bold.otf") format("opentype");
+  src:
+    url("./SF-Pro-Rounded-Bold.ttf") format("truetype"),
+    url("./SF-Pro-Rounded-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
 }

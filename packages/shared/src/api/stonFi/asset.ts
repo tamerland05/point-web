@@ -1,12 +1,14 @@
+import { Address } from "@ton/core"
+
 import { NATIVE_TON_ADDRESS, TETHER_USDT_ADDRESS, tonAssetData, usdtAssetData } from "@/constants/tokens"
 import { isValidAddress } from "@/utils/isValidAddress"
-import { Address } from "@ton/core"
+
 import stonFiAxiosInstance from "."
 
 export const AssetKinds = {
+  Jetton: "jetton",
   Ton: "ton",
   Wton: "wton",
-  Jetton: "jetton",
 } as const
 
 export type AssetKind = keyof typeof AssetKinds
@@ -70,11 +72,11 @@ const getAssetDetailsWithFallback = async (assetAddress: string) => {
 }
 
 export const assetDetailsQuery = (assetAddress: string) => ({
-  queryKey: ["assetDetails", assetAddress],
-  queryFn: () => getAssetDetailsWithFallback(assetAddress),
   enabled: !!assetAddress,
-  staleTime: 120000,
   gcTime: 300000,
-  retry: 1,
   placeholderData: ASSET_MOCKS[assetAddress],
+  queryFn: () => getAssetDetailsWithFallback(assetAddress),
+  queryKey: ["assetDetails", assetAddress],
+  retry: 1,
+  staleTime: 120000,
 })

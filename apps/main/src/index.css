@@ -2,14 +2,9 @@
 
 @config "../tailwind.config.ts";
 
-.leaflet-control-attribution {
-	display: none !important;
-}
-
 .mapboxgl-ctrl {
-	display: none !important;
+  display: none !important;
 }
-
 
 /* Slide Left Transition */
 html:active-view-transition-type(slide-left) {
@@ -104,9 +99,8 @@ html:active-view-transition-type(warp) {
   }
 }
 
-
 .mapboxgl-marker > svg {
-	display: none;
+  display: none;
 }
 
 .empty-icons svg {

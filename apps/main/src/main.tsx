@@ -1,28 +1,32 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { createRouter, RouterProvider } from "@tanstack/react-router"
+import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
+import { memo, StrictMode } from "react"
+import ReactDOM from "react-dom/client"
+
 import { EnvUnsupported } from "@/components/app-internals/EnvUnsupported"
 import { init } from "@/init"
-import { routeTree } from "@/routeTree.gen"
 import { menuItems as menuItemsRaw } from "@/routes/_withMenu/route"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { RouterProvider, createRouter } from "@tanstack/react-router"
-import { retrieveLaunchParams } from "@telegram-apps/sdk-react"
-import { StrictMode, memo } from "react"
-import ReactDOM from "react-dom/client"
+import { routeTree } from "@/routeTree.gen"
 
 import "@/utils/mockEnv"
 import "@point/i18n"
 import "@/index.css"
+
 import Tracker from "@openreplay/tracker"
+
 import { notFoundError } from "@point/shared/constants/errors"
 import { PageLoader } from "@point/ui/loader"
+
 import { DefaultCatchBoundary } from "./components/app-internals/ErrorBoundary"
 import { ErrorPage } from "./components/app-internals/ErrorPage"
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 30000, // 30 sec
-      refetchOnWindowFocus: false,
       refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      staleTime: 30000, // 30 sec
     },
   },
 })
@@ -31,18 +35,16 @@ const menuItems = menuItemsRaw.map((item) => item.path) as string[]
 
 // Set up a Router instance
 const router = createRouter({
-  routeTree,
   context: {
     queryClient,
   },
+  defaultErrorComponent: DefaultCatchBoundary,
+  defaultNotFoundComponent: memo(() => <ErrorPage error={notFoundError} />),
+  defaultPendingComponent: PageLoader,
   defaultPreload: "intent",
   // Since we're using React Query, we don't want loader calls to ever be stale
   // This will ensure that the loader is always called when the route is preloaded or visited
   defaultPreloadStaleTime: 0,
-  scrollRestoration: true,
-  defaultErrorComponent: DefaultCatchBoundary,
-  defaultNotFoundComponent: memo(() => <ErrorPage error={notFoundError} />),
-  defaultPendingComponent: PageLoader,
   defaultViewTransition: {
     types: ({ fromLocation, toLocation }) => {
       let direction = "none"
@@ -72,6 +74,8 @@ const router = createRouter({
       return [`slide-${direction}`]
     },
   },
+  routeTree,
+  scrollRestoration: true,
 })
 
 // Register the router instance for type safety
@@ -101,15 +105,15 @@ try {
     })
 
     tracker.start({
-      userID: launchParams.tgWebAppData?.user?.username || String(launchParams.tgWebAppData?.user?.id) || "unknown",
       metadata: {
+        appVersion: __APP_VERSION__,
         debug: String(debug),
         isPremium: String(launchParams.tgWebAppData?.user?.is_premium),
         language: launchParams.tgWebAppData?.user?.language_code || "unknown",
         platform,
         version: launchParams.tgWebAppVersion,
-        appVersion: __APP_VERSION__,
       },
+      userID: launchParams.tgWebAppData?.user?.username || String(launchParams.tgWebAppData?.user?.id) || "unknown",
     })
   }
 

@@ -1,8 +1,8 @@
 {
-	"$schema": "https://unpkg.com/knip@5/schema.json",
-	"entry": ["apps/main/src/main.tsx"],
-	"lefthook": true,
-	"project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"],
-	"ignore": ["packages/ui/src/primitives/icon/icons/types.ts", "**/*.gen.ts"],
-	"ignoreDependencies": ["@babel/preset-typescript", "babel-plugin-react-compiler", "tailwindcss"]
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["apps/main/src/main.tsx"],
+  "ignore": ["packages/ui/src/primitives/icon/icons/types.ts", "**/*.gen.ts"],
+  "ignoreDependencies": ["@babel/preset-typescript", "babel-plugin-react-compiler", "tailwindcss"],
+  "lefthook": true,
+  "project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"]
 }

@@ -1,12 +1,12 @@
 {
-	"extends": "@point/typescript-config/react.json",
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["src/*"],
-			"@point/*": ["packages/*"]
-		}
-	},
-	"include": ["**/*.ts", "**/*.tsx", "**/*.js", ".storybook/**/*"],
-	"exclude": ["node_modules", "dist", "storybook-static"]
+  "extends": "@point/typescript-config/react.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@point/*": ["packages/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.js", ".storybook/**/*"],
+  "exclude": ["node_modules", "dist", "storybook-static"]
 }

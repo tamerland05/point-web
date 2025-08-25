@@ -1,7 +1,8 @@
-import { langitudeAtom, latitudeAtom, zoomAtom } from "@/atoms/map"
-import { MAP_ID } from "@/constants/map"
 import { useAtomValue } from "jotai"
 import { type MapRef, useMap } from "react-map-gl/mapbox"
+
+import { langitudeAtom, latitudeAtom, zoomAtom } from "@/atoms/map"
+import { MAP_ID } from "@/constants/map"
 
 interface MapData {
   mapRef: MapRef | undefined
@@ -18,9 +19,9 @@ export const useMapData = (): MapData => {
   const zoom = useAtomValue(zoomAtom)
 
   return {
-    mapRef,
-    longitude,
     latitude,
+    longitude,
+    mapRef,
     zoom,
   }
 }

@@ -1,5 +1,6 @@
-import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "@/constants/map"
 import { atom } from "jotai"
+
+import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "@/constants/map"
 
 export const langitudeAtom = atom<number>(DEFAULT_LONGITUDE)
 export const latitudeAtom = atom<number>(DEFAULT_LATITUDE)
@@ -10,10 +11,10 @@ export const movedToUserLocationAtom = atom<boolean>(false)
 // ---------------------------------------------------------------------------------------------------------------------
 
 export const NearbyModalStates = {
-  EXPANDED: "expanded",
   DEFAULT: "default",
-  PIMP_ONLY: "pimp-only",
+  EXPANDED: "expanded",
   HIDDEN: "hidden",
+  PIMP_ONLY: "pimp-only",
 } as const
 
 export type NearbyModalState = (typeof NearbyModalStates)[keyof typeof NearbyModalStates]

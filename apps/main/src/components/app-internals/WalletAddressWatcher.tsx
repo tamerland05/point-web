@@ -1,8 +1,9 @@
-import { type AuthReq, authQueryOptions } from "@point/shared/api/point/auth"
-import { useUpdateUserMutation } from "@point/shared/api/point/user"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { useTonAddress } from "@tonconnect/ui-react"
 import { useEffect } from "react"
+
+import { type AuthReq, authQueryOptions } from "@point/shared/api/point/auth"
+import { useUpdateUserMutation } from "@point/shared/api/point/user"
 
 export const WalletAddressWatcher = ({ auth, initDataRaw }: { auth: AuthReq; initDataRaw: string | undefined }) => {
   const address = useTonAddress()

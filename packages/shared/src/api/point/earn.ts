@@ -1,7 +1,9 @@
-import pointAxiosInstance from "@/api/point"
 import type { JobPlace, PurposeOfFunding } from "@/types"
-import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
+
 import { queryOptions } from "@tanstack/react-query"
+
+import pointAxiosInstance from "@/api/point"
+import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
 
 export interface ReferralDTO {
   name: string
@@ -19,7 +21,7 @@ export interface PageReferralDTO {
 
 export const referralsQueryOptions = (page = 1, size = 10) =>
   queryOptions({
-    queryKey: ["earn", "referrals", page, size],
+    gcTime: Number.POSITIVE_INFINITY,
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
       const response = await pointAxiosInstance.get<PageReferralDTO>("/point/earn/referrals", {
@@ -27,7 +29,7 @@ export const referralsQueryOptions = (page = 1, size = 10) =>
       })
       return response.data
     },
-    gcTime: Number.POSITIVE_INFINITY,
+    queryKey: ["earn", "referrals", page, size],
     staleTime: Number.POSITIVE_INFINITY,
   })
 
@@ -52,13 +54,13 @@ export interface UserPublicDTO {
 }
 
 export const earnTopQueryOptions = queryOptions({
-  queryKey: ["earn", "top"],
+  gcTime: Number.POSITIVE_INFINITY,
   queryFn: async () => {
     await ensureAccessTokenIsAvailable()
     const response = await pointAxiosInstance.get<UserPublicDTO[]>("/point/earn/top")
     return response.data
   },
-  gcTime: Number.POSITIVE_INFINITY,
+  queryKey: ["earn", "top"],
   staleTime: Number.POSITIVE_INFINITY,
 })
 
@@ -73,15 +75,15 @@ export interface TaskDTO {
 }
 
 export const earnTasksQueryOptions = queryOptions({
-  queryKey: ["earn", "tasks"],
+  gcTime: Number.POSITIVE_INFINITY,
   queryFn: async () => {
     await ensureAccessTokenIsAvailable()
     const response = await pointAxiosInstance.get<TaskDTO[]>("/point/earn/tasks")
     return response.data
   },
-  gcTime: Number.POSITIVE_INFINITY,
-  staleTime: Number.POSITIVE_INFINITY,
+  queryKey: ["earn", "tasks"],
   refetchInterval: 1000 * 30,
   refetchOnMount: true,
   refetchOnWindowFocus: true,
+  staleTime: Number.POSITIVE_INFINITY,
 })

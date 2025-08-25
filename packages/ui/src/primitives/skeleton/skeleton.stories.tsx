@@ -1,17 +1,16 @@
-import { type Meta, type StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react"
 
-import { Skeleton } from ".";
-import { List } from "../list";
-import { ListItem } from "../list-item";
+import { List } from "../list"
+import { ListItem } from "../list-item"
+import { Skeleton } from "."
 
 const meta: Meta<typeof Skeleton> = {
-  component: Skeleton,
-
   argTypes: {
     className: { control: "text" },
     rounded: { control: "select", options: ["none", "sm", "md", "lg", "full"] },
     size: { control: "text" },
   },
+  component: Skeleton,
   render: (args) => (
     <div className="flex items-center space-x-4">
       <Skeleton className="size-12 rounded-full" {...args} />
@@ -21,13 +20,13 @@ const meta: Meta<typeof Skeleton> = {
       </div>
     </div>
   ),
-};
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof Skeleton>;
+type Story = StoryObj<typeof Skeleton>
 
-export const Default: Story = {};
+export const Default: Story = {}
 
 export const LoadingListItem: Story = {
   render: (args) => (
@@ -39,10 +38,10 @@ export const LoadingListItem: Story = {
       rightTopText={<Skeleton {...args} className="m-0.5" rounded="lg" size="base" />}
     />
   ),
-};
+}
 
 export const LoadingList: Story = {
-  render: (args) => (
+  render: (_args) => (
     <List className="w-[300px]">
       <ListItem
         leftBottomText={<Skeleton className="m-0.5" rounded="lg" size="caption-1" />}
@@ -70,4 +69,4 @@ export const LoadingList: Story = {
       />
     </List>
   ),
-};
+}

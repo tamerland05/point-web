@@ -1,30 +1,30 @@
-import { memo } from "react";
+import { memo } from "react"
 
-import { cn } from "@/utils/cn";
+import { cn } from "@/utils/cn"
 
 interface IconButtonProps {
-  icon: React.ElementType;
-  label?: string;
-  disabled?: boolean;
-  onClick?: () => void;
-  className?: string;
+  icon: React.ElementType
+  label?: string
+  disabled?: boolean
+  onClick?: () => void
+  className?: string
 }
 
 export const IconButton = memo(({ icon: Icon, label, disabled, onClick, className }: IconButtonProps) => (
   <button
     className={cn(
-      "flex flex-1 flex-col items-center justify-center gap-1 px-1 pb-2 pt-3 disabled:opacity-50",
-      className,
+      "flex flex-1 flex-col items-center justify-center gap-1 px-1 pt-3 pb-2 disabled:opacity-50",
+      className
     )}
     disabled={disabled || !onClick}
-    type="button"
     onClick={onClick}
+    type="button"
   >
-    <div className="bg-accent flex w-min items-center justify-center rounded-full p-3">
+    <div className="flex w-min items-center justify-center rounded-full bg-accent p-3">
       <Icon className="h-6 w-6 fill-none stroke-white" />
     </div>
-    {label && <div className="text-accent text-caption-2 whitespace-nowrap font-medium">{label}</div>}
+    {label && <div className="whitespace-nowrap font-medium text-accent text-caption-2">{label}</div>}
   </button>
-));
+))
 
-IconButton.displayName = "IconButton";
+IconButton.displayName = "IconButton"

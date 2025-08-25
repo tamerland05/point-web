@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { memo, useCallback, useEffect } from "react"
+import type { ButtonProps } from "./types"
 
 import { useSetAtom } from "jotai"
+import { memo, useCallback, useEffect } from "react"
+
+import { sleep } from "@point/shared/utils/sleep"
 
 import { mainButtonAtom, secondaryButtonAtom } from "@/atoms/ui"
-import { sleep } from "@point/shared/utils/sleep"
-import type { ButtonProps } from "./types"
 
 export interface ShowMainButtonProps extends ButtonProps {
   children?: React.ReactNode
@@ -24,23 +25,23 @@ export const ShowMainButton: React.FC<ShowMainButtonProps> = memo(
       // NOTE: это попытка убрать подлагивание анимаций при появлении mainButton
       if (withDelay) await sleep(800)
 
-      setMainButton({ onClick, loading, disabled, title, hidden })
+      setMainButton({ disabled, hidden, loading, onClick, title })
 
       if (secondary) {
         setSecondaryButton({
-          onClick: secondary.onClick,
-          loading: secondary.loading,
           disabled: secondary.disabled,
-          title: secondary.title,
           hidden: secondary.hidden,
+          loading: secondary.loading,
+          onClick: secondary.onClick,
           position: secondary.position,
+          title: secondary.title,
         })
       }
     }, [withDelay, onClick, loading, disabled, title, hidden, secondary, setMainButton, setSecondaryButton])
 
     // biome-ignore lint/correctness/useExhaustiveDependencies: i want to control this effect manually
     useEffect(() => {
-      revealButtonsWithDelay()
+      void revealButtonsWithDelay()
 
       return () => {
         setMainButton({})

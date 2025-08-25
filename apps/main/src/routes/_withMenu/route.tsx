@@ -1,13 +1,14 @@
-import { Outlet, createFileRoute, useLoaderData, useLocation, useMatches, useNavigate } from "@tanstack/react-router"
+import { createFileRoute, Outlet, useLoaderData, useLocation, useMatches, useNavigate } from "@tanstack/react-router"
 import { hapticFeedback } from "@telegram-apps/sdk-react"
 import { useAtomValue } from "jotai"
 
-import { showMenuAtom } from "@/atoms/ui"
 import { useTranslation } from "@point/i18n"
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
 import { Menu } from "@point/ui/menu"
+
+import { showMenuAtom } from "@/atoms/ui"
 
 export const Route = createFileRoute("/_withMenu")({
   component: RouteComponent,
@@ -25,9 +26,9 @@ export const Route = createFileRoute("/_withMenu")({
 })
 
 export const menuItems = [
-  { label: "Earn", icon: "CoinsFill", path: "/earn" },
-  { label: "Map", icon: "Globe Europe Africa Fill", path: "/map" },
-  { label: "Account", icon: "User Circle Outline", path: "/account" },
+  { icon: "CoinsFill", label: "Earn", path: "/earn" },
+  { icon: "Globe Europe Africa Fill", label: "Map", path: "/map" },
+  { icon: "User Circle Outline", label: "Account", path: "/account" },
 ] as const
 
 function RouteComponent() {
@@ -44,14 +45,14 @@ function RouteComponent() {
 
   // TODO: Придумать куда это вынести
   const items = menuItems.map((item) => ({
-    label: t(item.label),
-    icon: <Icon name={item.icon} className="h-10 w-10" />,
-    onClick: () => {
-      hapticFeedback.impactOccurred("medium")
-      navigate({ to: item.path })
-    },
     active: matches.includes(item.path),
     disabled: pathname === item.path,
+    icon: <Icon className="h-10 w-10" name={item.icon} />,
+    label: t(item.label),
+    onClick: () => {
+      hapticFeedback.impactOccurred("medium")
+      void navigate({ to: item.path })
+    },
   }))
 
   const isMapPage = matches.includes("/map")

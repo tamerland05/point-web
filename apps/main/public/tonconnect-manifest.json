@@ -1,5 +1,5 @@
 {
-  "url": "https://point.app",
+  "iconUrl": "/icon.svg",
   "name": "Point App",
-  "iconUrl": "/icon.svg"
+  "url": "https://point.app"
 }

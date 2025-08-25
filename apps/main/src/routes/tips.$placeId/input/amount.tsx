@@ -1,15 +1,17 @@
-import { ShowMainButton } from "@/components/tg-internals/ShowMainButton"
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+import { useTonAddress } from "@tonconnect/ui-react"
+import { useMemo, useState } from "react"
+import toast from "react-hot-toast"
+
 import { tipAssetsQueryOptions } from "@point/shared/api/point/tips"
 import { assetDetailsQuery } from "@point/shared/api/stonFi/asset"
 import { useAssetBalance } from "@point/shared/hooks/useAssetBalance"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
-import { useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
-import { useTonAddress } from "@tonconnect/ui-react"
-import { useMemo, useState } from "react"
-import toast from "react-hot-toast"
+
+import { ShowMainButton } from "@/components/tg-internals/ShowMainButton"
 
 export const Route = createFileRoute("/tips/$placeId/input/amount")({
   component: RouteComponent,
@@ -36,8 +38,8 @@ function RouteComponent() {
   const asset = assetQuery.data?.asset
 
   const balanceInNano = useAssetBalance({
-    walletAddress: address,
     assetAddress: selectedAsset?.address,
+    walletAddress: address,
   })
 
   const [value, setValue] = useState(amount || "")
@@ -92,16 +94,16 @@ function RouteComponent() {
 
   const handleContinue = async () => {
     await navigate({
-      to: "/tips/$placeId/input/amount",
       params: { placeId },
-      search: { recipient, asset: assetId, amount: value, id },
       replace: true,
+      search: { amount: value, asset: assetId, id, recipient },
+      to: "/tips/$placeId/input/amount",
     })
 
     navigate({
-      to: "/tips/$placeId/input/confirm",
       params: { placeId },
-      search: { recipient, asset: assetId, amount: value, id },
+      search: { amount: value, asset: assetId, id, recipient },
+      to: "/tips/$placeId/input/confirm",
     })
   }
 
@@ -110,7 +112,7 @@ function RouteComponent() {
   }
 
   return (
-    <ShowMainButton hidden={!isEnoughBalance || !value || value === "0"} title={"Continue"} onClick={handleContinue}>
+    <ShowMainButton hidden={!isEnoughBalance || !value || value === "0"} onClick={handleContinue} title={"Continue"}>
       <div className="mt-5 flex max-w-full items-end justify-between gap-1">
         <input
           autoComplete="off"
@@ -119,12 +121,12 @@ function RouteComponent() {
             "text-red-400 placeholder:text-red-400": !isEnoughBalance,
           })}
           inputMode="decimal"
+          onChange={handleInputChange}
           placeholder={"0"}
           spellCheck="false"
+          style={style}
           type="text"
           value={value}
-          onChange={handleInputChange}
-          style={style}
         />
         <div
           className={cn(
@@ -139,10 +141,10 @@ function RouteComponent() {
 
         <button
           className="ml-auto flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#D6E7FF]"
-          type="button"
           onClick={handleReverseMode}
+          type="button"
         >
-          <Icon name="Arrowz" className="h-8 w-8 text-transparent" />
+          <Icon className="h-8 w-8 text-transparent" name="Arrowz" />
         </button>
       </div>
 

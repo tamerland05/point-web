@@ -1,8 +1,7 @@
-import { memo, useEffect } from "react"
+import type { ButtonProps } from "./types"
 
 import { secondaryButton } from "@telegram-apps/sdk-react"
-
-import type { ButtonProps } from "./types"
+import { memo, useEffect } from "react"
 
 export const SecondaryButtonTMA = memo(({ title, onClick, loading, disabled, hidden, position }: ButtonProps) => {
   useEffect(() => {
@@ -57,11 +56,11 @@ export const SecondaryButtonTMA = memo(({ title, onClick, loading, disabled, hid
 
   useEffect(() => {
     secondaryButton.setParams({
-      isLoaderVisible: !!loading,
       isEnabled: !disabled,
+      isLoaderVisible: !!loading,
       isVisible: !hidden,
-      text: title || "",
       position: position || "left",
+      text: title || "",
     })
   }, [loading, disabled, hidden, title, position])
 

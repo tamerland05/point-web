@@ -1,39 +1,39 @@
 {
-	"ERRORS": {
-		"OPERATION_CANCELLED": "You have successfully canceled the operation",
-		"WALLET_NOT_CONNECTED": "Please, create or connect your wallet first",
-		"CANT_FETCH": "Failed to fetch data. Please try again",
-		"COMING_SOON": "This feature is coming soon. Stay tuned for updates!",
-		"CANT_READ_CLIPBOARD": "We couldn't access the clipboard. Please try pasting manually."
-	},
+  "Account": "Account",
+  "Earn": "Earn",
+  "ERRORS": {
+    "CANT_FETCH": "Failed to fetch data. Please try again",
+    "CANT_READ_CLIPBOARD": "We couldn't access the clipboard. Please try pasting manually.",
+    "COMING_SOON": "This feature is coming soon. Stay tuned for updates!",
+    "OPERATION_CANCELLED": "You have successfully canceled the operation",
+    "WALLET_NOT_CONNECTED": "Please, create or connect your wallet first"
+  },
+  "Map": "Map",
 
-	"UI": {
-		"CONFIRM": "Confirm",
-		"CANCEL": "Cancel",
-		"RETRY": "Retry",
-		"CONTINUE": "Continue",
-		"BACK": "Back",
-		"NEXT": "Next",
+  "Selections": "Selections",
 
-		"PASTE": "Paste",
-		"MAX": "Max",
+  "UI": {
+    "BACK": "Back",
 
-		"N/A": "N/A",
+    "BUY": "Buy",
+    "CANCEL": "Cancel",
+    "CONFIRM": "Confirm",
+    "CONTINUE": "Continue",
 
-		"COPY_ADDRESS": "Copy address",
-		"COPYING": "Copying...",
-		"SUCCESSFULLY_COPIED": "Successfully copied!",
-		"FAILED_TO_COPY": "Failed to copy",
+    "COPY_ADDRESS": "Copy address",
+    "COPYING": "Copying...",
+    "FAILED_TO_COPY": "Failed to copy",
+    "MAX": "Max",
 
-		"QR_FAILED": "QR code generation failed",
+    "N/A": "N/A",
+    "NEXT": "Next",
 
-		"BUY": "Buy",
+    "PASTE": "Paste",
 
-		"SEARCH": "Search"
-	},
+    "QR_FAILED": "QR code generation failed",
+    "RETRY": "Retry",
 
-	"Selections": "Selections",
-	"Map": "Map",
-	"Earn": "Earn",
-	"Account": "Account"
+    "SEARCH": "Search",
+    "SUCCESSFULLY_COPIED": "Successfully copied!"
+  }
 }

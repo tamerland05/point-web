@@ -1,22 +1,23 @@
-import { AccountStep, FundraisingStep, JobPlaceStep } from "@/components/edit-steps"
-import { ConnectWalletStep } from "@/components/edit-steps/ConnectWallet"
-import { authQueryOptions } from "@point/shared/api/point/auth"
-import { invitationQueryOptions, useUpdateEmployeeMutation } from "@point/shared/api/point/employee"
-import { purposeIconsQueryOptions } from "@point/shared/api/point/purposeIcons"
-import { useUpdateUserMutation } from "@point/shared/api/point/user"
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute, redirect } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import z from "zod"
 
+import { authQueryOptions } from "@point/shared/api/point/auth"
+import { invitationQueryOptions, useUpdateEmployeeMutation } from "@point/shared/api/point/employee"
+import { purposeIconsQueryOptions } from "@point/shared/api/point/purposeIcons"
+import { useUpdateUserMutation } from "@point/shared/api/point/user"
+
+import { AccountStep, FundraisingStep, JobPlaceStep } from "@/components/edit-steps"
+import { ConnectWalletStep } from "@/components/edit-steps/ConnectWallet"
+
 const editProfileSchema = z.object({
-  step: z.enum(["account", "fundraising", "job-place", "connect-wallet"]).catch("account"),
   fromOnboarding: z.boolean().optional().default(false),
+  step: z.enum(["account", "fundraising", "job-place", "connect-wallet"]).catch("account"),
 })
 
 export const Route = createFileRoute("/account/my-profile/edit")({
   component: RouteComponent,
-  loaderDeps: (ctx) => [ctx.search.step, ctx.search.fromOnboarding],
   loader: async ({ context, deps }) => {
     const { queryClient } = context
 
@@ -33,13 +34,14 @@ export const Route = createFileRoute("/account/my-profile/edit")({
     const fromOnboarding = deps[1]
 
     if (!user.employee && step !== "account" && !fromOnboarding) {
-      throw redirect({ to: "/account/my-profile/edit", search: { step: "account" }, replace: true })
+      throw redirect({ replace: true, search: { step: "account" }, to: "/account/my-profile/edit" })
     }
 
     if (user.employee) {
       queryClient.ensureQueryData(purposeIconsQueryOptions)
     }
   },
+  loaderDeps: (ctx) => [ctx.search.step, ctx.search.fromOnboarding],
   validateSearch: zodValidator(editProfileSchema),
 })
 
@@ -73,26 +75,26 @@ function RouteComponent() {
     <>
       {search.step === "account" && (
         <AccountStep
-          isUserEmployee={isUserEmployee}
-          isEmptyEmployee={!user.employee}
           firstName={user.employee?.firstName || user.name || ""}
+          fromOnboarding={search.fromOnboarding}
+          isEmptyEmployee={!user.employee}
+          isUserEmployee={isUserEmployee}
           lastName={user.employee?.lastName || ""}
+          onUpdateEmployee={handleUpdateEmployee}
+          onUpdateUser={handleUpdateUser}
           photo={user.employee ? user.employee.photo || "" : user.photoUrl || ""}
           showJob={user.employee?.meta.showJob}
           showPurpose={user.employee?.meta.showPurpose}
           showTipsLeft={user.meta.showTipsLeft}
-          fromOnboarding={search.fromOnboarding}
-          onUpdateEmployee={handleUpdateEmployee}
-          onUpdateUser={handleUpdateUser}
         />
       )}
 
       {search.step === "fundraising" && (
         <FundraisingStep
-          title={user.employee?.purpose?.title}
           description={user.employee?.purpose?.description}
-          onUpdateEmployee={handleUpdateEmployee}
           fromOnboarding={search.fromOnboarding}
+          onUpdateEmployee={handleUpdateEmployee}
+          title={user.employee?.purpose?.title}
         />
       )}
 

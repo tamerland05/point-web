@@ -1,4 +1,9 @@
-import { ShowMainButton } from "@/components/tg-internals"
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+import { useTonConnectUI } from "@tonconnect/ui-react"
+import { useCallback, useMemo } from "react"
+import toast from "react-hot-toast"
+
 import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
 import { tipAssetsQueryOptions, tipCheckoutQueryOptions } from "@point/shared/api/point/tips"
 import { userQueryOptions } from "@point/shared/api/point/user"
@@ -7,15 +12,11 @@ import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { cn } from "@point/ui/cn"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
-import { useTonConnectUI } from "@tonconnect/ui-react"
-import { useCallback, useMemo } from "react"
-import toast from "react-hot-toast"
+
+import { ShowMainButton } from "@/components/tg-internals"
 
 export const Route = createFileRoute("/tips/$placeId/input/confirm")({
   component: RouteComponent,
-  loaderDeps: ({ search }) => ({ id: search.id }),
   loader: async ({ context, deps }) => {
     const { queryClient } = context
 
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/tips/$placeId/input/confirm")({
       await queryClient.ensureQueryData(userQueryOptions(deps.id))
     }
   },
+  loaderDeps: ({ search }) => ({ id: search.id }),
   pendingComponent: () => null,
 })
 
@@ -70,10 +72,10 @@ function RouteComponent() {
 
   const tipCheckoutQuery = useQuery(
     tipCheckoutQueryOptions({
+      amount: Number(amount),
+      assetId: selectedAsset.id,
       recipientId: id ? recipient : placeId,
       recipientType: id ? "employee" : "establishment",
-      assetId: selectedAsset.id,
-      amount: Number(amount),
     })
   )
   const tipCheckoutTxs = tipCheckoutQuery.data
@@ -87,12 +89,12 @@ function RouteComponent() {
 
     try {
       await tc.sendTransaction({
-        validUntil: Math.floor(Date.now() / 1000) + 300,
         messages: tipCheckoutTxs.map((tx) => ({
           address: tx.to,
           amount: tx.value.toString(),
           payload: tx.body,
         })),
+        validUntil: Math.floor(Date.now() / 1000) + 300,
       })
     } catch (_error) {
       navigate({ to: "/tips/$placeId/error" })
@@ -105,11 +107,11 @@ function RouteComponent() {
 
   return (
     <ShowMainButton
-      hidden={!isEnoughBalance || !amount || amount === "0"}
-      title={"Continue"}
-      loading={tipCheckoutTxsIsLoading}
       disabled={tipCheckoutTxsIsLoading}
+      hidden={!isEnoughBalance || !amount || amount === "0"}
+      loading={tipCheckoutTxsIsLoading}
       onClick={handleContinueClick}
+      title={"Continue"}
     >
       <div className="mt-5 flex max-w-full items-end gap-1">
         <span className={cn("relative min-w-[1ch] font-sf-pro-rounded leading-[55px] outline-none")} style={style}>
@@ -132,26 +134,26 @@ function RouteComponent() {
 
       <List title="payment details">
         <ListItem
-          leftTopText={<span className="text-caption-1 text-text-secondary">Establishment</span>}
           leftBottomText={
             <span className="text-base text-text">{user ? user.employee?.jobPlace?.name : establishment?.name}</span>
           }
+          leftTopText={<span className="text-caption-1 text-text-secondary">Establishment</span>}
           withSeparator
         />
         {user && (
           <ListItem
-            leftTopText={<span className="text-caption-1 text-text-secondary">Recipient status</span>}
             leftBottomText={<span className="text-base text-text capitalize">{user.employee?.profession}</span>}
+            leftTopText={<span className="text-caption-1 text-text-secondary">Recipient status</span>}
             withSeparator
           />
         )}
         <ListItem
-          leftTopText={<span className="text-caption-1 text-text-secondary">Recipient Address</span>}
           leftBottomText={
             <span className="text-base text-text">
               {user ? user.employee?.jobPlace?.address : establishment?.position.address}
             </span>
           }
+          leftTopText={<span className="text-caption-1 text-text-secondary">Recipient Address</span>}
         />
       </List>
     </ShowMainButton>

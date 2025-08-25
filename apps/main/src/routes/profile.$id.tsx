@@ -1,8 +1,10 @@
-import { UserProfile } from "@/components/user-profile"
-import { authQueryOptions } from "@point/shared/api/point/auth"
-import { userQueryOptions } from "@point/shared/api/point/user"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+
+import { authQueryOptions } from "@point/shared/api/point/auth"
+import { userQueryOptions } from "@point/shared/api/point/user"
+
+import { UserProfile } from "@/components/user-profile"
 
 export const Route = createFileRoute("/profile/$id")({
   component: RouteComponent,
@@ -28,20 +30,20 @@ function RouteComponent() {
   const user = userQuery.data
 
   const handleFundraisingClick = () => {
-    navigate({ to: "/profile/$id/fundraising", params: { id: params.id } })
+    navigate({ params: { id: params.id }, to: "/profile/$id/fundraising" })
   }
 
   return (
     <div className="p-4">
       <UserProfile
         jobPlace={user.employee?.jobPlace}
-        purpose={user.employee?.purpose}
-        photo={user.employee?.photo || user.photoUrl}
         name={user.employee?.name || user.name}
-        username={user.username}
+        onFundraisingClick={handleFundraisingClick}
+        photo={user.employee?.photo || user.photoUrl}
+        purpose={user.employee?.purpose}
         rank={user.rank}
         tipsLeft={user.tipsLeft}
-        onFundraisingClick={handleFundraisingClick}
+        username={user.username}
       />
     </div>
   )

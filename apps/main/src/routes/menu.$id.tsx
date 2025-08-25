@@ -1,13 +1,15 @@
-import { authQueryOptions } from "@point/shared/api/point/auth"
-import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
-import { useFormatter } from "@point/shared/hooks/useFormatter"
 import type { MenuItem } from "@point/shared/types/index"
-import { List } from "@point/ui/list"
-import { ListItem } from "@point/ui/list-item"
+
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { useMemo } from "react"
 import Image from "react-cool-img"
+
+import { authQueryOptions } from "@point/shared/api/point/auth"
+import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
+import { useFormatter } from "@point/shared/hooks/useFormatter"
+import { List } from "@point/ui/list"
+import { ListItem } from "@point/ui/list-item"
 
 export const Route = createFileRoute("/menu/$id")({
   component: RouteComponent,
@@ -58,38 +60,38 @@ function RouteComponent() {
   return (
     <div className="m-4 [view-transition-name:main-content]">
       {categoriesArray.map((category) => (
-        <List key={category} title={category} className="mb-8">
+        <List className="mb-8" key={category} title={category}>
           {menyByCategory.get(category)?.map((menuItem) => (
             <ListItem
               className="py-4"
               key={menuItem.id}
+              leftBottomText={
+                <span className="line-clamp-2 text-caption-1 text-text-secondary">{menuItem.description}</span>
+              }
               leftIcon={
                 menuItem.photo && (
                   <Image
-                    placeholder="/img-ph.svg"
-                    error="/img-ph.svg"
-                    src={menuItem.photo}
                     alt={menuItem.title}
                     className="size-14 rounded-xl object-cover"
+                    error="/img-ph.svg"
+                    placeholder="/img-ph.svg"
+                    src={menuItem.photo}
                   />
                 )
               }
               leftTopText={<span className="line-clamp-1 text-base text-tex">{menuItem.title}</span>}
-              leftBottomText={
-                <span className="line-clamp-2 text-caption-1 text-text-secondary">{menuItem.description}</span>
-              }
+              onClick={() => {
+                navigate({
+                  params: { id, menuItemId: menuItem.id },
+                  to: "/menu/$id/$menuItemId",
+                })
+              }}
               rightTopText={
                 <span className="whitespace-nowrap text-text-secondary">
                   {formatCurrency(menuItem.cost.amount)}
                   {menuItem.cost.currency}
                 </span>
               }
-              onClick={() => {
-                navigate({
-                  to: "/menu/$id/$menuItemId",
-                  params: { id, menuItemId: menuItem.id },
-                })
-              }}
               withSeparator
             />
           ))}

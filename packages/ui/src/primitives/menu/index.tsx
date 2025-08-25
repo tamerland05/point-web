@@ -23,8 +23,8 @@ const MenuButton: React.FC<MenuItem> = memo(({ label, icon, onClick, active, dis
       "text-accent": active,
     })}
     disabled={disabled}
-    type="button"
     onClick={onClick}
+    type="button"
   >
     <div className={"flex"}>{icon}</div>
     <div>{label}</div>
@@ -36,8 +36,8 @@ MenuButton.displayName = "MenuButton"
 export const Menu: React.FC<MenuProps> = ({ standalone, items }) => (
   <nav
     className={cn({
-      "z-30 w-full border-separator border-t bg-background": true,
       "pb-2": standalone,
+      "z-30 w-full border-separator border-t bg-background": true,
     })}
   >
     <div className="flex w-full justify-between">
@@ -45,10 +45,10 @@ export const Menu: React.FC<MenuProps> = ({ standalone, items }) => (
         .filter((item) => !item.hidden)
         .map((item) => (
           <MenuButton
-            key={item.label}
             active={item.active}
             disabled={item.disabled}
             icon={item.icon}
+            key={item.label}
             label={item.label}
             onClick={item.onClick}
           />

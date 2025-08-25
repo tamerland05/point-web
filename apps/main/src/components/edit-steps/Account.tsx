@@ -1,10 +1,12 @@
-import { cn } from "@point/ui/cn"
-import { List } from "@point/ui/list"
-import { ListItem } from "@point/ui/list-item"
 import { useForm } from "@tanstack/react-form"
 import { useNavigate } from "@tanstack/react-router"
 import { useMemo, useRef, useState } from "react"
 import toast from "react-hot-toast"
+
+import { cn } from "@point/ui/cn"
+import { List } from "@point/ui/list"
+import { ListItem } from "@point/ui/list-item"
+
 import { ShowMainButton } from "../tg-internals"
 import { UserProfileHeader } from "../user-profile/header"
 
@@ -92,22 +94,22 @@ export const AccountStep = ({
     const title = !isUserEmployee ? "Save" : "Continue"
     const submitFromUser = async () => {
       await form.handleSubmit()
-      navigate({ to: "/account/my-profile/view", replace: true })
+      void navigate({ replace: true, to: "/account/my-profile/view" })
     }
 
     const submitFromEmployee = async () => {
       await form.handleSubmit()
-      navigate({ to: "/account/my-profile/edit", search: { step: "fundraising", fromOnboarding } })
+      void navigate({ search: { fromOnboarding, step: "fundraising" }, to: "/account/my-profile/edit" })
     }
 
     const onClick = isUserEmployee ? submitFromEmployee : submitFromUser
 
     return {
-      title,
-      loading: form.state.isSubmitting,
       disabled: !form.state.canSubmit || form.state.isSubmitting || !form.state.isValid,
       hidden: false,
+      loading: form.state.isSubmitting,
       onClick,
+      title,
     }
   }, [
     isUserEmployee,
@@ -122,24 +124,24 @@ export const AccountStep = ({
   return (
     <ShowMainButton {...mainButtonConfig}>
       <form
+        className="flex flex-col overflow-x-hidden p-4"
         onSubmit={(e) => {
           e.preventDefault()
           e.stopPropagation()
           form.handleSubmit()
         }}
-        className="flex flex-col overflow-x-hidden p-4"
       >
-        <UserProfileHeader photo={image ?? photo} name={firstName} username={null} isJobPlaceHidden={true} />
+        <UserProfileHeader isJobPlaceHidden={true} name={firstName} photo={image ?? photo} username={null} />
 
-        <input type="file" onChange={handleChange} accept="image/*" className="hidden" ref={fileInputRef} />
+        <input accept="image/*" className="hidden" onChange={handleChange} ref={fileInputRef} type="file" />
         {isUserEmployee && (
           <button
-            type="button"
             className="-mt-4 text-center text-accent"
             disabled={form.state.isSubmitting}
             onClick={() => {
               fileInputRef.current?.click()
             }}
+            type="button"
           >
             Select a photo
           </button>
@@ -149,52 +151,52 @@ export const AccountStep = ({
           <>
             <List className="mt-3 mb-2">
               <form.Field
-                name="firstName"
-                validators={{
-                  onChange: ({ value }) => (value.length > 32 ? "First Name is too long" : undefined),
-                }}
-                // biome-ignore lint/correctness/noChildrenProp: <explanation>
+                // biome-ignore lint/correctness/noChildrenProp: because library docs
                 children={(field) => (
                   <>
                     <ListItem
                       className={cn("py-3")}
-                      leftIconClassName="w-full"
                       leftIcon={
                         <input
-                          type="text"
-                          placeholder="First Name"
                           className="mr-[50vw] w-full placeholder:text-text-secondary"
-                          value={field.state.value}
                           onChange={(e) => field.handleChange(e.target.value)}
+                          placeholder="First Name"
+                          type="text"
+                          value={field.state.value}
                         />
                       }
+                      leftIconClassName="w-full"
                       withSeparator
                     />
                   </>
                 )}
+                name="firstName"
+                validators={{
+                  onChange: ({ value }) => (value.length > 32 ? "First Name is too long" : undefined),
+                }}
               />
 
               <form.Field
+                // biome-ignore lint/correctness/noChildrenProp: because library docs
+                children={(field) => (
+                  <ListItem
+                    className="py-3"
+                    leftIcon={
+                      <input
+                        className="mr-[50vw] w-full placeholder:text-text-secondary"
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        placeholder="First Name"
+                        type="text"
+                        value={field.state.value}
+                      />
+                    }
+                    leftIconClassName="w-full"
+                  />
+                )}
                 name="lastName"
                 validators={{
                   onChange: ({ value }) => (value.length > 32 ? "Last Name is too long" : undefined),
                 }}
-                // biome-ignore lint/correctness/noChildrenProp: <explanation>
-                children={(field) => (
-                  <ListItem
-                    className="py-3"
-                    leftIconClassName="w-full"
-                    leftIcon={
-                      <input
-                        type="text"
-                        placeholder="First Name"
-                        className="mr-[50vw] w-full placeholder:text-text-secondary"
-                        value={field.state.value}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                      />
-                    }
-                  />
-                )}
               />
             </List>
             <div className="mb-4 px-4 text-caption-2 text-text-secondary">
@@ -206,47 +208,47 @@ export const AccountStep = ({
         <List className="mt-3 mb-2">
           {isUserEmployee && (
             <form.Field
-              name="showJob"
-              // biome-ignore lint/correctness/noChildrenProp: <explanation>
+              // biome-ignore lint/correctness/noChildrenProp: because library docs
               children={(field) => (
                 <ListItem
                   className="py-3"
                   leftTopText={"Show place of work"}
-                  rightTopText={<div className="text-accent">{field.state.value ? "Yes" : "No"}</div>}
                   onClick={() => field.handleChange(!field.state.value)}
+                  rightTopText={<div className="text-accent">{field.state.value ? "Yes" : "No"}</div>}
                   withSeparator
                 />
               )}
+              name="showJob"
             />
           )}
 
           {isUserEmployee && (
             <form.Field
-              name="showPurpose"
-              // biome-ignore lint/correctness/noChildrenProp: <explanation>
+              // biome-ignore lint/correctness/noChildrenProp: because library docs
               children={(field) => (
                 <ListItem
                   className="py-3"
                   leftTopText={"Show purpose of Fundraising"}
-                  rightTopText={<div className="text-accent">{field.state.value ? "Yes" : "No"}</div>}
                   onClick={() => field.handleChange(!field.state.value)}
+                  rightTopText={<div className="text-accent">{field.state.value ? "Yes" : "No"}</div>}
                   withSeparator
                 />
               )}
+              name="showPurpose"
             />
           )}
 
           <form.Field
-            name="showTipsLeft"
-            // biome-ignore lint/correctness/noChildrenProp: <explanation>
+            // biome-ignore lint/correctness/noChildrenProp: because library docs
             children={(field) => (
               <ListItem
                 className="py-3"
                 leftTopText={"Show Tips Left"}
-                rightTopText={<div className="text-accent">{field.state.value ? "Yes" : "No"}</div>}
                 onClick={() => field.handleChange(!field.state.value)}
+                rightTopText={<div className="text-accent">{field.state.value ? "Yes" : "No"}</div>}
               />
             )}
+            name="showTipsLeft"
           />
         </List>
         <div className="mb-7 px-4 text-caption-2 text-text-secondary">

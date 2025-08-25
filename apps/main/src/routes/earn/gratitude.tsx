@@ -1,11 +1,13 @@
-import { ShowMainButton } from "@/components/tg-internals"
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import React from "react"
+
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
-import { useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
-import React from "react"
+
+import { ShowMainButton } from "@/components/tg-internals"
 
 export const Route = createFileRoute("/earn/gratitude")({
   component: RouteComponent,
@@ -30,19 +32,19 @@ function RouteComponent() {
   const bonusBalance = authQuery.data.user.bonusBalance
 
   const BONUS_TIERS = [
-    { range: "1-4 USDT", bonus: "2 000" },
-    { range: "5-9 USDT", bonus: "10 000" },
-    { range: "10-19 USDT", bonus: "25 000" },
-    { range: "20-49 USDT", bonus: "70 000" },
-    { range: "55-99 USDT", bonus: "150 000" },
-    { range: "100+ USDT", bonus: "250 000" },
+    { bonus: "2 000", range: "1-4 USDT" },
+    { bonus: "10 000", range: "5-9 USDT" },
+    { bonus: "25 000", range: "10-19 USDT" },
+    { bonus: "70 000", range: "20-49 USDT" },
+    { bonus: "150 000", range: "55-99 USDT" },
+    { bonus: "250 000", range: "100+ USDT" },
   ]
 
   const goToMap = () => navigate({ to: "/map" })
   return (
-    <ShowMainButton title="Start Tipping" onClick={goToMap}>
+    <ShowMainButton onClick={goToMap} title="Start Tipping">
       <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 flex w-full flex-col p-4">
-        <Icon name="Bonus" className="mx-auto mt-4 mb-3 size-28 text-transparent" />
+        <Icon className="mx-auto mt-4 mb-3 size-28 text-transparent" name="Bonus" />
         <div className="mb-1 text-center font-semibold text-title-2">Gratitude</div>
         <div className="mx-10 mb-7 text-center text-text-secondary">
           Tip at your favorite establishments and get the bonus coins you'll need when listing
@@ -56,7 +58,7 @@ function RouteComponent() {
                 <React.Fragment key={tier.range}>
                   <div className={cn("px-4 py-2.5", idx === BONUS_TIERS.length - 1 && "border-b-0")}>{tier.range}</div>
                   <div className="flex items-center gap-2 border-r-0 bg-background-secondary px-4 py-2.5">
-                    +{tier.bonus} <Icon name="BonusMoney" className="size-5 text-transparent" />
+                    +{tier.bonus} <Icon className="size-5 text-transparent" name="BonusMoney" />
                   </div>
                 </React.Fragment>
               ))}
@@ -65,9 +67,9 @@ function RouteComponent() {
 
           <div className="mt-3 overflow-hidden rounded-2xl border border-[#CBCBD0]">
             <div className="grid grid-cols-2 divide-x divide-[#CBCBD0]">
-              <div className=" px-4 py-2.5 ">Earned</div>
-              <div className="flex items-center gap-2 bg-background-secondary px-4 py-2.5 ">
-                {formatTokenValue(bonusBalance)} <Icon name="BonusMoney" className="size-5 text-transparent" />
+              <div className="px-4 py-2.5">Earned</div>
+              <div className="flex items-center gap-2 bg-background-secondary px-4 py-2.5">
+                {formatTokenValue(bonusBalance)} <Icon className="size-5 text-transparent" name="BonusMoney" />
               </div>
             </div>
           </div>

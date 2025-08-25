@@ -1,28 +1,28 @@
-import { type Meta, type StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react"
 
-import { BankIcon } from "@/assets/icons/bank";
+import { BankIcon } from "@/assets/icons/bank"
 
-import { Button } from "./index";
+import { Button } from "./index"
 
 const meta: Meta<typeof Button> = {
-  component: Button,
   args: {
-    label: "Bank",
     icon: BankIcon,
+    label: "Bank",
   },
   argTypes: {
-    label: { control: "text" },
-    disabled: { control: "boolean" },
-    onClick: { action: "clicked" },
     className: { control: "text" },
+    disabled: { control: "boolean" },
     icon: { control: false },
+    label: { control: "text" },
+    onClick: { action: "clicked" },
   },
-};
+  component: Button,
+}
 
-export default meta;
+export default meta
 
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof Button>
 
-export const Default: Story = {};
-export const Primary: Story = {};
-export const Outline: Story = {};
+export const Default: Story = {}
+export const Primary: Story = {}
+export const Outline: Story = {}

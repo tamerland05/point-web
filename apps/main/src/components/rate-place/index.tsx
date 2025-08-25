@@ -1,5 +1,3 @@
-import { useEstablishmentRatingMutation } from "@point/shared/api/point/establishments"
-import { sleep } from "@point/shared/utils/sleep"
 import { useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { hapticFeedback, openInvoice } from "@telegram-apps/sdk-react"
@@ -7,6 +5,9 @@ import { memo, useCallback, useEffect, useState } from "react"
 import Img from "react-cool-img"
 import toast from "react-hot-toast"
 import { Rating } from "react-simple-star-rating"
+
+import { useEstablishmentRatingMutation } from "@point/shared/api/point/establishments"
+import { sleep } from "@point/shared/utils/sleep"
 
 // TODO: when back will be updated and will send user placed rating, add currentRating to the props and set stars yellow, not blue
 export const RatePlace = memo(
@@ -16,7 +17,13 @@ export const RatePlace = memo(
     title,
     establishmentType,
     userRating,
-  }: { id: string; image: string; title: string; establishmentType: string; userRating: number | null }) => {
+  }: {
+    id: string
+    image: string
+    title: string
+    establishmentType: string
+    userRating: number | null
+  }) => {
     const queryClient = useQueryClient()
 
     const navigate = useNavigate()
@@ -49,7 +56,7 @@ export const RatePlace = memo(
           await sleep(1500)
           queryClient.invalidateQueries({ queryKey: ["establishment", id] })
 
-          navigate({ to: "/rating-left", search: { placeId: id } })
+          void navigate({ search: { placeId: id }, to: "/rating-left" })
         } catch (error) {
           setRatingSelected(false)
           console.error(error)
@@ -58,7 +65,7 @@ export const RatePlace = memo(
       [queryClient, navigate, createInvoice, id, isPending]
     )
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    // biome-ignore lint/correctness/useExhaustiveDependencies: we need to update rating when new place is selected
     useEffect(() => {
       setRating(userRating || 1)
       setRatingSelected(false)
@@ -69,19 +76,19 @@ export const RatePlace = memo(
         <div className="mx-4 mb-1 text-caption-3 text-text-secondary uppercase">Establishment rating</div>
         <div className="flex flex-col items-center justify-center rounded-2xl bg-background-secondary p-4">
           <Img
-            placeholder="/img-ph.svg"
-            error="/img-ph.svg"
-            src={image}
             className="mb-3 size-24 rounded-full border border-background"
+            error="/img-ph.svg"
+            placeholder="/img-ph.svg"
+            src={image}
           />
           <div className="mb-2 text-center text-title-1">{title}</div>
           <div className="mb-5 text-center text-caption-1 text-text-secondary">{establishmentType}</div>
 
           <Rating
-            fillColor={userRating ? undefined : "#007AFF"}
             emptyColor={userRating ? undefined : "rgba(0,122,255,0.200)"}
-            onClick={handleRating}
+            fillColor={userRating ? undefined : "#007AFF"}
             initialValue={rating}
+            onClick={handleRating}
             readonly={isPending || ratingSelected}
             transition
           />

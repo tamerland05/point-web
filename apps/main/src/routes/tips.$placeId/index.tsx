@@ -1,14 +1,15 @@
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
+import { useCallback, useMemo, useState } from "react"
+import Img from "react-cool-img"
+
 import { tipReceiversQueryOptions } from "@point/shared/api/point/tips"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
 import { Input } from "@point/ui/input"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
-import { useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
-import { useCallback, useMemo, useState } from "react"
-import Img from "react-cool-img"
 
 export const Route = createFileRoute("/tips/$placeId/")({
   component: RouteComponent,
@@ -39,7 +40,7 @@ function RouteComponent() {
 
       return
     }
-    navigate({ to: "/tips/$placeId/info", search: { placeWallet: placeId } })
+    navigate({ search: { placeWallet: placeId }, to: "/tips/$placeId/info" })
   }, [navigate, placeId, address, tc.modal.open])
 
   const handleEmployeeClick = useCallback(
@@ -49,7 +50,7 @@ function RouteComponent() {
 
         return
       }
-      navigate({ to: "/tips/$placeId/info", search: { id } })
+      navigate({ search: { id }, to: "/tips/$placeId/info" })
     },
     [navigate, address, tc.modal.open]
   )
@@ -57,40 +58,40 @@ function RouteComponent() {
   return (
     <>
       <Input
-        placeholder="Search"
         className={cn("transition-all duration-300", search ? "w-full" : "w-1/4")}
         containerClassName="justify-center mb-4"
-        value={search}
         onChange={setSearch}
+        placeholder="Search"
+        value={search}
       />
 
       <List title="Staff list">
         {!search && (
           <ListItem
-            leftIcon={<Icon name="Frame 948" className="h-10 w-10 text-transparent" />}
-            leftTopText="Project Bank"
             leftBottomText="All Staff"
-            withSeparator
+            leftIcon={<Icon className="h-10 w-10 text-transparent" name="Frame 948" />}
+            leftTopText="Project Bank"
             onClick={handleProjectBankClick}
+            withSeparator
           />
         )}
 
         {filteredReceivers.map((employee) => (
           <ListItem
             key={employee.id}
+            leftBottomText={<div className="font-normal capitalize">{employee.profession}</div>}
             leftIcon={
               <Img
                 alt={employee.name}
-                placeholder="/user-ph.svg"
-                error="/user-ph.svg"
-                src={employee.photo}
                 className="h-10 w-10 rounded-full"
+                error="/user-ph.svg"
+                placeholder="/user-ph.svg"
+                src={employee.photo}
               />
             }
             leftTopText={employee.name}
-            leftBottomText={<div className="font-normal capitalize">{employee.profession}</div>}
-            withSeparator
             onClick={() => handleEmployeeClick(employee.id)}
+            withSeparator
           />
         ))}
       </List>

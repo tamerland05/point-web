@@ -1,9 +1,10 @@
+import type { AxiosResponse } from "axios"
+import type { Coordinates, MenuItem } from "@/types"
+
 import { keepPreviousData, queryOptions, useMutation } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
-import type { Coordinates, MenuItem } from "@/types"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
-import type { AxiosResponse } from "axios"
 
 interface EstablishmentsReq {
   latitude: number
@@ -26,13 +27,14 @@ export interface EstablishmentDTO {
 
 export const establishmentsQueryOptions = (latitude: number, longitude: number, scale: number) =>
   queryOptions({
-    queryKey: ["establishments", latitude, longitude, scale],
+    gcTime: Number.POSITIVE_INFINITY,
+    placeholderData: keepPreviousData,
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
 
       const viewPortSize = {
-        width: window.innerWidth,
         height: window.innerHeight,
+        width: window.innerWidth,
       }
 
       const response = await pointAxiosInstance.post<
@@ -43,9 +45,8 @@ export const establishmentsQueryOptions = (latitude: number, longitude: number, 
 
       return response.data
     },
-    gcTime: Number.POSITIVE_INFINITY,
+    queryKey: ["establishments", latitude, longitude, scale],
     staleTime: Number.POSITIVE_INFINITY,
-    placeholderData: keepPreviousData,
   })
 
 interface DetailedEstablishmentDTO {
@@ -65,7 +66,6 @@ interface DetailedEstablishmentDTO {
 
 export const establishmentQueryOptions = (establishmentId?: string) =>
   queryOptions({
-    queryKey: ["establishment", establishmentId],
     enabled: !!establishmentId,
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
@@ -80,6 +80,7 @@ export const establishmentQueryOptions = (establishmentId?: string) =>
 
       return response.data
     },
+    queryKey: ["establishment", establishmentId],
     staleTime: 5,
   })
 
@@ -90,7 +91,7 @@ interface EstablishmentsNearReq {
 
 export const placesNearQueryOptions = (name: string, location: Coordinates) =>
   queryOptions({
-    queryKey: ["places", name, location],
+    gcTime: Number.POSITIVE_INFINITY,
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
 
@@ -98,17 +99,17 @@ export const placesNearQueryOptions = (name: string, location: Coordinates) =>
         EstablishmentDTO[],
         AxiosResponse<EstablishmentDTO[]>,
         EstablishmentsNearReq
-      >("/point/map/establishments/near", { name, location })
+      >("/point/map/establishments/near", { location, name })
 
       return response.data
     },
-    gcTime: Number.POSITIVE_INFINITY,
+    queryKey: ["places", name, location],
     staleTime: Number.POSITIVE_INFINITY,
   })
 
 export const menuItemQueryOptions = (menuItemId: string) =>
   queryOptions({
-    queryKey: ["menuItem", menuItemId],
+    gcTime: Number.POSITIVE_INFINITY,
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
 
@@ -118,7 +119,7 @@ export const menuItemQueryOptions = (menuItemId: string) =>
 
       return response.data
     },
-    gcTime: Number.POSITIVE_INFINITY,
+    queryKey: ["menuItem", menuItemId],
     staleTime: Number.POSITIVE_INFINITY,
   })
 
@@ -129,7 +130,6 @@ interface EstablishmentRatingInvoiceReq {
 
 export const useEstablishmentRatingMutation = (establishmentId: string) => {
   return useMutation({
-    mutationKey: ["establishmentRating", establishmentId],
     mutationFn: async (mark: number) => {
       await ensureAccessTokenIsAvailable()
 
@@ -143,5 +143,6 @@ export const useEstablishmentRatingMutation = (establishmentId: string) => {
 
       return response.data
     },
+    mutationKey: ["establishmentRating", establishmentId],
   })
 }

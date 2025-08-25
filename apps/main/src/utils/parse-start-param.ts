@@ -1,9 +1,11 @@
 import type { RetrieveLPResultCamelCased } from "@telegram-apps/sdk-react"
+
+import { redirect } from "@tanstack/react-router"
 import { getDefaultStore } from "jotai"
 
-import { StartParamsCodes } from "@/constants/launchParamsCodes"
 import { referrerAtom } from "@point/shared/atoms/user"
-import { redirect } from "@tanstack/react-router"
+
+import { StartParamsCodes } from "@/constants/launchParamsCodes"
 
 // TODO: надо скипать онбординга
 export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
@@ -28,7 +30,7 @@ export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
       return
     }
 
-    throw redirect({ to: "/menu/$id/$menuItemId", params: { id: placeId, menuItemId } })
+    throw redirect({ params: { id: placeId, menuItemId }, to: "/menu/$id/$menuItemId" })
   }
 
   // 3. open profile
@@ -40,7 +42,7 @@ export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
       return
     }
 
-    throw redirect({ to: "/profile/$id", params: { id: userId } })
+    throw redirect({ params: { id: userId }, to: "/profile/$id" })
   }
 
   // 4. handle referrer id

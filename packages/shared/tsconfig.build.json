@@ -1,14 +1,14 @@
 {
-	"extends": ["./tsconfig.json", "@point/typescript-config/build.json"],
-	"compilerOptions": {
-		"tsBuildInfoFile": "${configDir}/tsconfig.build.tsbuildinfo",
-		"outDir": "dist",
-		"rootDir": "src",
-		"noEmit": false,
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["src/*"],
-			"@point/*": ["packages/*"]
-		}
-	}
+  "extends": ["./tsconfig.json", "@point/typescript-config/build.json"],
+  "compilerOptions": {
+    "tsBuildInfoFile": "${configDir}/tsconfig.build.tsbuildinfo",
+    "outDir": "dist",
+    "rootDir": "src",
+    "noEmit": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@point/*": ["packages/*"]
+    }
+  }
 }

@@ -1,15 +1,17 @@
-import { onboardingCompletedAtom } from "@/atoms/user"
-import { trimAddress } from "@/utils/trim-address"
-import { authQueryOptions } from "@point/shared/api/point/auth"
-import { Icon } from "@point/ui/icon"
-import { List } from "@point/ui/list"
-import { ListItem } from "@point/ui/list-item"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { hapticFeedback, popup } from "@telegram-apps/sdk-react"
 import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
 import { useSetAtom } from "jotai"
 import Img from "react-cool-img"
+
+import { authQueryOptions } from "@point/shared/api/point/auth"
+import { Icon } from "@point/ui/icon"
+import { List } from "@point/ui/list"
+import { ListItem } from "@point/ui/list-item"
+
+import { onboardingCompletedAtom } from "@/atoms/user"
+import { trimAddress } from "@/utils/trim-address"
 
 export const Route = createFileRoute("/_withMenu/account")({
   component: RouteComponent,
@@ -60,7 +62,7 @@ function RouteComponent() {
     hapticFeedback.impactOccurred("light")
 
     setOnboardingCompleted(false)
-    navigate({ to: "/onboarding", replace: true, viewTransition: { types: ["none"] } })
+    navigate({ replace: true, to: "/onboarding", viewTransition: { types: ["none"] } })
   }
 
   const handleClickWallet = async () => {
@@ -68,12 +70,12 @@ function RouteComponent() {
 
     if (address || user.wallet) {
       const selected = await popup.show({
-        title: "Connect a new wallet",
-        message: "You can link a new wallet to receive tips and drops",
         buttons: [
-          { type: "destructive", text: "GO", id: "go" },
-          { type: "cancel", id: "cancel" },
+          { id: "go", text: "GO", type: "destructive" },
+          { id: "cancel", type: "cancel" },
         ],
+        message: "You can link a new wallet to receive tips and drops",
+        title: "Connect a new wallet",
       })
 
       if (selected === "cancel") return
@@ -93,10 +95,10 @@ function RouteComponent() {
     <div className="flex h-full flex-col justify-between pb-4">
       <header className="mb-7 flex flex-col items-center gap-2">
         <Img
-          placeholder="/user-ph.svg"
-          error="/user-ph.svg"
-          src={user.employee?.photo || user.photoUrl}
           className="mb-2 size-24 rounded-full object-cover"
+          error="/user-ph.svg"
+          placeholder="/user-ph.svg"
+          src={user.employee?.photo || user.photoUrl}
         />
 
         <h1 className="font-medium text-title-1">{user.employee?.name || user.name}</h1>
@@ -105,20 +107,20 @@ function RouteComponent() {
 
       <div className="flex w-full flex-col gap-7">
         <ListItem
+          leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account0" />}
           leftTopText={"My Profile"}
-          leftIcon={<Icon name="Account0" className="h-7 w-7 text-transparent" />}
-          rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
           onClick={handleGoToMyProfile}
+          rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
         />
 
         <List>
           <ListItem
+            leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account1" />}
             leftTopText="Profile Type"
-            leftIcon={<Icon name="Account1" className="h-7 w-7 text-transparent" />}
-            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
-            withSeparator
-            rightTopText={<div className="-mr-4 text-text-secondary">{profileType}</div>}
             onClick={handleGoToProfileType}
+            rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
+            rightTopText={<div className="-mr-4 text-text-secondary">{profileType}</div>}
+            withSeparator
           />
           {/* <ListItem
             leftTopText="Language"
@@ -129,10 +131,10 @@ function RouteComponent() {
             onClick={handleGoToLanguage}
           /> */}
           <ListItem
+            leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account3" />}
             leftTopText="Information"
-            leftIcon={<Icon name="Account3" className="h-7 w-7 text-transparent" />}
-            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
             onClick={handleGoToInformation}
+            rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
           />
         </List>
 
@@ -144,28 +146,28 @@ function RouteComponent() {
 
         <List>
           <ListItem
+            leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account5" />}
             leftTopText="Wallet"
-            leftIcon={<Icon name="Account5" className="h-7 w-7 text-transparent" />}
-            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
-            withSeparator
+            onClick={handleClickWallet}
+            rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
             rightTopText={
               <div className="-mr-4 text-text-secondary">
                 {user.wallet ? trimAddress(user.wallet, 4, 5) : "Not Connected"}
               </div>
             }
-            onClick={handleClickWallet}
-          />
-          <ListItem
-            leftTopText="Default Currency"
-            leftIcon={<Icon name="Account6" className="h-7 w-7 text-transparent" />}
-            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
             withSeparator
-            rightTopText={<div className="-mr-4 text-text-secondary">USD</div>}
           />
           <ListItem
+            leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account6" />}
+            leftTopText="Default Currency"
+            rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
+            rightTopText={<div className="-mr-4 text-text-secondary">USD</div>}
+            withSeparator
+          />
+          <ListItem
+            leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account7" />}
             leftTopText="Contact Support"
-            leftIcon={<Icon name="Account7" className="h-7 w-7 text-transparent" />}
-            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
+            rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
           />
         </List>
       </div>

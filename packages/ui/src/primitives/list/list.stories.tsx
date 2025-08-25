@@ -5,13 +5,13 @@ import { ListItem } from "../list-item/index" // Adjust the import path as neces
 import { List } from "./index" // Adjust the import path as necessary
 
 const meta: Meta<typeof List> = {
-  component: List,
   args: {
     // Define default args for the List component if needed
   },
   argTypes: {
     // Define argTypes for the List component if needed
   },
+  component: List,
 }
 
 export default meta
@@ -39,8 +39,8 @@ export const History: Story = {
             leftBottomText="0x123...abc"
             leftIcon={
               <Icon
-                name="CoinsFill"
                 className="flex h-11 w-11 items-center justify-center rounded-full bg-accent stroke-white p-2"
+                name="CoinsFill"
               />
             }
             leftTopText={<p className="font-normal">Received</p>}
@@ -52,9 +52,9 @@ export const History: Story = {
             leftBottomText="0x456...def"
             leftIcon={
               <img
-                src="https://placehold.co/600x400"
                 alt="placeholder"
                 className="flex h-11 w-11 items-center justify-center rounded-full bg-accent stroke-white p-2"
+                src="https://placehold.co/600x400"
               />
             }
             leftTopText={<p className="font-normal">I CAN USE IMAGE HERE</p>}

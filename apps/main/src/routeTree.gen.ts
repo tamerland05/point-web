@@ -11,7 +11,6 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as TestsImport } from './routes/tests'
 import { Route as RatingLeftImport } from './routes/rating-left'
 import { Route as OnboardingImport } from './routes/onboarding'
 import { Route as WithMenuRouteImport } from './routes/_withMenu/route'
@@ -48,12 +47,6 @@ import { Route as TipsPlaceIdInputConfirmImport } from './routes/tips.$placeId/i
 import { Route as TipsPlaceIdInputAmountImport } from './routes/tips.$placeId/input/amount'
 
 // Create/Update Routes
-
-const TestsRoute = TestsImport.update({
-  id: '/tests',
-  path: '/tests',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const RatingLeftRoute = RatingLeftImport.update({
   id: '/rating-left',
@@ -288,13 +281,6 @@ declare module '@tanstack/react-router' {
       path: '/rating-left'
       fullPath: '/rating-left'
       preLoaderRoute: typeof RatingLeftImport
-      parentRoute: typeof rootRoute
-    }
-    '/tests': {
-      id: '/tests'
-      path: '/tests'
-      fullPath: '/tests'
-      preLoaderRoute: typeof TestsImport
       parentRoute: typeof rootRoute
     }
     '/tips/$placeId': {
@@ -584,7 +570,6 @@ export interface FileRoutesByFullPath {
   '': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/rating-left': typeof RatingLeftRoute
-  '/tests': typeof TestsRoute
   '/tips/$placeId': typeof TipsPlaceIdRouteRouteWithChildren
   '/account': typeof WithMenuAccountRoute
   '/earn': typeof WithMenuEarnRoute
@@ -622,7 +607,6 @@ export interface FileRoutesByTo {
   '': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/rating-left': typeof RatingLeftRoute
-  '/tests': typeof TestsRoute
   '/account': typeof WithMenuAccountRoute
   '/earn': typeof WithMenuEarnRoute
   '/map': typeof WithMenuMapRoute
@@ -660,7 +644,6 @@ export interface FileRoutesById {
   '/_withMenu': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/rating-left': typeof RatingLeftRoute
-  '/tests': typeof TestsRoute
   '/tips/$placeId': typeof TipsPlaceIdRouteRouteWithChildren
   '/_withMenu/account': typeof WithMenuAccountRoute
   '/_withMenu/earn': typeof WithMenuEarnRoute
@@ -700,7 +683,6 @@ export interface FileRouteTypes {
     | ''
     | '/onboarding'
     | '/rating-left'
-    | '/tests'
     | '/tips/$placeId'
     | '/account'
     | '/earn'
@@ -737,7 +719,6 @@ export interface FileRouteTypes {
     | ''
     | '/onboarding'
     | '/rating-left'
-    | '/tests'
     | '/account'
     | '/earn'
     | '/map'
@@ -773,7 +754,6 @@ export interface FileRouteTypes {
     | '/_withMenu'
     | '/onboarding'
     | '/rating-left'
-    | '/tests'
     | '/tips/$placeId'
     | '/_withMenu/account'
     | '/_withMenu/earn'
@@ -812,7 +792,6 @@ export interface RootRouteChildren {
   WithMenuRouteRoute: typeof WithMenuRouteRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
   RatingLeftRoute: typeof RatingLeftRoute
-  TestsRoute: typeof TestsRoute
   TipsPlaceIdRouteRoute: typeof TipsPlaceIdRouteRouteWithChildren
   AccountAccessRestrictedRoute: typeof AccountAccessRestrictedRoute
   AccountLanguageRoute: typeof AccountLanguageRoute
@@ -836,7 +815,6 @@ const rootRouteChildren: RootRouteChildren = {
   WithMenuRouteRoute: WithMenuRouteRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
   RatingLeftRoute: RatingLeftRoute,
-  TestsRoute: TestsRoute,
   TipsPlaceIdRouteRoute: TipsPlaceIdRouteRouteWithChildren,
   AccountAccessRestrictedRoute: AccountAccessRestrictedRoute,
   AccountLanguageRoute: AccountLanguageRoute,
@@ -869,7 +847,6 @@ export const routeTree = rootRoute
         "/_withMenu",
         "/onboarding",
         "/rating-left",
-        "/tests",
         "/tips/$placeId",
         "/account/access-restricted",
         "/account/language",
@@ -905,9 +882,6 @@ export const routeTree = rootRoute
     },
     "/rating-left": {
       "filePath": "rating-left.tsx"
-    },
-    "/tests": {
-      "filePath": "tests.tsx"
     },
     "/tips/$placeId": {
       "filePath": "tips.$placeId/route.tsx",

@@ -1,5 +1,6 @@
-import { queryOptions } from "@tanstack/react-query"
 import type { AxiosResponse } from "axios"
+
+import { queryOptions } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
@@ -14,7 +15,7 @@ export interface AssetDTO {
 }
 
 export const tipAssetsQueryOptions = queryOptions({
-  queryKey: ["tip-assets"],
+  gcTime: Number.POSITIVE_INFINITY,
   queryFn: async () => {
     await ensureAccessTokenIsAvailable()
 
@@ -22,8 +23,8 @@ export const tipAssetsQueryOptions = queryOptions({
 
     return response.data
   },
+  queryKey: ["tip-assets"],
   staleTime: Number.POSITIVE_INFINITY,
-  gcTime: Number.POSITIVE_INFINITY,
 })
 
 export interface ReceiversDTO {
@@ -38,7 +39,6 @@ export interface ReceiversDTO {
 
 export const tipReceiversQueryOptions = (placeId: string) =>
   queryOptions({
-    queryKey: ["tip-receivers", placeId],
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
 
@@ -48,6 +48,7 @@ export const tipReceiversQueryOptions = (placeId: string) =>
 
       return response.data
     },
+    queryKey: ["tip-receivers", placeId],
   })
 
 export interface CheckoutReq {
@@ -65,7 +66,6 @@ export interface CheckoutDTO {
 
 export const tipCheckoutQueryOptions = (req: CheckoutReq) =>
   queryOptions({
-    queryKey: ["tip-checkout", req],
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
 
@@ -76,4 +76,5 @@ export const tipCheckoutQueryOptions = (req: CheckoutReq) =>
 
       return response.data
     },
+    queryKey: ["tip-checkout", req],
   })

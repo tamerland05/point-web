@@ -30,11 +30,11 @@ function RouteComponent() {
             key={lang.lang}
             leftBottomText={lang.example}
             leftTopText={lang.name}
+            onClick={() => selectLanguage(lang.lang)}
             rightIcon={
-              i18n.language === lang.lang ? <Icon name="TickCircle" className="h-5 w-5 text-transparent" /> : undefined
+              i18n.language === lang.lang ? <Icon className="h-5 w-5 text-transparent" name="TickCircle" /> : undefined
             }
             withSeparator
-            onClick={() => selectLanguage(lang.lang)}
           />
         ))}
       </List>

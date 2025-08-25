@@ -1,10 +1,11 @@
-import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query"
 import type { AxiosResponse } from "axios"
+import type { PurposeOfFunding } from "@/types"
+
+import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMemo } from "react"
 
 import pointAxiosInstance from "@/api/point"
-import type { PurposeOfFunding } from "@/types"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
-import { useMemo } from "react"
 
 interface EmployeeDTO {
   name: string
@@ -28,7 +29,6 @@ interface EmployeeDTO {
 
 export const employeeQueryOptions = (id: string) =>
   queryOptions({
-    queryKey: ["employee", id],
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
 
@@ -38,6 +38,7 @@ export const employeeQueryOptions = (id: string) =>
 
       return response.data
     },
+    queryKey: ["employee", id],
   })
 
 export interface UpdateEmployeeDTO {
@@ -87,7 +88,6 @@ export interface InvitationDTO {
 }
 
 export const invitationQueryOptions = queryOptions({
-  queryKey: ["invitation"],
   queryFn: async () => {
     await ensureAccessTokenIsAvailable()
 
@@ -97,6 +97,7 @@ export const invitationQueryOptions = queryOptions({
 
     return response.data
   },
+  queryKey: ["invitation"],
   retry: false,
 })
 

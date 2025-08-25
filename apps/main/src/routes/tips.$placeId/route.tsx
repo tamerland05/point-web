@@ -1,7 +1,8 @@
+import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router"
+
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { tipReceiversQueryOptions } from "@point/shared/api/point/tips"
 import { cn } from "@point/ui/cn"
-import { Outlet, createFileRoute, useLocation } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/tips/$placeId")({
   component: RouteComponent,

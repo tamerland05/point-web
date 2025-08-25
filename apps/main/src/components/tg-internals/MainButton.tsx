@@ -1,7 +1,7 @@
-import { memo, useEffect } from "react"
+import type { ButtonProps } from "./types"
 
 import { mainButton } from "@telegram-apps/sdk-react"
-import type { ButtonProps } from "./types"
+import { memo, useEffect } from "react"
 
 export const MainButtonTMA = memo(({ title, onClick, loading, disabled, hidden }: ButtonProps) => {
   // NOTE: if you see bug you can try add 'hidden' to deps
@@ -49,11 +49,11 @@ export const MainButtonTMA = memo(({ title, onClick, loading, disabled, hidden }
 
   useEffect(() => {
     mainButton.setParams({
-      isLoaderVisible: !!loading,
+      backgroundColor: "#0A78FF",
       isEnabled: !disabled,
+      isLoaderVisible: !!loading,
       isVisible: !hidden,
       text: title || "",
-      backgroundColor: "#0A78FF",
       textColor: "#FFFFFF",
     })
   }, [loading, disabled, hidden, title])

@@ -1,32 +1,32 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "ui": "tui",
+  "remoteCache": {
+    "apiUrl": "https://turbo-rc.meyson.tech",
+    "enabled": true
+  },
   "tasks": {
+    "//#format-and-lint": {},
+    "//#format-and-lint:fix": {
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["**/dist/**"]
     },
+    "clean": { "cache": false },
+    "dev": {
+      "cache": false,
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": ["dist/**"],
+      "persistent": true
+    },
     "typecheck": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$"],
       "outputs": ["*.tsbuildinfo"]
-    },
-    "dev": {
-      "dependsOn": ["^build"],
-      "cache": false,
-      "persistent": true,
-      "inputs": ["$TURBO_DEFAULT$"],
-      "outputs": ["dist/**"]
-    },
-    "//#format-and-lint": {},
-    "//#format-and-lint:fix": {
-      "cache": false
-    },
-    "clean": { "cache": false }
+    }
   },
-  "remoteCache": {
-    "enabled": true,
-    "apiUrl": "https://turbo-rc.meyson.tech"
-  }
+  "ui": "tui"
 }

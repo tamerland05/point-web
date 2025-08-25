@@ -1,20 +1,21 @@
-import { tipAssetsQueryOptions } from "@point/shared/api/point/tips"
-import { assetDetailsQuery } from "@point/shared/api/stonFi/asset"
-import { useAssetBalance } from "@point/shared/hooks/useAssetBalance"
-import { useFormatter } from "@point/shared/hooks/useFormatter"
-import { Icon } from "@point/ui/icon"
 import { useSuspenseQuery } from "@tanstack/react-query"
-import { Outlet, createFileRoute, useMatches } from "@tanstack/react-router"
+import { createFileRoute, Outlet, useMatches } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
 import { useTonAddress } from "@tonconnect/ui-react"
 import Img from "react-cool-img"
 import { z } from "zod"
 
+import { tipAssetsQueryOptions } from "@point/shared/api/point/tips"
+import { assetDetailsQuery } from "@point/shared/api/stonFi/asset"
+import { useAssetBalance } from "@point/shared/hooks/useAssetBalance"
+import { useFormatter } from "@point/shared/hooks/useFormatter"
+import { Icon } from "@point/ui/icon"
+
 const inputSchema = z.object({
-  recipient: z.string(),
-  asset: z.string(),
   amount: z.string().optional(),
+  asset: z.string(),
   id: z.string().or(z.number()).optional(),
+  recipient: z.string(),
 })
 
 export const Route = createFileRoute("/tips/$placeId/input")({
@@ -46,8 +47,8 @@ function RouteComponent() {
   const asset = assetQuery.data?.asset
 
   const balance = useAssetBalance({
-    walletAddress: address,
     assetAddress: selectedAsset?.address,
+    walletAddress: address,
   })
 
   const isConfirmRoute = match.some((match) => match.pathname.includes("/confirm"))
@@ -56,7 +57,7 @@ function RouteComponent() {
     <div className="flex h-full flex-col justify-between">
       <header className="flex items-center gap-4">
         <div>
-          <Icon name="Check" className="h-10 w-10 text-transparent" />
+          <Icon className="h-10 w-10 text-transparent" name="Check" />
         </div>
         <div className="flex flex-col">
           <div className="font-medium">Recipient</div>
@@ -71,7 +72,7 @@ function RouteComponent() {
       {!isConfirmRoute && (
         <div className="mt-auto flex w-full items-center gap-4">
           <div>
-            <Img className="h-10 w-10 rounded-full" src={asset.image_url} alt={asset.display_name} />
+            <Img alt={asset.display_name} className="h-10 w-10 rounded-full" src={asset.image_url} />
           </div>
           <div className="flex flex-col">
             <div className="font-medium">From Balance</div>
