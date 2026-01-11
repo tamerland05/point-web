@@ -1,0 +1,112 @@
+name: Deploy dev
+
+on:
+  push:
+    branches: [ dev ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  APP_ENV: dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./apps/main
+          no-cache: 'true'
+          file: ./apps/main/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VITE_MAPBOX_TOKEN=${{ secrets.VITE_MAPBOX_TOKEN }}
+            VITE_GLITCHTIP_DSN=${{ secrets.VITE_GLITCHTIP_DSN }}
+            VITE_POINT_API_FQDN=${{ vars.VITE_POINT_API_FQDN }}
+
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref }}
+
+      - name: Install ssh keys
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.DEV_VPS_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.DEV_VPS_HOST }} > ~/.ssh/known_hosts
+          docker context create remote --docker host=ssh://${{ secrets.DEV_VPS_USER }}@${{ secrets.DEV_VPS_HOST }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3.0.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy frontend
+        run: |
+          docker -c remote pull ${{ steps.meta.outputs.tags }}
+          docker -c remote stop frontend || true
+          docker -c remote rm frontend || true
+          docker -c remote run -d \
+            --name frontend \
+            -p 8000:8000 \
+            --restart=always \
+            ${{ steps.meta.outputs.tags }}
+
+      - name: Remove old images
+        run: |
+          docker -c remote image prune -f
+
+      - name: cleanup
+        run: rm -rf ~/.ssh
