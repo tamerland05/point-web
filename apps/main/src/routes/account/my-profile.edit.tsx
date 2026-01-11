@@ -30,8 +30,7 @@ export const Route = createFileRoute("/account/my-profile/edit")({
     )
     const user = userData.user
 
-    const step = deps[0]
-    const fromOnboarding = deps[1]
+    const [step, fromOnboarding] = deps as [string, boolean]
 
     if (!user.employee && step !== "account" && !fromOnboarding) {
       throw redirect({ replace: true, search: { step: "account" }, to: "/account/my-profile/edit" })
@@ -41,7 +40,7 @@ export const Route = createFileRoute("/account/my-profile/edit")({
       queryClient.ensureQueryData(purposeIconsQueryOptions)
     }
   },
-  loaderDeps: (ctx) => [ctx.search.step, ctx.search.fromOnboarding],
+  loaderDeps: (ctx) => [ctx.search.step, ctx.search.fromOnboarding] as [string, boolean],
   validateSearch: zodValidator(editProfileSchema),
 })
 
