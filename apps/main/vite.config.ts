@@ -13,7 +13,6 @@ let commitHash = "unknown"
 try {
   commitHash = child.execSync("git rev-parse --short HEAD").toString()
 } catch (_err) {
-  // biome-ignore lint/suspicious/noConsole: its ok to use console.error here
   console.error("Failed to get commit hash. Running in this mode will not be supported.")
 }
 

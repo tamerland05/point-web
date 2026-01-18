@@ -28,5 +28,3 @@ export const secondaryButtonAtom = atom<{
   hidden?: boolean
   position?: "left" | "right" | "top" | "bottom"
 }>({})
-
-export const catalogScrollPositionAtom = atom<number>(0)

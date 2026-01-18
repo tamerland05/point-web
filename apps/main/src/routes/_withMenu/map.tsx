@@ -82,8 +82,8 @@ function RouteComponent() {
     async (placeId: string) => {
       setMenuVisible(false)
       const place =
-        establishments?.find((establishment) => establishment.id === placeId) ||
-        nearbyPlaces?.find((place) => place.id === placeId)
+        establishments?.find((establishment: EstablishmentDTO) => establishment.id === placeId) ||
+        nearbyPlaces?.find((place: EstablishmentDTO) => place.id === placeId)
 
       if (!place) {
         toast.error("Place not found")
@@ -172,7 +172,6 @@ function RouteComponent() {
   const visibleMarkerIds = useMarkerCollisionDetection(establishments, zoom, mapContainerRef)
 
   const getMarkerScale = useCallback(() => {
-    if (zoom >= 13) return 0.8
     if (zoom >= 10) return 0.8
     return 0.7
   }, [zoom])
@@ -182,7 +181,7 @@ function RouteComponent() {
     <>
       <div ref={mapContainerRef}>
         <MapboxMap>
-          {establishments.map((establishment) => {
+          {establishments.map((establishment: EstablishmentDTO) => {
             const isVisible = visibleMarkerIds.has(establishment.id)
 
             return (
@@ -213,14 +212,17 @@ function RouteComponent() {
       </div>
 
       <PlaceModal
-        address={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.position.address}
+        address={
+          establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.position
+            .address
+        }
         drawerExpanded={!!drawerExpanded}
         handleCloseDrawer={handleCloseDrawer}
         handleExpandDrawer={handleExpandDrawer}
         id={selectedPlaceId}
-        name={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.name}
-        photo={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.photo}
-        rating={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.rating}
+        name={establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.name}
+        photo={establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.photo}
+        rating={establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.rating}
       />
 
       {!selectedPlaceId && (

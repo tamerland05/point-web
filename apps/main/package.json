@@ -31,7 +31,6 @@
     "zod": "^3.25.51"
   },
   "devDependencies": {
-    "@point/tailwind-config": "workspace:*",
     "@point/typescript-config": "workspace:*",
     "@tailwindcss/vite": "^4.1.7",
     "@tanstack/router-plugin": "^1.120.5",

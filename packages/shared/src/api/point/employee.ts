@@ -27,7 +27,9 @@ interface EmployeeDTO {
   }
 }
 
-export const employeeQueryOptions = (id: string) =>
+// biome-ignore lint/correctness/noUnusedVariables: may be used in future
+// @ts-expect-error TS6133: unused, may be used in future
+const _employeeQueryOptions = (id: string) =>
   queryOptions({
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
@@ -41,7 +43,9 @@ export const employeeQueryOptions = (id: string) =>
     queryKey: ["employee", id],
   })
 
-export interface UpdateEmployeeDTO {
+// biome-ignore lint/correctness/noUnusedVariables: may be used in future
+// @ts-expect-error TS6196: unused, may be used in future
+interface _UpdateEmployeeDTO {
   purpose: PurposeOfFunding | null
   meta: {
     showJob: boolean
@@ -82,7 +86,7 @@ export const useUpdateEmployeeMutation = (authHash?: string, isCreate?: boolean)
   })
 }
 
-export interface InvitationDTO {
+interface InvitationDTO {
   establishmentId: string
   profession: string
 }

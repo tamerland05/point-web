@@ -1,5 +1,6 @@
 @import "@point/tailwind-config";
 
+/* biome-ignore lint/suspicious/noUnknownAtRules: Tailwind CSS v4 @config directive */
 @config "../tailwind.config.ts";
 
 @layer base {

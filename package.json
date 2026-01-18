@@ -13,7 +13,6 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.0",
-		"@point/tailwind-config": "workspace:*",
 		"@point/typescript-config": "workspace:*",
 		"@types/node": "^22.5.2",
 		"knip": "^5.56.0",

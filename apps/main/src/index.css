@@ -1,8 +1,10 @@
 @import "@point/tailwind-config";
 
+/* biome-ignore lint/suspicious/noUnknownAtRules: @config is a Tailwind CSS v4 at-rule */
 @config "../tailwind.config.ts";
 
 .mapboxgl-ctrl {
+  /* biome-ignore lint/complexity/noImportantStyles: needed to override mapbox styles */
   display: none !important;
 }
 

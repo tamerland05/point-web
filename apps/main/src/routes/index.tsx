@@ -1,8 +1,9 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router"
 import { getDefaultStore } from "jotai"
 
-import { onboardingCompletedAtom } from "@/atoms/user"
 import { parseStartParam } from "@/utils/parse-start-param"
+
+import { onboardingCompletedAtom } from "../atoms/user"
 
 export const Route = createFileRoute("/")({
   beforeLoad: async ({ context }) => {

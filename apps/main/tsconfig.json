@@ -6,10 +6,12 @@
     // Custom settings
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/atoms/user": ["../../packages/shared/src/atoms/user", "src/atoms/user"],
+      "@/*": ["src/*", "../../packages/shared/src/*"],
+      "@point/shared/*": ["../../packages/shared/src/*"],
       "@point/ui/*": ["../../packages/ui/src/*"]
-    }
+    },
+    "skipLibCheck": true
   },
-
   "include": ["src"]
 }

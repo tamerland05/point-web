@@ -2,7 +2,7 @@ import * as React from "react"
 
 import { cn } from "@/utils/cn"
 
-export interface ButtonProps {
+interface ButtonProps {
   icon: React.ElementType
   label?: string
   disabled?: boolean

@@ -11,7 +11,7 @@ interface EstablishmentType {
   icon: string
 }
 
-export type EstablishmentTypesDTO = Record<string, EstablishmentType>
+type EstablishmentTypesDTO = Record<string, EstablishmentType>
 
 export const establishmentTypesQueryOptions = queryOptions({
   gcTime: Number.POSITIVE_INFINITY,

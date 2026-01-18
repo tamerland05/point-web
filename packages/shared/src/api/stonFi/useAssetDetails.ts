@@ -5,15 +5,15 @@ import stonFiAxiosInstance from "@/api/stonFi"
 import { NATIVE_TON_ADDRESS, TETHER_USDT_ADDRESS, tonAssetData, usdtAssetData } from "@/constants/tokens"
 import { isValidAddress } from "@/utils/isValidAddress"
 
-export const AssetKinds = {
+const AssetKinds = {
   Jetton: "jetton",
   Ton: "ton",
   Wton: "wton",
 } as const
 
-export type AssetKind = keyof typeof AssetKinds
+type AssetKind = keyof typeof AssetKinds
 
-export interface StonFiAsset {
+interface StonFiAsset {
   balance?: string
   blacklisted: boolean
   community: boolean
