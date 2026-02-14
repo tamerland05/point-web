@@ -49,7 +49,7 @@ function RootComponent() {
 
   return (
     <TonConnectUIProvider
-      manifestUrl="https://point-dev.meyson.tech/tonconnect-manifest.json"
+      manifestUrl="https://tamerland05.github.io/point-web/apps/main/public/tonconnect-manifest.json"
       uiPreferences={{
         theme: THEME.LIGHT,
       }}
