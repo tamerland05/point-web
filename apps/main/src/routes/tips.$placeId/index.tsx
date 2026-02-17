@@ -28,7 +28,7 @@ function RouteComponent() {
 
   const filteredReceivers = useMemo(() => {
     return receivers.employees.filter(
-      (employee) =>
+      (employee: { id: string; name: string; profession: string; photo: string }) =>
         employee.name.toLowerCase().includes(search.toLowerCase()) ||
         employee.profession.toLowerCase().includes(search.toLowerCase())
     )
@@ -76,7 +76,7 @@ function RouteComponent() {
           />
         )}
 
-        {filteredReceivers.map((employee) => (
+        {filteredReceivers.map((employee: { id: string; name: string; profession: string; photo: string }) => (
           <ListItem
             key={employee.id}
             leftBottomText={<div className="font-normal capitalize">{employee.profession}</div>}

@@ -5,7 +5,7 @@ import { useTonAddress } from "@tonconnect/ui-react"
 import Img from "react-cool-img"
 import { z } from "zod"
 
-import { tipAssetsQueryOptions } from "@point/shared/api/point/tips"
+import { type AssetDTO, tipAssetsQueryOptions } from "@point/shared/api/point/tips"
 import { assetDetailsQuery } from "@point/shared/api/stonFi/asset"
 import { useAssetBalance } from "@point/shared/hooks/useAssetBalance"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
@@ -37,7 +37,7 @@ function RouteComponent() {
   const match = useMatches()
 
   const assetsQuery = useSuspenseQuery(tipAssetsQueryOptions)
-  const selectedAsset = assetsQuery.data.find((asset) => asset.id === selectedAssetId)
+  const selectedAsset = assetsQuery.data.find((asset: AssetDTO) => asset.id === selectedAssetId)
 
   if (!selectedAsset) {
     throw new Error("LogicError: Asset not found")

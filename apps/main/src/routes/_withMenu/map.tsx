@@ -8,11 +8,7 @@ import toast from "react-hot-toast"
 import { Marker } from "react-map-gl/mapbox"
 import { z } from "zod"
 
-import {
-  type EstablishmentDTO,
-  establishmentsQueryOptions,
-  placesNearQueryOptions,
-} from "@point/shared/api/point/establishments"
+import { type EstablishmentDTO, establishmentsQueryOptions } from "@point/shared/api/point/establishments"
 import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
 
@@ -60,9 +56,6 @@ function RouteComponent() {
   const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
   const establishmentTypes = establishmentTypesQuery.data
 
-  const nearbyPlacesQuery = useQuery(placesNearQueryOptions("", userLocation))
-  const nearbyPlaces = nearbyPlacesQuery.data
-
   const [movedToUserLocation, setMovedToUserLocation] = useAtom(movedToUserLocationAtom)
   useEffect(() => {
     if (movedToUserLocation) return
@@ -97,7 +90,7 @@ function RouteComponent() {
         search: (prev) => ({ ...prev, selectedPlaceId: place.id }),
       })
     },
-    [navigate, setMenuVisible, establishments, nearbyPlaces, mapRef]
+    [navigate, setMenuVisible, mapRef]
   )
 
   const handleExpandDrawer = useCallback(() => {

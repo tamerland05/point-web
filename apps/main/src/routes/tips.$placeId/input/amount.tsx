@@ -4,7 +4,7 @@ import { useTonAddress } from "@tonconnect/ui-react"
 import { useMemo, useState } from "react"
 import toast from "react-hot-toast"
 
-import { tipAssetsQueryOptions } from "@point/shared/api/point/tips"
+import { type AssetDTO, tipAssetsQueryOptions } from "@point/shared/api/point/tips"
 import { assetDetailsQuery } from "@point/shared/api/stonFi/asset"
 import { useAssetBalance } from "@point/shared/hooks/useAssetBalance"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
@@ -28,7 +28,7 @@ function RouteComponent() {
   const { asset: selectedAssetId } = Route.useSearch()
 
   const assetsQuery = useSuspenseQuery(tipAssetsQueryOptions)
-  const selectedAsset = assetsQuery.data.find((asset) => asset.id === selectedAssetId)
+  const selectedAsset = assetsQuery.data.find((asset: AssetDTO) => asset.id === selectedAssetId)
 
   if (!selectedAsset) {
     throw new Error("LogicError: Asset not found")

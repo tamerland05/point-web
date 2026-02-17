@@ -10,8 +10,9 @@ import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 
-import { onboardingCompletedAtom } from "@/atoms/user"
 import { trimAddress } from "@/utils/trim-address"
+
+import { onboardingCompletedAtom } from "../../atoms/user"
 
 export const Route = createFileRoute("/_withMenu/account")({
   component: RouteComponent,
@@ -37,7 +38,7 @@ function RouteComponent() {
   const setOnboardingCompleted = useSetAtom(onboardingCompletedAtom)
 
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
-  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!, ctx.initDataRaw!))
+  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams!.tgWebAppData!, ctx.initDataRaw!))
   const user = authQuery.data?.user
 
   const profileType = !user.employee ? "User" : "Employee"

@@ -4,7 +4,7 @@ import { useAtomValue } from "jotai"
 import { memo, useCallback, useMemo, useState } from "react"
 import Img from "react-cool-img"
 
-import { placesNearQueryOptions } from "@point/shared/api/point/establishments"
+import { type EstablishmentDTO, placesNearQueryOptions } from "@point/shared/api/point/establishments"
 import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
 import { cn } from "@point/ui/cn"
@@ -91,7 +91,7 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
           }}
         >
           <List title="Nearby establishments">
-            {places?.map((place) => (
+            {places?.map((place: EstablishmentDTO) => (
               <ListItem
                 key={place.id}
                 leftBottomText={place.position.address}

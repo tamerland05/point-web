@@ -24,7 +24,7 @@ export interface AuthReq {
   initDataRaw?: string
 }
 
-export interface AuthDTO {
+interface AuthDTO {
   user: {
     id: number
     tipsLeft: number

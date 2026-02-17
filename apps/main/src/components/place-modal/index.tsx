@@ -1,3 +1,5 @@
+import type { MenuItem } from "@point/shared/types"
+
 import { useQuery } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { openTelegramLink } from "@telegram-apps/sdk-react"
@@ -170,7 +172,7 @@ export const PlaceModal = memo(
 
             {!!slicedMenu.length && (
               <List onExpand={handleNavigateToMenu} title="menu">
-                {slicedMenu.map((menuItem, idx) => (
+                {slicedMenu.map((menuItem: MenuItem, idx: number) => (
                   <ListItem
                     // biome-ignore lint/suspicious/noArrayIndexKey: this map will never change
                     key={idx}

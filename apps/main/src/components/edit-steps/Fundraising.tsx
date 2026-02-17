@@ -5,7 +5,7 @@ import { useMemo, useState } from "react"
 import Img from "react-cool-img"
 import { toast } from "react-hot-toast"
 
-import { purposeIconsQueryOptions } from "@point/shared/api/point/purposeIcons"
+import { type PurposeIconsDTO, purposeIconsQueryOptions } from "@point/shared/api/point/purposeIcons"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
@@ -129,7 +129,7 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
                   rightBottomText={
                     isOpen && (
                       <div className="absolute top-3/4 right-0 flex w-full flex-wrap gap-5 rounded-3xl bg-background-secondary p-4 shadow-xl">
-                        {purposeIcons.map((icon) => (
+                        {purposeIcons.map((icon: PurposeIconsDTO[number]) => (
                           <button
                             className="flex items-center"
                             key={icon.id}
@@ -160,7 +160,7 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
                   rightTopText={
                     <Img
                       className="-mr-4 filter-[invert(70%)_sepia(19%)_saturate(28%)_hue-rotate(318deg)_brightness(100%)_contrast(91%)] h-7 w-7"
-                      src={purposeIcons.find((icon) => icon.id === field.state.value)?.preview}
+                      src={purposeIcons.find((icon: PurposeIconsDTO[number]) => icon.id === field.state.value)?.preview}
                     />
                   }
                 />

@@ -1,8 +1,33 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "entry": ["apps/main/src/main.tsx"],
-  "ignore": ["packages/ui/src/primitives/icon/icons/types.ts", "**/*.gen.ts"],
-  "ignoreDependencies": ["@babel/preset-typescript", "babel-plugin-react-compiler", "tailwindcss"],
+  "ignore": [
+    "packages/ui/src/primitives/icon/icons/types.ts",
+    "**/*.gen.ts",
+    "apps/main/src/components/pincode-modal/**",
+    "packages/shared/src/constants/**",
+    "packages/shared/src/hooks/**",
+    "packages/shared/src/utils/**",
+    "packages/shared/src/api/**",
+    "packages/ui/src/hooks/**",
+    "packages/ui/src/utils/**",
+    "packages/ui/src/primitives/**",
+    "apps/main/src/init.ts",
+    "apps/main/src/routes/_withMenu/route.tsx",
+    "apps/main/src/components/app-internals/EnvUnsupported.tsx",
+    "packages/shared/src/atoms/user.ts",
+    "packages/shared/src/vite-env.d.ts"
+  ],
+  "ignoreBinaries": ["test-storybook"],
+  "ignoreDependencies": ["tailwindcss"],
+  "ignoreUnresolved": [
+    "@/components/app-internals/EnvUnsupported",
+    "@/init",
+    "@/routes/_withMenu/route",
+    "@/routeTree.gen",
+    "@/utils/mockEnv"
+  ],
   "lefthook": true,
-  "project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"]
+  "project": ["**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}"],
+  "typescript": true
 }

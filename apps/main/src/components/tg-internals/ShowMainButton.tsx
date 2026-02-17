@@ -9,7 +9,7 @@ import { sleep } from "@point/shared/utils/sleep"
 
 import { mainButtonAtom, secondaryButtonAtom } from "@/atoms/ui"
 
-export interface ShowMainButtonProps extends ButtonProps {
+interface ShowMainButtonProps extends ButtonProps {
   children?: React.ReactNode
   secondary?: ButtonProps
 

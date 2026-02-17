@@ -6,12 +6,13 @@
   "exports": {
     ".": "./config.css"
   },
+  "dependencies": {
+    "@point/assets": "workspace:*"
+  },
   "sideEffects": [
     "**/*.css"
   ],
   "devDependencies": {
-    "@point/typescript-config": "workspace:*",
-    "@point/assets": "workspace:*",
     "tailwindcss": "4.1.7"
   }
 }

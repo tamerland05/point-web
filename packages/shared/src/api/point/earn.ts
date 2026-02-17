@@ -11,7 +11,7 @@ export interface ReferralDTO {
   photoUrl: string
 }
 
-export interface PageReferralDTO {
+interface PageReferralDTO {
   items: ReferralDTO[]
   total?: number | null
   page: number | null
@@ -33,7 +33,7 @@ export const referralsQueryOptions = (page = 1, size = 10) =>
     staleTime: Number.POSITIVE_INFINITY,
   })
 
-export interface EmployeePublicDTO {
+interface EmployeePublicDTO {
   id: string
   profession: string
   photo: string

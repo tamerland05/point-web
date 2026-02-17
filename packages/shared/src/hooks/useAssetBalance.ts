@@ -1,7 +1,7 @@
 import { Address } from "@ton/core"
 import { useMemo } from "react"
 
-import { useAssetsList } from "@/api/deDust/useAssetsList"
+import { type DeDustAsset, useAssetsList } from "@/api/deDust/useAssetsList"
 import { NATIVE_TON_ADDRESS } from "@/constants/tokens"
 
 export const useAssetBalance = ({
@@ -16,7 +16,7 @@ export const useAssetBalance = ({
   const assetBalancesMap = useMemo(
     () =>
       assetsData?.reduce(
-        (acc, asset) => {
+        (acc: Record<string, string>, asset: DeDustAsset) => {
           if (asset.asset.type === "native") {
             acc[NATIVE_TON_ADDRESS] = asset.balance
             return acc

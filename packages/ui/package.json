@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "@point/assets": "workspace:*",
-    "@point/i18n": "workspace:*",
     "@radix-ui/colors": "^3.0.0",
     "@storybook/addon-a11y": "^8.6.14",
     "@storybook/addon-essentials": "^8.6.14",
@@ -50,7 +49,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "react": "^19.1.0",
-    "react-cool-img": "^1.2.12",
     "react-dom": "^19.1.0",
     "react-snap-carousel": "^0.5.1",
     "storybook": "^8.6.14"
