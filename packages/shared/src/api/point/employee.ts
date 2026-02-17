@@ -27,7 +27,6 @@ interface EmployeeDTO {
   }
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: may be used in future
 // @ts-expect-error TS6133: unused, may be used in future
 const _employeeQueryOptions = (id: string) =>
   queryOptions({
@@ -43,7 +42,6 @@ const _employeeQueryOptions = (id: string) =>
     queryKey: ["employee", id],
   })
 
-// biome-ignore lint/correctness/noUnusedVariables: may be used in future
 // @ts-expect-error TS6196: unused, may be used in future
 interface _UpdateEmployeeDTO {
   purpose: PurposeOfFunding | null

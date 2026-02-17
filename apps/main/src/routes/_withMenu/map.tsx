@@ -8,11 +8,7 @@ import toast from "react-hot-toast"
 import { Marker } from "react-map-gl/mapbox"
 import { z } from "zod"
 
-import {
-  type EstablishmentDTO,
-  establishmentsQueryOptions,
-  placesNearQueryOptions,
-} from "@point/shared/api/point/establishments"
+import { type EstablishmentDTO, establishmentsQueryOptions } from "@point/shared/api/point/establishments"
 import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
 
@@ -60,9 +56,6 @@ function RouteComponent() {
   const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
   const establishmentTypes = establishmentTypesQuery.data
 
-  const nearbyPlacesQuery = useQuery(placesNearQueryOptions("", userLocation))
-  const nearbyPlaces = nearbyPlacesQuery.data
-
   const [movedToUserLocation, setMovedToUserLocation] = useAtom(movedToUserLocationAtom)
   useEffect(() => {
     if (movedToUserLocation) return
@@ -79,11 +72,8 @@ function RouteComponent() {
   }, [mapRef, userLocation.latitude, userLocation.longitude, movedToUserLocation, setMovedToUserLocation])
 
   const handleSelectPlace = useCallback(
-    async (placeId: string) => {
+    async (place: EstablishmentDTO) => {
       setMenuVisible(false)
-      const place =
-        establishments?.find((establishment: EstablishmentDTO) => establishment.id === placeId) ||
-        nearbyPlaces?.find((place: EstablishmentDTO) => place.id === placeId)
 
       if (!place) {
         toast.error("Place not found")
@@ -97,10 +87,10 @@ function RouteComponent() {
       })
 
       navigate({
-        search: (prev) => ({ ...prev, selectedPlaceId: placeId }),
+        search: (prev) => ({ ...prev, selectedPlaceId: place.id }),
       })
     },
-    [navigate, setMenuVisible, establishments, nearbyPlaces, mapRef]
+    [navigate, setMenuVisible, mapRef]
   )
 
   const handleExpandDrawer = useCallback(() => {
@@ -135,9 +125,9 @@ function RouteComponent() {
   }, [setMenuVisible, setNearbyModalState])
 
   const handleSelectNearbyPlace = useCallback(
-    async (placeId: string) => {
+    async (place: EstablishmentDTO) => {
       handleHideNearbyModal()
-      void handleSelectPlace(placeId)
+      void handleSelectPlace(place)
     },
     [handleSelectPlace, handleHideNearbyModal]
   )
@@ -190,7 +180,7 @@ function RouteComponent() {
                 key={establishment.id}
                 latitude={establishment.position.latitude}
                 longitude={establishment.position.longitude}
-                onClick={() => handleSelectPlace(establishment.id)}
+                onClick={() => handleSelectPlace(establishment)}
               >
                 <div
                   className="marker-container"

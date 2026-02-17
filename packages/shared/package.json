@@ -50,6 +50,7 @@
   "dependencies": {
     "@point/i18n": "workspace:*",
     "@tanstack/react-query": "^5.76.1",
+    "@ton/core": "^0.63.1",
     "axios": "1.9.0",
     "jotai": "^2.12.4",
     "react": "19.1.0"

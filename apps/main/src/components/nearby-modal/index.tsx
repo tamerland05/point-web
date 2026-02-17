@@ -20,7 +20,7 @@ interface NearbyModalProps {
   onExpand: () => void
   onShow: () => void
   onHide: () => void
-  onSelectPlace: (placeId: string, longitude: number, latitude: number) => void
+  onSelectPlace: (place: EstablishmentDTO) => void
 }
 
 export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: NearbyModalProps) => {
@@ -97,7 +97,7 @@ export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: Ne
                 leftBottomText={place.position.address}
                 leftIcon={getIconByEstablishmentType(place.establishmentTypeId)}
                 leftTopText={place.name}
-                onClick={() => onSelectPlace(place.id, place.position.longitude, place.position.latitude)}
+                onClick={() => onSelectPlace(place)}
                 withSeparator
               />
             ))}

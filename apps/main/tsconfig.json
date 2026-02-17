@@ -2,7 +2,6 @@
   "extends": "@point/typescript-config/react.json",
   "compilerOptions": {
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-
     "baseUrl": ".",
     "paths": {
       "@/atoms/user": ["../../packages/shared/src/atoms/user", "src/atoms/user"],

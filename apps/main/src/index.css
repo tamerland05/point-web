@@ -66,10 +66,12 @@ html:active-view-transition-type(slide-right) {
 
 /* Warp/Rotate Transition */
 html:active-view-transition-type(warp) {
+  /* biome-ignore lint:noUnknownTypeSelector */
   &::view-transition-old(post) {
     animation: 400ms ease-out both warp-out;
   }
 
+  /* biome-ignore lint:noUnknownTypeSelector */
   &::view-transition-new(post) {
     animation: 400ms ease-out both warp-in;
   }
@@ -106,9 +108,11 @@ html:active-view-transition-type(warp) {
 }
 
 .empty-icons svg {
+  /* biome-ignore lint:complexity/noImportantStyles */
   display: inline-block !important;
 }
 
 .filled-icons svg {
+  /* biome-ignore lint:complexity/noImportantStyles */
   display: inline-block !important;
 }
