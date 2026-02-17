@@ -3,7 +3,6 @@
   "compilerOptions": {
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
 
-    // Custom settings
     "baseUrl": ".",
     "paths": {
       "@/atoms/user": ["../../packages/shared/src/atoms/user", "src/atoms/user"],

@@ -6,6 +6,9 @@
   "exports": {
     ".": "./config.css"
   },
+  "dependencies": {
+    "@point/assets": "workspace:*"
+  },
   "sideEffects": [
     "**/*.css"
   ],
