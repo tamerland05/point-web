@@ -103,7 +103,7 @@ export const placesNearQueryOptions = (name: string, location: Coordinates) =>
 
       return response.data
     },
-    queryKey: ["places", name, location],
+    queryKey: ["places", name, location.latitude, location.longitude],
     staleTime: Number.POSITIVE_INFINITY,
   })
 

@@ -79,11 +79,8 @@ function RouteComponent() {
   }, [mapRef, userLocation.latitude, userLocation.longitude, movedToUserLocation, setMovedToUserLocation])
 
   const handleSelectPlace = useCallback(
-    async (placeId: string) => {
+    async (place: EstablishmentDTO) => {
       setMenuVisible(false)
-      const place =
-        establishments?.find((establishment) => establishment.id === placeId) ||
-        nearbyPlaces?.find((place) => place.id === placeId)
 
       if (!place) {
         toast.error("Place not found")
@@ -97,7 +94,7 @@ function RouteComponent() {
       })
 
       navigate({
-        search: (prev) => ({ ...prev, selectedPlaceId: placeId }),
+        search: (prev) => ({ ...prev, selectedPlaceId: place.id }),
       })
     },
     [navigate, setMenuVisible, establishments, nearbyPlaces, mapRef]
@@ -135,9 +132,9 @@ function RouteComponent() {
   }, [setMenuVisible, setNearbyModalState])
 
   const handleSelectNearbyPlace = useCallback(
-    async (placeId: string) => {
+    async (place: EstablishmentDTO) => {
       handleHideNearbyModal()
-      void handleSelectPlace(placeId)
+      void handleSelectPlace(place)
     },
     [handleSelectPlace, handleHideNearbyModal]
   )
@@ -172,7 +169,6 @@ function RouteComponent() {
   const visibleMarkerIds = useMarkerCollisionDetection(establishments, zoom, mapContainerRef)
 
   const getMarkerScale = useCallback(() => {
-    if (zoom >= 13) return 0.8
     if (zoom >= 10) return 0.8
     return 0.7
   }, [zoom])
@@ -182,7 +178,7 @@ function RouteComponent() {
     <>
       <div ref={mapContainerRef}>
         <MapboxMap>
-          {establishments.map((establishment) => {
+          {establishments.map((establishment: EstablishmentDTO) => {
             const isVisible = visibleMarkerIds.has(establishment.id)
 
             return (
@@ -191,7 +187,7 @@ function RouteComponent() {
                 key={establishment.id}
                 latitude={establishment.position.latitude}
                 longitude={establishment.position.longitude}
-                onClick={() => handleSelectPlace(establishment.id)}
+                onClick={() => handleSelectPlace(establishment)}
               >
                 <div
                   className="marker-container"
@@ -213,14 +209,17 @@ function RouteComponent() {
       </div>
 
       <PlaceModal
-        address={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.position.address}
+        address={
+          establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.position
+            .address
+        }
         drawerExpanded={!!drawerExpanded}
         handleCloseDrawer={handleCloseDrawer}
         handleExpandDrawer={handleExpandDrawer}
         id={selectedPlaceId}
-        name={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.name}
-        photo={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.photo}
-        rating={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.rating}
+        name={establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.name}
+        photo={establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.photo}
+        rating={establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.rating}
       />
 
       {!selectedPlaceId && (
