@@ -1,5 +1,5 @@
 import { blueDark, grayDark } from "@radix-ui/colors"
-import { create } from "@storybook/theming"
+import { create } from "storybook/theming"
 
 // TODO: remove radix colors
 export default create({

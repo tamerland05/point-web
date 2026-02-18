@@ -7,7 +7,7 @@ import { referrerAtom } from "@point/shared/atoms/user"
 
 import { StartParamsCodes } from "@/constants/launchParamsCodes"
 
-// TODO: надо скипать онбординга
+// TODO: надо скипать онбординг
 export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
   if (!lp?.tgWebAppStartParam) {
     return

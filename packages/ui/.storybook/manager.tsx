@@ -2,8 +2,8 @@ import "@point/assets/fonts/stylesheet.css"
 
 import type { Globals } from "@storybook/types"
 
-import { addons, types, useGlobals } from "@storybook/manager-api"
 import { useEffect } from "react"
+import { addons, types, useGlobals } from "storybook/manager-api"
 
 import theme from "./theme"
 

@@ -2,7 +2,6 @@ import "@point/assets/fonts/stylesheet.css"
 import "./globals.css"
 
 import type { Preview, ReactRenderer } from "@storybook/react"
-import type {} from "@storybook/types"
 
 import { withThemeByClassName } from "@storybook/addon-themes"
 import { INITIAL_VIEWPORTS } from "@storybook/addon-viewport"
@@ -75,6 +74,7 @@ const preview = {
       },
     },
   },
+  tags: ["autodocs"],
 } satisfies Preview
 
 export default preview

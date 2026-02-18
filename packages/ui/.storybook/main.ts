@@ -26,9 +26,6 @@ const config = {
     getAbsolutePath("@storybook/addon-themes"),
     getAbsolutePath("@storybook/addon-a11y"),
   ],
-  docs: {
-    autodocs: "tag",
-  },
   framework: {
     name: getAbsolutePath("@storybook/react-vite") as "@storybook/react-vite",
     options: {

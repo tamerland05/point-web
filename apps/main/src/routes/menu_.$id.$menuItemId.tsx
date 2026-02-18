@@ -1,11 +1,15 @@
-import { useSuspenseQuery } from "@tanstack/react-query"
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute, useRouter } from "@tanstack/react-router"
-import { shareURL } from "@telegram-apps/sdk-react"
+import { shareMessage } from "@telegram-apps/sdk-react"
 import { useMemo } from "react"
 import Img from "react-cool-img"
 
 import { authQueryOptions } from "@point/shared/api/point/auth"
-import { establishmentQueryOptions, menuItemQueryOptions } from "@point/shared/api/point/establishments"
+import {
+  establishmentQueryOptions,
+  menuItemQueryOptions,
+  shareMenuItemQueryOptions,
+} from "@point/shared/api/point/establishments"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
@@ -30,9 +34,12 @@ export const Route = createFileRoute("/menu_/$id/$menuItemId")({
 
 function RouteComponent() {
   const router = useRouter()
+  const queryClient = useQueryClient()
   const { formatCurrency } = useFormatter()
 
   const navigate = Route.useNavigate()
+
+  // TODO: remove id from query params
   const { menuItemId, id } = Route.useParams()
 
   const establishmentQuery = useSuspenseQuery(establishmentQueryOptions(id))
@@ -44,14 +51,14 @@ function RouteComponent() {
   const mainButtonConfig = useMemo(() => {
     return {
       hidden: false,
-      onClick: () =>
-        shareURL(
-          `${import.meta.env.VITE_TMA_URL}?startapp=menu--${id}--${menuItemId}`,
-          `Hey! Check ${menuItem?.title} from ${establishment?.name} 😋`
-        ),
+      onClick: async () => {
+        const preparedMessage = await queryClient.fetchQuery(shareMenuItemQueryOptions(menuItemId))
+
+        await shareMessage(preparedMessage.id)
+      },
       title: "Share",
     }
-  }, [id, menuItemId, menuItem?.title, establishment?.name])
+  }, [menuItemId, queryClient.fetchQuery])
 
   return (
     <ShowMainButton withDelay {...mainButtonConfig}>

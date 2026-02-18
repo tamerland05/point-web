@@ -2,7 +2,8 @@ import { useCallback, useState } from "react"
 import toast from "react-hot-toast"
 
 import { useTranslation } from "@point/i18n"
-import { sleep } from "@point/shared/utils/sleep"
+
+import { sleep } from "@/utils/sleep"
 
 import { PincodeModal } from "./PincodeModal"
 
