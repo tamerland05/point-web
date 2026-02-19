@@ -127,7 +127,10 @@ function RouteComponent() {
         return
       }
 
-      setMenuVisible(effectiveNearbyModalState in [NearbyModalStates.DEFAULT, NearbyModalStates.PIMP_ONLY])
+      setMenuVisible(
+        effectiveNearbyModalState === NearbyModalStates.DEFAULT ||
+          effectiveNearbyModalState === NearbyModalStates.PIMP_ONLY
+      )
     },
     [isSearchInputActive, nearbyModalState, selectedPlaceId, setMenuVisible]
   )
