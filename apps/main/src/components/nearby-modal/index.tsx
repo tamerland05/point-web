@@ -1,7 +1,7 @@
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { useLaunchParams, useSignal, viewport } from "@telegram-apps/sdk-react"
 import { useAtomValue } from "jotai"
-import { memo, useCallback, useMemo, useState } from "react"
+import { type KeyboardEvent, memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Img from "react-cool-img"
 
 import { type EstablishmentDTO, placesNearQueryOptions } from "@point/shared/api/point/establishments"
@@ -21,91 +21,118 @@ interface NearbyModalProps {
   onShow: () => void
   onHide: () => void
   onSelectPlace: (place: EstablishmentDTO) => void
+  onSearchFocus: () => void
+  onSearchBlur: () => void
 }
 
-export const NearbyModal = memo(({ onExpand, onShow, onHide, onSelectPlace }: NearbyModalProps) => {
-  const userLocationQuery = useSuspenseQuery(userLocationQueryOptions)
-  const userLocation = userLocationQuery.data
-  const lp = useLaunchParams()
+export const NearbyModal = memo(
+  ({ onExpand, onShow, onHide, onSelectPlace, onSearchFocus, onSearchBlur }: NearbyModalProps) => {
+    const userLocationQuery = useSuspenseQuery(userLocationQueryOptions)
+    const userLocation = userLocationQuery.data
+    const lp = useLaunchParams()
 
-  const inset = useSignal(viewport.safeAreaInsets)
-  const contentInset = useSignal(viewport.contentSafeAreaInsets)
-  const additionalTopSpace = useMemo(() => inset.top + contentInset.top, [inset, contentInset])
+    const inset = useSignal(viewport.safeAreaInsets)
+    const contentInset = useSignal(viewport.contentSafeAreaInsets)
+    const additionalTopSpace = useMemo(() => inset.top + contentInset.top, [inset, contentInset])
 
-  const state = useAtomValue(nearbyModalStateAtom)
-  const [search, setSearch] = useState("")
-  const debouncedSearch = useDebounce(search, 500)
+    const state = useAtomValue(nearbyModalStateAtom)
+    const inputRef = useRef<HTMLInputElement>(null)
+    const [search, setSearch] = useState("")
+    const debouncedSearch = useDebounce(search, 500)
 
-  const placesQuery = useQuery(placesNearQueryOptions(debouncedSearch, userLocation))
-  const places = placesQuery.data
+    const placesQuery = useQuery(placesNearQueryOptions(debouncedSearch, userLocation))
+    const places = placesQuery.data
 
-  const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
-  const establishmentTypes = establishmentTypesQuery.data
+    const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
+    const establishmentTypes = establishmentTypesQuery.data
 
-  const getIconByEstablishmentType = useCallback(
-    (establishmentTypeId: string) => {
-      const establishmentType = establishmentTypes?.[establishmentTypeId]
+    const getIconByEstablishmentType = useCallback(
+      (establishmentTypeId: string) => {
+        const establishmentType = establishmentTypes?.[establishmentTypeId]
 
-      if (!establishmentType) return null
+        if (!establishmentType) return null
 
-      return (
-        <Img
-          alt={establishmentType.name}
-          className="my-1 h-10 w-10 rounded-xl object-cover"
-          src={establishmentType.icon}
-        />
-      )
-    },
-    [establishmentTypes]
-  )
+        return (
+          <Img
+            alt={establishmentType.name}
+            className="my-1 h-10 w-10 rounded-xl object-cover"
+            src={establishmentType.icon}
+          />
+        )
+      },
+      [establishmentTypes]
+    )
 
-  const height = useMemo(() => {
-    if (state === NearbyModalStates.EXPANDED) return "full"
-    if (state === NearbyModalStates.DEFAULT) return "md"
-    if (state === NearbyModalStates.PIMP_ONLY) return "pimp-only"
+    const height = useMemo(() => {
+      if (state === NearbyModalStates.EXPANDED) return "full"
+      if (state === NearbyModalStates.DEFAULT) return "md"
+      if (state === NearbyModalStates.PIMP_ONLY) return "pimp-only"
 
-    return "md"
-  }, [state])
+      return "md"
+    }, [state])
 
-  return (
-    <Drawer
-      additionalTopSpace={additionalTopSpace}
-      backgroundImage={undefined}
-      className="z-20"
-      disableScroll
-      height={height}
-      isOpen={state !== NearbyModalStates.HIDDEN}
-      onClose={state === NearbyModalStates.EXPANDED ? onShow : onHide}
-      onExpand={state === NearbyModalStates.PIMP_ONLY ? onShow : onExpand}
-      standalone={lp.tgWebAppPlatform === "ios"}
-    >
-      <div className={cn("px-4", {})}>
-        <Input containerClassName="mb-4" onChange={setSearch} placeholder="Search" value={search} />
-        <div
-          className={cn("rounded-b-xl", {
-            "overflow-y-auto": state === NearbyModalStates.EXPANDED,
-            "overflow-y-hidden": state !== NearbyModalStates.EXPANDED,
-          })}
-          style={{
-            height: `calc(100vh - ${additionalTopSpace + 100}px)`,
-          }}
-        >
-          <List title="Nearby establishments">
-            {places?.map((place: EstablishmentDTO) => (
-              <ListItem
-                key={place.id}
-                leftBottomText={place.position.address}
-                leftIcon={getIconByEstablishmentType(place.establishmentTypeId)}
-                leftTopText={place.name}
-                onClick={() => onSelectPlace(place)}
-                withSeparator
-              />
-            ))}
-          </List>
+    useEffect(() => {
+      if (state !== NearbyModalStates.PIMP_ONLY && state !== NearbyModalStates.HIDDEN) return
+      if (document.activeElement !== inputRef.current) return
+
+      inputRef.current?.blur()
+    }, [state])
+
+    const handleSearchKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+      if (event.key !== "Enter") return
+
+      event.currentTarget.blur()
+    }, [])
+
+    return (
+      <Drawer
+        additionalTopSpace={additionalTopSpace}
+        backgroundImage={undefined}
+        className="z-20"
+        disableScroll
+        height={height}
+        isOpen={state !== NearbyModalStates.HIDDEN}
+        onClose={state === NearbyModalStates.EXPANDED ? onShow : onHide}
+        onExpand={state === NearbyModalStates.PIMP_ONLY ? onShow : onExpand}
+        standalone={lp.tgWebAppPlatform === "ios"}
+      >
+        <div className={cn("px-4", {})}>
+          <Input
+            containerClassName="mb-4"
+            onBlur={onSearchBlur}
+            onChange={setSearch}
+            onFocus={onSearchFocus}
+            onKeyDown={handleSearchKeyDown}
+            placeholder="Search"
+            ref={inputRef}
+            value={search}
+          />
+          <div
+            className={cn("rounded-b-xl", {
+              "overflow-y-auto": state === NearbyModalStates.EXPANDED,
+              "overflow-y-hidden": state !== NearbyModalStates.EXPANDED,
+            })}
+            style={{
+              height: `calc(100vh - ${additionalTopSpace + 100}px)`,
+            }}
+          >
+            <List title="Nearby establishments">
+              {places?.map((place: EstablishmentDTO) => (
+                <ListItem
+                  key={place.id}
+                  leftBottomText={place.position.address}
+                  leftIcon={getIconByEstablishmentType(place.establishmentTypeId)}
+                  leftTopText={place.name}
+                  onClick={() => onSelectPlace(place)}
+                  withSeparator
+                />
+              ))}
+            </List>
+          </div>
         </div>
-      </div>
-    </Drawer>
-  )
-})
+      </Drawer>
+    )
+  }
+)
 
 NearbyModal.displayName = "NearbyModal"

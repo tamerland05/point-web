@@ -44,7 +44,7 @@ export default defineConfig({
       "/point-api": {
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/point-api/, ""),
-        target: "https://api.point.yachts/api",
+        target: "https://dev.point.yachts/api",
       },
     },
   },
