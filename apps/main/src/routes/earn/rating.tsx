@@ -36,7 +36,7 @@ function RouteComponent() {
   const topQuery = useSuspenseQuery(earnTopQueryOptions)
   const topUsers = topQuery.data
 
-  const referralsQuery = useQuery(referralsQueryOptions(1, 100))
+  const referralsQuery = useQuery(referralsQueryOptions(1, 1))
   const referrals = referralsQuery.data?.items ?? []
   const referralsIsLoading = referralsQuery.isPending
 

@@ -30,6 +30,7 @@ interface AuthDTO {
     id: number
     tipsLeft: number
     bonusBalance: number
+    referralsBonusBalance: number
     name: string | null
     username: string | null
     languageCode: string | null

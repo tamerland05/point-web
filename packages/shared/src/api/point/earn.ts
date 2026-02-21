@@ -7,7 +7,7 @@ import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailab
 
 export interface ReferralDTO {
   name: string
-  bonusBalance: number
+  referralsBonusBalance: number
   photoUrl: string
 }
 

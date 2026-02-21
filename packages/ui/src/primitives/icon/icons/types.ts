@@ -21,6 +21,7 @@ export const iconNames = [
   "Shape",
   "ReferralsCircle",
   "Referrals",
+  "RatingCircle",
   "Pin",
   "PieChart",
   "Pencil",
