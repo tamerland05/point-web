@@ -69,11 +69,11 @@ function RouteComponent() {
   return (
     <div className="">
       <div className="flex items-center justify-between gap-2">
-        <Link className="flex items-center justify-center rounded-full bg-[#E1E0E6] p-1.5" to="/earn/info">
-          <Icon className="size-5 rounded-full border border-text p-0.5" name="Info" />
+        <Link className="flex items-center justify-center rounded-full bg-[#E1E0E6] p-1.0" to="/earn/info">
+          <Icon className="size-9" fill={""} name="Info" stroke={""} />
         </Link>
-        <Link className="flex items-center justify-center rounded-full bg-[#E1E0E6] p-1.5" to="/earn/rating">
-          <Icon className="size-5" name="Cup" />
+        <Link className="flex items-center justify-center rounded-full bg-[#E1E0E6] p-1.0" to="/earn/rating">
+          <Icon className="size-9" fill={""} name="Cup" stroke={""} />
         </Link>
       </div>
 

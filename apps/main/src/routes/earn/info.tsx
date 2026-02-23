@@ -20,15 +20,15 @@ function RouteComponent() {
         <Icon className="mx-auto mt-4 mb-3 size-28 text-transparent" name="BonusMoney" />
         <div className="mb-1 text-center font-semibold text-title-2">Bonus Balance</div>
         <div className="mx-10 mb-7 text-center text-text-secondary">
-          Tip at your favorite establishments and get the bonus coins you'll need when listing
+          Rate Establishments, Leave Tips, and actively Complete Tasks to earn bonus coins
         </div>
 
         <List title="Information">
           <ListItem
             className="py-3"
-            leftBottomText="Once listed, the bonus balance can be exchanged for tradable tokens"
+            leftBottomText="The bonus balance is taken into account when distributing rewards among users"
             leftIcon={<Icon className="size-6 text-transparent" name="Lamp" />}
-            leftTopText="Listing"
+            leftTopText="Awards"
             withSeparator
           />
           <ListItem
@@ -40,7 +40,7 @@ function RouteComponent() {
           />
           <ListItem
             className="py-3"
-            leftBottomText="The project's economy is built primarily on commissions and advertising integrations within the application"
+            leftBottomText="The project's business model involves a constant replenishment of the reward pool for users"
             leftIcon={<Icon className="size-6 text-transparent" name="PieChart" />}
             leftTopText="Project Economics"
           />
