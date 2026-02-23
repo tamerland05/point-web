@@ -107,6 +107,7 @@ function RouteComponent() {
           leftTopText="Referrals"
           onClick={() => navigate({ to: "/earn/referrals" })}
           rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
+          withSeparator
         />
         <ListItem
           className="py-3"
