@@ -114,7 +114,7 @@ function RouteComponent() {
           leftIcon={<Icon className="size-10 text-transparent" name="RatingCircle" />}
           leftTopText="Rating"
           onClick={() => navigate({ to: "/map" })}
-          rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
+          rightIcon={<div />}
           rightTopText={
             <div className="-mr-3 whitespace-nowrap">
               +{formatTokenValue(1500)} <Icon className="size-5 text-transparent" name="BonusMoney" />
