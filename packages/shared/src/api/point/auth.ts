@@ -30,6 +30,8 @@ interface AuthDTO {
     id: number
     tipsLeft: number
     bonusBalance: number
+    tasksBonusBalance: number
+    tipsBonusBalance: number
     referralsBonusBalance: number
     name: string | null
     username: string | null

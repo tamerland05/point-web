@@ -29,7 +29,7 @@ function RouteComponent() {
 
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
   const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams!.tgWebAppData!, ctx.initDataRaw!))
-  const bonusBalance = authQuery.data.user.bonusBalance
+  const tipsBonusBalance = authQuery.data.user.tipsBonusBalance
 
   const BONUS_TIERS = [
     { bonus: "100", range: "1-4 USDT" },
@@ -69,7 +69,7 @@ function RouteComponent() {
             <div className="grid grid-cols-2 divide-x divide-[#CBCBD0]">
               <div className="px-4 py-2.5">Earned</div>
               <div className="flex items-center gap-2 bg-background-secondary px-4 py-2.5">
-                {formatTokenValue(bonusBalance)} <Icon className="size-5 text-transparent" name="BonusMoney" />
+                {formatTokenValue(tipsBonusBalance)} <Icon className="size-5 text-transparent" name="BonusMoney" />
               </div>
             </div>
           </div>
