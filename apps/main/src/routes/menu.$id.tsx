@@ -22,6 +22,12 @@ export const Route = createFileRoute("/menu/$id")({
 
     await queryClient.ensureQueryData(establishmentQueryOptions(params.id))
   },
+  staticData: {
+    getLogicalBackTarget: (params: Record<string, string | undefined>) => {
+      const id = params["id"]
+      return id ? { search: { expanded: true, selectedPlaceId: id }, to: "/map" as const } : undefined
+    },
+  },
 })
 
 function RouteComponent() {

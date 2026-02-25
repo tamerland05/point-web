@@ -1,6 +1,6 @@
-import { useCanGoBack, useMatchRoute, useRouter } from "@tanstack/react-router"
+import { useCanGoBack, useMatches, useMatchRoute, useNavigate, useRouter } from "@tanstack/react-router"
 import { backButton, hideBackButton, showBackButton } from "@telegram-apps/sdk-react"
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 
 const routesWithoutBB = [
   { to: "/account" },
@@ -18,16 +18,49 @@ const routesWithoutBB = [
 
 export const BackButtonTMA = () => {
   const router = useRouter()
+  const navigate = useNavigate()
   const canGoBack = useCanGoBack()
   const matchFn = useMatchRoute()
+  const matches = useMatches()
 
   const backButtonExclude = routesWithoutBB.some((route) => !!matchFn(route))
 
-  const handleBackClick = useCallback(() => {
-    router.history.back()
+  const { getLogicalBackTarget, params: matchParams } = useMemo(() => {
+    for (let i = matches.length - 1; i >= 0; i--) {
+      const match = matches[i]
+      if (!match) continue
+      const getBackTarget = (
+        match.staticData as {
+          getLogicalBackTarget?: (p: Record<string, string | undefined>) => {
+            to: string
+            params?: Record<string, string>
+            search?: Record<string, unknown>
+          }
+        }
+      )?.getLogicalBackTarget
+      if (getBackTarget) {
+        return { getLogicalBackTarget: getBackTarget, params: match.params }
+      }
+    }
+    return { getLogicalBackTarget: undefined, params: {} as Record<string, string | undefined> }
+  }, [matches])
 
-    return
-  }, [router])
+  const hasLogicalParent = !!getLogicalBackTarget
+  const canShowBack = canGoBack || hasLogicalParent
+
+  const handleBackClick = useCallback(() => {
+    if (canGoBack) {
+      router.history.back()
+      return
+    }
+
+    if (getLogicalBackTarget && matchParams) {
+      const target = getLogicalBackTarget(matchParams)
+      if (target) {
+        void navigate(target)
+      }
+    }
+  }, [canGoBack, getLogicalBackTarget, matchParams, navigate, router])
 
   useEffect(() => {
     backButton.onClick(handleBackClick)
@@ -35,7 +68,7 @@ export const BackButtonTMA = () => {
   }, [handleBackClick])
 
   useEffect(() => {
-    if (!backButtonExclude && canGoBack) {
+    if (!backButtonExclude && canShowBack) {
       showBackButton()
     } else {
       hideBackButton()
@@ -44,7 +77,7 @@ export const BackButtonTMA = () => {
     return () => {
       hideBackButton()
     }
-  }, [backButtonExclude, canGoBack])
+  }, [backButtonExclude, canShowBack])
 
   return null
 }

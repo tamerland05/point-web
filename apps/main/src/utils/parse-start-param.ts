@@ -33,7 +33,19 @@ export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
     throw redirect({ params: { id: placeId, menuItemId }, to: "/menu/$id/$menuItemId" })
   }
 
-  // 3. open profile
+  // 3. open establishment
+  if (lp.tgWebAppStartParam?.startsWith(StartParamsCodes.OPEN_ESTABLISHMENT)) {
+    const split = startParamsString.split("--")
+    const placeId = split[1]
+
+    if (!placeId) {
+      return
+    }
+
+    throw redirect({ search: { expanded: true, selectedPlaceId: placeId }, to: "/map" })
+  }
+
+  // 4. open profile
   if (lp.tgWebAppStartParam?.startsWith(StartParamsCodes.OPEN_USER_PROFILE)) {
     const split = startParamsString.split("--")
     const userId = split[1]
@@ -45,7 +57,7 @@ export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
     throw redirect({ params: { id: userId }, to: "/profile/$id" })
   }
 
-  // 4. handle referrer id
+  // 5. handle referrer id
   if (startParamsString.startsWith(StartParamsCodes.REFERRER_ID)) {
     const alreadyHasReferrer = getDefaultStore().get(referrerAtom)
     if (alreadyHasReferrer) {
