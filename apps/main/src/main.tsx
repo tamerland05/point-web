@@ -83,16 +83,6 @@ declare module "@tanstack/react-router" {
   interface Register {
     router: typeof router
   }
-
-  interface StaticDataRouteOption {
-    getLogicalBackTarget?: (params: Record<string, string | undefined>) =>
-      | {
-          to: string
-          params?: Record<string, string>
-          search?: Record<string, unknown>
-        }
-      | undefined
-  }
 }
 
 const rootElement = document.getElementById("root")

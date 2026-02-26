@@ -30,12 +30,6 @@ export const Route = createFileRoute("/menu_/$id/$menuItemId")({
 
     await queryClient.ensureQueryData(menuItemQueryOptions(params.menuItemId))
   },
-  staticData: {
-    getLogicalBackTarget: (params: Record<string, string | undefined>) => {
-      const id = params["id"]
-      return id ? { params: { id }, to: "/menu/$id" as const } : undefined
-    },
-  },
 })
 
 function RouteComponent() {
