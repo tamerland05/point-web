@@ -49,16 +49,16 @@ export const BackButtonTMA = () => {
   const canShowBack = canGoBack || hasLogicalParent
 
   const handleBackClick = useCallback(() => {
-    if (canGoBack) {
-      router.history.back()
-      return
-    }
-
     if (getLogicalBackTarget && matchParams) {
       const target = getLogicalBackTarget(matchParams)
       if (target) {
-        void navigate(target)
+        void navigate({ ...target, replace: true })
+        return
       }
+    }
+
+    if (canGoBack) {
+      router.history.back()
     }
   }, [canGoBack, getLogicalBackTarget, matchParams, navigate, router])
 
