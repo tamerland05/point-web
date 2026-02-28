@@ -1,5 +1,5 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { shareMessage } from "@telegram-apps/sdk-react"
 import { useMemo } from "react"
 import Img from "react-cool-img"
@@ -33,6 +33,7 @@ export const Route = createFileRoute("/menu_/$id/$menuItemId")({
 })
 
 function RouteComponent() {
+  const router = useRouter()
   const queryClient = useQueryClient()
   const { formatCurrency } = useFormatter()
 
@@ -52,8 +53,7 @@ function RouteComponent() {
       hidden: false,
       onClick: async () => {
         const preparedMessage = await queryClient.fetchQuery(shareMenuItemQueryOptions(menuItemId))
-
-        await shareMessage(preparedMessage.id)
+        shareMessage(preparedMessage.id)
       },
       title: "Share",
     }
@@ -80,7 +80,9 @@ function RouteComponent() {
             <Icon
               className="size-6 shrink-0 text-transparent"
               name="Close"
-              onClick={() => navigate({ params: { id }, replace: true, to: "/menu/$id" })}
+              onClick={() =>
+                router.history.canGoBack() ? router.history.back() : navigate({ replace: true, to: "/menu/$id" })
+              }
             />
           </div>
           <List title="Dish Information">

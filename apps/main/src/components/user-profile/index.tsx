@@ -106,12 +106,14 @@ export const UserProfile = memo(
               leftTopText={<span className="text-caption-1 text-text-secondary">Address</span>}
             />
           )}
-          {!jobPlace && (
-            <ListItem
-              leftBottomText={<span className="text-base text-text">{tipsLeft || 0} USDT</span>}
-              leftTopText={<span className="text-caption-1 text-text-secondary">Tips left</span>}
-            />
-          )}
+          <ListItem
+            leftBottomText={
+              <span className="text-base text-text">
+                {tipsLeft !== null ? tipsLeft + " USDT" : "Information is hidden"}
+              </span>
+            }
+            leftTopText={<span className="text-caption-1 text-text-secondary">Tips left</span>}
+          />
         </List>
 
         {onEdit && (
