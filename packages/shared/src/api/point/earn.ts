@@ -1,6 +1,7 @@
+import type { AxiosResponse } from "axios"
 import type { JobPlace, PurposeOfFunding } from "@/types"
 
-import { queryOptions } from "@tanstack/react-query"
+import { queryOptions, useMutation } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
@@ -87,3 +88,22 @@ export const earnTasksQueryOptions = queryOptions({
   refetchOnWindowFocus: true,
   staleTime: Number.POSITIVE_INFINITY,
 })
+
+interface ExecuteReq {
+  id: string
+}
+
+export const useTaskExecuteMutation = () => {
+  return useMutation({
+    mutationFn: async (req: ExecuteReq) => {
+      await ensureAccessTokenIsAvailable()
+
+      const response = await pointAxiosInstance.post<void, AxiosResponse<void[]>, ExecuteReq>(
+        "/point/earn/task/execute",
+        req
+      )
+
+      return response.status
+    },
+  })
+}

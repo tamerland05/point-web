@@ -1,9 +1,10 @@
-import { useSuspenseQuery } from "@tanstack/react-query"
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { openTelegramLink } from "@telegram-apps/sdk-react"
+import { openLink, openTelegramLink } from "@telegram-apps/sdk-react"
 import { isTelegramUrl } from "@tonconnect/ui-react"
 import { useMemo } from "react"
 import Img from "react-cool-img"
+import toast from "react-hot-toast"
 
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { earnTasksQueryOptions } from "@point/shared/api/point/earn"
@@ -11,6 +12,8 @@ import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
+
+import { useTaskExecuteMutation } from "@/api/point/earn"
 
 export const Route = createFileRoute("/_withMenu/earn")({
   component: RouteComponent,
@@ -28,6 +31,8 @@ export const Route = createFileRoute("/_withMenu/earn")({
 })
 
 function RouteComponent() {
+  const queryClient = useQueryClient()
+  const executeTaskMutation = useTaskExecuteMutation()
   const { formatTokenValue } = useFormatter()
   const ctx = Route.useRouteContext()
   const navigate = Route.useNavigate()
@@ -58,11 +63,19 @@ function RouteComponent() {
     return { fraction, full: `${value}.${fraction}${suffix}`, suffix, value }
   }, [bonusBalance])
 
-  const handleTaskClick = (link: string) => {
+  const handleTaskClick = async (id: string, link: string) => {
+    try {
+      await executeTaskMutation.mutateAsync({ id })
+    } catch {
+      toast.error("Error. Execute the task later")
+      return
+    }
+
+    await queryClient.invalidateQueries(earnTasksQueryOptions)
     if (isTelegramUrl(link)) {
       openTelegramLink(link)
     } else {
-      window.open(link, "_blank")
+      openLink(link)
     }
   }
 
@@ -133,7 +146,7 @@ function RouteComponent() {
               leftBottomText={task.description}
               leftIcon={<Img className="size-10" src={task.icon} />}
               leftTopText={task.title}
-              onClick={() => handleTaskClick(task.link)}
+              onClick={() => handleTaskClick(task.id, task.link)}
               rightIcon={task.done ? <div /> : <Icon className="size-5.5 text-transparent" name="BonusMoney" />}
               rightTopText={
                 task.done ? <div /> : <div className="-mr-3 whitespace-nowrap">+{formatTokenValue(task.profit)}</div>
