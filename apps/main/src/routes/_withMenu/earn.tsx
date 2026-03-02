@@ -1,9 +1,10 @@
-import { useSuspenseQuery } from "@tanstack/react-query"
+import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { openTelegramLink } from "@telegram-apps/sdk-react"
+import { openLink, openTelegramLink } from "@telegram-apps/sdk-react"
 import { isTelegramUrl } from "@tonconnect/ui-react"
 import { useMemo } from "react"
 import Img from "react-cool-img"
+import toast from "react-hot-toast"
 
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { earnTasksQueryOptions } from "@point/shared/api/point/earn"
@@ -11,6 +12,8 @@ import { useFormatter } from "@point/shared/hooks/useFormatter"
 import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
+
+import { useTaskExecuteMutation } from "@/api/point/earn"
 
 export const Route = createFileRoute("/_withMenu/earn")({
   component: RouteComponent,
@@ -28,6 +31,8 @@ export const Route = createFileRoute("/_withMenu/earn")({
 })
 
 function RouteComponent() {
+  const queryClient = useQueryClient()
+  const executeTaskMutation = useTaskExecuteMutation()
   const { formatTokenValue } = useFormatter()
   const ctx = Route.useRouteContext()
   const navigate = Route.useNavigate()
@@ -36,7 +41,7 @@ function RouteComponent() {
   const tasks = tasksQuery.data
 
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
-  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!, ctx.initDataRaw!))
+  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams!.tgWebAppData!, ctx.initDataRaw!))
   const bonusBalance = authQuery.data.user.bonusBalance
 
   const bonusValue = useMemo(() => {
@@ -58,22 +63,30 @@ function RouteComponent() {
     return { fraction, full: `${value}.${fraction}${suffix}`, suffix, value }
   }, [bonusBalance])
 
-  const handleTaskClick = (link: string) => {
+  const handleTaskClick = async (id: string, link: string) => {
+    try {
+      await executeTaskMutation.mutateAsync({ id })
+    } catch {
+      toast.error("Error. Execute the task later")
+      return
+    }
+
+    await queryClient.invalidateQueries(earnTasksQueryOptions)
     if (isTelegramUrl(link)) {
       openTelegramLink(link)
     } else {
-      window.open(link, "_blank")
+      openLink(link)
     }
   }
 
   return (
     <div className="">
       <div className="flex items-center justify-between gap-2">
-        <Link className="flex items-center justify-center rounded-full bg-[#E1E0E6] p-1.5" to="/earn/info">
-          <Icon className="size-5 rounded-full border border-text p-0.5" name="Info" />
+        <Link className="flex items-center justify-center rounded-full bg-[#E1E0E6] p-1.0" to="/earn/info">
+          <Icon className="size-9" fill={""} name="Info" stroke={""} />
         </Link>
-        <Link className="flex items-center justify-center rounded-full bg-[#E1E0E6] p-1.5" to="/earn/rating">
-          <Icon className="size-5" name="Cup" />
+        <Link className="flex items-center justify-center rounded-full bg-[#E1E0E6] p-1.0" to="/earn/rating">
+          <Icon className="size-9" fill={""} name="Cup" stroke={""} />
         </Link>
       </div>
 
@@ -107,6 +120,20 @@ function RouteComponent() {
           leftTopText="Referrals"
           onClick={() => navigate({ to: "/earn/referrals" })}
           rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
+          withSeparator
+        />
+        <ListItem
+          className="py-3"
+          leftBottomText="Get bonuses for rating"
+          leftIcon={<Icon className="size-10 text-transparent" name="RatingCircle" />}
+          leftTopText="Rating"
+          onClick={() => navigate({ to: "/map" })}
+          rightIcon={<div />}
+          rightTopText={
+            <div className="-mr-3 whitespace-nowrap">
+              +{formatTokenValue(1500)} <Icon className="size-5 text-transparent" name="BonusMoney" />
+            </div>
+          }
         />
       </List>
 
@@ -119,7 +146,7 @@ function RouteComponent() {
               leftBottomText={task.description}
               leftIcon={<Img className="size-10" src={task.icon} />}
               leftTopText={task.title}
-              onClick={() => handleTaskClick(task.link)}
+              onClick={() => handleTaskClick(task.id, task.link)}
               rightIcon={task.done ? <div /> : <Icon className="size-5.5 text-transparent" name="BonusMoney" />}
               rightTopText={
                 task.done ? <div /> : <div className="-mr-3 whitespace-nowrap">+{formatTokenValue(task.profit)}</div>

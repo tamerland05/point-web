@@ -2,9 +2,12 @@
   "extends": "@point/typescript-config/react.json",
   "compilerOptions": {
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
-    }
+      "@/*": ["src/*", "../../packages/shared/src/*"],
+      "@point/shared/*": ["../../packages/shared/src/*"]
+    },
+    "skipLibCheck": true
   },
 
   "include": ["src"]

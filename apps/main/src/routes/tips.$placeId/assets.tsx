@@ -4,7 +4,7 @@ import { zodValidator } from "@tanstack/zod-adapter"
 import { useCallback } from "react"
 import z from "zod"
 
-import { tipAssetsQueryOptions } from "@point/shared/api/point/tips"
+import { type AssetDTO, tipAssetsQueryOptions } from "@point/shared/api/point/tips"
 import { List } from "@point/ui/list"
 
 import { TipAsset } from "@/components/tip-asset"
@@ -40,7 +40,7 @@ function RouteComponent() {
 
   return (
     <List className="" title="select asset">
-      {assets.map((asset) => (
+      {assets.map((asset: AssetDTO) => (
         <TipAsset asset={asset} key={asset.id} onClick={() => handleAssetClick(asset.id)} />
       ))}
     </List>

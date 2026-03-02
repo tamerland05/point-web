@@ -4,7 +4,7 @@ import toast from "react-hot-toast"
 
 import { DEFAULT_LATITUDE, DEFAULT_LONGITUDE } from "@/constants/map"
 
-export interface UserLocation {
+interface UserLocation {
   longitude: number
   latitude: number
 }

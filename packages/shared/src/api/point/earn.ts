@@ -1,17 +1,18 @@
+import type { AxiosResponse } from "axios"
 import type { JobPlace, PurposeOfFunding } from "@/types"
 
-import { queryOptions } from "@tanstack/react-query"
+import { queryOptions, useMutation } from "@tanstack/react-query"
 
 import pointAxiosInstance from "@/api/point"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
 
 export interface ReferralDTO {
   name: string
-  bonusBalance: number
+  referralsBonusBalance: number
   photoUrl: string
 }
 
-export interface PageReferralDTO {
+interface PageReferralDTO {
   items: ReferralDTO[]
   total?: number | null
   page: number | null
@@ -33,7 +34,7 @@ export const referralsQueryOptions = (page = 1, size = 10) =>
     staleTime: Number.POSITIVE_INFINITY,
   })
 
-export interface EmployeePublicDTO {
+interface EmployeePublicDTO {
   id: string
   profession: string
   photo: string
@@ -87,3 +88,22 @@ export const earnTasksQueryOptions = queryOptions({
   refetchOnWindowFocus: true,
   staleTime: Number.POSITIVE_INFINITY,
 })
+
+interface ExecuteReq {
+  id: string
+}
+
+export const useTaskExecuteMutation = () => {
+  return useMutation({
+    mutationFn: async (req: ExecuteReq) => {
+      await ensureAccessTokenIsAvailable()
+
+      const response = await pointAxiosInstance.post<void, AxiosResponse<void[]>, ExecuteReq>(
+        "/point/earn/task/execute",
+        req
+      )
+
+      return response.status
+    },
+  })
+}

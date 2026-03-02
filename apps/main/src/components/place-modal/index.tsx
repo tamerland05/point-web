@@ -1,3 +1,5 @@
+import type { MenuItem } from "@point/shared/types"
+
 import { useQuery } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { openTelegramLink } from "@telegram-apps/sdk-react"
@@ -170,14 +172,24 @@ export const PlaceModal = memo(
 
             {!!slicedMenu.length && (
               <List onExpand={handleNavigateToMenu} title="menu">
-                {slicedMenu.map((menuItem, idx) => (
+                {slicedMenu.map((menuItem: MenuItem, idx: number) => (
                   <ListItem
                     // biome-ignore lint/suspicious/noArrayIndexKey: this map will never change
                     key={idx}
                     leftBottomText={
                       <span className="line-clamp-2 text-caption-1 text-text-secondary">{menuItem.description}</span>
                     }
-                    leftIcon={<Image alt={menuItem.title} className="h-14 w-14 rounded-xl" src={menuItem.photo} />}
+                    leftIcon={
+                      menuItem.photo && (
+                        <Image
+                          alt={menuItem.title}
+                          className="size-14 rounded-xl object-cover"
+                          error="/img-ph.svg"
+                          placeholder="/img-ph.svg"
+                          src={menuItem.photo}
+                        />
+                      )
+                    }
                     leftTopText={<span className="line-clamp-1 text-base text-text">{menuItem.title}</span>}
                     onClick={() => {
                       if (!id) return

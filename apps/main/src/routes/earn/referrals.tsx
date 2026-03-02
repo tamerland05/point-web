@@ -34,7 +34,7 @@ function RouteComponent() {
   const referrals = referralsQuery.data?.items ?? []
 
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
-  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!, ctx.initDataRaw!))
+  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams!.tgWebAppData!, ctx.initDataRaw!))
   const user = authQuery.data.user
 
   const mainButtonConfig = useMemo(() => {
@@ -66,7 +66,7 @@ function RouteComponent() {
 
               <div className="border-b-0 px-4 py-2.5">Premium</div>
               <div className="flex items-center gap-2 border-r-0 bg-background-secondary px-4 py-2.5">
-                +{formatTokenValue(2500)} <Icon className="size-5 text-transparent" name="BonusMoney" />
+                +{formatTokenValue(4000)} <Icon className="size-5 text-transparent" name="BonusMoney" />
               </div>
             </div>
           </div>
@@ -75,7 +75,8 @@ function RouteComponent() {
             <div className="grid grid-cols-2 divide-x divide-[#CBCBD0]">
               <div className="px-4 py-2.5">Earned</div>
               <div className="flex items-center gap-2 bg-background-secondary px-4 py-2.5">
-                {formatTokenValue(user.bonusBalance)} <Icon className="size-5 text-transparent" name="BonusMoney" />
+                {formatTokenValue(user.referralsBonusBalance)}{" "}
+                <Icon className="size-5 text-transparent" name="BonusMoney" />
               </div>
             </div>
           </div>
@@ -89,7 +90,7 @@ function RouteComponent() {
                 leftBottomText={
                   <div className="flex items-center gap-1">
                     <Icon className="size-5 text-transparent" name="BonusMoney" />
-                    <div className="text-text-secondary">{formatTokenValue(referral.bonusBalance)}</div>
+                    <div className="text-text-secondary">{formatTokenValue(referral.referralsBonusBalance)}</div>
                   </div>
                 }
                 leftIcon={<Img alt={referral.name} className="size-12 rounded-full" src={referral.photoUrl} />}

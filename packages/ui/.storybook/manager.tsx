@@ -1,7 +1,9 @@
 import "@point/assets/fonts/stylesheet.css"
 
-import { addons, types, useGlobals } from "@storybook/manager-api"
+import type { Globals } from "@storybook/types"
+
 import { useEffect } from "react"
+import { addons, types, useGlobals } from "storybook/manager-api"
 
 import theme from "./theme"
 
@@ -10,13 +12,13 @@ addons.setConfig({
 })
 
 const ExampleToolbar = () => {
-  const [globals] = useGlobals()
+  const [globals] = useGlobals() as [Globals & { theme?: string }, ...unknown[]]
 
   useEffect(() => {
     const elements = document.querySelectorAll(".docs-story")
 
     elements.forEach((element) => {
-      element.classList.add(globals["theme"] as string)
+      element.classList.add(globals.theme as string)
     })
   }, [globals])
 

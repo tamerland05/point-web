@@ -36,12 +36,12 @@ function RouteComponent() {
   const topQuery = useSuspenseQuery(earnTopQueryOptions)
   const topUsers = topQuery.data
 
-  const referralsQuery = useQuery(referralsQueryOptions(1, 100))
+  const referralsQuery = useQuery(referralsQueryOptions(1, 1))
   const referrals = referralsQuery.data?.items ?? []
   const referralsIsLoading = referralsQuery.isPending
 
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
-  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!, ctx.initDataRaw!))
+  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams!.tgWebAppData!, ctx.initDataRaw!))
   const bonusBalance = authQuery.data.user.bonusBalance
   const rank = authQuery.data.user.rank
 

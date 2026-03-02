@@ -17,6 +17,6 @@ export const NearbyModalStates = {
   PIMP_ONLY: "pimp-only",
 } as const
 
-export type NearbyModalState = (typeof NearbyModalStates)[keyof typeof NearbyModalStates]
+type NearbyModalState = (typeof NearbyModalStates)[keyof typeof NearbyModalStates]
 
 export const nearbyModalStateAtom = atom<NearbyModalState>(NearbyModalStates.DEFAULT)

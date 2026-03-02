@@ -10,7 +10,6 @@ import { showMenuAtom } from "@/atoms/ui"
 export const ErrorPage = ({ error }: { error?: Error }) => {
   const setMenuVisible = useSetAtom(showMenuAtom)
 
-  // biome-ignore lint/suspicious/noConsole: its important to log errors here
   console.error(error)
   const router = useRouter()
 

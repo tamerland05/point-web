@@ -103,7 +103,7 @@ export const placesNearQueryOptions = (name: string, location: Coordinates) =>
 
       return response.data
     },
-    queryKey: ["places", name, location],
+    queryKey: ["places", name, location.latitude, location.longitude],
     staleTime: Number.POSITIVE_INFINITY,
   })
 
@@ -120,6 +120,26 @@ export const menuItemQueryOptions = (menuItemId: string) =>
       return response.data
     },
     queryKey: ["menuItem", menuItemId],
+    staleTime: Number.POSITIVE_INFINITY,
+  })
+
+export interface PreparedMessage {
+  id: string
+}
+
+export const shareMenuItemQueryOptions = (menuItemId: string) =>
+  queryOptions({
+    gcTime: Number.POSITIVE_INFINITY,
+    queryFn: async () => {
+      await ensureAccessTokenIsAvailable()
+
+      const response = await pointAxiosInstance.get<PreparedMessage, AxiosResponse<PreparedMessage>>(
+        `/point/map/menu-item/share/${menuItemId}`
+      )
+
+      return response.data
+    },
+    queryKey: ["shareMenuItem", menuItemId],
     staleTime: Number.POSITIVE_INFINITY,
   })
 

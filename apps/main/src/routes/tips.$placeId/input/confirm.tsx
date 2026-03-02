@@ -5,7 +5,12 @@ import { useCallback, useMemo } from "react"
 import toast from "react-hot-toast"
 
 import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
-import { tipAssetsQueryOptions, tipCheckoutQueryOptions } from "@point/shared/api/point/tips"
+import {
+  type AssetDTO,
+  type CheckoutDTO,
+  tipAssetsQueryOptions,
+  tipCheckoutQueryOptions,
+} from "@point/shared/api/point/tips"
 import { userQueryOptions } from "@point/shared/api/point/user"
 import { assetDetailsQuery } from "@point/shared/api/stonFi/asset"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
@@ -20,8 +25,9 @@ export const Route = createFileRoute("/tips/$placeId/input/confirm")({
   loader: async ({ context, deps }) => {
     const { queryClient } = context
 
-    if (deps.id) {
-      await queryClient.ensureQueryData(userQueryOptions(deps.id))
+    const { id } = deps as { id?: string | number }
+    if (id) {
+      await queryClient.ensureQueryData(userQueryOptions(id))
     }
   },
   loaderDeps: ({ search }) => ({ id: search.id }),
@@ -43,7 +49,7 @@ function RouteComponent() {
   const establishment = establishmentQuery.data
 
   const assetsQuery = useSuspenseQuery(tipAssetsQueryOptions)
-  const selectedAsset = assetsQuery.data.find((asset) => asset.id === selectedAssetId)
+  const selectedAsset = assetsQuery.data.find((asset: AssetDTO) => asset.id === selectedAssetId)
 
   if (!selectedAsset) {
     throw new Error("LogicError: Asset not found")
@@ -89,7 +95,7 @@ function RouteComponent() {
 
     try {
       await tc.sendTransaction({
-        messages: tipCheckoutTxs.map((tx) => ({
+        messages: tipCheckoutTxs.map((tx: CheckoutDTO) => ({
           address: tx.to,
           amount: tx.value.toString(),
           payload: tx.body,

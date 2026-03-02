@@ -31,7 +31,7 @@ const queryClient = new QueryClient({
   },
 })
 
-const menuItems = menuItemsRaw.map((item) => item.path) as string[]
+const menuItems = menuItemsRaw.map((item: { path: string }) => item.path) as string[]
 
 // Set up a Router instance
 const router = createRouter({

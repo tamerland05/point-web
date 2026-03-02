@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "@point/assets": "workspace:*",
-    "@point/i18n": "workspace:*",
     "@radix-ui/colors": "^3.0.0",
     "@storybook/addon-a11y": "^8.6.14",
     "@storybook/addon-essentials": "^8.6.14",
@@ -50,10 +49,9 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "react": "^19.1.0",
-    "react-cool-img": "^1.2.12",
     "react-dom": "^19.1.0",
     "react-snap-carousel": "^0.5.1",
-    "storybook": "^8.6.14"
+    "storybook": "10.1.10"
   },
   "devDependencies": {
     "@point/typescript-config": "workspace:*",
@@ -66,7 +64,7 @@
     "rollup-plugin-preserve-directives": "^0.4.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss": "^3.4.10",
-    "vite": "6.3.5",
+    "vite": "7.1.11",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-external": "^6.2.2",
     "vite-plugin-icons-spritesheet": "^3.0.1",

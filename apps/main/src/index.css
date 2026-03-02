@@ -1,8 +1,10 @@
 @import "@point/tailwind-config";
 
+/* biome-ignore lint/suspicious/noUnknownAtRules: @config is a Tailwind CSS v4 at-rule */
 @config "../tailwind.config.ts";
 
 .mapboxgl-ctrl {
+  /* biome-ignore lint/complexity/noImportantStyles: needed to override mapbox styles */
   display: none !important;
 }
 
@@ -64,10 +66,12 @@ html:active-view-transition-type(slide-right) {
 
 /* Warp/Rotate Transition */
 html:active-view-transition-type(warp) {
+  /* biome-ignore lint:noUnknownTypeSelector */
   &::view-transition-old(post) {
     animation: 400ms ease-out both warp-out;
   }
 
+  /* biome-ignore lint:noUnknownTypeSelector */
   &::view-transition-new(post) {
     animation: 400ms ease-out both warp-in;
   }
@@ -104,9 +108,11 @@ html:active-view-transition-type(warp) {
 }
 
 .empty-icons svg {
+  /* biome-ignore lint:complexity/noImportantStyles */
   display: inline-block !important;
 }
 
 .filled-icons svg {
+  /* biome-ignore lint:complexity/noImportantStyles */
   display: inline-block !important;
 }

@@ -10,8 +10,9 @@ import { invitationQueryOptions } from "@point/shared/api/point/employee"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
 
-import { onboardingCompletedAtom } from "@/atoms/user"
 import { ShowMainButton } from "@/components/tg-internals"
+
+import { onboardingCompletedAtom } from "../atoms/user"
 
 const steps = {
   1: {

@@ -29,7 +29,7 @@ function RouteComponent() {
   const deleteEmployeeMutation = useDeleteEmployeeMutation()
 
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
-  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!, ctx.initDataRaw!))
+  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams!.tgWebAppData!, ctx.initDataRaw!))
   const user = authQuery.data?.user
 
   const invitationQuery = useQuery(invitationQueryOptions)

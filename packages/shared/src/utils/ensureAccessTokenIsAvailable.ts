@@ -1,6 +1,6 @@
 import { getDefaultStore } from "jotai"
 
-import { accessTokenAtom } from "@/atoms/user"
+import { accessTokenAtom } from "../atoms/user"
 
 export const ensureAccessTokenIsAvailable = (): Promise<void> => {
   const store = getDefaultStore()

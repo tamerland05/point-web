@@ -14,7 +14,8 @@ export const Route = createFileRoute("/tips/$placeId/profile")({
   loader: async ({ context, deps }) => {
     const { queryClient } = context
 
-    await queryClient.ensureQueryData(userQueryOptions(deps.id))
+    const { id } = deps as { id?: string | number }
+    await queryClient.ensureQueryData(userQueryOptions(id))
   },
   loaderDeps: ({ search: { id } }) => ({ id }),
   validateSearch: zodValidator(

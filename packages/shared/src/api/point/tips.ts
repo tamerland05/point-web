@@ -27,7 +27,7 @@ export const tipAssetsQueryOptions = queryOptions({
   staleTime: Number.POSITIVE_INFINITY,
 })
 
-export interface ReceiversDTO {
+interface ReceiversDTO {
   placeWallet: string
   employees: {
     id: string
@@ -51,7 +51,7 @@ export const tipReceiversQueryOptions = (placeId: string) =>
     queryKey: ["tip-receivers", placeId],
   })
 
-export interface CheckoutReq {
+interface CheckoutReq {
   recipientId: string
   recipientType: "employee" | "establishment"
   assetId: string

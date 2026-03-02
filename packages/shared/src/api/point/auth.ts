@@ -5,7 +5,8 @@ import { queryOptions } from "@tanstack/react-query"
 import { getDefaultStore } from "jotai"
 
 import pointAxiosInstance from "@/api/point"
-import { accessTokenAtom, referrerAtom } from "@/atoms/user"
+
+import { accessTokenAtom, referrerAtom } from "../../atoms/user"
 
 export interface AuthReq {
   hash: string
@@ -24,11 +25,14 @@ export interface AuthReq {
   initDataRaw?: string
 }
 
-export interface AuthDTO {
+interface AuthDTO {
   user: {
     id: number
     tipsLeft: number
     bonusBalance: number
+    tasksBonusBalance: number
+    tipsBonusBalance: number
+    referralsBonusBalance: number
     name: string | null
     username: string | null
     languageCode: string | null

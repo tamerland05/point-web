@@ -1,18 +1,14 @@
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { zodValidator } from "@tanstack/zod-adapter"
-import { useAtom, useSetAtom } from "jotai"
+import { useAtom, useAtomValue, useSetAtom } from "jotai"
 import { type RefObject, useCallback, useEffect, useRef, useState } from "react"
 import Img from "react-cool-img"
 import toast from "react-hot-toast"
 import { Marker } from "react-map-gl/mapbox"
 import { z } from "zod"
 
-import {
-  type EstablishmentDTO,
-  establishmentsQueryOptions,
-  placesNearQueryOptions,
-} from "@point/shared/api/point/establishments"
+import { type EstablishmentDTO, establishmentsQueryOptions } from "@point/shared/api/point/establishments"
 import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
 import { useDebounce } from "@point/shared/hooks/useDebounce"
 
@@ -44,6 +40,8 @@ function RouteComponent() {
 
   const setMenuVisible = useSetAtom(showMenuAtom)
   const setNearbyModalState = useSetAtom(nearbyModalStateAtom)
+  const nearbyModalState = useAtomValue(nearbyModalStateAtom)
+  const [isSearchInputActive, setIsSearchInputActive] = useState(false)
 
   const userLocationQuery = useSuspenseQuery(userLocationQueryOptions)
   const userLocation = userLocationQuery.data
@@ -59,9 +57,6 @@ function RouteComponent() {
 
   const establishmentTypesQuery = useQuery(establishmentTypesQueryOptions)
   const establishmentTypes = establishmentTypesQuery.data
-
-  const nearbyPlacesQuery = useQuery(placesNearQueryOptions("", userLocation))
-  const nearbyPlaces = nearbyPlacesQuery.data
 
   const [movedToUserLocation, setMovedToUserLocation] = useAtom(movedToUserLocationAtom)
   useEffect(() => {
@@ -79,11 +74,8 @@ function RouteComponent() {
   }, [mapRef, userLocation.latitude, userLocation.longitude, movedToUserLocation, setMovedToUserLocation])
 
   const handleSelectPlace = useCallback(
-    async (placeId: string) => {
+    async (place: EstablishmentDTO) => {
       setMenuVisible(false)
-      const place =
-        establishments?.find((establishment) => establishment.id === placeId) ||
-        nearbyPlaces?.find((place) => place.id === placeId)
 
       if (!place) {
         toast.error("Place not found")
@@ -97,10 +89,10 @@ function RouteComponent() {
       })
 
       navigate({
-        search: (prev) => ({ ...prev, selectedPlaceId: placeId }),
+        search: (prev) => ({ ...prev, selectedPlaceId: place.id }),
       })
     },
-    [navigate, setMenuVisible, establishments, nearbyPlaces, mapRef]
+    [navigate, setMenuVisible, mapRef]
   )
 
   const handleExpandDrawer = useCallback(() => {
@@ -115,39 +107,70 @@ function RouteComponent() {
     navigate({
       search: (prev) => ({ ...prev, expanded: false, selectedPlaceId: "" }),
     })
-    setMenuVisible(true)
     setNearbyModalState(NearbyModalStates.PIMP_ONLY)
-  }, [navigate, setMenuVisible, setNearbyModalState])
+  }, [navigate, setNearbyModalState])
+
+  const syncMenuVisibility = useCallback(
+    ({
+      nextNearbyModalState,
+      isSearchActive,
+    }: {
+      nextNearbyModalState?: (typeof NearbyModalStates)[keyof typeof NearbyModalStates]
+      isSearchActive?: boolean
+    } = {}) => {
+      const effectiveHasSelectedPlace = Boolean(selectedPlaceId)
+      const effectiveIsSearchActive = isSearchActive ?? isSearchInputActive
+      const effectiveNearbyModalState = nextNearbyModalState ?? nearbyModalState
+
+      if (effectiveHasSelectedPlace || effectiveIsSearchActive) {
+        setMenuVisible(false)
+        return
+      }
+
+      setMenuVisible(
+        effectiveNearbyModalState === NearbyModalStates.DEFAULT ||
+          effectiveNearbyModalState === NearbyModalStates.PIMP_ONLY
+      )
+    },
+    [isSearchInputActive, nearbyModalState, selectedPlaceId, setMenuVisible]
+  )
 
   const handleExpandNearbyModal = useCallback(() => {
     setNearbyModalState(NearbyModalStates.EXPANDED)
-    setMenuVisible(false)
-  }, [setMenuVisible, setNearbyModalState])
+    syncMenuVisibility({ nextNearbyModalState: NearbyModalStates.EXPANDED })
+  }, [setNearbyModalState, syncMenuVisibility])
 
   const handleShowNearbyModal = useCallback(() => {
     setNearbyModalState(NearbyModalStates.DEFAULT)
-    setMenuVisible(true)
-  }, [setMenuVisible, setNearbyModalState])
+    syncMenuVisibility({ nextNearbyModalState: NearbyModalStates.DEFAULT })
+  }, [setNearbyModalState, syncMenuVisibility])
 
   const handleHideNearbyModal = useCallback(() => {
     setNearbyModalState(NearbyModalStates.PIMP_ONLY)
-    setMenuVisible(true)
-  }, [setMenuVisible, setNearbyModalState])
+    syncMenuVisibility({ nextNearbyModalState: NearbyModalStates.PIMP_ONLY })
+  }, [setNearbyModalState, syncMenuVisibility])
 
   const handleSelectNearbyPlace = useCallback(
-    async (placeId: string) => {
+    async (place: EstablishmentDTO) => {
       handleHideNearbyModal()
-      void handleSelectPlace(placeId)
+      void handleSelectPlace(place)
     },
     [handleSelectPlace, handleHideNearbyModal]
   )
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: only on init component for detecting correct menu state
+  const handleSearchFocus = useCallback(() => {
+    setIsSearchInputActive(true)
+    syncMenuVisibility({ isSearchActive: true })
+  }, [syncMenuVisibility])
+
+  const handleSearchBlur = useCallback(() => {
+    setIsSearchInputActive(false)
+    syncMenuVisibility({ isSearchActive: false })
+  }, [syncMenuVisibility])
+
   useEffect(() => {
-    if (selectedPlaceId) {
-      setMenuVisible(false)
-    }
-  }, [])
+    syncMenuVisibility()
+  }, [syncMenuVisibility])
 
   const getMarkerByEstablishmentType = useCallback(
     (establishmentTypeId: string, name?: string) => {
@@ -172,7 +195,6 @@ function RouteComponent() {
   const visibleMarkerIds = useMarkerCollisionDetection(establishments, zoom, mapContainerRef)
 
   const getMarkerScale = useCallback(() => {
-    if (zoom >= 13) return 0.8
     if (zoom >= 10) return 0.8
     return 0.7
   }, [zoom])
@@ -182,7 +204,7 @@ function RouteComponent() {
     <>
       <div ref={mapContainerRef}>
         <MapboxMap>
-          {establishments.map((establishment) => {
+          {establishments.map((establishment: EstablishmentDTO) => {
             const isVisible = visibleMarkerIds.has(establishment.id)
 
             return (
@@ -191,7 +213,7 @@ function RouteComponent() {
                 key={establishment.id}
                 latitude={establishment.position.latitude}
                 longitude={establishment.position.longitude}
-                onClick={() => handleSelectPlace(establishment.id)}
+                onClick={() => handleSelectPlace(establishment)}
               >
                 <div
                   className="marker-container"
@@ -213,20 +235,25 @@ function RouteComponent() {
       </div>
 
       <PlaceModal
-        address={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.position.address}
+        address={
+          establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.position
+            .address
+        }
         drawerExpanded={!!drawerExpanded}
         handleCloseDrawer={handleCloseDrawer}
         handleExpandDrawer={handleExpandDrawer}
         id={selectedPlaceId}
-        name={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.name}
-        photo={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.photo}
-        rating={establishments?.find((establishment) => establishment.id === selectedPlaceId)?.rating}
+        name={establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.name}
+        photo={establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.photo}
+        rating={establishments?.find((establishment: EstablishmentDTO) => establishment.id === selectedPlaceId)?.rating}
       />
 
       {!selectedPlaceId && (
         <NearbyModal
           onExpand={handleExpandNearbyModal}
           onHide={handleHideNearbyModal}
+          onSearchBlur={handleSearchBlur}
+          onSearchFocus={handleSearchFocus}
           onSelectPlace={handleSelectNearbyPlace}
           onShow={handleShowNearbyModal}
         />

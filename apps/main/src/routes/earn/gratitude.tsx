@@ -28,16 +28,16 @@ function RouteComponent() {
   const ctx = Route.useRouteContext()
 
   // biome-ignore lint/style/noNonNullAssertion: we have check in loader
-  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams?.tgWebAppData!, ctx.initDataRaw!))
-  const bonusBalance = authQuery.data.user.bonusBalance
+  const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams!.tgWebAppData!, ctx.initDataRaw!))
+  const tipsBonusBalance = authQuery.data.user.tipsBonusBalance
 
   const BONUS_TIERS = [
-    { bonus: "2 000", range: "1-4 USDT" },
-    { bonus: "10 000", range: "5-9 USDT" },
-    { bonus: "25 000", range: "10-19 USDT" },
-    { bonus: "70 000", range: "20-49 USDT" },
-    { bonus: "150 000", range: "55-99 USDT" },
-    { bonus: "250 000", range: "100+ USDT" },
+    { bonus: "100", range: "1-4 USDT" },
+    { bonus: "500", range: "5-9 USDT" },
+    { bonus: "1 500", range: "10-19 USDT" },
+    { bonus: "3 000", range: "20-49 USDT" },
+    { bonus: "7 500", range: "50-99 USDT" },
+    { bonus: "15 000", range: "100+ USDT" },
   ]
 
   const goToMap = () => navigate({ to: "/map" })
@@ -69,7 +69,7 @@ function RouteComponent() {
             <div className="grid grid-cols-2 divide-x divide-[#CBCBD0]">
               <div className="px-4 py-2.5">Earned</div>
               <div className="flex items-center gap-2 bg-background-secondary px-4 py-2.5">
-                {formatTokenValue(bonusBalance)} <Icon className="size-5 text-transparent" name="BonusMoney" />
+                {formatTokenValue(tipsBonusBalance)} <Icon className="size-5 text-transparent" name="BonusMoney" />
               </div>
             </div>
           </div>
