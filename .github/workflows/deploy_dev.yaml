@@ -48,7 +48,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VITE_TMA_URL=${{ secrets.VITE_TMA_URL }}
+            VITE_TMA_URL=${{ vars.VITE_TMA_URL }}
             VITE_MAPBOX_TOKEN=${{ secrets.VITE_MAPBOX_TOKEN }}
             VITE_GLITCHTIP_DSN=${{ secrets.VITE_GLITCHTIP_DSN }}
             VITE_POINT_API_FQDN=${{ vars.VITE_POINT_API_FQDN }}
