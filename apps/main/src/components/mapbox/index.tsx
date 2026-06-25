@@ -13,6 +13,7 @@ import { userLocationQueryOptions } from "@/utils/get-user-location-query"
 
 interface MapboxMapProps {
   children: React.ReactNode
+  hideUserMarker?: boolean
 }
 
 const mapStyle = {
@@ -21,7 +22,7 @@ const mapStyle = {
 }
 
 export const MapboxMap = memo(
-  ({ children }: MapboxMapProps) => {
+  ({ children, hideUserMarker = false }: MapboxMapProps) => {
     const [longitude, setLongitude] = useAtom(langitudeAtom)
     const [latitude, setLatitude] = useAtom(latitudeAtom)
     const [zoom, setZoom] = useAtom(zoomAtom)
@@ -50,7 +51,7 @@ export const MapboxMap = memo(
         style={mapStyle}
         zoom={zoom}
       >
-        {!!userLocation && (
+        {!!userLocation && !hideUserMarker && (
           <Marker anchor="center" latitude={userLocation.latitude} longitude={userLocation.longitude}>
             <Img alt="Pin" src="/Pin.svg" />
           </Marker>
@@ -60,7 +61,7 @@ export const MapboxMap = memo(
       </MapComp>
     )
   },
-  () => false
+  (previous, next) => previous.children === next.children && previous.hideUserMarker === next.hideUserMarker
 )
 
 MapboxMap.displayName = "MapboxMap"

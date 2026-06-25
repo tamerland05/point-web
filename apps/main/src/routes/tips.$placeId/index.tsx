@@ -4,6 +4,7 @@ import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
 import { useCallback, useMemo, useState } from "react"
 import Img from "react-cool-img"
 
+import { useTranslation } from "@point/i18n"
 import { tipReceiversQueryOptions } from "@point/shared/api/point/tips"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
@@ -20,6 +21,7 @@ function RouteComponent() {
   const [tc] = useTonConnectUI()
   const { placeId } = Route.useParams()
   const navigate = Route.useNavigate()
+  const { t } = useTranslation()
 
   const [search, setSearch] = useState("")
 
@@ -61,16 +63,16 @@ function RouteComponent() {
         className={cn("transition-all duration-300", search ? "w-full" : "w-1/4")}
         containerClassName="justify-center mb-4"
         onChange={setSearch}
-        placeholder="Search"
+        placeholder={t("TIPS.INDEX.SEARCH")}
         value={search}
       />
 
-      <List title="Staff list">
+      <List title={t("TIPS.INDEX.STAFF")}>
         {!search && (
           <ListItem
-            leftBottomText="All Staff"
+            leftBottomText={t("TIPS.INDEX.ALL_STAFF")}
             leftIcon={<Icon className="h-10 w-10 text-transparent" name="Frame 948" />}
-            leftTopText="Project Bank"
+            leftTopText={t("TIPS.INDEX.PROJECT_BANK")}
             onClick={handleProjectBankClick}
             withSeparator
           />

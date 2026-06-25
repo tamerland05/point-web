@@ -6,6 +6,11 @@ import { keepPreviousData, queryOptions, useMutation } from "@tanstack/react-que
 import pointAxiosInstance from "@/api/point"
 import { ensureAccessTokenIsAvailable } from "@/utils/ensureAccessTokenIsAvailable"
 
+/** ~11 m precision — avoids refetch noise from GPS jitter in query keys. */
+export function stabilizeMapCoordinate(value: number, fractionDigits = 4): number {
+  return Number(value.toFixed(fractionDigits))
+}
+
 interface EstablishmentsReq {
   latitude: number
   longitude: number
@@ -20,6 +25,8 @@ export interface EstablishmentDTO {
   id: string
   name: string
   photo: string
+  icon?: string
+  gallery?: string[]
   establishmentTypeId: string
   position: Coordinates
   rating: number
@@ -45,7 +52,7 @@ export const establishmentsQueryOptions = (latitude: number, longitude: number, 
 
       return response.data
     },
-    queryKey: ["establishments", latitude, longitude, scale],
+    queryKey: ["establishments", stabilizeMapCoordinate(latitude), stabilizeMapCoordinate(longitude), scale],
     staleTime: Number.POSITIVE_INFINITY,
   })
 
@@ -56,6 +63,7 @@ interface DetailedEstablishmentDTO {
   establishmentTypeId: string
   position: Coordinates
   rating: number
+  ratingCount: number
   description: string
   icon: string
   gallery: string[]
@@ -85,25 +93,47 @@ export const establishmentQueryOptions = (establishmentId?: string) =>
   })
 
 interface EstablishmentsNearReq {
-  name: string
+  establishmentTypeIds?: string[]
   location: Coordinates
+  minRating?: number
+  name: string
 }
 
-export const placesNearQueryOptions = (name: string, location: Coordinates) =>
+export interface PlacesNearFilters {
+  establishmentTypeIds?: string[] | null
+  minRating?: number | null
+}
+
+export const placesNearQueryOptions = (name: string, location: Coordinates, filters: PlacesNearFilters = {}) =>
   queryOptions({
     gcTime: Number.POSITIVE_INFINITY,
+    placeholderData: keepPreviousData,
     queryFn: async () => {
       await ensureAccessTokenIsAvailable()
+
+      const { establishmentTypeIds, minRating } = filters
 
       const response = await pointAxiosInstance.post<
         EstablishmentDTO[],
         AxiosResponse<EstablishmentDTO[]>,
         EstablishmentsNearReq
-      >("/point/map/establishments/near", { location, name })
+      >("/point/map/establishments/near", {
+        location,
+        name,
+        ...(minRating !== null && minRating !== undefined ? { minRating } : {}),
+        ...(establishmentTypeIds?.length ? { establishmentTypeIds } : {}),
+      })
 
       return response.data
     },
-    queryKey: ["places", name, location.latitude, location.longitude],
+    queryKey: [
+      "places",
+      name,
+      stabilizeMapCoordinate(location.latitude),
+      stabilizeMapCoordinate(location.longitude),
+      filters.establishmentTypeIds?.length ? [...filters.establishmentTypeIds].sort().join(",") : null,
+      filters.minRating ?? null,
+    ],
     staleTime: Number.POSITIVE_INFINITY,
   })
 

@@ -7,6 +7,8 @@ import { referrerAtom } from "@point/shared/atoms/user"
 
 import { StartParamsCodes } from "@/constants/launchParamsCodes"
 
+const LINK_UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
 // TODO: надо скипать онбординг
 export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
   if (!lp?.tgWebAppStartParam) {
@@ -31,6 +33,18 @@ export const parseStartParam = (lp: RetrieveLPResultCamelCased | null) => {
     }
 
     throw redirect({ params: { id: placeId, menuItemId }, to: "/menu/$id/$menuItemId" })
+  }
+
+  // open POS table session (`link--<linkUuid>`)
+  if (startParamsString.startsWith(`${StartParamsCodes.OPEN_LINK}--`)) {
+    const split = startParamsString.split("--")
+    const linkId = split[1]
+
+    if (!linkId || !LINK_UUID_RE.test(linkId)) {
+      return
+    }
+
+    throw redirect({ params: { linkId }, replace: true, to: "/table/$linkId" })
   }
 
   // 3. open establishment

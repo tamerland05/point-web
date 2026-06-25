@@ -5,6 +5,7 @@ import { useTonAddress } from "@tonconnect/ui-react"
 import Img from "react-cool-img"
 import { z } from "zod"
 
+import { useTranslation } from "@point/i18n"
 import { type AssetDTO, tipAssetsQueryOptions } from "@point/shared/api/point/tips"
 import { assetDetailsQuery } from "@point/shared/api/stonFi/asset"
 import { useAssetBalance } from "@point/shared/hooks/useAssetBalance"
@@ -31,6 +32,7 @@ export const Route = createFileRoute("/tips/$placeId/input")({
 
 function RouteComponent() {
   const { formatFromNano } = useFormatter()
+  const { t } = useTranslation()
 
   const address = useTonAddress()
   const { asset: selectedAssetId } = Route.useSearch()
@@ -60,8 +62,8 @@ function RouteComponent() {
           <Icon className="h-10 w-10 text-transparent" name="Check" />
         </div>
         <div className="flex flex-col">
-          <div className="font-medium">Recipient</div>
-          <div className="font-normal text-caption-1 text-text-secondary">Send</div>
+          <div className="font-medium">{t("TIPS.INPUT.RECIPIENT")}</div>
+          <div className="font-normal text-caption-1 text-text-secondary">{t("TIPS.INPUT.SEND")}</div>
         </div>
       </header>
 
@@ -75,7 +77,7 @@ function RouteComponent() {
             <Img alt={asset.display_name} className="h-10 w-10 rounded-full" src={asset.image_url} />
           </div>
           <div className="flex flex-col">
-            <div className="font-medium">From Balance</div>
+            <div className="font-medium">{t("TIPS.INPUT.FROM_BALANCE")}</div>
             <div className="font-normal text-caption-1 text-text-secondary">
               {formatFromNano(balance, asset.decimals)} {asset.symbol}
             </div>

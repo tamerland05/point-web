@@ -42,15 +42,15 @@ export const RatePlace = memo(
           setRating(rate)
           setRatingSelected(true)
 
-          const toastId = toast.loading("Generating invoice...")
+          const toastId = toast.loading("Формируем счет...")
           const invoiceUrl = await createInvoice(rate)
           toast.remove(toastId)
 
           const invoiceResult = await openInvoice(invoiceUrl, "url")
 
           if (invoiceResult !== "paid") {
-            toast.error("Invoice not paid")
-            throw new Error("Invoice not paid")
+            toast.error("Счет не оплачен")
+            throw new Error("Счет не оплачен")
           }
 
           await sleep(1500)
@@ -73,7 +73,7 @@ export const RatePlace = memo(
 
     return (
       <div className="my-8">
-        <div className="mx-4 mb-1 text-caption-3 text-text-secondary uppercase">Establishment rating</div>
+        <div className="mx-4 mb-1 text-caption-3 text-text-secondary uppercase">Рейтинг заведения</div>
         <div className="flex flex-col items-center justify-center rounded-2xl bg-background-secondary p-4">
           <Img
             className="mb-3 size-24 rounded-full border border-background"

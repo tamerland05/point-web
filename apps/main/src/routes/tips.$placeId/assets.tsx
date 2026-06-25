@@ -4,6 +4,7 @@ import { zodValidator } from "@tanstack/zod-adapter"
 import { useCallback } from "react"
 import z from "zod"
 
+import { useTranslation } from "@point/i18n"
 import { type AssetDTO, tipAssetsQueryOptions } from "@point/shared/api/point/tips"
 import { List } from "@point/ui/list"
 
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/tips/$placeId/assets")({
 function RouteComponent() {
   const navigate = Route.useNavigate()
   const { recipient, id } = Route.useSearch()
+  const { t } = useTranslation()
 
   const assetsQuery = useSuspenseQuery(tipAssetsQueryOptions)
   const assets = assetsQuery.data
@@ -39,7 +41,7 @@ function RouteComponent() {
   )
 
   return (
-    <List className="" title="select asset">
+    <List className="" title={t("TIPS.ASSETS.TITLE")}>
       {assets.map((asset: AssetDTO) => (
         <TipAsset asset={asset} key={asset.id} onClick={() => handleAssetClick(asset.id)} />
       ))}

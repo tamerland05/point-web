@@ -62,55 +62,25 @@ interface AuthDTO {
   accessToken: string
 }
 
-// const MOCK_EMPLOYEE_DATA = {
-//   user: {
-//     id: "1",
-//     firstName: "John",
-//     lastName: "Doe",
-//     username: "john.doe",
-//     languageCode: "en",
-//     photoUrl: "https://placehold.co/150",
-//     rank: 1,
-//     wallet: "1000",
-//     employee: {
-//       id: "1",
-//       profession: "Software Engineer",
-//       jobPlace: {
-//         name: "Google",
-//         address: "123 Main St, Anytown, USA",
-//         id: "1",
-//       },
-//       purpose: {
-//         title: "LeetCode",
-//         description: "LeetCode is a platform for coding interviews.",
-//         icon: "https://placehold.co/150",
-//       },
-//       meta: {
-//         showJob: true,
-//         showPurpose: true,
-//       },
-//     },
-//     meta: {
-//       showTipsLeft: true,
-//     },
-//   },
-// }
-
 export const authQueryOptions = (auth: AuthReq, initDataRaw: string | undefined) =>
   queryOptions({
     queryFn: async () => {
       const store = getDefaultStore()
       const referrerId = store.get(referrerAtom) ? Number(store.get(referrerAtom)) : undefined
-
-      const response = await pointAxiosInstance.post<AuthDTO, AxiosResponse<AuthDTO>, AuthReq>("/point/account/auth", {
+      const payload: AuthReq = {
         ...auth,
         initDataRaw,
         referrerId: Number.isNaN(referrerId) ? undefined : referrerId,
-      })
+      }
 
-      store.set(accessTokenAtom, response.data.accessToken)
+      const response = await pointAxiosInstance.post<AuthDTO, AxiosResponse<AuthDTO>, AuthReq>(
+        "/point/account/auth",
+        payload
+      )
+      const data = response.data
 
-      return response.data
+      store.set(accessTokenAtom, data.accessToken)
+      return data
     },
     queryKey: ["auth", { hash: auth.hash }],
   })

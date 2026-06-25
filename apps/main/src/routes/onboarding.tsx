@@ -16,24 +16,24 @@ import { onboardingCompletedAtom } from "../atoms/user"
 
 const steps = {
   1: {
-    description: "Leave and receive crypto tip using Telegram",
+    description: "Оставляйте и получайте крипто-чаевые через Telegram",
     icon: "TON",
-    title: "Telegram Tip",
+    title: "Чаевые в Telegram",
   },
   2: {
-    description: "Find the best establishments with the best staff near you",
+    description: "Находите лучшие заведения и лучших сотрудников рядом с вами",
     icon: "World",
-    title: "Food Near You",
+    title: "Еда рядом",
   },
   3: {
-    description: "Transparent rating of establishments for Telegram Stars",
+    description: "Прозрачный рейтинг заведений за Telegram Stars",
     icon: "Stars",
-    title: "Star Rating",
+    title: "Рейтинг Stars",
   },
   4: {
-    description: "Game mechanics and bonuses for tips left behind",
+    description: "Геймификация и бонусы за оставленные чаевые",
     icon: "Caesar",
-    title: "Tip Rewards",
+    title: "Награды за чаевые",
   },
 } as const
 
@@ -84,7 +84,7 @@ function RouteComponent() {
       hidden: false,
       loading: false,
       onClick,
-      title: "Confirm",
+      title: "Продолжить",
     }
   }, [navigate, setOnboardingCompleted, step])
 
@@ -97,7 +97,7 @@ function RouteComponent() {
         navigate({ search: { fromOnboarding: true, step: "account" }, to: "/account/my-profile/edit" })
       },
       position: "bottom" as const,
-      title: "Employee Account",
+      title: "Аккаунт сотрудника",
     }),
     [setOnboardingCompleted, navigate, isError, isSuccess]
   )

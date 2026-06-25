@@ -37,6 +37,7 @@ export const iconNames = [
   "Frame 948",
   "Frame 1580",
   "Fire",
+  "EstablishmentHouseCard",
   "Error",
   "Edit",
   "Cup",

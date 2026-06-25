@@ -1,6 +1,5 @@
 import type { JobPlace, PurposeOfFunding } from "@point/shared/types"
 
-import { Link } from "@tanstack/react-router"
 import { openTelegramLink } from "@telegram-apps/sdk-react"
 import { memo } from "react"
 import Img from "react-cool-img"
@@ -74,45 +73,35 @@ export const UserProfile = memo(
                   @{username}
                 </button>
               }
-              leftTopText={<span className="text-caption-1 text-text-secondary">Telegram</span>}
+              leftTopText={<span className="text-caption-1 text-text-secondary">TG</span>}
               withSeparator
             />
           )}
 
           <ListItem
-            leftBottomText={
-              <span className="text-base text-text">
-                At this moment in time, the user is ranked{" "}
-                <Link className="text-accent" to="/earn/rating">
-                  #{rank || 0}
-                </Link>{" "}
-                in the overall ranking
-              </span>
-            }
-            leftTopText={<span className="text-caption-1 text-text-secondary">User Rank</span>}
+            leftBottomText={<span className="text-base text-text">Текущий ранг в общем рейтинге #{rank || 0}</span>}
+            leftTopText={<span className="text-caption-1 text-text-secondary">Эксперт</span>}
             withSeparator
           />
 
           {jobPlace && (
             <ListItem
               leftBottomText={<span className="text-base text-text">{jobPlace?.name}</span>}
-              leftTopText={<span className="text-caption-1 text-text-secondary">Place of Work</span>}
+              leftTopText={<span className="text-caption-1 text-text-secondary">Для бизнеса</span>}
               withSeparator
             />
           )}
           {jobPlace && (
             <ListItem
               leftBottomText={<span className="text-base text-text">{jobPlace?.address}</span>}
-              leftTopText={<span className="text-caption-1 text-text-secondary">Address</span>}
+              leftTopText={<span className="text-caption-1 text-text-secondary">Информация</span>}
             />
           )}
           <ListItem
             leftBottomText={
-              <span className="text-base text-text">
-                {tipsLeft !== null ? tipsLeft + " USDT" : "Information is hidden"}
-              </span>
+              <span className="text-base text-text">{tipsLeft !== null ? `${tipsLeft} USDT` : "Информация"}</span>
             }
-            leftTopText={<span className="text-caption-1 text-text-secondary">Tips left</span>}
+            leftTopText={<span className="text-caption-1 text-text-secondary">Система оплаты</span>}
           />
         </List>
 

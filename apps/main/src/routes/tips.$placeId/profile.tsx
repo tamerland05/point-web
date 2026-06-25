@@ -4,6 +4,7 @@ import { zodValidator } from "@tanstack/zod-adapter"
 import { useMemo } from "react"
 import z from "zod"
 
+import { useTranslation } from "@point/i18n"
 import { userQueryOptions } from "@point/shared/api/point/user"
 
 import { ShowMainButton } from "@/components/tg-internals"
@@ -28,6 +29,7 @@ export const Route = createFileRoute("/tips/$placeId/profile")({
 function RouteComponent() {
   const { id } = Route.useSearch()
   const navigate = Route.useNavigate()
+  const { t } = useTranslation()
 
   const userQuery = useSuspenseQuery(userQueryOptions(id))
   const user = userQuery.data
@@ -41,7 +43,7 @@ function RouteComponent() {
           ? navigate({ search: { id, recipient: user.employee?.id }, to: "/tips/$placeId/assets" })
           : undefined
       },
-      title: "Send a tip",
+      title: t("TIPS.PROFILE.SEND_TIP"),
     }),
     [user.employee?.id, navigate, id]
   )

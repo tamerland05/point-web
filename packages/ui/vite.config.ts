@@ -10,8 +10,12 @@ import tsconfigPaths from "vite-tsconfig-paths"
 
 import pkg from "./package.json"
 
+const isWatch = process.argv.includes("-w")
+
 export default defineConfig({
   build: {
+    // Windows EPERM: consumers (e.g. @point/main dev) may lock dist files during watch rebuilds.
+    emptyOutDir: !isWatch,
     lib: {
       entry: globbySync(["./src/primitives/*/index.tsx", "./src/utils/cn.ts"]),
       formats: ["es", "cjs"],

@@ -1,8 +1,8 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute, useRouter } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 import { shareMessage } from "@telegram-apps/sdk-react"
 import { useMemo } from "react"
-import Img from "react-cool-img"
+import Image from "react-cool-img"
 
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import {
@@ -11,7 +11,6 @@ import {
   shareMenuItemQueryOptions,
 } from "@point/shared/api/point/establishments"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
-import { Icon } from "@point/ui/icon"
 import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 
@@ -33,13 +32,11 @@ export const Route = createFileRoute("/menu_/$id/$menuItemId")({
 })
 
 function RouteComponent() {
-  const router = useRouter()
   const queryClient = useQueryClient()
   const { formatCurrency } = useFormatter()
 
   const navigate = Route.useNavigate()
 
-  // TODO: remove id from query params
   const { menuItemId, id } = Route.useParams()
 
   const establishmentQuery = useSuspenseQuery(establishmentQueryOptions(id))
@@ -55,61 +52,47 @@ function RouteComponent() {
         const preparedMessage = await queryClient.fetchQuery(shareMenuItemQueryOptions(menuItemId))
         shareMessage(preparedMessage.id)
       },
-      title: "Share",
+      title: "Поделиться",
     }
-  }, [menuItemId, queryClient.fetchQuery])
+  }, [menuItemId, queryClient])
 
   return (
     <ShowMainButton withDelay {...mainButtonConfig}>
-      <div>
-        <Img
-          alt={menuItemQuery.data?.title}
-          className="h-3/5 w-full object-cover"
-          error="/img-ph.svg"
-          placeholder="/img-ph.svg"
-          src={menuItemQuery.data?.photo}
-        />
+      <div className="m-4 [view-transition-name:main-content]">
+        {menuItem?.photo ? (
+          <Image
+            alt={menuItem.title}
+            className="mb-4 h-56 w-full rounded-2xl object-cover"
+            error="/img-ph.svg"
+            placeholder="/img-ph.svg"
+            src={menuItem.photo}
+          />
+        ) : null}
 
-        <div className="-mt-3 relative rounded-t-xl bg-background px-4 py-5">
-          <div className="mb-8 flex items-center justify-between">
-            <div className="size-6 shrink-0" />
-            <div className="flex grow flex-col gap-1">
-              <div className="text-center font-semibold text-title-2">{menuItem?.title}</div>
-              <div className="text-center text-caption-1 text-text-secondary">{menuItem?.category}</div>
-            </div>
-            <Icon
-              className="size-6 shrink-0 text-transparent"
-              name="Close"
-              onClick={() =>
-                router.history.canGoBack() ? router.history.back() : navigate({ replace: true, to: "/menu/$id" })
-              }
-            />
-          </div>
-          <List title="Dish Information">
-            <ListItem
-              leftBottomText={<span className="text-base text-text">{menuItem?.description}</span>}
-              leftTopText={<span className="text-caption-1 text-text-secondary">Description</span>}
-              withSeparator
-            />
-            <ListItem
-              leftBottomText={<span className="text-accent text-base">{establishment?.name || "N/A"}</span>}
-              leftTopText={<span className="text-caption-1 text-text-secondary">Establishment</span>}
-              onClick={() => {
-                navigate({ search: { expanded: true, selectedPlaceId: id }, to: "/map" })
-              }}
-              withSeparator
-            />
-            <ListItem
-              leftBottomText={
-                <span className="text-base text-text">
-                  {formatCurrency(menuItem?.cost.amount)}
-                  {menuItem?.cost.currency}
-                </span>
-              }
-              leftTopText={<span className="text-caption-1 text-text-secondary">Cost</span>}
-            />
-          </List>
-        </div>
+        <List title="Информация о блюде">
+          <ListItem
+            leftBottomText={<span className="text-base text-text">{menuItem?.description ?? "—"}</span>}
+            leftTopText={<span className="text-caption-1 text-text-secondary">Описание</span>}
+            withSeparator
+          />
+          <ListItem
+            leftBottomText={<span className="text-accent">{establishment?.name || "—"}</span>}
+            leftTopText={<span className="text-caption-1 text-text-secondary">Заведение</span>}
+            onClick={() => {
+              navigate({ search: { expanded: true, selectedPlaceId: id }, to: "/map" })
+            }}
+            withSeparator
+          />
+          <ListItem
+            leftBottomText={
+              <span>
+                {formatCurrency(menuItem?.cost.amount)}
+                {menuItem?.cost.currency}
+              </span>
+            }
+            leftTopText={<span className="text-caption-1 text-text-secondary">Стоимость</span>}
+          />
+        </List>
       </div>
     </ShowMainButton>
   )

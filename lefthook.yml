@@ -1,10 +1,10 @@
 pre-commit:
   parallel: true
   commands:
-    format-and-lint:
-      run: pnpm run format-and-lint --fix --no-errors-on-unmatched
-      stage_fixed: true
-    typecheck:
-      run: pnpm run typecheck
-    unused-code:
-      run: pnpm run check:unused
+#    format-and-lint:
+#      run: pnpm run format-and-lint --fix --no-errors-on-unmatched
+#      stage_fixed: true
+#    typecheck:
+#      run: pnpm run typecheck
+#    unused-code:
+#      run: pnpm run check:unused

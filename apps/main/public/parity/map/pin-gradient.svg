@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 43.0001 28.8125" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path id="Pingradient" d="M42.7298 28.8125C43.8715 18.6761 41.3727 8.46391 35.6795 -2.07777e-07L0 23.9995L42.7298 28.8125Z" fill="url(#paint0_radial_0_222)"/>
+<defs>
+<radialGradient id="paint0_radial_0_222" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(0 23.9995) rotate(90) scale(43)">
+<stop stop-color="#3478F6"/>
+<stop offset="1" stop-color="#3478F6" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

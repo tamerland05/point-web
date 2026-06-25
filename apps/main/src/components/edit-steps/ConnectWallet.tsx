@@ -29,7 +29,7 @@ export const ConnectWalletStep = () => {
       hidden: false,
       loading: false,
       onClick: handleConnectWallet,
-      title: "Connect Wallet",
+      title: "Подключить кошелек",
     }
   }, [handleConnectWallet])
 
@@ -39,7 +39,7 @@ export const ConnectWalletStep = () => {
       hidden: false,
       onClick: () => openTelegramLink("https://t.me/samvuoto?text=`ICANTUSEWALLET2025`"),
       position: "bottom" as const,
-      title: "Detailed Manual",
+      title: "Подробная инструкция",
     }),
     []
   )
@@ -49,9 +49,9 @@ export const ConnectWalletStep = () => {
       <div className={"-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 w-full bg-background px-18 py-6"}>
         <div className="flex flex-col items-center bg-background">
           <Icon className="mb-10 size-24 text-transparent" name={"User"} />
-          <h1 className="mb-1 text-center font-semibold text-title-2">Connect Wallet</h1>
+          <h1 className="mb-1 text-center font-semibold text-title-2">Подключение кошелька</h1>
           <p className="text-center text-base text-text-secondary">
-            Connect your TON wallet, which will receive your clients' tips
+            Подключите TON-кошелек для получения чаевых от ваших клиентов
           </p>
         </div>
       </div>

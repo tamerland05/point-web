@@ -54,3 +54,6 @@ playwright/.cache/
 # SSL
 apps/*/cert
 .trunk/*
+
+# Local design dumps (do not commit raw Figma exports)
+.figma-dumps/raw/

@@ -6,6 +6,7 @@ import { openTelegramLink } from "@telegram-apps/sdk-react"
 import { memo, useCallback, useMemo } from "react"
 import Image from "react-cool-img"
 
+import { useTranslation } from "@point/i18n"
 import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
 import { establishmentTypesQueryOptions } from "@point/shared/api/point/establishmentTypes"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
@@ -18,6 +19,8 @@ import { ListItem } from "@point/ui/list-item"
 
 import { RatePlace } from "../rate-place"
 import { ShowMainButton } from "../tg-internals"
+import { PlaceActionBar } from "./PlaceActionBar"
+import { PlaceRatingValue } from "./PlaceRatingValue"
 
 interface PlaceModalProps {
   id?: string
@@ -25,6 +28,7 @@ interface PlaceModalProps {
   name?: string
   address?: string
   rating?: number
+  distanceLabel?: string | null
 
   drawerExpanded: boolean
   handleCloseDrawer: () => void
@@ -32,7 +36,18 @@ interface PlaceModalProps {
 }
 
 export const PlaceModal = memo(
-  ({ id, photo, name, address, rating, drawerExpanded, handleCloseDrawer, handleExpandDrawer }: PlaceModalProps) => {
+  ({
+    id,
+    photo,
+    name,
+    address,
+    rating,
+    distanceLabel,
+    drawerExpanded,
+    handleCloseDrawer,
+    handleExpandDrawer,
+  }: PlaceModalProps) => {
+    const { t } = useTranslation()
     const navigate = useNavigate({ from: "/map" })
     const { formatCurrency } = useFormatter()
 
@@ -43,7 +58,7 @@ export const PlaceModal = memo(
     const establishmentTypes = establishmentTypesQuery.data
 
     const establishmentTypeName = useMemo(() => {
-      if (!establishmentTypes || !data?.establishmentTypeId) return "N/A"
+      if (!establishmentTypes || !data?.establishmentTypeId) return "—"
 
       return establishmentTypes[data.establishmentTypeId]?.name
     }, [establishmentTypes, data?.establishmentTypeId])
@@ -58,32 +73,43 @@ export const PlaceModal = memo(
       openTelegramLink(data.channelLink)
     }, [data?.channelLink])
 
-    const secondaryButtonConfig = useMemo(
-      () => ({
-        disabled: false,
-        hidden: !id || !data?.channelLink || !drawerExpanded,
-        loading: false,
-        onClick: !id || !data?.channelLink || !drawerExpanded ? undefined : handleOpenTelegramChannel,
-        title: !drawerExpanded ? "" : "Telegram Channel",
-      }),
-      [id, data?.channelLink, drawerExpanded, handleOpenTelegramChannel]
-    )
+    const handleBookingClick = useCallback(() => {
+      if (!id) return
+      void navigate({
+        search: { establishmentId: id },
+        to: "/booking/process",
+      })
+    }, [id, navigate])
 
     const mainButtonConfig = useMemo(
       () => ({
         disabled: false,
-        hidden: !id || !drawerExpanded,
+        hidden: true,
         loading: false,
-        onClick: !id || !drawerExpanded ? undefined : () => navigate({ params: { placeId: id }, to: "/tips/$placeId" }),
-        title: !drawerExpanded ? "" : "Send a Tip",
+        onClick: undefined,
+        title: "",
       }),
-      [id, drawerExpanded, navigate]
+      []
+    )
+
+    const secondaryButtonConfig = useMemo(
+      () => ({
+        disabled: false,
+        hidden: true,
+        loading: false,
+        onClick: undefined,
+        title: "",
+      }),
+      []
     )
 
     const slicedMenu = useMemo(() => {
       if (!data?.menu) return []
       return data.menu.slice(0, 3)
     }, [data?.menu])
+
+    const ratingValue = data?.rating ?? rating
+    const ratingCount = data?.ratingCount
 
     return (
       <ShowMainButton secondary={secondaryButtonConfig} {...mainButtonConfig}>
@@ -105,15 +131,15 @@ export const PlaceModal = memo(
               <ListItem
                 className="text-base"
                 leftIcon={<Icon className="h-7 w-7 rounded-md bg-[#38C555] p-1 text-transparent" name={"Shape"} />}
-                leftTopText="Establishment Type"
+                leftTopText={t("WAVE1.PLACE.TYPE")}
                 rightTopText={<div className="text-text-secondary">{establishmentTypeName}</div>}
                 withSeparator
               />
               <ListItem
                 className="text-base"
                 leftIcon={<Icon className="h-7 w-7 rounded-md bg-[#FFCC00] p-1 text-transparent" name={"Vector"} />}
-                leftTopText="Point Rating"
-                rightTopText={<div className="text-text-secondary">{data?.rating || rating || "0"}</div>}
+                leftTopText={t("WAVE1.PLACE.RATING")}
+                rightTopText={<PlaceRatingValue rating={ratingValue} ratingCount={ratingCount} />}
                 withSeparator
               />
               {!!data?.menu.length && data?.menu?.length > 0 && (
@@ -122,7 +148,7 @@ export const PlaceModal = memo(
                   leftIcon={
                     <Icon className="h-7 w-7 rounded-md bg-[#0A78FF] p-1 text-transparent" name={"MenuBoard"} />
                   }
-                  leftTopText="Menu"
+                  leftTopText={t("WAVE1.PLACE.MENU")}
                   onClick={handleNavigateToMenu}
                   rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name={"ChevronRight"} />}
                 />
@@ -131,7 +157,7 @@ export const PlaceModal = memo(
 
             {(data?.gallery || []).length > 0 && id && (
               <div className="mb-8">
-                <div className="mx-4 mb-1 text-caption-3 text-text-secondary uppercase">Photos</div>
+                <div className="mx-4 mb-1 text-caption-3 text-text-secondary uppercase">{t("WAVE1.PLACE.PHOTOS")}</div>
                 <HorizontalScroller<string>
                   className="gap-4"
                   items={data?.gallery || []}
@@ -158,20 +184,20 @@ export const PlaceModal = memo(
               </div>
             )}
 
-            <List className="mb-8" title="establishment info">
+            <List className="mb-8" title="О заведении">
               <ListItem
                 leftBottomText={<span className="text-accent text-base">{establishmentTypeName}</span>}
-                leftTopText={<span className="text-caption-1 text-text-secondary">Establishment Type</span>}
+                leftTopText={<span className="text-caption-1 text-text-secondary">Тип заведения</span>}
                 withSeparator
               />
               <ListItem
-                leftBottomText={<span className="text-base text-text">{data?.description || "N/A"}</span>}
-                leftTopText={<span className="text-caption-1 text-text-secondary">Description</span>}
+                leftBottomText={<span className="text-base text-text">{data?.description || "—"}</span>}
+                leftTopText={<span className="text-caption-1 text-text-secondary">Описание</span>}
               />
             </List>
 
             {!!slicedMenu.length && (
-              <List onExpand={handleNavigateToMenu} title="menu">
+              <List onExpand={handleNavigateToMenu} title="Меню">
                 {slicedMenu.map((menuItem: MenuItem, idx: number) => (
                   <ListItem
                     // biome-ignore lint/suspicious/noArrayIndexKey: this map will never change
@@ -219,6 +245,15 @@ export const PlaceModal = memo(
                 userRating={data?.userRating}
               />
             )}
+
+            {id ? (
+              <PlaceActionBar
+                distanceLabel={distanceLabel}
+                hasChannel={Boolean(data?.channelLink)}
+                onBookingClick={handleBookingClick}
+                onChannelClick={handleOpenTelegramChannel}
+              />
+            ) : null}
           </div>
         </Drawer>
       </ShowMainButton>

@@ -4,6 +4,7 @@ import { useTonAddress } from "@tonconnect/ui-react"
 import { useMemo, useState } from "react"
 import toast from "react-hot-toast"
 
+import { useTranslation } from "@point/i18n"
 import { type AssetDTO, tipAssetsQueryOptions } from "@point/shared/api/point/tips"
 import { assetDetailsQuery } from "@point/shared/api/stonFi/asset"
 import { useAssetBalance } from "@point/shared/hooks/useAssetBalance"
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/tips/$placeId/input/amount")({
 function RouteComponent() {
   const address = useTonAddress()
   const { formatCurrency, formatFromNano } = useFormatter()
+  const { t } = useTranslation()
 
   const navigate = Route.useNavigate()
   const { placeId } = Route.useParams()
@@ -64,7 +66,7 @@ function RouteComponent() {
 
   const handleReverseMode = () => {
     // TODO:
-    toast("Coming soon")
+    toast(t("TIPS.AMOUNT.COMING_SOON"))
   }
 
   const amountInUsd = useMemo(() => {
@@ -112,7 +114,11 @@ function RouteComponent() {
   }
 
   return (
-    <ShowMainButton hidden={!isEnoughBalance || !value || value === "0"} onClick={handleContinue} title={"Continue"}>
+    <ShowMainButton
+      hidden={!isEnoughBalance || !value || value === "0"}
+      onClick={handleContinue}
+      title={t("UI.CONTINUE")}
+    >
       <div className="mt-5 flex max-w-full items-end justify-between gap-1">
         <input
           autoComplete="off"
@@ -154,7 +160,7 @@ function RouteComponent() {
         </div>
       )}
 
-      {!isEnoughBalance && <div className="text-caption-1 text-red-400">Not enough balance</div>}
+      {!isEnoughBalance && <div className="text-caption-1 text-red-400">{t("TIPS.AMOUNT.INSUFFICIENT_FUNDS")}</div>}
     </ShowMainButton>
   )
 }

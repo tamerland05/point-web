@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { useSetAtom } from "jotai"
 
+import { useTranslation } from "@point/i18n"
 import { Icon } from "@point/ui/icon"
 
 import { showMenuAtom } from "@/atoms/ui"
@@ -13,6 +14,7 @@ export const Route = createFileRoute("/tips/$placeId/success")({
 function RouteComponent() {
   const navigate = Route.useNavigate()
   const setMenuVisible = useSetAtom(showMenuAtom)
+  const { t } = useTranslation()
   return (
     <ShowMainButton
       onClick={() => {
@@ -22,13 +24,13 @@ function RouteComponent() {
         // HACK: force this for avoid bugs
         setMenuVisible(true)
       }}
-      title="Final"
+      title={t("UI.CONFIRM")}
     >
       <div className="-translate-x-1/2 -translate-y-1/2 absolute top-1/2 left-1/2 flex w-full flex-col items-center">
         <Icon className="mb-5 block h-36 w-36 text-transparent" name="Success" />
-        <h1 className="mb-2 font-semibold text-title-2">Successful Transaction</h1>
+        <h1 className="mb-2 font-semibold text-title-2">{t("TIPS.SUCCESS.TITLE")}</h1>
         <div className={"max-w-[300px] text-center text-base text-text-secondary leading-snug"}>
-          Tip has been successfully sent to the employee of the establishment
+          {t("TIPS.SUCCESS.DESCRIPTION")}
         </div>
       </div>
     </ShowMainButton>

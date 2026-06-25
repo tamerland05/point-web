@@ -1,7 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query"
 
 import { createRootRouteWithContext, Outlet, useMatches } from "@tanstack/react-router"
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools"
 import { retrieveLaunchParams, retrieveRawInitData, useSignal, viewport } from "@telegram-apps/sdk-react"
 import { THEME, TonConnectUIProvider } from "@tonconnect/ui-react"
 import { useMemo } from "react"
@@ -12,11 +11,15 @@ import { GetLanguageData } from "@/components/app-internals/GetLanguageData"
 import { StyledToaster } from "@/components/app-internals/Toaster"
 import { WalletAddressWatcher } from "@/components/app-internals/WalletAddressWatcher"
 import { ButtonsController } from "@/components/tg-internals"
+import { useParityCapture } from "@/hooks/useParityCapture"
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
-  beforeLoad: ({ context }) => {
+  beforeLoad: ({ context, location }) => {
+    if (location.pathname.startsWith("/pos/pay/stub")) {
+      return { ...context, initDataRaw: null, launchParams: null }
+    }
     try {
       const launchParams = retrieveLaunchParams(true)
       const initDataRaw = retrieveRawInitData()
@@ -31,6 +34,7 @@ export const Route = createRootRouteWithContext<{
 })
 
 function RootComponent() {
+  const parityCapture = useParityCapture()
   const inset = useSignal(viewport.safeAreaInsets)
   const contentInset = useSignal(viewport.contentSafeAreaInsets)
   const { launchParams, initDataRaw } = Route.useRouteContext()
@@ -45,7 +49,7 @@ function RootComponent() {
   )
 
   const matches = useMatches({ select: (matches) => matches.map((match) => match.fullPath) })
-  const disableTgSpaces = matches.includes("/map") || matches.includes("/menu/$id/$menuItemId")
+  const disableTgSpaces = parityCapture || matches.includes("/map") || matches.some((p) => p.startsWith("/pos/pay/"))
 
   return (
     <TonConnectUIProvider
@@ -61,7 +65,7 @@ function RootComponent() {
         >
           <Outlet />
 
-          <ButtonsController />
+          {!parityCapture ? <ButtonsController /> : null}
           <StyledToaster />
         </div>
 
@@ -69,7 +73,7 @@ function RootComponent() {
         {launchParams?.tgWebAppData && (
           <WalletAddressWatcher auth={launchParams.tgWebAppData} initDataRaw={initDataRaw} />
         )}
-        <TanStackRouterDevtools />
+        {/*{import.meta.env.DEV && !parityCapture ? <TanStackRouterDevtools /> : null}*/}
       </MapProvider>
     </TonConnectUIProvider>
   )

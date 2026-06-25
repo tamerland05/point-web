@@ -12,7 +12,7 @@ interface UserProfileHeaderProps {
 
 export const UserProfileHeader = memo(
   ({ photo, name, username, jobPlace, isJobPlaceHidden = false }: UserProfileHeaderProps) => {
-    const jobPlaceText = jobPlace ? "Employee" : "User"
+    const jobPlaceText = jobPlace ? "Эксперт" : "Информация"
 
     return (
       <header className="mb-4 flex flex-col items-center justify-center">

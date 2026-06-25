@@ -20,3 +20,6 @@ export const NearbyModalStates = {
 type NearbyModalState = (typeof NearbyModalStates)[keyof typeof NearbyModalStates]
 
 export const nearbyModalStateAtom = atom<NearbyModalState>(NearbyModalStates.DEFAULT)
+
+/** Multi-select establishment type filter for map chips + nearby list. */
+export const selectedMapCategoryIdsAtom = atom<string[]>([])

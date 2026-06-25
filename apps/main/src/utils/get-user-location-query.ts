@@ -12,9 +12,7 @@ interface UserLocation {
 export const userLocationQueryOptions = queryOptions<UserLocation>({
   queryFn: async () => {
     try {
-      const location = await requestLocation()
-
-      return location
+      return await requestLocation()
     } catch (_error) {
       toast.error(
         // "TODO: Телеграм не дал данные о локации пользователя, используем дефолтные координаты, либо в будущем будем на бeке вычислять по IP",
@@ -33,5 +31,5 @@ export const userLocationQueryOptions = queryOptions<UserLocation>({
     }
   },
   queryKey: ["user-location"],
-  refetchInterval: 30 * 1000,
+  staleTime: Number.POSITIVE_INFINITY,
 })

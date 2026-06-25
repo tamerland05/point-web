@@ -6,6 +6,7 @@ import { popup } from "@telegram-apps/sdk-react"
 import { useCallback, useMemo } from "react"
 import Img from "react-cool-img"
 
+import { useTranslation } from "@point/i18n"
 import { useDeleteEmployeeMutation } from "@point/shared/api/point/employee"
 import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
 import { Icon } from "@point/ui/icon"
@@ -16,6 +17,7 @@ import { ShowMainButton } from "../tg-internals"
 
 export const JobPlaceStep = ({ jobPlace }: { jobPlace?: JobPlace }) => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const establishmentQuery = useSuspenseQuery(establishmentQueryOptions(jobPlace?.id))
   const establishment = establishmentQuery.data
@@ -26,9 +28,9 @@ export const JobPlaceStep = ({ jobPlace }: { jobPlace?: JobPlace }) => {
     return {
       hidden: false,
       onClick: () => navigate({ replace: true, to: "/account" }),
-      title: "Save",
+      title: t("WORK.JOB_PLACE_STEP.SAVE"),
     }
-  }, [navigate])
+  }, [navigate, t])
 
   const handleDelete = useCallback(async () => {
     const isSupported = await popup.isSupported()
@@ -42,11 +44,11 @@ export const JobPlaceStep = ({ jobPlace }: { jobPlace?: JobPlace }) => {
 
     const selected = await popup.show({
       buttons: [
-        { id: "go", text: "GO", type: "default" },
+        { id: "go", text: t("UI.CONTINUE"), type: "default" },
         { id: "cancel", type: "cancel" },
       ],
-      message: "If you delete your place of work, you will be moved to a user type account",
-      title: "Delete place of work",
+      message: t("WORK.JOB_PLACE_STEP.DELETE_CONFIRM_MESSAGE"),
+      title: t("WORK.JOB_PLACE_STEP.DELETE_CONFIRM_TITLE"),
     })
 
     if (selected === "go") {
@@ -55,7 +57,7 @@ export const JobPlaceStep = ({ jobPlace }: { jobPlace?: JobPlace }) => {
     }
 
     return
-  }, [deleteEmployeeMutation.mutateAsync, navigate])
+  }, [deleteEmployeeMutation.mutateAsync, navigate, t])
 
   if (!jobPlace || !establishment?.icon) {
     return null
@@ -63,8 +65,8 @@ export const JobPlaceStep = ({ jobPlace }: { jobPlace?: JobPlace }) => {
 
   return (
     <ShowMainButton {...mainButtonConfig}>
-      <div className="flex flex-col p-4">
-        <List title="place of work">
+      <div className="flex flex-col px-4 pt-4 pb-6">
+        <List title={t("WORK.JOB_PLACE_STEP.TITLE")}>
           <ListItem
             className="py-3"
             leftBottomText={establishment.position.address}

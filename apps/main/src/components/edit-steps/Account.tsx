@@ -67,7 +67,7 @@ export const AccountStep = ({
       }
 
       if (isUserEmployee && !file && !photo) {
-        toast.error("Please select a photo")
+        toast.error("Выберите фото")
         return
       }
 
@@ -91,7 +91,7 @@ export const AccountStep = ({
   })
 
   const mainButtonConfig = useMemo(() => {
-    const title = !isUserEmployee ? "Save" : "Continue"
+    const title = !isUserEmployee ? "Сохранить" : "Продолжить"
     const submitFromUser = async () => {
       await form.handleSubmit()
       void navigate({ replace: true, to: "/account/my-profile/view" })
@@ -143,7 +143,7 @@ export const AccountStep = ({
             }}
             type="button"
           >
-            Select a photo
+            Выбрать фото
           </button>
         )}
 
@@ -160,7 +160,7 @@ export const AccountStep = ({
                         <input
                           className="mr-[50vw] w-full placeholder:text-text-secondary"
                           onChange={(e) => field.handleChange(e.target.value)}
-                          placeholder="First Name"
+                          placeholder="Имя"
                           type="text"
                           value={field.state.value}
                         />
@@ -172,7 +172,7 @@ export const AccountStep = ({
                 )}
                 name="firstName"
                 validators={{
-                  onChange: ({ value }) => (value.length > 32 ? "First Name is too long" : undefined),
+                  onChange: ({ value }) => (value.length > 32 ? "Имя слишком длинное" : undefined),
                 }}
               />
 
@@ -185,7 +185,7 @@ export const AccountStep = ({
                       <input
                         className="mr-[50vw] w-full placeholder:text-text-secondary"
                         onChange={(e) => field.handleChange(e.target.value)}
-                        placeholder="First Name"
+                        placeholder="Фамилия"
                         type="text"
                         value={field.state.value}
                       />
@@ -195,12 +195,12 @@ export const AccountStep = ({
                 )}
                 name="lastName"
                 validators={{
-                  onChange: ({ value }) => (value.length > 32 ? "Last Name is too long" : undefined),
+                  onChange: ({ value }) => (value.length > 32 ? "Фамилия слишком длинная" : undefined),
                 }}
               />
             </List>
             <div className="mb-4 px-4 text-caption-2 text-text-secondary">
-              The specified data will be shown to potential customers of your establishment
+              Указанные данные будут показаны потенциальным клиентам вашего заведения
             </div>
           </>
         )}
@@ -212,9 +212,9 @@ export const AccountStep = ({
               children={(field) => (
                 <ListItem
                   className="py-3"
-                  leftTopText={"Show place of work"}
+                  leftTopText={"Показывать место работы"}
                   onClick={() => field.handleChange(!field.state.value)}
-                  rightTopText={<div className="text-accent">{field.state.value ? "Yes" : "No"}</div>}
+                  rightTopText={<div className="text-accent">{field.state.value ? "Да" : "Нет"}</div>}
                   withSeparator
                 />
               )}
@@ -228,9 +228,9 @@ export const AccountStep = ({
               children={(field) => (
                 <ListItem
                   className="py-3"
-                  leftTopText={"Show purpose of Fundraising"}
+                  leftTopText={"Показывать цель сбора"}
                   onClick={() => field.handleChange(!field.state.value)}
-                  rightTopText={<div className="text-accent">{field.state.value ? "Yes" : "No"}</div>}
+                  rightTopText={<div className="text-accent">{field.state.value ? "Да" : "Нет"}</div>}
                   withSeparator
                 />
               )}
@@ -243,16 +243,16 @@ export const AccountStep = ({
             children={(field) => (
               <ListItem
                 className="py-3"
-                leftTopText={"Show Tips Left"}
+                leftTopText={"Показывать остаток чаевых"}
                 onClick={() => field.handleChange(!field.state.value)}
-                rightTopText={<div className="text-accent">{field.state.value ? "Yes" : "No"}</div>}
+                rightTopText={<div className="text-accent">{field.state.value ? "Да" : "Нет"}</div>}
               />
             )}
             name="showTipsLeft"
           />
         </List>
         <div className="mb-7 px-4 text-caption-2 text-text-secondary">
-          Personal information available in the user's account section
+          Персональная информация, доступная в разделе аккаунта
         </div>
 
         {/* <button type="submit" className="mt-4">

@@ -5,6 +5,7 @@ import { useMemo, useState } from "react"
 import Img from "react-cool-img"
 import { toast } from "react-hot-toast"
 
+import { useTranslation } from "@point/i18n"
 import { type PurposeIconsDTO, purposeIconsQueryOptions } from "@point/shared/api/point/purposeIcons"
 import { cn } from "@point/ui/cn"
 import { Icon } from "@point/ui/icon"
@@ -24,6 +25,7 @@ interface FundraisingStepProps {
 
 export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnboarding }: FundraisingStepProps) => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
 
   const purposeIconsQuery = useQuery(purposeIconsQueryOptions)
@@ -39,12 +41,12 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
     },
     onSubmit: async ({ formApi, value }) => {
       if (!value.title) {
-        toast.error("Please enter a title")
+        toast.error(t("WORK.FUNDRAISING_STEP.EMPTY_TITLE"))
         return
       }
 
       if (!value.description) {
-        toast.error("Please enter a description")
+        toast.error(t("WORK.FUNDRAISING_STEP.EMPTY_DESCRIPTION"))
         return
       }
 
@@ -82,21 +84,21 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
       hidden: false,
       loading: form.state.isSubmitting,
       onClick,
-      title: "Continue",
+      title: t("UI.CONTINUE"),
     }
-  }, [navigate, form.state.isSubmitting, form.state.canSubmit, form.handleSubmit, fromOnboarding])
+  }, [navigate, form.state.isSubmitting, form.state.canSubmit, form.handleSubmit, fromOnboarding, t])
 
   return (
     <ShowMainButton {...mainButtonConfig}>
       <form
-        className="flex flex-col overflow-x-hidden p-4"
+        className="flex flex-col overflow-x-hidden px-4 pt-4 pb-6"
         onSubmit={(e) => {
           e.preventDefault()
           e.stopPropagation()
           form.handleSubmit()
         }}
       >
-        <List className="mb-8" title="Collection Purpose">
+        <List className="mb-8" title={t("WORK.FUNDRAISING_STEP.GOAL_TITLE")}>
           <form.Field
             // biome-ignore lint/correctness/noChildrenProp: because library docs
             children={(field) => (
@@ -106,7 +108,7 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
                   <input
                     className="mr-[50vw] w-full placeholder:text-text-secondary"
                     onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="A tour with the cat"
+                    placeholder={t("WORK.FUNDRAISING_STEP.TITLE_PLACEHOLDER")}
                     type="text"
                     value={field.state.value}
                   />
@@ -124,7 +126,7 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
               children={(field) => (
                 <ListItem
                   className="relative py-2.5"
-                  leftTopText={"Add Icons"}
+                  leftTopText={t("WORK.FUNDRAISING_STEP.ADD_ICON")}
                   onClick={purposeIconsIsLoading ? undefined : () => setIsOpen(!isOpen)}
                   rightBottomText={
                     isOpen && (
@@ -170,7 +172,7 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
           )}
         </List>
 
-        <List className="mb-2" title="Short description">
+        <List className="mb-2" title={t("WORK.FUNDRAISING_STEP.SHORT_DESCRIPTION_TITLE")}>
           <form.Field
             // biome-ignore lint/correctness/noChildrenProp: because library docs
             children={(field) => (
@@ -180,7 +182,7 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
                   <textarea
                     className="mr-[50vw] h-fit w-full resize-none placeholder:text-text-secondary"
                     onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="I dream of traveling around Spain with my cat."
+                    placeholder={t("WORK.FUNDRAISING_STEP.DESCRIPTION_PLACEHOLDER")}
                     value={field.state.value}
                   />
                 }
@@ -191,9 +193,7 @@ export const FundraisingStep = ({ title, description, onUpdateEmployee, fromOnbo
             name="description"
           />
         </List>
-        <div className="mb-7 px-4 text-caption-2 text-text-secondary">
-          Keep your thoughts as concise as possible so customers can quickly get a sense of your purpose
-        </div>
+        <div className="mb-7 px-4 text-caption-2 text-text-secondary">{t("WORK.FUNDRAISING_STEP.DESCRIPTION")}</div>
       </form>
     </ShowMainButton>
   )

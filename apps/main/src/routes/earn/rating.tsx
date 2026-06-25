@@ -3,6 +3,7 @@ import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { useCallback } from "react"
 import Img from "react-cool-img"
 
+import { useTranslation } from "@point/i18n"
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { earnTopQueryOptions, referralsQueryOptions } from "@point/shared/api/point/earn"
 import { useFormatter } from "@point/shared/hooks/useFormatter"
@@ -12,7 +13,10 @@ import { List } from "@point/ui/list"
 import { ListItem } from "@point/ui/list-item"
 import { Loader } from "@point/ui/loader"
 
+import { earnLegacyBeforeLoad } from "@/config/earnLegacy"
+
 export const Route = createFileRoute("/earn/rating")({
+  beforeLoad: earnLegacyBeforeLoad,
   component: RouteComponent,
   loader: async ({ context }) => {
     const { queryClient } = context
@@ -29,6 +33,7 @@ export const Route = createFileRoute("/earn/rating")({
 
 function RouteComponent() {
   const { formatTokenValue } = useFormatter()
+  const { t } = useTranslation()
   const ctx = Route.useRouteContext()
   const navigate = Route.useNavigate()
   const router = useRouter()
@@ -165,20 +170,20 @@ function RouteComponent() {
 
       {/* Твои показатели */}
       <div className="mb-4 flex w-full justify-center gap-1">
-        <div className="flex flex-1 flex-col items-center rounded-2xl bg-white p-3">
+        <div className="flex flex-1 flex-col items-center rounded-2xl bg-background-secondary p-3">
           <div className="flex items-center gap-1 truncate">
             <Icon className="mb-1 size-5 text-transparent" name="BonusMoney" />
             <span className="font-bold">{formatBonusBalance(bonusBalance)}</span>
           </div>
-          <span className="truncate text-caption-1 text-text-secondary">Your Balance</span>
+          <span className="truncate text-caption-1 text-text-secondary">{t("EARN.RATING.YOUR_BALANCE")}</span>
         </div>
 
-        <div className="flex flex-1 flex-col items-center rounded-2xl bg-white p-3">
+        <div className="flex flex-1 flex-col items-center rounded-2xl bg-background-secondary p-3">
           <span className="truncate font-bold">#{rank}</span>
-          <span className="truncate text-caption-1 text-text-secondary">Your Rank</span>
+          <span className="truncate text-caption-1 text-text-secondary">{t("EARN.RATING.YOUR_RANK")}</span>
         </div>
 
-        <div className="flex flex-1 flex-col items-center rounded-2xl bg-white p-3">
+        <div className="flex flex-1 flex-col items-center rounded-2xl bg-background-secondary p-3">
           {referralsIsLoading ? (
             <Loader className="size-6" />
           ) : (
@@ -187,7 +192,7 @@ function RouteComponent() {
               <span className="font-bold">{formatTokenValue(referrals.length)}</span>
             </div>
           )}
-          <span className="truncate text-caption-1 text-text-secondary">Your Referrals</span>
+          <span className="truncate text-caption-1 text-text-secondary">{t("EARN.RATING.YOUR_REFERRALS")}</span>
         </div>
       </div>
 
@@ -196,10 +201,10 @@ function RouteComponent() {
         onClick={handleTasksClick}
         type="button"
       >
-        Tasks
+        {t("EARN.RATING.TASKS")}
       </button>
 
-      <List title="Top users">
+      <List title={t("EARN.RATING.TOP_USERS")}>
         {topUsers.slice(7).map((u, i) => (
           <ListItem
             key={u.username}

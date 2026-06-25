@@ -9,8 +9,18 @@ interface DrawerProps {
   height?: "full" | "xl" | "lg" | "md" | "sm" | "pimp-only"
   standalone?: boolean
   additionalTopSpace?: number
+  /** Extra pixels below `additionalTopSpace` when `height="full"`. */
+  topGap?: number
+  handle?: React.ReactNode
+
+  /** Pixels subtracted from fractional drawer height (moves top edge down when bottom-anchored). */
+  heightInset?: number
+
+  /** Overrides preset fractional height, e.g. `56%`. */
+  panelHeight?: string
 
   className?: string
+  panelClassName?: string
 
   backgroundImage?: string
   disableScroll?: boolean
@@ -25,7 +35,12 @@ export const Drawer = ({
   height = "md",
   standalone = false,
   additionalTopSpace,
+  topGap = 0,
+  heightInset = 0,
+  panelHeight,
+  handle,
   className,
+  panelClassName,
   backgroundImage,
   isOpen,
   onClose,
@@ -88,29 +103,51 @@ export const Drawer = ({
     scrollableAreaRef.current?.scrollTo(0, 0)
   }, [isOpen, disableScroll])
 
+  const topInset = (additionalTopSpace ?? 0) + topGap
+  const hasCustomPanel = !!panelClassName
+  const fractionalHeightPercent =
+    height === "sm"
+      ? "33.333333%"
+      : height === "md"
+        ? "50%"
+        : height === "lg"
+          ? "66.666667%"
+          : height === "xl"
+            ? "83.333333%"
+            : null
+  const customPanelHeightStyle = panelHeight ? { height: panelHeight } : undefined
+  const fractionalHeightStyle =
+    !customPanelHeightStyle && fractionalHeightPercent && heightInset > 0
+      ? { height: `calc(${fractionalHeightPercent} - ${heightInset}px)` }
+      : undefined
+  const fullHeightStyle =
+    !customPanelHeightStyle && height === "full" && topInset > 0 ? { height: `calc(100% - ${topInset}px)` } : undefined
+  const panelHeightStyle = customPanelHeightStyle ?? fractionalHeightStyle ?? fullHeightStyle
+  const hasExplicitPanelHeight = !!panelHeight || !!panelHeightStyle
+
   return (
     <dialog className={cn("z-40 flex", { "z-20": height === "pimp-only" }, className)}>
       <div
         className={cn(
-          "fixed bottom-0 left-0 flex h-[60%] w-full translate-y-full transform flex-col rounded-t-2xl bg-background shadow-lg transition-all duration-500",
+          "fixed bottom-0 left-0 flex w-full translate-y-full transform flex-col overflow-hidden shadow-lg transition-all duration-500",
+          panelClassName ?? "rounded-t-2xl bg-background",
           {
-            "h-[calc(100%-100px)] rounded-t-none": height === "full" && additionalTopSpace,
-            "h-2/6": height === "sm",
-            "h-3/6": height === "md",
-            "h-4/6": height === "lg",
-            "h-5/6": height === "xl",
+            "h-2/6": height === "sm" && !hasExplicitPanelHeight,
+            "h-3/6": height === "md" && !hasExplicitPanelHeight,
+            "h-4/6": height === "lg" && !hasExplicitPanelHeight,
+            "h-5/6": height === "xl" && !hasExplicitPanelHeight,
             "h-28": height === "pimp-only" && !standalone,
-            // TODO: remove this hack, need to find a better way to handle this
             "h-30": height === "pimp-only" && standalone,
-            // TODO: remove this hack, need to find a better way to handle this
-            "h-full rounded-t-none": height === "full" && !additionalTopSpace,
+            "h-full": height === "full" && !hasExplicitPanelHeight,
+            "rounded-t-none": height === "full" && !hasCustomPanel,
             "translate-y-0": isOpen,
           }
         )}
         ref={drawerRef}
         role="presentation"
+        style={panelHeightStyle}
       >
-        <div className="relative" ref={drawerPimp}>
+        <div className="relative shrink-0" ref={drawerPimp}>
           {!!backgroundImage && (
             <div
               className={cn("left-0 h-32 w-full rounded-t-2xl bg-black/10 bg-center bg-cover bg-no-repeat", {
@@ -121,16 +158,23 @@ export const Drawer = ({
           )}
 
           <div
-            className={cn("flex w-full justify-center rounded-t-2xl bg-background p-2", {
-              "absolute bottom-0 left-0": !!backgroundImage,
-            })}
+            className={cn(
+              "flex w-full justify-center px-2 py-3",
+              hasCustomPanel ? "bg-inherit" : "rounded-t-2xl bg-background",
+              {
+                "absolute bottom-0 left-0": !!backgroundImage,
+              }
+            )}
           >
-            <div className="h-1 w-8 rounded-full bg-[#CBCBCB]" />
+            {handle ?? <div className="h-1 w-8 rounded-full bg-[#8D969D]" />}
           </div>
         </div>
 
-        <div className="flex flex-grow flex-col overflow-hidden">
-          <div className={cn("flex-grow pb-4", { "overflow-y-auto": !disableScroll })} ref={scrollableAreaRef}>
+        <div className="flex min-h-0 flex-grow flex-col overflow-hidden">
+          <div
+            className={cn("flex min-h-0 flex-grow flex-col pb-4", { "overflow-y-auto": !disableScroll })}
+            ref={scrollableAreaRef}
+          >
             {children}
           </div>
         </div>

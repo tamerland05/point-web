@@ -42,7 +42,7 @@ function RouteComponent() {
     return Array.from(categories)
   }, [menu])
 
-  const menyByCategory = useMemo(() => {
+  const menuByCategory = useMemo(() => {
     const categoriesMap = new Map<string, MenuItem[]>()
 
     for (const menuItem of menu ?? []) {
@@ -61,7 +61,7 @@ function RouteComponent() {
     <div className="m-4 [view-transition-name:main-content]">
       {categoriesArray.map((category) => (
         <List className="mb-8" key={category} title={category}>
-          {menyByCategory.get(category)?.map((menuItem) => (
+          {menuByCategory.get(category)?.map((menuItem) => (
             <ListItem
               className="py-4"
               key={menuItem.id}
@@ -79,7 +79,7 @@ function RouteComponent() {
                   />
                 )
               }
-              leftTopText={<span className="line-clamp-1 text-base text-tex">{menuItem.title}</span>}
+              leftTopText={<span className="line-clamp-1 text-base text-text">{menuItem.title}</span>}
               onClick={() => {
                 navigate({
                   params: { id, menuItemId: menuItem.id },

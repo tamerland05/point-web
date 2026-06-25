@@ -146,6 +146,32 @@ export const formatTime = (date: Date | undefined, options: Intl.DateTimeFormatO
   })
 }
 
+export const calculateMapDistanceMeters = (
+  from: { latitude: number; longitude: number },
+  to: { latitude: number; longitude: number }
+): number => {
+  const earthRadiusMeters = 6_371_000
+  const toRadians = (degrees: number) => (degrees * Math.PI) / 180
+  const deltaLatitude = toRadians(to.latitude - from.latitude)
+  const deltaLongitude = toRadians(to.longitude - from.longitude)
+  const fromLatitude = toRadians(from.latitude)
+  const toLatitude = toRadians(to.latitude)
+  const haversine =
+    Math.sin(deltaLatitude / 2) ** 2 + Math.cos(fromLatitude) * Math.cos(toLatitude) * Math.sin(deltaLongitude / 2) ** 2
+
+  return Math.round(earthRadiusMeters * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine)))
+}
+
+export const formatMapDistanceLabel = (meters: number): string => {
+  const value = Math.round(meters)
+
+  if (value >= 1000) {
+    return `${value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")}м`
+  }
+
+  return `${value}м`
+}
+
 export const formatRelativeTime = (date: Date | undefined, lang = "en-US"): string => {
   if (!date) return ""
 

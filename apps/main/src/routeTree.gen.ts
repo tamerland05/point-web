@@ -15,36 +15,71 @@ import { Route as RatingLeftImport } from './routes/rating-left'
 import { Route as OnboardingImport } from './routes/onboarding'
 import { Route as WithMenuRouteImport } from './routes/_withMenu/route'
 import { Route as IndexImport } from './routes/index'
+import { Route as QrScanImport } from './routes/qr.scan'
 import { Route as ProfileIdImport } from './routes/profile.$id'
 import { Route as MenuIdImport } from './routes/menu.$id'
+import { Route as LoyaltyUsagePlacesImport } from './routes/loyalty/usage-places'
 import { Route as EarnReferralsImport } from './routes/earn/referrals'
 import { Route as EarnRatingImport } from './routes/earn/rating'
 import { Route as EarnInfoImport } from './routes/earn/info'
 import { Route as EarnGratitudeImport } from './routes/earn/gratitude'
+import { Route as BookingSuccessImport } from './routes/booking.success'
+import { Route as BookingProcessImport } from './routes/booking.process'
+import { Route as BookingFilledImport } from './routes/booking.filled'
 import { Route as AccountProfileTypeUpdatedImport } from './routes/account/profile-type-updated'
 import { Route as AccountProfileTypeImport } from './routes/account/profile-type'
 import { Route as AccountProfileCreatedImport } from './routes/account/profile-created'
+import { Route as AccountPaymentSystemImport } from './routes/account/payment-system'
+import { Route as AccountNotificationsImport } from './routes/account/notifications'
 import { Route as AccountLanguageImport } from './routes/account/language'
+import { Route as AccountHistoryImport } from './routes/account/history'
 import { Route as AccountAccessRestrictedImport } from './routes/account/access-restricted'
 import { Route as WithMenuSelectionsImport } from './routes/_withMenu/selections'
 import { Route as WithMenuMapImport } from './routes/_withMenu/map'
+import { Route as WithMenuLoyaltyImport } from './routes/_withMenu/loyalty'
 import { Route as WithMenuEarnImport } from './routes/_withMenu/earn'
 import { Route as WithMenuAccountImport } from './routes/_withMenu/account'
 import { Route as TipsPlaceIdRouteImport } from './routes/tips.$placeId/route'
+import { Route as TableLinkIdRouteImport } from './routes/table.$linkId/route'
 import { Route as TipsPlaceIdIndexImport } from './routes/tips.$placeId/index'
+import { Route as TableLinkIdIndexImport } from './routes/table.$linkId/index'
 import { Route as TipsPlaceIdSuccessImport } from './routes/tips.$placeId/success'
 import { Route as TipsPlaceIdProfileImport } from './routes/tips.$placeId/profile'
 import { Route as TipsPlaceIdInfoImport } from './routes/tips.$placeId/info'
 import { Route as TipsPlaceIdErrorImport } from './routes/tips.$placeId/error'
 import { Route as TipsPlaceIdAssetsImport } from './routes/tips.$placeId/assets'
+import { Route as TableLinkIdPostOrderImport } from './routes/table.$linkId/post-order'
+import { Route as TableLinkIdPaymentImport } from './routes/table.$linkId/payment'
+import { Route as TableLinkIdHistoryImport } from './routes/table.$linkId/history'
+import { Route as QrScanTransitionsImport } from './routes/qr.scan.transitions'
+import { Route as QrScanNoImageImport } from './routes/qr.scan.no-image'
+import { Route as QrScanAddImport } from './routes/qr.scan.add'
 import { Route as ProfileIdFundraisingImport } from './routes/profile_.$id.fundraising'
+import { Route as PosPayStubImport } from './routes/pos/pay/stub'
 import { Route as MenuIdMenuItemIdImport } from './routes/menu_.$id.$menuItemId'
+import { Route as AccountPaymentSystemSuccessImport } from './routes/account/payment-system.success'
+import { Route as AccountPaymentSystemEmptyImport } from './routes/account/payment-system.empty'
+import { Route as AccountPaymentSystemDetailsImport } from './routes/account/payment-system.details'
+import { Route as AccountPaymentSystemAddImport } from './routes/account/payment-system.add'
+import { Route as AccountNotificationsNotFoundImport } from './routes/account/notifications.not-found'
+import { Route as AccountNotificationsEmptyImport } from './routes/account/notifications.empty'
 import { Route as AccountMyProfileViewImport } from './routes/account/my-profile.view'
 import { Route as AccountMyProfileEditImport } from './routes/account/my-profile.edit'
+import { Route as AccountHistoryNotFoundImport } from './routes/account/history.not-found'
+import { Route as AccountHistoryEmptyImport } from './routes/account/history.empty'
+import { Route as AccountHistoryOrderIdImport } from './routes/account/history.$orderId'
 import { Route as WithMenuSelectionsIdImport } from './routes/_withMenu/selections.$id'
 import { Route as TipsPlaceIdInputRouteImport } from './routes/tips.$placeId/input/route'
+import { Route as TableLinkIdCartRouteImport } from './routes/table.$linkId/cart/route'
+import { Route as TableLinkIdCartIndexImport } from './routes/table.$linkId/cart/index'
 import { Route as TipsPlaceIdInputConfirmImport } from './routes/tips.$placeId/input/confirm'
 import { Route as TipsPlaceIdInputAmountImport } from './routes/tips.$placeId/input/amount'
+import { Route as TableLinkIdPaymentStatusSuccessImport } from './routes/table.$linkId/payment-status.success'
+import { Route as TableLinkIdPaymentStatusNoFundsImport } from './routes/table.$linkId/payment-status.no-funds'
+import { Route as TableLinkIdPaymentStatusErrorImport } from './routes/table.$linkId/payment-status.error'
+import { Route as TableLinkIdOrderOrderIdImport } from './routes/table.$linkId/order.$orderId'
+import { Route as TableLinkIdItemMenuItemIdImport } from './routes/table.$linkId/item.$menuItemId'
+import { Route as TableLinkIdCartCommentImport } from './routes/table.$linkId/cart/comment'
 
 // Create/Update Routes
 
@@ -71,6 +106,12 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const QrScanRoute = QrScanImport.update({
+  id: '/qr/scan',
+  path: '/qr/scan',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ProfileIdRoute = ProfileIdImport.update({
   id: '/profile/$id',
   path: '/profile/$id',
@@ -80,6 +121,12 @@ const ProfileIdRoute = ProfileIdImport.update({
 const MenuIdRoute = MenuIdImport.update({
   id: '/menu/$id',
   path: '/menu/$id',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoyaltyUsagePlacesRoute = LoyaltyUsagePlacesImport.update({
+  id: '/loyalty/usage-places',
+  path: '/loyalty/usage-places',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -107,6 +154,24 @@ const EarnGratitudeRoute = EarnGratitudeImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const BookingSuccessRoute = BookingSuccessImport.update({
+  id: '/booking/success',
+  path: '/booking/success',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BookingProcessRoute = BookingProcessImport.update({
+  id: '/booking/process',
+  path: '/booking/process',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BookingFilledRoute = BookingFilledImport.update({
+  id: '/booking/filled',
+  path: '/booking/filled',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AccountProfileTypeUpdatedRoute = AccountProfileTypeUpdatedImport.update({
   id: '/account/profile-type-updated',
   path: '/account/profile-type-updated',
@@ -125,9 +190,27 @@ const AccountProfileCreatedRoute = AccountProfileCreatedImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AccountPaymentSystemRoute = AccountPaymentSystemImport.update({
+  id: '/account/payment-system',
+  path: '/account/payment-system',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AccountNotificationsRoute = AccountNotificationsImport.update({
+  id: '/account/notifications',
+  path: '/account/notifications',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AccountLanguageRoute = AccountLanguageImport.update({
   id: '/account/language',
   path: '/account/language',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AccountHistoryRoute = AccountHistoryImport.update({
+  id: '/account/history',
+  path: '/account/history',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -149,6 +232,12 @@ const WithMenuMapRoute = WithMenuMapImport.update({
   getParentRoute: () => WithMenuRouteRoute,
 } as any)
 
+const WithMenuLoyaltyRoute = WithMenuLoyaltyImport.update({
+  id: '/loyalty',
+  path: '/loyalty',
+  getParentRoute: () => WithMenuRouteRoute,
+} as any)
+
 const WithMenuEarnRoute = WithMenuEarnImport.update({
   id: '/earn',
   path: '/earn',
@@ -167,10 +256,22 @@ const TipsPlaceIdRouteRoute = TipsPlaceIdRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const TableLinkIdRouteRoute = TableLinkIdRouteImport.update({
+  id: '/table/$linkId',
+  path: '/table/$linkId',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const TipsPlaceIdIndexRoute = TipsPlaceIdIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => TipsPlaceIdRouteRoute,
+} as any)
+
+const TableLinkIdIndexRoute = TableLinkIdIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TableLinkIdRouteRoute,
 } as any)
 
 const TipsPlaceIdSuccessRoute = TipsPlaceIdSuccessImport.update({
@@ -203,9 +304,51 @@ const TipsPlaceIdAssetsRoute = TipsPlaceIdAssetsImport.update({
   getParentRoute: () => TipsPlaceIdRouteRoute,
 } as any)
 
+const TableLinkIdPostOrderRoute = TableLinkIdPostOrderImport.update({
+  id: '/post-order',
+  path: '/post-order',
+  getParentRoute: () => TableLinkIdRouteRoute,
+} as any)
+
+const TableLinkIdPaymentRoute = TableLinkIdPaymentImport.update({
+  id: '/payment',
+  path: '/payment',
+  getParentRoute: () => TableLinkIdRouteRoute,
+} as any)
+
+const TableLinkIdHistoryRoute = TableLinkIdHistoryImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => TableLinkIdRouteRoute,
+} as any)
+
+const QrScanTransitionsRoute = QrScanTransitionsImport.update({
+  id: '/transitions',
+  path: '/transitions',
+  getParentRoute: () => QrScanRoute,
+} as any)
+
+const QrScanNoImageRoute = QrScanNoImageImport.update({
+  id: '/no-image',
+  path: '/no-image',
+  getParentRoute: () => QrScanRoute,
+} as any)
+
+const QrScanAddRoute = QrScanAddImport.update({
+  id: '/add',
+  path: '/add',
+  getParentRoute: () => QrScanRoute,
+} as any)
+
 const ProfileIdFundraisingRoute = ProfileIdFundraisingImport.update({
   id: '/profile_/$id/fundraising',
   path: '/profile/$id/fundraising',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PosPayStubRoute = PosPayStubImport.update({
+  id: '/pos/pay/stub',
+  path: '/pos/pay/stub',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -213,6 +356,45 @@ const MenuIdMenuItemIdRoute = MenuIdMenuItemIdImport.update({
   id: '/menu_/$id/$menuItemId',
   path: '/menu/$id/$menuItemId',
   getParentRoute: () => rootRoute,
+} as any)
+
+const AccountPaymentSystemSuccessRoute =
+  AccountPaymentSystemSuccessImport.update({
+    id: '/success',
+    path: '/success',
+    getParentRoute: () => AccountPaymentSystemRoute,
+  } as any)
+
+const AccountPaymentSystemEmptyRoute = AccountPaymentSystemEmptyImport.update({
+  id: '/empty',
+  path: '/empty',
+  getParentRoute: () => AccountPaymentSystemRoute,
+} as any)
+
+const AccountPaymentSystemDetailsRoute =
+  AccountPaymentSystemDetailsImport.update({
+    id: '/details',
+    path: '/details',
+    getParentRoute: () => AccountPaymentSystemRoute,
+  } as any)
+
+const AccountPaymentSystemAddRoute = AccountPaymentSystemAddImport.update({
+  id: '/add',
+  path: '/add',
+  getParentRoute: () => AccountPaymentSystemRoute,
+} as any)
+
+const AccountNotificationsNotFoundRoute =
+  AccountNotificationsNotFoundImport.update({
+    id: '/not-found',
+    path: '/not-found',
+    getParentRoute: () => AccountNotificationsRoute,
+  } as any)
+
+const AccountNotificationsEmptyRoute = AccountNotificationsEmptyImport.update({
+  id: '/empty',
+  path: '/empty',
+  getParentRoute: () => AccountNotificationsRoute,
 } as any)
 
 const AccountMyProfileViewRoute = AccountMyProfileViewImport.update({
@@ -227,6 +409,24 @@ const AccountMyProfileEditRoute = AccountMyProfileEditImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AccountHistoryNotFoundRoute = AccountHistoryNotFoundImport.update({
+  id: '/not-found',
+  path: '/not-found',
+  getParentRoute: () => AccountHistoryRoute,
+} as any)
+
+const AccountHistoryEmptyRoute = AccountHistoryEmptyImport.update({
+  id: '/empty',
+  path: '/empty',
+  getParentRoute: () => AccountHistoryRoute,
+} as any)
+
+const AccountHistoryOrderIdRoute = AccountHistoryOrderIdImport.update({
+  id: '/$orderId',
+  path: '/$orderId',
+  getParentRoute: () => AccountHistoryRoute,
+} as any)
+
 const WithMenuSelectionsIdRoute = WithMenuSelectionsIdImport.update({
   id: '/$id',
   path: '/$id',
@@ -239,6 +439,18 @@ const TipsPlaceIdInputRouteRoute = TipsPlaceIdInputRouteImport.update({
   getParentRoute: () => TipsPlaceIdRouteRoute,
 } as any)
 
+const TableLinkIdCartRouteRoute = TableLinkIdCartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => TableLinkIdRouteRoute,
+} as any)
+
+const TableLinkIdCartIndexRoute = TableLinkIdCartIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TableLinkIdCartRouteRoute,
+} as any)
+
 const TipsPlaceIdInputConfirmRoute = TipsPlaceIdInputConfirmImport.update({
   id: '/confirm',
   path: '/confirm',
@@ -249,6 +461,45 @@ const TipsPlaceIdInputAmountRoute = TipsPlaceIdInputAmountImport.update({
   id: '/amount',
   path: '/amount',
   getParentRoute: () => TipsPlaceIdInputRouteRoute,
+} as any)
+
+const TableLinkIdPaymentStatusSuccessRoute =
+  TableLinkIdPaymentStatusSuccessImport.update({
+    id: '/payment-status/success',
+    path: '/payment-status/success',
+    getParentRoute: () => TableLinkIdRouteRoute,
+  } as any)
+
+const TableLinkIdPaymentStatusNoFundsRoute =
+  TableLinkIdPaymentStatusNoFundsImport.update({
+    id: '/payment-status/no-funds',
+    path: '/payment-status/no-funds',
+    getParentRoute: () => TableLinkIdRouteRoute,
+  } as any)
+
+const TableLinkIdPaymentStatusErrorRoute =
+  TableLinkIdPaymentStatusErrorImport.update({
+    id: '/payment-status/error',
+    path: '/payment-status/error',
+    getParentRoute: () => TableLinkIdRouteRoute,
+  } as any)
+
+const TableLinkIdOrderOrderIdRoute = TableLinkIdOrderOrderIdImport.update({
+  id: '/order/$orderId',
+  path: '/order/$orderId',
+  getParentRoute: () => TableLinkIdRouteRoute,
+} as any)
+
+const TableLinkIdItemMenuItemIdRoute = TableLinkIdItemMenuItemIdImport.update({
+  id: '/item/$menuItemId',
+  path: '/item/$menuItemId',
+  getParentRoute: () => TableLinkIdRouteRoute,
+} as any)
+
+const TableLinkIdCartCommentRoute = TableLinkIdCartCommentImport.update({
+  id: '/comment',
+  path: '/comment',
+  getParentRoute: () => TableLinkIdCartRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -283,6 +534,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RatingLeftImport
       parentRoute: typeof rootRoute
     }
+    '/table/$linkId': {
+      id: '/table/$linkId'
+      path: '/table/$linkId'
+      fullPath: '/table/$linkId'
+      preLoaderRoute: typeof TableLinkIdRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/tips/$placeId': {
       id: '/tips/$placeId'
       path: '/tips/$placeId'
@@ -302,6 +560,13 @@ declare module '@tanstack/react-router' {
       path: '/earn'
       fullPath: '/earn'
       preLoaderRoute: typeof WithMenuEarnImport
+      parentRoute: typeof WithMenuRouteImport
+    }
+    '/_withMenu/loyalty': {
+      id: '/_withMenu/loyalty'
+      path: '/loyalty'
+      fullPath: '/loyalty'
+      preLoaderRoute: typeof WithMenuLoyaltyImport
       parentRoute: typeof WithMenuRouteImport
     }
     '/_withMenu/map': {
@@ -325,11 +590,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountAccessRestrictedImport
       parentRoute: typeof rootRoute
     }
+    '/account/history': {
+      id: '/account/history'
+      path: '/account/history'
+      fullPath: '/account/history'
+      preLoaderRoute: typeof AccountHistoryImport
+      parentRoute: typeof rootRoute
+    }
     '/account/language': {
       id: '/account/language'
       path: '/account/language'
       fullPath: '/account/language'
       preLoaderRoute: typeof AccountLanguageImport
+      parentRoute: typeof rootRoute
+    }
+    '/account/notifications': {
+      id: '/account/notifications'
+      path: '/account/notifications'
+      fullPath: '/account/notifications'
+      preLoaderRoute: typeof AccountNotificationsImport
+      parentRoute: typeof rootRoute
+    }
+    '/account/payment-system': {
+      id: '/account/payment-system'
+      path: '/account/payment-system'
+      fullPath: '/account/payment-system'
+      preLoaderRoute: typeof AccountPaymentSystemImport
       parentRoute: typeof rootRoute
     }
     '/account/profile-created': {
@@ -351,6 +637,27 @@ declare module '@tanstack/react-router' {
       path: '/account/profile-type-updated'
       fullPath: '/account/profile-type-updated'
       preLoaderRoute: typeof AccountProfileTypeUpdatedImport
+      parentRoute: typeof rootRoute
+    }
+    '/booking/filled': {
+      id: '/booking/filled'
+      path: '/booking/filled'
+      fullPath: '/booking/filled'
+      preLoaderRoute: typeof BookingFilledImport
+      parentRoute: typeof rootRoute
+    }
+    '/booking/process': {
+      id: '/booking/process'
+      path: '/booking/process'
+      fullPath: '/booking/process'
+      preLoaderRoute: typeof BookingProcessImport
+      parentRoute: typeof rootRoute
+    }
+    '/booking/success': {
+      id: '/booking/success'
+      path: '/booking/success'
+      fullPath: '/booking/success'
+      preLoaderRoute: typeof BookingSuccessImport
       parentRoute: typeof rootRoute
     }
     '/earn/gratitude': {
@@ -381,6 +688,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EarnReferralsImport
       parentRoute: typeof rootRoute
     }
+    '/loyalty/usage-places': {
+      id: '/loyalty/usage-places'
+      path: '/loyalty/usage-places'
+      fullPath: '/loyalty/usage-places'
+      preLoaderRoute: typeof LoyaltyUsagePlacesImport
+      parentRoute: typeof rootRoute
+    }
     '/menu/$id': {
       id: '/menu/$id'
       path: '/menu/$id'
@@ -394,6 +708,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile/$id'
       preLoaderRoute: typeof ProfileIdImport
       parentRoute: typeof rootRoute
+    }
+    '/qr/scan': {
+      id: '/qr/scan'
+      path: '/qr/scan'
+      fullPath: '/qr/scan'
+      preLoaderRoute: typeof QrScanImport
+      parentRoute: typeof rootRoute
+    }
+    '/table/$linkId/cart': {
+      id: '/table/$linkId/cart'
+      path: '/cart'
+      fullPath: '/table/$linkId/cart'
+      preLoaderRoute: typeof TableLinkIdCartRouteImport
+      parentRoute: typeof TableLinkIdRouteImport
     }
     '/tips/$placeId/input': {
       id: '/tips/$placeId/input'
@@ -409,6 +737,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WithMenuSelectionsIdImport
       parentRoute: typeof WithMenuSelectionsImport
     }
+    '/account/history/$orderId': {
+      id: '/account/history/$orderId'
+      path: '/$orderId'
+      fullPath: '/account/history/$orderId'
+      preLoaderRoute: typeof AccountHistoryOrderIdImport
+      parentRoute: typeof AccountHistoryImport
+    }
+    '/account/history/empty': {
+      id: '/account/history/empty'
+      path: '/empty'
+      fullPath: '/account/history/empty'
+      preLoaderRoute: typeof AccountHistoryEmptyImport
+      parentRoute: typeof AccountHistoryImport
+    }
+    '/account/history/not-found': {
+      id: '/account/history/not-found'
+      path: '/not-found'
+      fullPath: '/account/history/not-found'
+      preLoaderRoute: typeof AccountHistoryNotFoundImport
+      parentRoute: typeof AccountHistoryImport
+    }
     '/account/my-profile/edit': {
       id: '/account/my-profile/edit'
       path: '/account/my-profile/edit'
@@ -423,11 +772,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountMyProfileViewImport
       parentRoute: typeof rootRoute
     }
+    '/account/notifications/empty': {
+      id: '/account/notifications/empty'
+      path: '/empty'
+      fullPath: '/account/notifications/empty'
+      preLoaderRoute: typeof AccountNotificationsEmptyImport
+      parentRoute: typeof AccountNotificationsImport
+    }
+    '/account/notifications/not-found': {
+      id: '/account/notifications/not-found'
+      path: '/not-found'
+      fullPath: '/account/notifications/not-found'
+      preLoaderRoute: typeof AccountNotificationsNotFoundImport
+      parentRoute: typeof AccountNotificationsImport
+    }
+    '/account/payment-system/add': {
+      id: '/account/payment-system/add'
+      path: '/add'
+      fullPath: '/account/payment-system/add'
+      preLoaderRoute: typeof AccountPaymentSystemAddImport
+      parentRoute: typeof AccountPaymentSystemImport
+    }
+    '/account/payment-system/details': {
+      id: '/account/payment-system/details'
+      path: '/details'
+      fullPath: '/account/payment-system/details'
+      preLoaderRoute: typeof AccountPaymentSystemDetailsImport
+      parentRoute: typeof AccountPaymentSystemImport
+    }
+    '/account/payment-system/empty': {
+      id: '/account/payment-system/empty'
+      path: '/empty'
+      fullPath: '/account/payment-system/empty'
+      preLoaderRoute: typeof AccountPaymentSystemEmptyImport
+      parentRoute: typeof AccountPaymentSystemImport
+    }
+    '/account/payment-system/success': {
+      id: '/account/payment-system/success'
+      path: '/success'
+      fullPath: '/account/payment-system/success'
+      preLoaderRoute: typeof AccountPaymentSystemSuccessImport
+      parentRoute: typeof AccountPaymentSystemImport
+    }
     '/menu_/$id/$menuItemId': {
       id: '/menu_/$id/$menuItemId'
       path: '/menu/$id/$menuItemId'
       fullPath: '/menu/$id/$menuItemId'
       preLoaderRoute: typeof MenuIdMenuItemIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/pos/pay/stub': {
+      id: '/pos/pay/stub'
+      path: '/pos/pay/stub'
+      fullPath: '/pos/pay/stub'
+      preLoaderRoute: typeof PosPayStubImport
       parentRoute: typeof rootRoute
     }
     '/profile_/$id/fundraising': {
@@ -436,6 +834,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile/$id/fundraising'
       preLoaderRoute: typeof ProfileIdFundraisingImport
       parentRoute: typeof rootRoute
+    }
+    '/qr/scan/add': {
+      id: '/qr/scan/add'
+      path: '/add'
+      fullPath: '/qr/scan/add'
+      preLoaderRoute: typeof QrScanAddImport
+      parentRoute: typeof QrScanImport
+    }
+    '/qr/scan/no-image': {
+      id: '/qr/scan/no-image'
+      path: '/no-image'
+      fullPath: '/qr/scan/no-image'
+      preLoaderRoute: typeof QrScanNoImageImport
+      parentRoute: typeof QrScanImport
+    }
+    '/qr/scan/transitions': {
+      id: '/qr/scan/transitions'
+      path: '/transitions'
+      fullPath: '/qr/scan/transitions'
+      preLoaderRoute: typeof QrScanTransitionsImport
+      parentRoute: typeof QrScanImport
+    }
+    '/table/$linkId/history': {
+      id: '/table/$linkId/history'
+      path: '/history'
+      fullPath: '/table/$linkId/history'
+      preLoaderRoute: typeof TableLinkIdHistoryImport
+      parentRoute: typeof TableLinkIdRouteImport
+    }
+    '/table/$linkId/payment': {
+      id: '/table/$linkId/payment'
+      path: '/payment'
+      fullPath: '/table/$linkId/payment'
+      preLoaderRoute: typeof TableLinkIdPaymentImport
+      parentRoute: typeof TableLinkIdRouteImport
+    }
+    '/table/$linkId/post-order': {
+      id: '/table/$linkId/post-order'
+      path: '/post-order'
+      fullPath: '/table/$linkId/post-order'
+      preLoaderRoute: typeof TableLinkIdPostOrderImport
+      parentRoute: typeof TableLinkIdRouteImport
     }
     '/tips/$placeId/assets': {
       id: '/tips/$placeId/assets'
@@ -472,12 +912,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TipsPlaceIdSuccessImport
       parentRoute: typeof TipsPlaceIdRouteImport
     }
+    '/table/$linkId/': {
+      id: '/table/$linkId/'
+      path: '/'
+      fullPath: '/table/$linkId/'
+      preLoaderRoute: typeof TableLinkIdIndexImport
+      parentRoute: typeof TableLinkIdRouteImport
+    }
     '/tips/$placeId/': {
       id: '/tips/$placeId/'
       path: '/'
       fullPath: '/tips/$placeId/'
       preLoaderRoute: typeof TipsPlaceIdIndexImport
       parentRoute: typeof TipsPlaceIdRouteImport
+    }
+    '/table/$linkId/cart/comment': {
+      id: '/table/$linkId/cart/comment'
+      path: '/comment'
+      fullPath: '/table/$linkId/cart/comment'
+      preLoaderRoute: typeof TableLinkIdCartCommentImport
+      parentRoute: typeof TableLinkIdCartRouteImport
+    }
+    '/table/$linkId/item/$menuItemId': {
+      id: '/table/$linkId/item/$menuItemId'
+      path: '/item/$menuItemId'
+      fullPath: '/table/$linkId/item/$menuItemId'
+      preLoaderRoute: typeof TableLinkIdItemMenuItemIdImport
+      parentRoute: typeof TableLinkIdRouteImport
+    }
+    '/table/$linkId/order/$orderId': {
+      id: '/table/$linkId/order/$orderId'
+      path: '/order/$orderId'
+      fullPath: '/table/$linkId/order/$orderId'
+      preLoaderRoute: typeof TableLinkIdOrderOrderIdImport
+      parentRoute: typeof TableLinkIdRouteImport
+    }
+    '/table/$linkId/payment-status/error': {
+      id: '/table/$linkId/payment-status/error'
+      path: '/payment-status/error'
+      fullPath: '/table/$linkId/payment-status/error'
+      preLoaderRoute: typeof TableLinkIdPaymentStatusErrorImport
+      parentRoute: typeof TableLinkIdRouteImport
+    }
+    '/table/$linkId/payment-status/no-funds': {
+      id: '/table/$linkId/payment-status/no-funds'
+      path: '/payment-status/no-funds'
+      fullPath: '/table/$linkId/payment-status/no-funds'
+      preLoaderRoute: typeof TableLinkIdPaymentStatusNoFundsImport
+      parentRoute: typeof TableLinkIdRouteImport
+    }
+    '/table/$linkId/payment-status/success': {
+      id: '/table/$linkId/payment-status/success'
+      path: '/payment-status/success'
+      fullPath: '/table/$linkId/payment-status/success'
+      preLoaderRoute: typeof TableLinkIdPaymentStatusSuccessImport
+      parentRoute: typeof TableLinkIdRouteImport
     }
     '/tips/$placeId/input/amount': {
       id: '/tips/$placeId/input/amount'
@@ -492,6 +981,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tips/$placeId/input/confirm'
       preLoaderRoute: typeof TipsPlaceIdInputConfirmImport
       parentRoute: typeof TipsPlaceIdInputRouteImport
+    }
+    '/table/$linkId/cart/': {
+      id: '/table/$linkId/cart/'
+      path: '/'
+      fullPath: '/table/$linkId/cart/'
+      preLoaderRoute: typeof TableLinkIdCartIndexImport
+      parentRoute: typeof TableLinkIdCartRouteImport
     }
   }
 }
@@ -512,6 +1008,7 @@ const WithMenuSelectionsRouteWithChildren =
 interface WithMenuRouteRouteChildren {
   WithMenuAccountRoute: typeof WithMenuAccountRoute
   WithMenuEarnRoute: typeof WithMenuEarnRoute
+  WithMenuLoyaltyRoute: typeof WithMenuLoyaltyRoute
   WithMenuMapRoute: typeof WithMenuMapRoute
   WithMenuSelectionsRoute: typeof WithMenuSelectionsRouteWithChildren
 }
@@ -519,6 +1016,7 @@ interface WithMenuRouteRouteChildren {
 const WithMenuRouteRouteChildren: WithMenuRouteRouteChildren = {
   WithMenuAccountRoute: WithMenuAccountRoute,
   WithMenuEarnRoute: WithMenuEarnRoute,
+  WithMenuLoyaltyRoute: WithMenuLoyaltyRoute,
   WithMenuMapRoute: WithMenuMapRoute,
   WithMenuSelectionsRoute: WithMenuSelectionsRouteWithChildren,
 }
@@ -526,6 +1024,48 @@ const WithMenuRouteRouteChildren: WithMenuRouteRouteChildren = {
 const WithMenuRouteRouteWithChildren = WithMenuRouteRoute._addFileChildren(
   WithMenuRouteRouteChildren,
 )
+
+interface TableLinkIdCartRouteRouteChildren {
+  TableLinkIdCartCommentRoute: typeof TableLinkIdCartCommentRoute
+  TableLinkIdCartIndexRoute: typeof TableLinkIdCartIndexRoute
+}
+
+const TableLinkIdCartRouteRouteChildren: TableLinkIdCartRouteRouteChildren = {
+  TableLinkIdCartCommentRoute: TableLinkIdCartCommentRoute,
+  TableLinkIdCartIndexRoute: TableLinkIdCartIndexRoute,
+}
+
+const TableLinkIdCartRouteRouteWithChildren =
+  TableLinkIdCartRouteRoute._addFileChildren(TableLinkIdCartRouteRouteChildren)
+
+interface TableLinkIdRouteRouteChildren {
+  TableLinkIdCartRouteRoute: typeof TableLinkIdCartRouteRouteWithChildren
+  TableLinkIdHistoryRoute: typeof TableLinkIdHistoryRoute
+  TableLinkIdPaymentRoute: typeof TableLinkIdPaymentRoute
+  TableLinkIdPostOrderRoute: typeof TableLinkIdPostOrderRoute
+  TableLinkIdIndexRoute: typeof TableLinkIdIndexRoute
+  TableLinkIdItemMenuItemIdRoute: typeof TableLinkIdItemMenuItemIdRoute
+  TableLinkIdOrderOrderIdRoute: typeof TableLinkIdOrderOrderIdRoute
+  TableLinkIdPaymentStatusErrorRoute: typeof TableLinkIdPaymentStatusErrorRoute
+  TableLinkIdPaymentStatusNoFundsRoute: typeof TableLinkIdPaymentStatusNoFundsRoute
+  TableLinkIdPaymentStatusSuccessRoute: typeof TableLinkIdPaymentStatusSuccessRoute
+}
+
+const TableLinkIdRouteRouteChildren: TableLinkIdRouteRouteChildren = {
+  TableLinkIdCartRouteRoute: TableLinkIdCartRouteRouteWithChildren,
+  TableLinkIdHistoryRoute: TableLinkIdHistoryRoute,
+  TableLinkIdPaymentRoute: TableLinkIdPaymentRoute,
+  TableLinkIdPostOrderRoute: TableLinkIdPostOrderRoute,
+  TableLinkIdIndexRoute: TableLinkIdIndexRoute,
+  TableLinkIdItemMenuItemIdRoute: TableLinkIdItemMenuItemIdRoute,
+  TableLinkIdOrderOrderIdRoute: TableLinkIdOrderOrderIdRoute,
+  TableLinkIdPaymentStatusErrorRoute: TableLinkIdPaymentStatusErrorRoute,
+  TableLinkIdPaymentStatusNoFundsRoute: TableLinkIdPaymentStatusNoFundsRoute,
+  TableLinkIdPaymentStatusSuccessRoute: TableLinkIdPaymentStatusSuccessRoute,
+}
+
+const TableLinkIdRouteRouteWithChildren =
+  TableLinkIdRouteRoute._addFileChildren(TableLinkIdRouteRouteChildren)
 
 interface TipsPlaceIdInputRouteRouteChildren {
   TipsPlaceIdInputAmountRoute: typeof TipsPlaceIdInputAmountRoute
@@ -565,41 +1105,137 @@ const TipsPlaceIdRouteRouteChildren: TipsPlaceIdRouteRouteChildren = {
 const TipsPlaceIdRouteRouteWithChildren =
   TipsPlaceIdRouteRoute._addFileChildren(TipsPlaceIdRouteRouteChildren)
 
+interface AccountHistoryRouteChildren {
+  AccountHistoryOrderIdRoute: typeof AccountHistoryOrderIdRoute
+  AccountHistoryEmptyRoute: typeof AccountHistoryEmptyRoute
+  AccountHistoryNotFoundRoute: typeof AccountHistoryNotFoundRoute
+}
+
+const AccountHistoryRouteChildren: AccountHistoryRouteChildren = {
+  AccountHistoryOrderIdRoute: AccountHistoryOrderIdRoute,
+  AccountHistoryEmptyRoute: AccountHistoryEmptyRoute,
+  AccountHistoryNotFoundRoute: AccountHistoryNotFoundRoute,
+}
+
+const AccountHistoryRouteWithChildren = AccountHistoryRoute._addFileChildren(
+  AccountHistoryRouteChildren,
+)
+
+interface AccountNotificationsRouteChildren {
+  AccountNotificationsEmptyRoute: typeof AccountNotificationsEmptyRoute
+  AccountNotificationsNotFoundRoute: typeof AccountNotificationsNotFoundRoute
+}
+
+const AccountNotificationsRouteChildren: AccountNotificationsRouteChildren = {
+  AccountNotificationsEmptyRoute: AccountNotificationsEmptyRoute,
+  AccountNotificationsNotFoundRoute: AccountNotificationsNotFoundRoute,
+}
+
+const AccountNotificationsRouteWithChildren =
+  AccountNotificationsRoute._addFileChildren(AccountNotificationsRouteChildren)
+
+interface AccountPaymentSystemRouteChildren {
+  AccountPaymentSystemAddRoute: typeof AccountPaymentSystemAddRoute
+  AccountPaymentSystemDetailsRoute: typeof AccountPaymentSystemDetailsRoute
+  AccountPaymentSystemEmptyRoute: typeof AccountPaymentSystemEmptyRoute
+  AccountPaymentSystemSuccessRoute: typeof AccountPaymentSystemSuccessRoute
+}
+
+const AccountPaymentSystemRouteChildren: AccountPaymentSystemRouteChildren = {
+  AccountPaymentSystemAddRoute: AccountPaymentSystemAddRoute,
+  AccountPaymentSystemDetailsRoute: AccountPaymentSystemDetailsRoute,
+  AccountPaymentSystemEmptyRoute: AccountPaymentSystemEmptyRoute,
+  AccountPaymentSystemSuccessRoute: AccountPaymentSystemSuccessRoute,
+}
+
+const AccountPaymentSystemRouteWithChildren =
+  AccountPaymentSystemRoute._addFileChildren(AccountPaymentSystemRouteChildren)
+
+interface QrScanRouteChildren {
+  QrScanAddRoute: typeof QrScanAddRoute
+  QrScanNoImageRoute: typeof QrScanNoImageRoute
+  QrScanTransitionsRoute: typeof QrScanTransitionsRoute
+}
+
+const QrScanRouteChildren: QrScanRouteChildren = {
+  QrScanAddRoute: QrScanAddRoute,
+  QrScanNoImageRoute: QrScanNoImageRoute,
+  QrScanTransitionsRoute: QrScanTransitionsRoute,
+}
+
+const QrScanRouteWithChildren =
+  QrScanRoute._addFileChildren(QrScanRouteChildren)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/rating-left': typeof RatingLeftRoute
+  '/table/$linkId': typeof TableLinkIdRouteRouteWithChildren
   '/tips/$placeId': typeof TipsPlaceIdRouteRouteWithChildren
   '/account': typeof WithMenuAccountRoute
   '/earn': typeof WithMenuEarnRoute
+  '/loyalty': typeof WithMenuLoyaltyRoute
   '/map': typeof WithMenuMapRoute
   '/selections': typeof WithMenuSelectionsRouteWithChildren
   '/account/access-restricted': typeof AccountAccessRestrictedRoute
+  '/account/history': typeof AccountHistoryRouteWithChildren
   '/account/language': typeof AccountLanguageRoute
+  '/account/notifications': typeof AccountNotificationsRouteWithChildren
+  '/account/payment-system': typeof AccountPaymentSystemRouteWithChildren
   '/account/profile-created': typeof AccountProfileCreatedRoute
   '/account/profile-type': typeof AccountProfileTypeRoute
   '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
+  '/booking/filled': typeof BookingFilledRoute
+  '/booking/process': typeof BookingProcessRoute
+  '/booking/success': typeof BookingSuccessRoute
   '/earn/gratitude': typeof EarnGratitudeRoute
   '/earn/info': typeof EarnInfoRoute
   '/earn/rating': typeof EarnRatingRoute
   '/earn/referrals': typeof EarnReferralsRoute
+  '/loyalty/usage-places': typeof LoyaltyUsagePlacesRoute
   '/menu/$id': typeof MenuIdRoute
   '/profile/$id': typeof ProfileIdRoute
+  '/qr/scan': typeof QrScanRouteWithChildren
+  '/table/$linkId/cart': typeof TableLinkIdCartRouteRouteWithChildren
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/selections/$id': typeof WithMenuSelectionsIdRoute
+  '/account/history/$orderId': typeof AccountHistoryOrderIdRoute
+  '/account/history/empty': typeof AccountHistoryEmptyRoute
+  '/account/history/not-found': typeof AccountHistoryNotFoundRoute
   '/account/my-profile/edit': typeof AccountMyProfileEditRoute
   '/account/my-profile/view': typeof AccountMyProfileViewRoute
+  '/account/notifications/empty': typeof AccountNotificationsEmptyRoute
+  '/account/notifications/not-found': typeof AccountNotificationsNotFoundRoute
+  '/account/payment-system/add': typeof AccountPaymentSystemAddRoute
+  '/account/payment-system/details': typeof AccountPaymentSystemDetailsRoute
+  '/account/payment-system/empty': typeof AccountPaymentSystemEmptyRoute
+  '/account/payment-system/success': typeof AccountPaymentSystemSuccessRoute
   '/menu/$id/$menuItemId': typeof MenuIdMenuItemIdRoute
+  '/pos/pay/stub': typeof PosPayStubRoute
   '/profile/$id/fundraising': typeof ProfileIdFundraisingRoute
+  '/qr/scan/add': typeof QrScanAddRoute
+  '/qr/scan/no-image': typeof QrScanNoImageRoute
+  '/qr/scan/transitions': typeof QrScanTransitionsRoute
+  '/table/$linkId/history': typeof TableLinkIdHistoryRoute
+  '/table/$linkId/payment': typeof TableLinkIdPaymentRoute
+  '/table/$linkId/post-order': typeof TableLinkIdPostOrderRoute
   '/tips/$placeId/assets': typeof TipsPlaceIdAssetsRoute
   '/tips/$placeId/error': typeof TipsPlaceIdErrorRoute
   '/tips/$placeId/info': typeof TipsPlaceIdInfoRoute
   '/tips/$placeId/profile': typeof TipsPlaceIdProfileRoute
   '/tips/$placeId/success': typeof TipsPlaceIdSuccessRoute
+  '/table/$linkId/': typeof TableLinkIdIndexRoute
   '/tips/$placeId/': typeof TipsPlaceIdIndexRoute
+  '/table/$linkId/cart/comment': typeof TableLinkIdCartCommentRoute
+  '/table/$linkId/item/$menuItemId': typeof TableLinkIdItemMenuItemIdRoute
+  '/table/$linkId/order/$orderId': typeof TableLinkIdOrderOrderIdRoute
+  '/table/$linkId/payment-status/error': typeof TableLinkIdPaymentStatusErrorRoute
+  '/table/$linkId/payment-status/no-funds': typeof TableLinkIdPaymentStatusNoFundsRoute
+  '/table/$linkId/payment-status/success': typeof TableLinkIdPaymentStatusSuccessRoute
   '/tips/$placeId/input/amount': typeof TipsPlaceIdInputAmountRoute
   '/tips/$placeId/input/confirm': typeof TipsPlaceIdInputConfirmRoute
+  '/table/$linkId/cart/': typeof TableLinkIdCartIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -609,33 +1245,66 @@ export interface FileRoutesByTo {
   '/rating-left': typeof RatingLeftRoute
   '/account': typeof WithMenuAccountRoute
   '/earn': typeof WithMenuEarnRoute
+  '/loyalty': typeof WithMenuLoyaltyRoute
   '/map': typeof WithMenuMapRoute
   '/selections': typeof WithMenuSelectionsRouteWithChildren
   '/account/access-restricted': typeof AccountAccessRestrictedRoute
+  '/account/history': typeof AccountHistoryRouteWithChildren
   '/account/language': typeof AccountLanguageRoute
+  '/account/notifications': typeof AccountNotificationsRouteWithChildren
+  '/account/payment-system': typeof AccountPaymentSystemRouteWithChildren
   '/account/profile-created': typeof AccountProfileCreatedRoute
   '/account/profile-type': typeof AccountProfileTypeRoute
   '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
+  '/booking/filled': typeof BookingFilledRoute
+  '/booking/process': typeof BookingProcessRoute
+  '/booking/success': typeof BookingSuccessRoute
   '/earn/gratitude': typeof EarnGratitudeRoute
   '/earn/info': typeof EarnInfoRoute
   '/earn/rating': typeof EarnRatingRoute
   '/earn/referrals': typeof EarnReferralsRoute
+  '/loyalty/usage-places': typeof LoyaltyUsagePlacesRoute
   '/menu/$id': typeof MenuIdRoute
   '/profile/$id': typeof ProfileIdRoute
+  '/qr/scan': typeof QrScanRouteWithChildren
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/selections/$id': typeof WithMenuSelectionsIdRoute
+  '/account/history/$orderId': typeof AccountHistoryOrderIdRoute
+  '/account/history/empty': typeof AccountHistoryEmptyRoute
+  '/account/history/not-found': typeof AccountHistoryNotFoundRoute
   '/account/my-profile/edit': typeof AccountMyProfileEditRoute
   '/account/my-profile/view': typeof AccountMyProfileViewRoute
+  '/account/notifications/empty': typeof AccountNotificationsEmptyRoute
+  '/account/notifications/not-found': typeof AccountNotificationsNotFoundRoute
+  '/account/payment-system/add': typeof AccountPaymentSystemAddRoute
+  '/account/payment-system/details': typeof AccountPaymentSystemDetailsRoute
+  '/account/payment-system/empty': typeof AccountPaymentSystemEmptyRoute
+  '/account/payment-system/success': typeof AccountPaymentSystemSuccessRoute
   '/menu/$id/$menuItemId': typeof MenuIdMenuItemIdRoute
+  '/pos/pay/stub': typeof PosPayStubRoute
   '/profile/$id/fundraising': typeof ProfileIdFundraisingRoute
+  '/qr/scan/add': typeof QrScanAddRoute
+  '/qr/scan/no-image': typeof QrScanNoImageRoute
+  '/qr/scan/transitions': typeof QrScanTransitionsRoute
+  '/table/$linkId/history': typeof TableLinkIdHistoryRoute
+  '/table/$linkId/payment': typeof TableLinkIdPaymentRoute
+  '/table/$linkId/post-order': typeof TableLinkIdPostOrderRoute
   '/tips/$placeId/assets': typeof TipsPlaceIdAssetsRoute
   '/tips/$placeId/error': typeof TipsPlaceIdErrorRoute
   '/tips/$placeId/info': typeof TipsPlaceIdInfoRoute
   '/tips/$placeId/profile': typeof TipsPlaceIdProfileRoute
   '/tips/$placeId/success': typeof TipsPlaceIdSuccessRoute
+  '/table/$linkId': typeof TableLinkIdIndexRoute
   '/tips/$placeId': typeof TipsPlaceIdIndexRoute
+  '/table/$linkId/cart/comment': typeof TableLinkIdCartCommentRoute
+  '/table/$linkId/item/$menuItemId': typeof TableLinkIdItemMenuItemIdRoute
+  '/table/$linkId/order/$orderId': typeof TableLinkIdOrderOrderIdRoute
+  '/table/$linkId/payment-status/error': typeof TableLinkIdPaymentStatusErrorRoute
+  '/table/$linkId/payment-status/no-funds': typeof TableLinkIdPaymentStatusNoFundsRoute
+  '/table/$linkId/payment-status/success': typeof TableLinkIdPaymentStatusSuccessRoute
   '/tips/$placeId/input/amount': typeof TipsPlaceIdInputAmountRoute
   '/tips/$placeId/input/confirm': typeof TipsPlaceIdInputConfirmRoute
+  '/table/$linkId/cart': typeof TableLinkIdCartIndexRoute
 }
 
 export interface FileRoutesById {
@@ -644,36 +1313,71 @@ export interface FileRoutesById {
   '/_withMenu': typeof WithMenuRouteRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/rating-left': typeof RatingLeftRoute
+  '/table/$linkId': typeof TableLinkIdRouteRouteWithChildren
   '/tips/$placeId': typeof TipsPlaceIdRouteRouteWithChildren
   '/_withMenu/account': typeof WithMenuAccountRoute
   '/_withMenu/earn': typeof WithMenuEarnRoute
+  '/_withMenu/loyalty': typeof WithMenuLoyaltyRoute
   '/_withMenu/map': typeof WithMenuMapRoute
   '/_withMenu/selections': typeof WithMenuSelectionsRouteWithChildren
   '/account/access-restricted': typeof AccountAccessRestrictedRoute
+  '/account/history': typeof AccountHistoryRouteWithChildren
   '/account/language': typeof AccountLanguageRoute
+  '/account/notifications': typeof AccountNotificationsRouteWithChildren
+  '/account/payment-system': typeof AccountPaymentSystemRouteWithChildren
   '/account/profile-created': typeof AccountProfileCreatedRoute
   '/account/profile-type': typeof AccountProfileTypeRoute
   '/account/profile-type-updated': typeof AccountProfileTypeUpdatedRoute
+  '/booking/filled': typeof BookingFilledRoute
+  '/booking/process': typeof BookingProcessRoute
+  '/booking/success': typeof BookingSuccessRoute
   '/earn/gratitude': typeof EarnGratitudeRoute
   '/earn/info': typeof EarnInfoRoute
   '/earn/rating': typeof EarnRatingRoute
   '/earn/referrals': typeof EarnReferralsRoute
+  '/loyalty/usage-places': typeof LoyaltyUsagePlacesRoute
   '/menu/$id': typeof MenuIdRoute
   '/profile/$id': typeof ProfileIdRoute
+  '/qr/scan': typeof QrScanRouteWithChildren
+  '/table/$linkId/cart': typeof TableLinkIdCartRouteRouteWithChildren
   '/tips/$placeId/input': typeof TipsPlaceIdInputRouteRouteWithChildren
   '/_withMenu/selections/$id': typeof WithMenuSelectionsIdRoute
+  '/account/history/$orderId': typeof AccountHistoryOrderIdRoute
+  '/account/history/empty': typeof AccountHistoryEmptyRoute
+  '/account/history/not-found': typeof AccountHistoryNotFoundRoute
   '/account/my-profile/edit': typeof AccountMyProfileEditRoute
   '/account/my-profile/view': typeof AccountMyProfileViewRoute
+  '/account/notifications/empty': typeof AccountNotificationsEmptyRoute
+  '/account/notifications/not-found': typeof AccountNotificationsNotFoundRoute
+  '/account/payment-system/add': typeof AccountPaymentSystemAddRoute
+  '/account/payment-system/details': typeof AccountPaymentSystemDetailsRoute
+  '/account/payment-system/empty': typeof AccountPaymentSystemEmptyRoute
+  '/account/payment-system/success': typeof AccountPaymentSystemSuccessRoute
   '/menu_/$id/$menuItemId': typeof MenuIdMenuItemIdRoute
+  '/pos/pay/stub': typeof PosPayStubRoute
   '/profile_/$id/fundraising': typeof ProfileIdFundraisingRoute
+  '/qr/scan/add': typeof QrScanAddRoute
+  '/qr/scan/no-image': typeof QrScanNoImageRoute
+  '/qr/scan/transitions': typeof QrScanTransitionsRoute
+  '/table/$linkId/history': typeof TableLinkIdHistoryRoute
+  '/table/$linkId/payment': typeof TableLinkIdPaymentRoute
+  '/table/$linkId/post-order': typeof TableLinkIdPostOrderRoute
   '/tips/$placeId/assets': typeof TipsPlaceIdAssetsRoute
   '/tips/$placeId/error': typeof TipsPlaceIdErrorRoute
   '/tips/$placeId/info': typeof TipsPlaceIdInfoRoute
   '/tips/$placeId/profile': typeof TipsPlaceIdProfileRoute
   '/tips/$placeId/success': typeof TipsPlaceIdSuccessRoute
+  '/table/$linkId/': typeof TableLinkIdIndexRoute
   '/tips/$placeId/': typeof TipsPlaceIdIndexRoute
+  '/table/$linkId/cart/comment': typeof TableLinkIdCartCommentRoute
+  '/table/$linkId/item/$menuItemId': typeof TableLinkIdItemMenuItemIdRoute
+  '/table/$linkId/order/$orderId': typeof TableLinkIdOrderOrderIdRoute
+  '/table/$linkId/payment-status/error': typeof TableLinkIdPaymentStatusErrorRoute
+  '/table/$linkId/payment-status/no-funds': typeof TableLinkIdPaymentStatusNoFundsRoute
+  '/table/$linkId/payment-status/success': typeof TableLinkIdPaymentStatusSuccessRoute
   '/tips/$placeId/input/amount': typeof TipsPlaceIdInputAmountRoute
   '/tips/$placeId/input/confirm': typeof TipsPlaceIdInputConfirmRoute
+  '/table/$linkId/cart/': typeof TableLinkIdCartIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -683,36 +1387,71 @@ export interface FileRouteTypes {
     | ''
     | '/onboarding'
     | '/rating-left'
+    | '/table/$linkId'
     | '/tips/$placeId'
     | '/account'
     | '/earn'
+    | '/loyalty'
     | '/map'
     | '/selections'
     | '/account/access-restricted'
+    | '/account/history'
     | '/account/language'
+    | '/account/notifications'
+    | '/account/payment-system'
     | '/account/profile-created'
     | '/account/profile-type'
     | '/account/profile-type-updated'
+    | '/booking/filled'
+    | '/booking/process'
+    | '/booking/success'
     | '/earn/gratitude'
     | '/earn/info'
     | '/earn/rating'
     | '/earn/referrals'
+    | '/loyalty/usage-places'
     | '/menu/$id'
     | '/profile/$id'
+    | '/qr/scan'
+    | '/table/$linkId/cart'
     | '/tips/$placeId/input'
     | '/selections/$id'
+    | '/account/history/$orderId'
+    | '/account/history/empty'
+    | '/account/history/not-found'
     | '/account/my-profile/edit'
     | '/account/my-profile/view'
+    | '/account/notifications/empty'
+    | '/account/notifications/not-found'
+    | '/account/payment-system/add'
+    | '/account/payment-system/details'
+    | '/account/payment-system/empty'
+    | '/account/payment-system/success'
     | '/menu/$id/$menuItemId'
+    | '/pos/pay/stub'
     | '/profile/$id/fundraising'
+    | '/qr/scan/add'
+    | '/qr/scan/no-image'
+    | '/qr/scan/transitions'
+    | '/table/$linkId/history'
+    | '/table/$linkId/payment'
+    | '/table/$linkId/post-order'
     | '/tips/$placeId/assets'
     | '/tips/$placeId/error'
     | '/tips/$placeId/info'
     | '/tips/$placeId/profile'
     | '/tips/$placeId/success'
+    | '/table/$linkId/'
     | '/tips/$placeId/'
+    | '/table/$linkId/cart/comment'
+    | '/table/$linkId/item/$menuItemId'
+    | '/table/$linkId/order/$orderId'
+    | '/table/$linkId/payment-status/error'
+    | '/table/$linkId/payment-status/no-funds'
+    | '/table/$linkId/payment-status/success'
     | '/tips/$placeId/input/amount'
     | '/tips/$placeId/input/confirm'
+    | '/table/$linkId/cart/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -721,69 +1460,137 @@ export interface FileRouteTypes {
     | '/rating-left'
     | '/account'
     | '/earn'
+    | '/loyalty'
     | '/map'
     | '/selections'
     | '/account/access-restricted'
+    | '/account/history'
     | '/account/language'
+    | '/account/notifications'
+    | '/account/payment-system'
     | '/account/profile-created'
     | '/account/profile-type'
     | '/account/profile-type-updated'
+    | '/booking/filled'
+    | '/booking/process'
+    | '/booking/success'
     | '/earn/gratitude'
     | '/earn/info'
     | '/earn/rating'
     | '/earn/referrals'
+    | '/loyalty/usage-places'
     | '/menu/$id'
     | '/profile/$id'
+    | '/qr/scan'
     | '/tips/$placeId/input'
     | '/selections/$id'
+    | '/account/history/$orderId'
+    | '/account/history/empty'
+    | '/account/history/not-found'
     | '/account/my-profile/edit'
     | '/account/my-profile/view'
+    | '/account/notifications/empty'
+    | '/account/notifications/not-found'
+    | '/account/payment-system/add'
+    | '/account/payment-system/details'
+    | '/account/payment-system/empty'
+    | '/account/payment-system/success'
     | '/menu/$id/$menuItemId'
+    | '/pos/pay/stub'
     | '/profile/$id/fundraising'
+    | '/qr/scan/add'
+    | '/qr/scan/no-image'
+    | '/qr/scan/transitions'
+    | '/table/$linkId/history'
+    | '/table/$linkId/payment'
+    | '/table/$linkId/post-order'
     | '/tips/$placeId/assets'
     | '/tips/$placeId/error'
     | '/tips/$placeId/info'
     | '/tips/$placeId/profile'
     | '/tips/$placeId/success'
+    | '/table/$linkId'
     | '/tips/$placeId'
+    | '/table/$linkId/cart/comment'
+    | '/table/$linkId/item/$menuItemId'
+    | '/table/$linkId/order/$orderId'
+    | '/table/$linkId/payment-status/error'
+    | '/table/$linkId/payment-status/no-funds'
+    | '/table/$linkId/payment-status/success'
     | '/tips/$placeId/input/amount'
     | '/tips/$placeId/input/confirm'
+    | '/table/$linkId/cart'
   id:
     | '__root__'
     | '/'
     | '/_withMenu'
     | '/onboarding'
     | '/rating-left'
+    | '/table/$linkId'
     | '/tips/$placeId'
     | '/_withMenu/account'
     | '/_withMenu/earn'
+    | '/_withMenu/loyalty'
     | '/_withMenu/map'
     | '/_withMenu/selections'
     | '/account/access-restricted'
+    | '/account/history'
     | '/account/language'
+    | '/account/notifications'
+    | '/account/payment-system'
     | '/account/profile-created'
     | '/account/profile-type'
     | '/account/profile-type-updated'
+    | '/booking/filled'
+    | '/booking/process'
+    | '/booking/success'
     | '/earn/gratitude'
     | '/earn/info'
     | '/earn/rating'
     | '/earn/referrals'
+    | '/loyalty/usage-places'
     | '/menu/$id'
     | '/profile/$id'
+    | '/qr/scan'
+    | '/table/$linkId/cart'
     | '/tips/$placeId/input'
     | '/_withMenu/selections/$id'
+    | '/account/history/$orderId'
+    | '/account/history/empty'
+    | '/account/history/not-found'
     | '/account/my-profile/edit'
     | '/account/my-profile/view'
+    | '/account/notifications/empty'
+    | '/account/notifications/not-found'
+    | '/account/payment-system/add'
+    | '/account/payment-system/details'
+    | '/account/payment-system/empty'
+    | '/account/payment-system/success'
     | '/menu_/$id/$menuItemId'
+    | '/pos/pay/stub'
     | '/profile_/$id/fundraising'
+    | '/qr/scan/add'
+    | '/qr/scan/no-image'
+    | '/qr/scan/transitions'
+    | '/table/$linkId/history'
+    | '/table/$linkId/payment'
+    | '/table/$linkId/post-order'
     | '/tips/$placeId/assets'
     | '/tips/$placeId/error'
     | '/tips/$placeId/info'
     | '/tips/$placeId/profile'
     | '/tips/$placeId/success'
+    | '/table/$linkId/'
     | '/tips/$placeId/'
+    | '/table/$linkId/cart/comment'
+    | '/table/$linkId/item/$menuItemId'
+    | '/table/$linkId/order/$orderId'
+    | '/table/$linkId/payment-status/error'
+    | '/table/$linkId/payment-status/no-funds'
+    | '/table/$linkId/payment-status/success'
     | '/tips/$placeId/input/amount'
     | '/tips/$placeId/input/confirm'
+    | '/table/$linkId/cart/'
   fileRoutesById: FileRoutesById
 }
 
@@ -792,21 +1599,31 @@ export interface RootRouteChildren {
   WithMenuRouteRoute: typeof WithMenuRouteRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
   RatingLeftRoute: typeof RatingLeftRoute
+  TableLinkIdRouteRoute: typeof TableLinkIdRouteRouteWithChildren
   TipsPlaceIdRouteRoute: typeof TipsPlaceIdRouteRouteWithChildren
   AccountAccessRestrictedRoute: typeof AccountAccessRestrictedRoute
+  AccountHistoryRoute: typeof AccountHistoryRouteWithChildren
   AccountLanguageRoute: typeof AccountLanguageRoute
+  AccountNotificationsRoute: typeof AccountNotificationsRouteWithChildren
+  AccountPaymentSystemRoute: typeof AccountPaymentSystemRouteWithChildren
   AccountProfileCreatedRoute: typeof AccountProfileCreatedRoute
   AccountProfileTypeRoute: typeof AccountProfileTypeRoute
   AccountProfileTypeUpdatedRoute: typeof AccountProfileTypeUpdatedRoute
+  BookingFilledRoute: typeof BookingFilledRoute
+  BookingProcessRoute: typeof BookingProcessRoute
+  BookingSuccessRoute: typeof BookingSuccessRoute
   EarnGratitudeRoute: typeof EarnGratitudeRoute
   EarnInfoRoute: typeof EarnInfoRoute
   EarnRatingRoute: typeof EarnRatingRoute
   EarnReferralsRoute: typeof EarnReferralsRoute
+  LoyaltyUsagePlacesRoute: typeof LoyaltyUsagePlacesRoute
   MenuIdRoute: typeof MenuIdRoute
   ProfileIdRoute: typeof ProfileIdRoute
+  QrScanRoute: typeof QrScanRouteWithChildren
   AccountMyProfileEditRoute: typeof AccountMyProfileEditRoute
   AccountMyProfileViewRoute: typeof AccountMyProfileViewRoute
   MenuIdMenuItemIdRoute: typeof MenuIdMenuItemIdRoute
+  PosPayStubRoute: typeof PosPayStubRoute
   ProfileIdFundraisingRoute: typeof ProfileIdFundraisingRoute
 }
 
@@ -815,21 +1632,31 @@ const rootRouteChildren: RootRouteChildren = {
   WithMenuRouteRoute: WithMenuRouteRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
   RatingLeftRoute: RatingLeftRoute,
+  TableLinkIdRouteRoute: TableLinkIdRouteRouteWithChildren,
   TipsPlaceIdRouteRoute: TipsPlaceIdRouteRouteWithChildren,
   AccountAccessRestrictedRoute: AccountAccessRestrictedRoute,
+  AccountHistoryRoute: AccountHistoryRouteWithChildren,
   AccountLanguageRoute: AccountLanguageRoute,
+  AccountNotificationsRoute: AccountNotificationsRouteWithChildren,
+  AccountPaymentSystemRoute: AccountPaymentSystemRouteWithChildren,
   AccountProfileCreatedRoute: AccountProfileCreatedRoute,
   AccountProfileTypeRoute: AccountProfileTypeRoute,
   AccountProfileTypeUpdatedRoute: AccountProfileTypeUpdatedRoute,
+  BookingFilledRoute: BookingFilledRoute,
+  BookingProcessRoute: BookingProcessRoute,
+  BookingSuccessRoute: BookingSuccessRoute,
   EarnGratitudeRoute: EarnGratitudeRoute,
   EarnInfoRoute: EarnInfoRoute,
   EarnRatingRoute: EarnRatingRoute,
   EarnReferralsRoute: EarnReferralsRoute,
+  LoyaltyUsagePlacesRoute: LoyaltyUsagePlacesRoute,
   MenuIdRoute: MenuIdRoute,
   ProfileIdRoute: ProfileIdRoute,
+  QrScanRoute: QrScanRouteWithChildren,
   AccountMyProfileEditRoute: AccountMyProfileEditRoute,
   AccountMyProfileViewRoute: AccountMyProfileViewRoute,
   MenuIdMenuItemIdRoute: MenuIdMenuItemIdRoute,
+  PosPayStubRoute: PosPayStubRoute,
   ProfileIdFundraisingRoute: ProfileIdFundraisingRoute,
 }
 
@@ -847,21 +1674,31 @@ export const routeTree = rootRoute
         "/_withMenu",
         "/onboarding",
         "/rating-left",
+        "/table/$linkId",
         "/tips/$placeId",
         "/account/access-restricted",
+        "/account/history",
         "/account/language",
+        "/account/notifications",
+        "/account/payment-system",
         "/account/profile-created",
         "/account/profile-type",
         "/account/profile-type-updated",
+        "/booking/filled",
+        "/booking/process",
+        "/booking/success",
         "/earn/gratitude",
         "/earn/info",
         "/earn/rating",
         "/earn/referrals",
+        "/loyalty/usage-places",
         "/menu/$id",
         "/profile/$id",
+        "/qr/scan",
         "/account/my-profile/edit",
         "/account/my-profile/view",
         "/menu_/$id/$menuItemId",
+        "/pos/pay/stub",
         "/profile_/$id/fundraising"
       ]
     },
@@ -873,6 +1710,7 @@ export const routeTree = rootRoute
       "children": [
         "/_withMenu/account",
         "/_withMenu/earn",
+        "/_withMenu/loyalty",
         "/_withMenu/map",
         "/_withMenu/selections"
       ]
@@ -882,6 +1720,21 @@ export const routeTree = rootRoute
     },
     "/rating-left": {
       "filePath": "rating-left.tsx"
+    },
+    "/table/$linkId": {
+      "filePath": "table.$linkId/route.tsx",
+      "children": [
+        "/table/$linkId/cart",
+        "/table/$linkId/history",
+        "/table/$linkId/payment",
+        "/table/$linkId/post-order",
+        "/table/$linkId/",
+        "/table/$linkId/item/$menuItemId",
+        "/table/$linkId/order/$orderId",
+        "/table/$linkId/payment-status/error",
+        "/table/$linkId/payment-status/no-funds",
+        "/table/$linkId/payment-status/success"
+      ]
     },
     "/tips/$placeId": {
       "filePath": "tips.$placeId/route.tsx",
@@ -903,6 +1756,10 @@ export const routeTree = rootRoute
       "filePath": "_withMenu/earn.tsx",
       "parent": "/_withMenu"
     },
+    "/_withMenu/loyalty": {
+      "filePath": "_withMenu/loyalty.tsx",
+      "parent": "/_withMenu"
+    },
     "/_withMenu/map": {
       "filePath": "_withMenu/map.tsx",
       "parent": "/_withMenu"
@@ -917,8 +1774,32 @@ export const routeTree = rootRoute
     "/account/access-restricted": {
       "filePath": "account/access-restricted.tsx"
     },
+    "/account/history": {
+      "filePath": "account/history.tsx",
+      "children": [
+        "/account/history/$orderId",
+        "/account/history/empty",
+        "/account/history/not-found"
+      ]
+    },
     "/account/language": {
       "filePath": "account/language.tsx"
+    },
+    "/account/notifications": {
+      "filePath": "account/notifications.tsx",
+      "children": [
+        "/account/notifications/empty",
+        "/account/notifications/not-found"
+      ]
+    },
+    "/account/payment-system": {
+      "filePath": "account/payment-system.tsx",
+      "children": [
+        "/account/payment-system/add",
+        "/account/payment-system/details",
+        "/account/payment-system/empty",
+        "/account/payment-system/success"
+      ]
     },
     "/account/profile-created": {
       "filePath": "account/profile-created.tsx"
@@ -928,6 +1809,15 @@ export const routeTree = rootRoute
     },
     "/account/profile-type-updated": {
       "filePath": "account/profile-type-updated.tsx"
+    },
+    "/booking/filled": {
+      "filePath": "booking.filled.tsx"
+    },
+    "/booking/process": {
+      "filePath": "booking.process.tsx"
+    },
+    "/booking/success": {
+      "filePath": "booking.success.tsx"
     },
     "/earn/gratitude": {
       "filePath": "earn/gratitude.tsx"
@@ -941,11 +1831,30 @@ export const routeTree = rootRoute
     "/earn/referrals": {
       "filePath": "earn/referrals.tsx"
     },
+    "/loyalty/usage-places": {
+      "filePath": "loyalty/usage-places.tsx"
+    },
     "/menu/$id": {
       "filePath": "menu.$id.tsx"
     },
     "/profile/$id": {
       "filePath": "profile.$id.tsx"
+    },
+    "/qr/scan": {
+      "filePath": "qr.scan.tsx",
+      "children": [
+        "/qr/scan/add",
+        "/qr/scan/no-image",
+        "/qr/scan/transitions"
+      ]
+    },
+    "/table/$linkId/cart": {
+      "filePath": "table.$linkId/cart/route.tsx",
+      "parent": "/table/$linkId",
+      "children": [
+        "/table/$linkId/cart/comment",
+        "/table/$linkId/cart/"
+      ]
     },
     "/tips/$placeId/input": {
       "filePath": "tips.$placeId/input/route.tsx",
@@ -959,17 +1868,80 @@ export const routeTree = rootRoute
       "filePath": "_withMenu/selections.$id.tsx",
       "parent": "/_withMenu/selections"
     },
+    "/account/history/$orderId": {
+      "filePath": "account/history.$orderId.tsx",
+      "parent": "/account/history"
+    },
+    "/account/history/empty": {
+      "filePath": "account/history.empty.tsx",
+      "parent": "/account/history"
+    },
+    "/account/history/not-found": {
+      "filePath": "account/history.not-found.tsx",
+      "parent": "/account/history"
+    },
     "/account/my-profile/edit": {
       "filePath": "account/my-profile.edit.tsx"
     },
     "/account/my-profile/view": {
       "filePath": "account/my-profile.view.tsx"
     },
+    "/account/notifications/empty": {
+      "filePath": "account/notifications.empty.tsx",
+      "parent": "/account/notifications"
+    },
+    "/account/notifications/not-found": {
+      "filePath": "account/notifications.not-found.tsx",
+      "parent": "/account/notifications"
+    },
+    "/account/payment-system/add": {
+      "filePath": "account/payment-system.add.tsx",
+      "parent": "/account/payment-system"
+    },
+    "/account/payment-system/details": {
+      "filePath": "account/payment-system.details.tsx",
+      "parent": "/account/payment-system"
+    },
+    "/account/payment-system/empty": {
+      "filePath": "account/payment-system.empty.tsx",
+      "parent": "/account/payment-system"
+    },
+    "/account/payment-system/success": {
+      "filePath": "account/payment-system.success.tsx",
+      "parent": "/account/payment-system"
+    },
     "/menu_/$id/$menuItemId": {
       "filePath": "menu_.$id.$menuItemId.tsx"
     },
+    "/pos/pay/stub": {
+      "filePath": "pos/pay/stub.tsx"
+    },
     "/profile_/$id/fundraising": {
       "filePath": "profile_.$id.fundraising.tsx"
+    },
+    "/qr/scan/add": {
+      "filePath": "qr.scan.add.tsx",
+      "parent": "/qr/scan"
+    },
+    "/qr/scan/no-image": {
+      "filePath": "qr.scan.no-image.tsx",
+      "parent": "/qr/scan"
+    },
+    "/qr/scan/transitions": {
+      "filePath": "qr.scan.transitions.tsx",
+      "parent": "/qr/scan"
+    },
+    "/table/$linkId/history": {
+      "filePath": "table.$linkId/history.tsx",
+      "parent": "/table/$linkId"
+    },
+    "/table/$linkId/payment": {
+      "filePath": "table.$linkId/payment.tsx",
+      "parent": "/table/$linkId"
+    },
+    "/table/$linkId/post-order": {
+      "filePath": "table.$linkId/post-order.tsx",
+      "parent": "/table/$linkId"
     },
     "/tips/$placeId/assets": {
       "filePath": "tips.$placeId/assets.tsx",
@@ -991,9 +1963,37 @@ export const routeTree = rootRoute
       "filePath": "tips.$placeId/success.tsx",
       "parent": "/tips/$placeId"
     },
+    "/table/$linkId/": {
+      "filePath": "table.$linkId/index.tsx",
+      "parent": "/table/$linkId"
+    },
     "/tips/$placeId/": {
       "filePath": "tips.$placeId/index.tsx",
       "parent": "/tips/$placeId"
+    },
+    "/table/$linkId/cart/comment": {
+      "filePath": "table.$linkId/cart/comment.tsx",
+      "parent": "/table/$linkId/cart"
+    },
+    "/table/$linkId/item/$menuItemId": {
+      "filePath": "table.$linkId/item.$menuItemId.tsx",
+      "parent": "/table/$linkId"
+    },
+    "/table/$linkId/order/$orderId": {
+      "filePath": "table.$linkId/order.$orderId.tsx",
+      "parent": "/table/$linkId"
+    },
+    "/table/$linkId/payment-status/error": {
+      "filePath": "table.$linkId/payment-status.error.tsx",
+      "parent": "/table/$linkId"
+    },
+    "/table/$linkId/payment-status/no-funds": {
+      "filePath": "table.$linkId/payment-status.no-funds.tsx",
+      "parent": "/table/$linkId"
+    },
+    "/table/$linkId/payment-status/success": {
+      "filePath": "table.$linkId/payment-status.success.tsx",
+      "parent": "/table/$linkId"
     },
     "/tips/$placeId/input/amount": {
       "filePath": "tips.$placeId/input/amount.tsx",
@@ -1002,6 +2002,10 @@ export const routeTree = rootRoute
     "/tips/$placeId/input/confirm": {
       "filePath": "tips.$placeId/input/confirm.tsx",
       "parent": "/tips/$placeId/input"
+    },
+    "/table/$linkId/cart/": {
+      "filePath": "table.$linkId/cart/index.tsx",
+      "parent": "/table/$linkId/cart"
     }
   }
 }

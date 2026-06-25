@@ -2,6 +2,7 @@ import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute, useRouter } from "@tanstack/react-router"
 import { hapticFeedback, popup } from "@telegram-apps/sdk-react"
 
+import { useTranslation } from "@point/i18n"
 import { authQueryOptions } from "@point/shared/api/point/auth"
 import { invitationQueryOptions, useDeleteEmployeeMutation } from "@point/shared/api/point/employee"
 import { Icon } from "@point/ui/icon"
@@ -25,6 +26,7 @@ function RouteComponent() {
   const ctx = Route.useRouteContext()
   const navigate = Route.useNavigate()
   const router = useRouter()
+  const { t } = useTranslation()
 
   const deleteEmployeeMutation = useDeleteEmployeeMutation()
 
@@ -46,11 +48,11 @@ function RouteComponent() {
 
     const selected = await popup.show({
       buttons: [
-        { id: "go", text: "GO", type: "default" },
+        { id: "go", text: t("UI.CONTINUE"), type: "default" },
         { id: "cancel", type: "cancel" },
       ],
-      message: "Are you sure you want to switch to a new account type? This action cannot be canceled",
-      title: "Changing Account Type",
+      message: t("ACCOUNT.PROFILE_TYPE.CHANGE_CONFIRM"),
+      title: t("ACCOUNT.PROFILE_TYPE.CHANGE_TITLE"),
     })
 
     if (selected === "go") {
@@ -70,11 +72,11 @@ function RouteComponent() {
 
     const selected = await popup.show({
       buttons: [
-        { id: "go", text: "GO", type: "default" },
+        { id: "go", text: t("UI.CONTINUE"), type: "default" },
         { id: "cancel", type: "cancel" },
       ],
-      message: "Are you sure you want to switch to a new account type? This action cannot be canceled",
-      title: "Changing Account Type",
+      message: t("ACCOUNT.PROFILE_TYPE.CHANGE_CONFIRM"),
+      title: t("ACCOUNT.PROFILE_TYPE.CHANGE_TITLE"),
     })
 
     if (selected === "go") {
@@ -94,11 +96,11 @@ function RouteComponent() {
 
   return (
     <div className="p-4 py-5">
-      <List className="" title="profile type">
+      <List className="" title={t("ACCOUNT.PROFILE_TYPE.TITLE")}>
         <ListItem
-          leftBottomText="Free access"
+          leftBottomText={t("ACCOUNT.PROFILE_TYPE.USER_DESC")}
           leftIcon={<Icon className="size-10 text-transparent" name="User Circle Filled" />}
-          leftTopText="User"
+          leftTopText={t("ACCOUNT.PROFILE_TYPE.USER")}
           onClick={handleUserClick}
           rightIcon={
             currentProfileType === "user" ? <Icon className="h-5 w-5 text-transparent" name="TickCircle" /> : undefined
@@ -107,9 +109,9 @@ function RouteComponent() {
         />
 
         <ListItem
-          leftBottomText="Access by invitation"
+          leftBottomText={t("ACCOUNT.PROFILE_TYPE.EMPLOYEE_DESC")}
           leftIcon={<Icon className="size-10 text-transparent" name="Users Circle Filled" />}
-          leftTopText="Employee"
+          leftTopText={t("ACCOUNT.PROFILE_TYPE.EMPLOYEE")}
           onClick={handleEmployeeClick}
           rightIcon={
             currentProfileType === "employee" ? (

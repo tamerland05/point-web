@@ -1,18 +1,14 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import { hapticFeedback, popup } from "@telegram-apps/sdk-react"
-import { useTonAddress, useTonConnectUI } from "@tonconnect/ui-react"
+import { hapticFeedback } from "@telegram-apps/sdk-react"
 import { useSetAtom } from "jotai"
 import Img from "react-cool-img"
 
 import { authQueryOptions } from "@point/shared/api/point/auth"
-import { Icon } from "@point/ui/icon"
-import { List } from "@point/ui/list"
-import { ListItem } from "@point/ui/list-item"
-
-import { trimAddress } from "@/utils/trim-address"
 
 import { onboardingCompletedAtom } from "../../atoms/user"
+import { accountAssets } from "../../components/account/accountAssets"
+import { AccountMenuItem, AccountMenuList } from "../../components/account/accountListUi"
 
 export const Route = createFileRoute("/_withMenu/account")({
   component: RouteComponent,
@@ -27,13 +23,13 @@ export const Route = createFileRoute("/_withMenu/account")({
   },
 })
 
+const menuChevron = <img alt="" className="h-[11px] w-[6px] shrink-0" src={accountAssets.chevron} />
+
+const menuIcon = (src: string) => <img alt="" className="size-[30px] shrink-0" src={src} />
+
 function RouteComponent() {
-  const [tc] = useTonConnectUI()
-  const address = useTonAddress()
   const ctx = Route.useRouteContext()
   const navigate = Route.useNavigate()
-
-  // const { i18n } = useTranslation()
 
   const setOnboardingCompleted = useSetAtom(onboardingCompletedAtom)
 
@@ -41,23 +37,32 @@ function RouteComponent() {
   const authQuery = useSuspenseQuery(authQueryOptions(ctx.launchParams!.tgWebAppData!, ctx.initDataRaw!))
   const user = authQuery.data?.user
 
-  const profileType = !user.employee ? "User" : "Employee"
-  // const language = LANGUAGES_LIST.find((l) => l.lang === (user.languageCode || i18n.language))?.name
+  const profileType = "Эксперт"
 
   const handleGoToMyProfile = () => {
     hapticFeedback.impactOccurred("light")
     navigate({ to: "/account/my-profile/view" })
   }
 
-  const handleGoToProfileType = () => {
+  const handleGoToHistory = () => {
     hapticFeedback.impactOccurred("light")
-    navigate({ to: "/account/profile-type" })
+    navigate({ to: "/account/history" })
   }
 
-  // const handleGoToLanguage = () => {
-  //   hapticFeedback.impactOccurred("light")
-  //   navigate({ to: "/account/language" })
-  // }
+  const handleGoToScanner = () => {
+    hapticFeedback.impactOccurred("light")
+    navigate({ to: "/qr/scan" })
+  }
+
+  const handleGoToNotifications = () => {
+    hapticFeedback.impactOccurred("light")
+    navigate({ to: "/account/notifications" })
+  }
+
+  const handleGoToLanguage = () => {
+    hapticFeedback.impactOccurred("light")
+    navigate({ to: "/account/language" })
+  }
 
   const handleGoToInformation = async () => {
     hapticFeedback.impactOccurred("light")
@@ -66,116 +71,96 @@ function RouteComponent() {
     navigate({ replace: true, to: "/onboarding", viewTransition: { types: ["none"] } })
   }
 
-  const handleClickWallet = async () => {
+  const handleGoToPaymentSystem = () => {
     hapticFeedback.impactOccurred("light")
-
-    if (address || user.wallet) {
-      const selected = await popup.show({
-        buttons: [
-          { id: "go", text: "GO", type: "destructive" },
-          { id: "cancel", type: "cancel" },
-        ],
-        message: "You can link a new wallet to receive tips and drops",
-        title: "Connect a new wallet",
-      })
-
-      if (selected === "cancel") return
-
-      if (selected === "go") {
-        if (address) await tc.disconnect()
-        tc.modal.open()
-      }
-
-      return
-    }
-
-    tc.modal.open()
+    navigate({ to: "/account/payment-system/details" })
   }
 
   return (
-    <div className="flex h-full flex-col justify-between pb-4">
-      <header className="mb-7 flex flex-col items-center gap-2">
-        <Img
-          className="mb-2 size-24 rounded-full object-cover"
-          error="/user-ph.svg"
-          placeholder="/user-ph.svg"
-          src={user.employee?.photo || user.photoUrl}
-        />
-
-        <h1 className="font-medium text-title-1">{user.employee?.name || user.name}</h1>
-        <p className="text-caption-1 text-text-secondary">{profileType}</p>
-      </header>
-
-      <div className="flex w-full flex-col gap-7">
-        <ListItem
-          leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account0" />}
-          leftTopText={"My Profile"}
-          onClick={handleGoToMyProfile}
-          rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
-        />
-
-        <List>
-          <ListItem
-            leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account1" />}
-            leftTopText="Profile Type"
-            onClick={handleGoToProfileType}
-            rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
-            rightTopText={<div className="-mr-4 text-text-secondary">{profileType}</div>}
-            withSeparator
+    <div className="flex flex-col gap-7">
+      <div className="rounded-2xl bg-white pl-4">
+        <div className="flex items-center gap-4 py-3 pr-4">
+          <Img
+            className="size-12 rounded-full border border-black/[0.05] object-cover"
+            error="/user-ph.svg"
+            placeholder="/user-ph.svg"
+            src={user.employee?.photo || user.photoUrl}
           />
-          {/* <ListItem
-            leftTopText="Language"
-            leftIcon={<Icon name="Account2" className="h-7 w-7 text-transparent" />}
-            rightIcon={<Icon name="ChevronRight" className="h-7 w-7 py-1.5 pl-3 text-text-secondary" />}
-            withSeparator
-            rightTopText={<div className="-mr-4 text-text-secondary">{language}</div>}
-            onClick={handleGoToLanguage}
-          /> */}
-          <ListItem
-            leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account3" />}
-            leftTopText="Information"
-            onClick={handleGoToInformation}
-            rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
-          />
-        </List>
 
-        {/* <ListItem
-          leftTopText="Location"
-          leftIcon={<Icon name="Account4" className="h-7 w-7 text-transparent" />}
-          rightTopText={<div className="text-text-secondary">WIP</div>}
-        /> */}
+          <div className="min-w-0 flex-1">
+            <h1 className="truncate font-medium text-[17px] text-text leading-normal">
+              {user.employee?.name || user.name}
+            </h1>
+            <div className="mt-0.5 flex items-center gap-1">
+              <img alt="" className="h-3 w-[15px]" src={accountAssets.expertThumb} />
+              <p className="text-[15px] text-text-secondary leading-normal">{profileType}</p>
+            </div>
+          </div>
 
-        <List>
-          <ListItem
-            leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account5" />}
-            leftTopText="Wallet"
-            onClick={handleClickWallet}
-            rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
-            rightTopText={
-              <div className="-mr-4 text-text-secondary">
-                {user.wallet ? trimAddress(user.wallet, 4, 5) : "Not Connected"}
-              </div>
-            }
-            withSeparator
-          />
-          <ListItem
-            leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account6" />}
-            leftTopText="Default Currency"
-            rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
-            rightTopText={<div className="-mr-4 text-text-secondary">USD</div>}
-            withSeparator
-          />
-          <ListItem
-            leftIcon={<Icon className="h-7 w-7 text-transparent" name="Account7" />}
-            leftTopText="Contact Support"
-            rightIcon={<Icon className="h-7 w-7 py-1.5 pl-3 text-text-secondary" name="ChevronRight" />}
-          />
-        </List>
+          <div className="flex gap-3">
+            <button className="shrink-0" onClick={handleGoToScanner} type="button">
+              <img alt="Сканер" className="size-11" src={accountAssets.actionScanner} />
+            </button>
+            <button className="shrink-0" onClick={handleGoToNotifications} type="button">
+              <img alt="Уведомления" className="size-11" src={accountAssets.actionBell} />
+            </button>
+          </div>
+        </div>
       </div>
 
-      <code className="mt-auto flex flex-col items-center justify-center py-6 text-caption-3 text-text-secondary">
-        <div>Point v{__APP_VERSION__} </div>
-      </code>
+      <AccountMenuList>
+        <AccountMenuItem
+          label="Мой профиль"
+          leftIcon={menuIcon(accountAssets.menuMyProfile)}
+          onClick={handleGoToMyProfile}
+          rightIcon={menuChevron}
+          withSeparator
+        />
+        <AccountMenuItem
+          label="История заказов"
+          leftIcon={menuIcon(accountAssets.menuHistory)}
+          onClick={handleGoToHistory}
+          rightIcon={menuChevron}
+        />
+      </AccountMenuList>
+
+      <AccountMenuList>
+        <AccountMenuItem
+          label="Язык"
+          leftIcon={menuIcon(accountAssets.menuLanguage)}
+          onClick={handleGoToLanguage}
+          rightIcon={menuChevron}
+          withSeparator
+        />
+        <AccountMenuItem
+          label="Система оплаты"
+          leftIcon={menuIcon(accountAssets.menuPayment)}
+          onClick={handleGoToPaymentSystem}
+          rightIcon={menuChevron}
+        />
+      </AccountMenuList>
+
+      <AccountMenuList>
+        <AccountMenuItem
+          label="Поддержка"
+          leftIcon={menuIcon(accountAssets.menuSupport)}
+          rightIcon={menuChevron}
+          withSeparator
+        />
+        <AccountMenuItem
+          label="Для бизнеса"
+          leftIcon={menuIcon(accountAssets.menuBusiness)}
+          onClick={handleGoToInformation}
+          rightIcon={menuChevron}
+          withSeparator
+        />
+        <AccountMenuItem
+          label="Информация"
+          leftIcon={menuIcon(accountAssets.menuInfo)}
+          onClick={handleGoToInformation}
+          rightIcon={menuChevron}
+        />
+      </AccountMenuList>
     </div>
   )
 }

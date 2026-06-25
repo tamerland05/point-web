@@ -4,6 +4,7 @@ import { useTonConnectUI } from "@tonconnect/ui-react"
 import { useCallback, useMemo } from "react"
 import toast from "react-hot-toast"
 
+import { useTranslation } from "@point/i18n"
 import { establishmentQueryOptions } from "@point/shared/api/point/establishments"
 import {
   type AssetDTO,
@@ -41,6 +42,7 @@ function RouteComponent() {
   const [tc] = useTonConnectUI()
   const { recipient, amount, id } = Route.useSearch()
   const { formatCurrency } = useFormatter()
+  const { t } = useTranslation()
 
   const userQuery = useQuery(userQueryOptions(id))
   const user = userQuery.data
@@ -89,7 +91,7 @@ function RouteComponent() {
 
   const handleContinueClick = useCallback(async () => {
     if (!tipCheckoutTxs || tipCheckoutTxs.length === 0) {
-      toast.error("Transaction isnt ready")
+      toast.error(t("TIPS.CONFIRM.TRANSACTION_PENDING"))
       return
     }
 
@@ -107,7 +109,7 @@ function RouteComponent() {
       return
     }
 
-    toast("Transaction sent")
+    toast(t("TIPS.CONFIRM.TRANSACTION_SENT"))
     navigate({ to: "/tips/$placeId/success" })
   }, [navigate, tipCheckoutTxs, tc])
 
@@ -117,7 +119,7 @@ function RouteComponent() {
       hidden={!isEnoughBalance || !amount || amount === "0"}
       loading={tipCheckoutTxsIsLoading}
       onClick={handleContinueClick}
-      title={"Continue"}
+      title={t("UI.CONTINUE")}
     >
       <div className="mt-5 flex max-w-full items-end gap-1">
         <span className={cn("relative min-w-[1ch] font-sf-pro-rounded leading-[55px] outline-none")} style={style}>
@@ -138,18 +140,20 @@ function RouteComponent() {
         </div>
       )}
 
-      <List title="payment details">
+      <List title={t("TIPS.CONFIRM.CHECKOUT_DETAILS")}>
         <ListItem
           leftBottomText={
             <span className="text-base text-text">{user ? user.employee?.jobPlace?.name : establishment?.name}</span>
           }
-          leftTopText={<span className="text-caption-1 text-text-secondary">Establishment</span>}
+          leftTopText={<span className="text-caption-1 text-text-secondary">{t("TIPS.CONFIRM.RESTAURANT")}</span>}
           withSeparator
         />
         {user && (
           <ListItem
             leftBottomText={<span className="text-base text-text capitalize">{user.employee?.profession}</span>}
-            leftTopText={<span className="text-caption-1 text-text-secondary">Recipient status</span>}
+            leftTopText={
+              <span className="text-caption-1 text-text-secondary">{t("TIPS.CONFIRM.RECIPIENT_STATUS")}</span>
+            }
             withSeparator
           />
         )}
@@ -159,7 +163,9 @@ function RouteComponent() {
               {user ? user.employee?.jobPlace?.address : establishment?.position.address}
             </span>
           }
-          leftTopText={<span className="text-caption-1 text-text-secondary">Recipient Address</span>}
+          leftTopText={
+            <span className="text-caption-1 text-text-secondary">{t("TIPS.CONFIRM.RECIPIENT_ADDRESS")}</span>
+          }
         />
       </List>
     </ShowMainButton>

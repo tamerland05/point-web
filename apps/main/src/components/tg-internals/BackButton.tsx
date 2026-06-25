@@ -4,8 +4,7 @@ import { useCallback, useEffect } from "react"
 
 const routesWithoutBB = [
   { to: "/account" },
-  { search: { expanded: false }, to: "/map" },
-  { to: "/earn" },
+  { to: "/loyalty" },
   { to: "/selections" },
 
   { to: "/tips/$placeId/success" },
@@ -28,12 +27,14 @@ export const BackButtonTMA = () => {
 
   const isOnMenuItem = !!matchRoute({ to: "/menu/$id/$menuItemId" })
   const isOnMenuList = !!matchRoute({ to: "/menu/$id" })
-  const isOnExpandedPlace = !!matchRoute({ to: "/map" }) && search?.expanded === true && !!selectedPlaceId
+  const isOnMap = !!matchRoute({ to: "/map" })
+  const isOnMapWithPlace = isOnMap && !!selectedPlaceId
+  const isOnExpandedPlace = isOnMapWithPlace && search?.expanded === true
+  const isOnMapDiscovery = isOnMap && !selectedPlaceId
 
-  const backButtonExclude = routesWithoutBB.some((route) => !!matchRoute(route))
+  const backButtonExclude = routesWithoutBB.some((route) => !!matchRoute(route)) || isOnMapDiscovery
 
-  const canGoLogicalBack =
-    canGoBack || (isOnMenuItem && id) || (isOnMenuList && id) || (isOnExpandedPlace && selectedPlaceId)
+  const canGoLogicalBack = canGoBack || (isOnMenuItem && id) || (isOnMenuList && id) || isOnMapWithPlace
 
   const handleBackClick = useCallback(() => {
     if (isOnMenuItem && id) {
@@ -69,10 +70,22 @@ export const BackButtonTMA = () => {
       return
     }
 
+    if (isOnMapWithPlace && selectedPlaceId) {
+      void router.navigate({
+        replace: true,
+        search: {
+          expanded: false,
+          selectedPlaceId: "",
+        },
+        to: "/map",
+      })
+      return
+    }
+
     if (canGoBack) {
       router.history.back()
     }
-  }, [isOnMenuItem, isOnMenuList, isOnExpandedPlace, id, selectedPlaceId, canGoBack, router])
+  }, [isOnMenuItem, isOnMenuList, isOnExpandedPlace, isOnMapWithPlace, id, selectedPlaceId, canGoBack, router])
 
   useEffect(() => {
     backButton.onClick(handleBackClick)

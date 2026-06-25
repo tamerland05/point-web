@@ -11,8 +11,15 @@ export const ensureAccessTokenIsAvailable = (): Promise<void> => {
   }
 
   return new Promise((resolve) => {
-    const unsubscribe = store.sub(accessTokenAtom, () => {
+    let unsubscribe = () => {}
+    const timeoutId = setTimeout(() => {
+      unsubscribe()
+      resolve()
+    }, 2500)
+
+    unsubscribe = store.sub(accessTokenAtom, () => {
       if (store.get(accessTokenAtom)) {
+        clearTimeout(timeoutId)
         unsubscribe()
         resolve()
       }

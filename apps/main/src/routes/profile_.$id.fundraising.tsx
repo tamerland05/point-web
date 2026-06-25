@@ -60,7 +60,7 @@ function RouteComponent() {
 
     return {
       onClick: () => navigate({ params: { placeId }, search: { recipient: recipientId }, to: "/tips/$placeId/assets" }),
-      title: "Send a Tip",
+      title: "Отправить чаевые",
     }
   }, [user.employee?.jobPlace?.id, user.employee?.id, navigate, search.preview])
 
@@ -75,26 +75,26 @@ function RouteComponent() {
         <div className="mb-1 text-center font-semibold text-title-2">{user.employee?.purpose.title}</div>
         <div className="mb-7 text-center text-text-secondary">{user.employee?.purpose.description}</div>
 
-        <List title="Information">
+        <List title="Информация">
           <ListItem
             className="py-3"
-            leftBottomText="The purpose of the fundraiser and its description are specified by the employees themselves"
+            leftBottomText="Цель сбора и ее описание заполняются самими сотрудниками"
             leftIcon={<Icon className="size-6 text-transparent" name="Speaker" />}
-            leftTopText="Purpose of Fundraising"
+            leftTopText="Цель сбора"
             withSeparator
           />
           <ListItem
             className="py-3"
-            leftBottomText="Tips sent are guaranteed to reach the wallet of the employee and the owner of the establishment"
+            leftBottomText="Отправленные чаевые гарантированно поступают на кошельки сотрудника и владельца заведения"
             leftIcon={<Icon className="size-6 text-transparent" name="Smile" />}
-            leftTopText="Allocation"
+            leftTopText="Распределение"
             withSeparator
           />
           <ListItem
             className="py-3"
-            leftBottomText="Our app charges a 10% transaction fee associated with sending a tip"
+            leftBottomText="Приложение удерживает комиссию 10% за транзакцию отправки чаевых"
             leftIcon={<Icon className="size-6 text-transparent" name="Pin" />}
-            leftTopText="Application Fee"
+            leftTopText="Комиссия приложения"
           />
         </List>
       </div>

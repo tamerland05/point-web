@@ -1,0 +1,18 @@
+export const qrAssets = {
+  add: "/parity/qr/add.svg",
+  bag: "/parity/qr/bag.svg",
+  dish1: "/parity/qr/dish-1.png",
+  dish2: "/parity/qr/dish-2.png",
+  logo1: "/parity/qr/logo-1.png",
+  logo2: "/parity/qr/logo-2.png",
+  minus: "/parity/qr/minus.svg",
+  minusGrid: "/parity/qr/minus-grid.svg",
+  plus: "/parity/qr/plus.svg",
+  plusGrid: "/parity/qr/plus-grid.svg",
+  plusSm: "/parity/qr/plus-sm.svg",
+  search: "/parity/qr/search.svg",
+  shop: "/parity/qr/shop.png",
+  tabMask: "/parity/qr/tab-mask.png",
+  topBackdrop: "/parity/qr/top-backdrop.png",
+  verified: "/parity/qr/verified.svg",
+} as const

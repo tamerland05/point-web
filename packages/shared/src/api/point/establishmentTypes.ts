@@ -9,6 +9,8 @@ interface EstablishmentType {
   id: string
   name: string
   icon: string
+  colorCode?: string | null
+  count: number
 }
 
 type EstablishmentTypesDTO = Record<string, EstablishmentType>

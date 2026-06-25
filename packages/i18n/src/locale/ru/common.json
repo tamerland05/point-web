@@ -1,9 +1,35 @@
 {
+  "ACCOUNT": {
+    "ACCESS_RESTRICTED": {
+      "CONTINUE_AS_USER": "Продолжить как пользователь",
+      "DESCRIPTION": "Доступ к аккаунту сотрудника есть только у приглашенных пользователей из подключенных заведений",
+      "SUPPORT": "Связаться с поддержкой",
+      "TITLE": "Доступ ограничен"
+    },
+    "PROFILE_CREATED": {
+      "DESCRIPTION": "Поздравляем, аккаунт успешно создан!",
+      "TITLE": "Аккаунт создан"
+    },
+    "PROFILE_TYPE": {
+      "CHANGE_CONFIRM": "Вы уверены, что хотите переключиться на другой тип аккаунта? Это действие нельзя отменить.",
+      "CHANGE_TITLE": "Смена типа аккаунта",
+      "EMPLOYEE": "Сотрудник",
+      "EMPLOYEE_DESC": "Доступ по приглашению",
+      "TITLE": "Тип профиля",
+      "USER": "Пользователь",
+      "USER_DESC": "Свободный доступ"
+    },
+    "PROFILE_TYPE_UPDATED": {
+      "EMPLOYEE_DESCRIPTION": "После получения приглашения от заведения вы перешли на новый тип аккаунта — сотрудник",
+      "SUPPORT": "Связаться с поддержкой",
+      "TITLE": "Тип аккаунта обновлен",
+      "USER_DESCRIPTION": "После удаления места работы вы перешли на новый тип аккаунта — пользователь"
+    }
+  },
   "ASSETS": {
     "CLEAR_FILTER": "Очистить фильтр",
     "SELECT_ASSET": "Выберите актив"
   },
-
   "CHECKOUT": {
     "ADDRESS": "Адрес",
     "AMOUNT": "Сумма",
@@ -14,6 +40,48 @@
     "SUMMARY": "Сводка",
     "TITLE": "Оплата",
     "WALLET": "Кошелек"
+  },
+  "EARN": {
+    "COMMON": {
+      "BONUS_BALANCE": "Бонусный баланс"
+    },
+    "GRATITUDE": {
+      "BONUS_AMOUNT": "Размер бонуса",
+      "EARNED": "Начислено",
+      "SUBTITLE": "Оставляйте чаевые в любимых заведениях и получайте бонусные монеты, нужные для листинга",
+      "TITLE": "Благодарность"
+    },
+    "RATING": {
+      "TASKS": "Задания",
+      "TOP_USERS": "Топ пользователей",
+      "YOUR_BALANCE": "Ваш баланс",
+      "YOUR_RANK": "Ваш ранг",
+      "YOUR_REFERRALS": "Ваши рефералы"
+    },
+    "REFERRALS": {
+      "BONUS_AMOUNT": "Размер бонуса",
+      "EARNED": "Начислено",
+      "INVITE_FRIEND": "Пригласить друга",
+      "NO_PREMIUM": "Без Premium",
+      "PREMIUM": "С Premium",
+      "SUBTITLE": "Приглашайте друзей в наше mini app и получайте бонусные монеты для листинга",
+      "TITLE": "Рефералы",
+      "YOUR_FRIENDS": "Ваши друзья"
+    },
+    "TASKS": {
+      "ETERNAL_TITLE": "Постоянные задания",
+      "GRATITUDE_DESC": "Оставьте чаевые от $1 и выше",
+      "GRATITUDE_TITLE": "Благодарность",
+      "RATING_DESC": "Получайте бонусы за оценки",
+      "RATING_TITLE": "Рейтинг",
+      "REFERRALS_DESC": "Приглашайте друзей и получайте бонус",
+      "REFERRALS_TITLE": "Рефералы",
+      "WEEKLY_TITLE": "Недельные задания"
+    }
+  },
+  "ENV_UNSUPPORTED": {
+    "DESCRIPTION": "Вы используете слишком старую версию Telegram для запуска этого приложения",
+    "TITLE": "Упс"
   },
   "ERRORS": {
     "AUTH": "Аутентификация не удалась. Возможно, вы столкнетесь с ограниченной функциональностью. Приносим извинения за неудобства и рекомендуем попробовать снова.",
@@ -27,14 +95,121 @@
     "TX_RATE_LIMITED": "Фиксация предыдущей транзакции в блокчейне может занять какое-то время. Не переживайте, ваши средства уже в пути.",
     "WALLET_NOT_CONNECTED": "Пожалуйста, сначала создайте или подключите свой кошелек"
   },
-
+  "POS": {
+    "COMMON": {
+      "HISTORY": "История",
+      "MENU": "Меню",
+      "ORDER": "Заказ",
+      "ORDER_NOT_FOUND": "Заказ не найден",
+      "POST_ORDER": "После заказа",
+      "RECEIPT": "Чек"
+    },
+    "HISTORY": {
+      "ITEMS_COUNT": "{{count}} поз.",
+      "NO_ORDERS_SUMMARY": "Пока нет заказов",
+      "OK_BUTTON": "Понятно",
+      "ORDER_CARD_LINES": "{{count}} позиций"
+    },
+    "ORDER": {
+      "BACK_TO_HISTORY": "Назад в историю",
+      "GO_TO_PAYMENT": "Перейти к оплате",
+      "ORDER_LINES_TITLE": "Позиции заказа",
+      "PAYMENTS_SECTION": "Платежи",
+      "RECEIPT_ORDER_SUM": "Сумма заказа",
+      "TIPS_CUSTOM": "Другая сумма",
+      "TIPS_DRAFT_NOTE": "Комментарий дополнительно",
+      "TIPS_DRAFT_STATUS": "Черновик",
+      "TIPS_TITLE": "Чаевые"
+    },
+    "ORDER_STATUS": {
+      "AWAITING_PAYMENT": "Ожидает оплаты",
+      "CANCELLED": "Отменён",
+      "DRAFT": "Черновик",
+      "FAILED": "Ошибка",
+      "PAID": "Оплачен",
+      "UNKNOWN": "Статус: {{status}}"
+    },
+    "PAYMENT": {
+      "CLOSE": "Закрыть",
+      "DESCRIPTION": "Перейдите на страницу провайдера, чтобы завершить оплату.",
+      "DEV_SIMULATE_PAY": "Имитировать оплату (dev)",
+      "OPEN_PAYMENT_PAGE": "Открыть страницу оплаты",
+      "TITLE": "Оплата"
+    },
+    "PAYMENT_STATUS": {
+      "FAILED": "Отклонён",
+      "PENDING": "В обработке",
+      "SUCCEEDED": "Оплачен",
+      "UNKNOWN": "Платёж: {{status}}"
+    },
+    "POST_ORDER": {
+      "AWAITING_DESC": "Оплата ещё не подтверждена. Нажмите ниже и откройте ссылку — в тесте страница заглушки сама отправит подтверждение на сервер.",
+      "AWAITING_TITLE": "Заказ ожидает оплаты",
+      "NO_PAID_YET": "Пока нет оплаченных заказов",
+      "TITLE": "После заказа",
+      "TOTAL": "Итого"
+    },
+    "TABLE_ROUTE": {
+      "PAYMENT_REQUIRED_DESC": "У вас есть неоплаченный заказ. Откройте оплату, чтобы завершить его.",
+      "PAYMENT_REQUIRED_TITLE": "Требуется оплата"
+    }
+  },
+  "SYSTEM": {
+    "STICKER_ALT": "Стикер Telegram"
+  },
+  "TIPS": {
+    "AMOUNT": {
+      "COMING_SOON": "Скоро будет доступно",
+      "INSUFFICIENT_FUNDS": "Недостаточно средств"
+    },
+    "ASSETS": {
+      "TITLE": "Выберите актив"
+    },
+    "CONFIRM": {
+      "CHECKOUT_DETAILS": "Детали оплаты",
+      "RECIPIENT_ADDRESS": "Адрес получателя",
+      "RECIPIENT_STATUS": "Статус получателя",
+      "RESTAURANT": "Заведение",
+      "TRANSACTION_PENDING": "Транзакция еще не готова",
+      "TRANSACTION_SENT": "Транзакция отправлена"
+    },
+    "ERROR": {
+      "DESCRIPTION": "Во время транзакции произошла ошибка. Средства не были списаны",
+      "SECONDARY": "Повторить",
+      "TITLE": "Ошибка транзакции"
+    },
+    "INDEX": {
+      "ALL_STAFF": "Все сотрудники",
+      "PROJECT_BANK": "Банк проекта",
+      "SEARCH": "Поиск",
+      "STAFF": "Сотрудники"
+    },
+    "INFO": {
+      "CONTINUE": "Продолжить",
+      "FAIR_DISTRIBUTION": "Справедливое распределение",
+      "FAIR_DISTRIBUTION_DESC": "Средства автоматически распределяются сотруднику, проекту и в банк",
+      "PROJECT_BANK": "Банк проекта",
+      "PROJECT_BANK_DESC": "Средства автоматически распределяются между всеми сотрудниками заведения"
+    },
+    "INPUT": {
+      "FROM_BALANCE": "С баланса",
+      "RECIPIENT": "Получатель",
+      "SEND": "Отправка"
+    },
+    "PROFILE": {
+      "SEND_TIP": "Отправить чаевые"
+    },
+    "SUCCESS": {
+      "DESCRIPTION": "Чаевые успешно отправлены сотруднику заведения",
+      "TITLE": "Транзакция выполнена"
+    }
+  },
   "TRANSACTION": {
     "CANCEL": "Вы отменили операцию",
     "ERROR": "Транзакция не удалась. Пожалуйста, попробуйте снова",
     "LOADING": "Отправка транзакции...",
     "SUCCESS": "Транзакция успешно отправлена"
   },
-
   "UI": {
     "BACK": "Назад",
 
@@ -46,6 +221,7 @@
     "COPY_ADDRESS": "Копировать адрес",
     "COPYING": "Копирование...",
     "FAILED_TO_COPY": "Не удалось скопировать",
+    "HOME": "На главную",
     "MAX": "Макс",
 
     "N/A": "Н/Д",
@@ -54,9 +230,365 @@
     "PASTE": "Вставить",
 
     "QR_FAILED": "Не удалось сгенерировать QR-код",
+    "REFRESH": "Обновить",
     "RETRY": "Повторить",
-
     "SEARCH": "Поиск",
-    "SUCCESSFULLY_COPIED": "Успешно скопировано!"
+    "SUCCESSFULLY_COPIED": "Успешно скопировано!",
+    "TECHNICAL_PROBLEMS": "Технические проблемы",
+    "TECHNICAL_PROBLEMS_DESCRIPTION": "Упс! Возникли технические неполадки. Мы уже решаем проблему."
+  },
+  "WAVE1": {
+    "ACCOUNT": {
+      "BACK": "Back"
+    },
+    "BOOKING": {
+      "ACCOUNT_LABEL": "Аккаунт",
+      "ACCOUNT_NAME": "Alexander Surin",
+      "BACK": "Back",
+      "BOOK_BUTTON": "Бронировать",
+      "CONTINUE": "Продолжить",
+      "DATE_LABEL": "Дата",
+      "DATE_VALUE_1": "Июнь 10, 16:00",
+      "DATE_VALUE_2": "Июнь 21, 19:00",
+      "FILLED_TITLE": "Бронирование (заполнено)",
+      "GUESTS_LABEL": "Гостей",
+      "INFO_SECTION": "Информация",
+      "LATE_NOTE": "Если вы задержитесь более чем на 30 минут, ваше бронирование будет аннулировано",
+      "MANAGER_NOTE": "Менеджер может связаться с вами для уточнения деталей бронирования",
+      "NAME_PLACEHOLDER": "Ваше имя",
+      "NOTE_LABEL": "Комментарий",
+      "NOTE_PLACEHOLDER": "У окна",
+      "PLACE_ADDRESS": "Вознесенский просп., 4",
+      "PLACE_NAME": "Manul",
+      "SUBMIT": "Подтвердить бронь",
+      "SUBMITTING": "Отправляем...",
+      "SUCCESS_ACTION": "Перейти к стенке",
+      "SUCCESS_DESC": "Мы отправили подтверждение в уведомления. Если планы изменятся, бронь можно отменить в профиле.",
+      "SUCCESS_SECONDARY_ACTION": "На карту",
+      "SUCCESS_TITLE": "Забронировано",
+      "TIME_LABEL": "Время",
+      "TITLE": "Бронирование"
+    },
+    "HISTORY": {
+      "DETAIL_ORDER_PREFIX": "Заказ",
+      "DETAIL_QUANTITY_PREFIX": "Количество",
+      "DETAIL_TOTAL_PREFIX": "Итого",
+      "DETAIL_UNAVAILABLE_ACTION": "К истории",
+      "DETAIL_UNAVAILABLE_DESC": "Возможна синхронизация данных, попробуйте открыть список повторно.",
+      "DETAIL_UNAVAILABLE_TITLE": "Детали заказа недоступны",
+      "EMPTY_ACTION_EMPTY": "Открыть экран \"Пусто\"",
+      "EMPTY_ACTION_NOT_FOUND": "Открыть экран \"Не найдено\"",
+      "EMPTY_DESC_EMPTY": "После первых заказов здесь появятся чеки и статусы.",
+      "EMPTY_DESC_NOT_FOUND": "По вашему запросу пока нет совпадений.",
+      "EMPTY_PAGE_ACTION": "Вернуться в аккаунт",
+      "EMPTY_PAGE_DESC": "Как только вы оформите первый заказ, он появится здесь.",
+      "EMPTY_PAGE_TITLE": "История заказов пустая",
+      "EMPTY_TITLE_EMPTY": "История пока пустая",
+      "EMPTY_TITLE_NOT_FOUND": "Ничего не найдено",
+      "ITEM_DUO": "Duo Gastrobar",
+      "ITEM_K_BAKERY": "K-bakery",
+      "ITEM_MANUL": "Manul",
+      "ITEM_MEAT": "Пытка Мясом",
+      "ITEM_OSTERIA": "Osteria Mario",
+      "ITEM_TANUKI": "Тануки",
+      "ITEMS_SUFFIX": "поз. в заказе",
+      "NOT_FOUND_PAGE_ACTION": "К списку истории",
+      "NOT_FOUND_PAGE_DESC": "Попробуйте изменить запрос или проверьте номер заказа.",
+      "NOT_FOUND_PAGE_TITLE": "Заказ не найден",
+      "POSITIONS_SUFFIX": "Позиции",
+      "SEARCH_INPUT": "Поиск",
+      "SEARCH_PLACEHOLDER": "Поиск по истории",
+      "SECTION_TODAY": "СЕГОДНЯ",
+      "SECTION_WEEK": "ЭТА НЕДЕЛЯ",
+      "SECTION_YESTERDAY": "ВЧЕРА",
+      "TITLE": "История заказов"
+    },
+    "LOYALTY": {
+      "BONUS_BALANCES": "бонусные балансы",
+      "EMPTY_DESC": "Попробуйте изменить запрос",
+      "EMPTY_TITLE": "Ничего не нашлось",
+      "NEARBY_PLACES": "ближайшие заведения",
+      "NOT_FOUND_DESC": "Попробуйте изменить запрос",
+      "NOT_FOUND_TITLE": "Ничего не нашлось",
+      "SEARCH_INPUT": "Поиск",
+      "USAGE_PLACES": "Места использования",
+      "USAGE_PLACES_COUNT": "{{count}} шт"
+    },
+    "MAP": {
+      "CAT_BAKERY": "Пекарня",
+      "CAT_COFFEE": "Кофе",
+      "CAT_FISH": "Рыба",
+      "CAT_SEAFOOD": "Мореп...",
+      "CAT_VEGETARIAN": "Вегет.",
+      "CLOSE": "Close",
+      "DISTANCE_1": "452м",
+      "DISTANCE_2": "721м",
+      "DISTANCE_3": "841м",
+      "DISTANCE_4": "956м",
+      "DISTANCE_5": "1 241м",
+      "EMPTY_NEARBY": "Рядом нет заведений",
+      "FILTER_ALL": "Все",
+      "FILTER_AVAILABILITY": "Доступность",
+      "FILTER_BOOKING": "Бронь",
+      "FILTER_CATEGORIES_COUNT": "{{count}} выбрано",
+      "FILTER_CATEGORY": "Категория",
+      "FILTER_CATEGORY_VALUE": "Все",
+      "FILTER_OPEN": "Открыто",
+      "FILTER_PRICE": "Цена",
+      "FILTER_PRICE_VALUE": "$$",
+      "FILTER_RATING": "Рейтинг",
+      "FILTER_RATING_ALL": "Любой",
+      "FILTER_RATING_FROM": "от {{rating}}",
+      "FILTER_RATING_VALUE": "★★★★",
+      "MARKER_BAR": "Bar",
+      "MARKER_COFFEE": "Coffee",
+      "MARKER_FAST_FOOD": "Fast Food",
+      "MARKER_FISH": "Fish",
+      "MARKER_NOODLE": "Noodle",
+      "MARKER_PIZZA": "Pizza",
+      "MARKER_SEAFOOD": "Seafood",
+      "MARKER_VEGETARIAN": "Vegetarianism",
+      "MENU": "⌄ •••",
+      "NEARBY_TITLE": "Ближайшие заведения",
+      "OPERATING_HOURS_SAMPLE": "12:00 — 23:00",
+      "PLACE_1_ADDRESS": "Невский проспект 8А",
+      "PLACE_1_TITLE": "Бублик",
+      "PLACE_2_ADDRESS": "Невский проспект 4А",
+      "PLACE_2_TITLE": "Spatki",
+      "PLACE_3_ADDRESS": "Невский проспект 2А",
+      "PLACE_3_TITLE": "Bur Mur",
+      "SEARCH_INPUT": "Поиск",
+      "SEARCH_RESULTS_TITLE": "Результаты поиска"
+    },
+    "MENU": {
+      "ACCOUNT": "Аккаунт",
+      "BONUSES": "Бонусы",
+      "MAP": "Карта",
+      "WALL": "Стенка"
+    },
+    "NOTIFICATIONS": {
+      "BADGE_NEW": "новое",
+      "BADGE_READ": "прочитано",
+      "EMPTY_ACTION_EMPTY": "Открыть экран \"Пусто\"",
+      "EMPTY_ACTION_NOT_FOUND": "Открыть экран \"Не найдено\"",
+      "EMPTY_DESC_EMPTY": "Когда появятся события, вы увидите их здесь.",
+      "EMPTY_DESC_NOT_FOUND": "Попробуйте другой запрос, чтобы найти уведомление.",
+      "EMPTY_PAGE_ACTION": "Назад в аккаунт",
+      "EMPTY_PAGE_DESC": "Пока нет новых событий. Мы покажем важные обновления здесь.",
+      "EMPTY_PAGE_TITLE": "Оповещения пусты",
+      "EMPTY_TITLE_EMPTY": "Нет уведомлений",
+      "EMPTY_TITLE_NOT_FOUND": "Совпадений нет",
+      "ITEM_1_TEXT": "Новое заведение в вашем...",
+      "ITEM_1_TITLE": "Италия стала ближе",
+      "ITEM_2_TEXT": "Мы обновили рейтинг луч...",
+      "ITEM_2_TITLE": "Месячный рейтинг",
+      "ITEM_3_TEXT": "Вы получили бонусные 35...",
+      "ITEM_3_TITLE": "Бонус за покупку",
+      "ITEM_4_TEXT": "Мы запускаем новую рубр...",
+      "ITEM_4_TITLE": "Новая рубрика в MAX",
+      "ITEM_5_TEXT": "Новое заведение в вашем...",
+      "ITEM_5_TITLE": "Вкусное мясо у дома",
+      "NOT_FOUND_PAGE_ACTION": "К списку уведомлений",
+      "NOT_FOUND_PAGE_DESC": "Ничего не найдено по текущему фильтру.",
+      "NOT_FOUND_PAGE_TITLE": "Уведомление не найдено",
+      "SEARCH_INPUT": "Поиск",
+      "SEARCH_PLACEHOLDER": "Поиск уведомлений",
+      "SECTION_TITLE": "уведомления",
+      "TITLE": "Оповещения"
+    },
+    "ORDER_PROCESSING": {
+      "BACK_TO_MENU": "Вернуться в меню",
+      "ERROR_ACTION": "Попробовать снова",
+      "ERROR_DESC": "Платёж не прошёл из-за технической ошибки. Повторите оплату.",
+      "ERROR_TITLE": "Ошибка оплаты",
+      "NO_FUNDS_ACTION": "Выбрать другой способ",
+      "NO_FUNDS_DESC": "На выбранном способе оплаты недостаточно средств.",
+      "NO_FUNDS_TITLE": "Недостаточно средств",
+      "SUCCESS_ACTION": "Перейти к чеку",
+      "SUCCESS_DESC": "Оплата подтверждена, заказ отправлен в обработку.",
+      "SUCCESS_TITLE": "Заказ принят"
+    },
+    "PAYMENT": {
+      "ADD_CARD_TITLE": "Добавление карты",
+      "ADD_METHOD_ACTION": "Добавить способ оплаты",
+      "BACK": "Back",
+      "BANK_BRAND": "МИР",
+      "BANK_NAME": "Альфа Банк",
+      "CARD_NUMBER_LABEL": "Номер карты",
+      "DELETE": "Удалить",
+      "EMPTY_ACTION": "Открыть пустой экран",
+      "EMPTY_DESC": "Сохраненные карты и кошельки появятся в этом разделе.",
+      "EMPTY_TITLE": "Система оплаты пустая",
+      "EXPIRY_LABEL": "Дата окончания",
+      "FILL_CARD_ERROR": "Заполните данные карты",
+      "FINISH": "Завершить",
+      "HOLDER_NAME_LABEL": "Имя держателя",
+      "METHOD_SUBTITLE": "Привязан к аккаунту",
+      "NO_METHODS_ACTION": "Добавить карту",
+      "NO_METHODS_DESC": "Привяжите карту для ускоренной оплаты в заказах.",
+      "NO_METHODS_TITLE": "Нет способов оплаты",
+      "PRIMARY_BADGE": "Основной",
+      "SAVE_CARD": "Сохранить карту",
+      "SAVING_CARD": "Сохраняем...",
+      "SECURITY_NOTE": "Ваши данные надежно зашифрованы и не передаются третьим лицам",
+      "SUCCESS_ACTION": "К списку способов",
+      "SUCCESS_DESC": "Карта сохранена и готова к использованию в оплате.",
+      "SUCCESS_TITLE": "Карта добавлена",
+      "TITLE": "Система оплаты"
+    },
+    "PLACE": {
+      "MENU": "Меню",
+      "PHOTOS": "Фотографии",
+      "RATING": "Рейтинг",
+      "ROUTE": "Маршрут",
+      "TYPE": "Тип заведения"
+    },
+    "QR": {
+      "ADD_IMAGE": "Добавить изображение",
+      "ADD_SUCCESS_DESC": "Изображение принято. Дальше можно перейти к проверке переходов.",
+      "ADD_SUCCESS_TITLE": "QR изображение добавлено",
+      "AIM_CAMERA_TITLE": "Наведите камеру на QR-код стола",
+      "CHECKOUT_TOTAL": "1 380 ₽",
+      "CLOSE": "Close",
+      "DESCRIPTION": "Сканер в Wave 1 работает как UX-оболочка. После распознавания открывается существующий table deep-link.",
+      "DISH_META": "300 г · 450 ккал",
+      "DISH_META_1": "520 г · 385 ккал",
+      "DISH_NAME_1": "Гриль чиз с томленой говядиной",
+      "DISH_NAME_2": "Биск из лангустинов",
+      "DISH_NAME_3": "Тунец с кунжутным айоли",
+      "DISH_PRICE_1": "790 ₽",
+      "DISH_PRICE_2": "690 ₽",
+      "DISH_PRICE_3": "890 ₽",
+      "GO_TO_ORDER": "Перейти в заказ по deep-link",
+      "LINK_LABEL": "table linkId",
+      "LINK_PLACEHOLDER": "Например: demo-table-1",
+      "MANUAL_LINK": "Ручной ввод ссылки",
+      "MENU": "⌄ •••",
+      "MENU_EMPTY": "Меню пока пустое",
+      "MENU_LOAD_ERROR": "Не удалось загрузить меню",
+      "MENU_RETRY": "Повторить",
+      "MENU_TAB_DRINKS": "Напитки",
+      "MENU_TAB_PIZZA": "Пиццы",
+      "MENU_TAB_POPULAR": "Популярное",
+      "MENU_TAB_SALADS": "Salads",
+      "MENU_TAB_SOUPS": "Супы",
+      "NO_IMAGE_BRANCH": "Ветка «без картинки»",
+      "NO_IMAGE_DESC": "Картинка с QR не выбрана. Загрузите снимок или введите ссылку вручную.",
+      "NO_IMAGE_TITLE": "Нет изображения",
+      "RESTAURANT": "Manul",
+      "RESTAURANT_ADDRESS": "Кременчугская13к2",
+      "SEARCH": "Поиск",
+      "SECTION_SOUPS": "Супы",
+      "TITLE": "Скан QR",
+      "TRANSITIONS_TITLE": "Скан QR (переходы)"
+    },
+    "SELECTIONS": {
+      "BANNER_PRICE": "Only $6.00",
+      "BANNER_SUBTITLE": "Big Pizza",
+      "BANNER_TITLE": "Pizza Hut",
+      "BOOKING_BUTTON": "Бронирование",
+      "CAT_BAKERY": "Пекарня",
+      "CAT_BAKERY_COUNT": "659 Мест",
+      "CAT_COFFEE": "Кофе",
+      "CAT_COFFEE_COUNT": "826 Мест",
+      "CAT_MEAT": "Мясо",
+      "CAT_SEAFOOD": "Морепр...",
+      "CAT_SEAFOOD_COUNT": "312 Мест",
+      "CAT_VEGETARIAN": "Вегет.",
+      "CAT_VEGETARIAN_COUNT": "471 Мест",
+      "CATEGORIES": "Категории",
+      "CLOSE": "Close",
+      "DETAIL_EMPTY_DESC": "Содержимое будет доступно после синхронизации с контентом.",
+      "DETAIL_EMPTY_TITLE": "Подборка пустая",
+      "DETAIL_TITLE_PREFIX": "Подборка #",
+      "FILTER_AVAILABILITY": "Доступность",
+      "FILTER_CATEGORY": "Категория",
+      "FILTER_CATEGORY_VALUE": "Все",
+      "FILTER_OPEN": "Открыто",
+      "FILTER_PRICE": "Цена",
+      "FILTER_PRICE_VALUE": "$$",
+      "FILTER_RATING": "Рейтинг",
+      "LIST_ITEM_1_SUBTITLE": "Вознесенский просп., 4",
+      "LIST_ITEM_1_TIME": "12:00 — 23:00",
+      "LIST_ITEM_1_TITLE": "Пытка Мясом",
+      "LIST_ITEM_2_SUBTITLE": "Кирочная улица 8А",
+      "LIST_ITEM_2_TIME": "11:00 — 01:00",
+      "LIST_ITEM_2_TITLE": "Абрау-Дюрсо",
+      "LIST_ITEM_3_SUBTITLE": "Площадь Полякова, 14",
+      "LIST_ITEM_3_TIME": "11:00 — 01:00",
+      "LIST_ITEM_3_TITLE": "Тануки",
+      "LIST_ITEM_4_SUBTITLE": "Кирочная улица 8А",
+      "LIST_ITEM_4_TIME": "8:00 — 23:00",
+      "LIST_ITEM_4_TITLE": "Hunt",
+      "LIST_ITEM_5_SUBTITLE": "Улица Рубинштейна",
+      "LIST_ITEM_5_TIME": "18:00 — 23:00",
+      "LIST_ITEM_5_TITLE": "Hot Apple",
+      "LIST_ITEM_6_SUBTITLE": "Невский проспект 12",
+      "LIST_ITEM_6_TIME": "8:00 — 23:00",
+      "LIST_ITEM_6_TITLE": "xRoot",
+      "LIST_ITEM_7_SUBTITLE": "Кременчугская 13к2",
+      "LIST_ITEM_7_TIME": "11:00 — 01:00",
+      "LIST_ITEM_7_TITLE": "Major Food",
+      "LIST_ITEM_8_SUBTITLE": "Невский проспект 2А",
+      "LIST_ITEM_8_TIME": "12:00 — 23:00",
+      "LIST_ITEM_8_TITLE": "Bur Mur",
+      "MENU": "⌄ •••",
+      "MORE": "Больше",
+      "NEARBY": "Ближайшие заведения",
+      "NOT_FOUND_DESC": "Попробуйте другой запрос или переключите таб выше.",
+      "NOT_FOUND_TITLE": "Подборки не найдены",
+      "PLACE_CARD_1_SUBTITLE": "Кирочная улица 8А",
+      "PLACE_CARD_1_TITLE": "Hunt",
+      "PLACE_CARD_2_SUBTITLE": "Улица Рубинштейна",
+      "PLACE_CARD_2_TIME": "18:00 — 23:00",
+      "PLACE_CARD_2_TITLE": "Hot Apple",
+      "PLACE_DISTANCE_1": "254м",
+      "PLACE_DISTANCE_2": "794м",
+      "PLACE_DISTANCE_3": "1 654м",
+      "PLACE_DISTANCE_4": "452м",
+      "PLACE_DISTANCE_5": "794м",
+      "PLACE_DISTANCE_6": "356м",
+      "PLACE_DISTANCE_7": "521м",
+      "PLACE_DISTANCE_8": "841м",
+      "PLACES_COUNT": "{{count}} Мест",
+      "QR_BUTTON": "Скан QR",
+      "RATING_PREFIX": "Рейтинг",
+      "REC_CARD_1_SUBTITLE": "Невский проспект 12",
+      "REC_CARD_1_TITLE": "xRoot",
+      "REC_CARD_2_SUBTITLE": "Кременчугская 13к2",
+      "REC_CARD_2_TIME": "11:00 — 01:00",
+      "REC_CARD_2_TITLE": "Major Food",
+      "REC_CARD_TIME": "8:00 — 23:00",
+      "RECOMMENDED": "Рекомендации",
+      "RESET_SEARCH": "Сбросить поиск",
+      "SEARCH_INPUT": "Поиск",
+      "SEARCH_PLACEHOLDER": "Поиск по стенке",
+      "TAB_BEAUTIFUL": "Красивые",
+      "TAB_MEDIA": "Медийные",
+      "TAB_NEW": "Новые",
+      "TAB_POPULAR": "Популярные",
+      "TAB_SALADS": "Salads",
+      "TITLE": "Стенка",
+      "USER_NAME": "Alina Ivanova",
+      "USER_ROLE": "Эксперт"
+    }
+  },
+  "WORK": {
+    "FUNDRAISING_STEP": {
+      "ADD_ICON": "Добавить иконку",
+      "DESCRIPTION": "Старайтесь писать кратко, чтобы гости быстрее понимали вашу цель",
+      "DESCRIPTION_PLACEHOLDER": "Мечтаю отправиться в путешествие по Испании со своим котом.",
+      "EMPTY_DESCRIPTION": "Введите описание",
+      "EMPTY_TITLE": "Введите название",
+      "GOAL_TITLE": "Цель сбора",
+      "SHORT_DESCRIPTION_TITLE": "Краткое описание",
+      "TITLE_PLACEHOLDER": "Путешествие с котом"
+    },
+    "JOB_PLACE_STEP": {
+      "DELETE_CONFIRM_MESSAGE": "Если удалить место работы, вы будете переведены в аккаунт типа пользователь",
+      "DELETE_CONFIRM_TITLE": "Удаление места работы",
+      "SAVE": "Сохранить",
+      "TITLE": "Место работы"
+    }
   }
 }
